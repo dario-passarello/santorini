@@ -1,4 +1,7 @@
 package model.wincondition;
-
-public class FiveTowerCondition {
+//TODO
+public class FiveTowerWinCondition extends WinConditionDecorator {
+    public boolean checkWinCondition() {
+        return false;
+    }
 }

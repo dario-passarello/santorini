@@ -1,4 +1,19 @@
 package model.buildbehaviors;
 
-public class AnyDomeBuild {
+import model.Square;
+
+import java.util.List;
+
+public class AnyDomeBuild implements BuildBehavior {
+    public List<Square> neighborhood(Square src) {
+        return null;
+    }
+
+    public void buildCoordinate(Square dest) {
+
+    }
+
+    public boolean endBuild() {
+        return false;
+    }
 }

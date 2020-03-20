@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Hestria {
+public class Hestia extends God {
 }

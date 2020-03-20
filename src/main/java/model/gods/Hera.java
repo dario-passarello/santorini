@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Hera {
+public class Hera extends God {
 }

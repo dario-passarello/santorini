@@ -1,4 +1,9 @@
 package model.gamestates;
 
-public class EndGame {
+public class EndGame implements GameState {
+    public void handle() {
+
+    }
+
+
 }

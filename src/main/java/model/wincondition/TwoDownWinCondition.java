@@ -1,4 +1,10 @@
 package model.wincondition;
 
-public class TwoDownWinCondition {
+//TODO
+public class TwoDownWinCondition extends WinConditionDecorator {
+
+
+    public boolean checkWinCondition() {
+        return false;
+    }
 }

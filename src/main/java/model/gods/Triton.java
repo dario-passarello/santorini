@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Triton {
+public class Triton extends God{
 }

@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Prometheus {
+public class Prometheus extends God {
 }

@@ -1,4 +1,7 @@
 package model.startbehaviors;
 
-public class BuildStartTurn {
+public class BuildStartTurn implements StartBehavior {
+    public void startTurn() {
+
+    }
 }

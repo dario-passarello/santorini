@@ -1,4 +1,10 @@
 package model.startbehaviors;
 
-public class NoStartTurn {
+
+
+//TODO
+public class NoStartTurn implements StartBehavior {
+    public void startTurn() {
+
+    }
 }

@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Pan {
+public class Pan extends God {
 }

@@ -1,4 +1,10 @@
 package model.wincondition;
 
-public class WinConditionDecorator {
+//TODO
+public abstract class WinConditionDecorator implements WinCondition {
+    WinCondition wrappedWinCondition;
+
+    public WinCondition getWrappedWinCondition() {
+        return wrappedWinCondition;
+    }
 }

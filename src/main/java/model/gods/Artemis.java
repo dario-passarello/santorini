@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Atremis extends God {
+public class Artemis extends God {
 }

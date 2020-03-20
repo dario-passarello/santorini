@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Apollo {
+public class Apollo extends God {
 }

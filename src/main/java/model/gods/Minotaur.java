@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Minotaur {
+public class Minotaur extends God {
 }

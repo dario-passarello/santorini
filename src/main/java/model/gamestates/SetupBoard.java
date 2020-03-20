@@ -1,4 +1,7 @@
 package model.gamestates;
 
-public class SetupBoard {
+public class SetupBoard implements GameState {
+    public void handle() {
+
+    }
 }

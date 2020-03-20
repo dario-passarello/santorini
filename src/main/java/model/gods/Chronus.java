@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Chronus {
+public class Chronus extends God {
 }

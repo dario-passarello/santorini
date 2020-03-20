@@ -1,4 +1,4 @@
 package model.gods;
 
-public class Atlas {
+public class Atlas extends God {
 }

@@ -1,4 +1,9 @@
 package model.wincondition;
 
-public class StandardWinCondition {
+//TODO
+public class StandardWinCondition implements WinCondition{
+
+    public boolean checkWinCondition() {
+        return false;
+    }
 }

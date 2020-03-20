@@ -1,4 +1,7 @@
 package model.gamestates;
 
-public class MovePhase {
+public class MovePhase implements TurnState {
+    public void handle() {
+
+    }
 }
