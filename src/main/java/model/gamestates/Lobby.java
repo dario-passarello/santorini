@@ -1,10 +1,9 @@
 package model.gamestates;
 
-public class EndGame implements GameState {
+public class Lobby implements GameState {
 
+    @Override
     public void handle() {
 
     }
-
-
 }

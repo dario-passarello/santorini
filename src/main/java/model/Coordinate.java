@@ -1,6 +1,12 @@
 package model;
 
 public class Coordinate {
-    Integer x;
-    Integer y;
+    //IMMUTABILE
+    private final Integer x;
+    private final Integer y;
+
+    public Coordinate(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 }
