@@ -5,6 +5,11 @@ import model.Square;
 import java.util.List;
 
 public class AnyDomeBuild implements BuildBehavior {
+
+    public void build() {
+
+    }
+
     public List<Square> neighborhood(Square src) {
         return null;
     }
@@ -16,4 +21,5 @@ public class AnyDomeBuild implements BuildBehavior {
     public boolean endBuild() {
         return false;
     }
+
 }

@@ -6,6 +6,11 @@ import model.buildbehaviors.BuildBehavior;
 import java.util.List;
 
 public class DoubleSameBuild implements BuildBehavior {
+
+    public void build() {
+
+    }
+
     public List<Square> neighborhood(Square src) {
         return null;
     }
