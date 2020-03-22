@@ -6,4 +6,9 @@ public abstract class MoveDecorator implements MoveBehavior {
     public MoveBehavior getWrappedBehavior() {
         return wrappedBehavior;
     }
+
+    public void setWrappedBehavior(MoveBehavior moveBehavior){
+        wrappedBehavior = moveBehavior;
+    }
 }
+

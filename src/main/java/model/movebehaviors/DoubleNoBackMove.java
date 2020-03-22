@@ -5,6 +5,11 @@ import model.Square;
 import java.util.List;
 //TODO
 public class DoubleNoBackMove extends MoveDecorator {
+
+    public DoubleNoBackMove(MoveBehavior moveBehavior){
+        setWrappedBehavior(moveBehavior);
+    }
+
     public List<Square> neighborhood(Square src) {
         return null;
     }

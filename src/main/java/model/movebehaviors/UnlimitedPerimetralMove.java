@@ -4,7 +4,12 @@ import model.Square;
 
 import java.util.List;
 
-public class UnlimitedPerimetralMove implements MoveBehavior {
+public class UnlimitedPerimetralMove implements MoveDecorator {
+
+    public UnlimitedPerimetralMove(MoveBehavior moveBehavior){
+        setWrappedBehavior(moveBehavior);
+    }
+
     public List<Square> neighborhood(Square src) {
         return null;
     }

@@ -5,6 +5,11 @@ import model.Square;
 import java.util.List;
 //TODO
 public class OpponentPushMove extends MoveDecorator {
+
+    public OpponentPushMove(MoveBehavior moveBehavior){
+        setWrappedBehavior(moveBehavior);
+    }
+
     public List<Square> neighborhood(Square src) {
         return null;
     }
