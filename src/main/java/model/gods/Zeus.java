@@ -1,19 +1,16 @@
 package model.gods;
 
 import model.Square;
+import model.buildbehaviors.BeneathBuild;
+import model.movebehaviors.StandardMove;
+import model.startbehaviors.NoStartTurn;
+import model.wincondition.StandardWinCondition;
 
 import java.util.List;
 
 public class Zeus extends God {
-    public void build() {
 
-    }
-
-    public void buildCoordinate(Square dest) {
-
-    }
-
-    public List<Square> neighborhood(Square src) {
-        return null;
+    public Zeus(){
+        God("Zeus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new BeneathBuild());
     }
 }

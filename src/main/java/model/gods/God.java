@@ -18,22 +18,34 @@ public abstract class God {
     private BuildBehavior buildBehavior;
 
     public God(String name, WinCondition winCondition, StartBehavior startBehavior, MoveBehavior moveBehavior, BuildBehavior buildBehavior){
+        setName(name);
+        setWinCondition(winCondition);
+        setStartBehavior(startBehavior);
+        setMoveBehavior(moveBehavior);
+        setBuildBehavior(buildBehavior);
+    }
+
+    public void setName(String name){
         this.name = name;
-        this.winCondition = winCondition;
-        this.startBehavior = startBehavior;
-        this.moveBehavior = moveBehavior;
-        this.buildBehavior = buildBehavior;
     }
 
     public void setWinCondition(WinCondition winCondition){
         this.winCondition = winCondition;
     }
 
+    public void setStartBehavior(StartBehavior startBehavior){
+        this.startBehavior = startBehavior;
+    }
+
     public void setMoveBehavior(MoveBehavior moveBehavior) {
         this.moveBehavior = moveBehavior;
     }
 
-    public Player getPlayer(){
+    public  void setBuildBehavior(BuildBehavior buildBehavior) {
+        this.buildBehavior = buildBehavior;
+    }
+
+    public Player getPlayer(){      //probably useless (?)
         //TODO
     }
 
