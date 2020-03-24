@@ -11,6 +11,6 @@ import java.util.List;
 public class Atlas extends God {
 
     public Atlas(){
-        God("Atlas", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new AnyDomeBuild());
+        super("Atlas", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new AnyDomeBuild());
     }
 }

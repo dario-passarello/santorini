@@ -47,6 +47,7 @@ public abstract class God {
 
     public Player getPlayer(){      //probably useless (?)
         //TODO
+        return null;
     }
 
     public void startTurn(){
@@ -55,14 +56,16 @@ public abstract class God {
 
     public List<Square> getWalkableNeighborhood(Square location){
         //TODO
+        return null;
     }
 
     public void move(Square location){
-        moveBehavior.move();
+        moveBehavior.move(location);
     }
 
     public boolean endMove(){
         //TODO
+        return false;
     }
 
     public  boolean checkWinCondition(){
@@ -71,6 +74,7 @@ public abstract class God {
 
     public List<Square> getBuildableNeighborhood(Square location){
         //TODO
+        return null;
     }
 
     public void build(Square location){
@@ -79,6 +83,7 @@ public abstract class God {
 
     public boolean endBuild(){
         //TODO
+        return false;
     }
 
     public void resetBehaviors(){

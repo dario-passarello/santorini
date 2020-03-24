@@ -12,7 +12,7 @@ import java.util.List;
 public class Chronus extends God {
 
     public Chronus(){
-        God("Chronus", new FiveTowerWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
+        super("Chronus", new FiveTowerWinCondition(new StandardWinCondition()), new NoStartTurn(), new StandardMove(), new StandardBuild());
     }
 
 }

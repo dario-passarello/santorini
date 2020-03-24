@@ -11,7 +11,7 @@ import java.util.List;
 public class Athena extends God {
 
     public Athena(){
-        God("Athena", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
+        super("Athena", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
         //INFLUENZA GLI AVVERSARI
     }
 

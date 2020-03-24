@@ -11,7 +11,7 @@ import java.util.List;
 public class Hephaestus extends God {
 
     public Hephaestus(){
-        God("Hephaestus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleSameBuild());
+        super("Hephaestus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleSameBuild());
     }
 
 }
