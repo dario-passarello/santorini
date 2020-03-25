@@ -16,6 +16,7 @@ public class Player {
         ready = false;
     }
 
+
     public void toggleReady() {
         ready = !ready;
     }
