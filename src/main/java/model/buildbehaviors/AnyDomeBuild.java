@@ -6,16 +6,16 @@ import java.util.List;
 
 public class AnyDomeBuild implements BuildBehavior {
 
-    public void build() {
+    public void build(Square dest) {
+
+    }
+
+    private void buildDome(Square dest) {
 
     }
 
     public List<Square> neighborhood(Square src) {
         return null;
-    }
-
-    public void buildCoordinate(Square dest) {
-
     }
 
     public boolean endBuild() {

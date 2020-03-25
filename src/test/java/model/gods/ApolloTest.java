@@ -59,7 +59,7 @@ class ApolloTest {
         Builder b42 = new Builder(s8, p1);
         Builder b32 = new Builder(s9, p1);
 
-        List<Square> expectedList = (List<Square>) Arrays.asList(b22,b23);   //b1 should be able to move only on these squares
+        List<Square> expectedList = (List<Square>) Arrays.asList(s2,s3);   //b1 should be able to move only on these squares
         Assert.assertEquals(expectedList, b33.getBuildableNeighborhood());
         
         b33.move(board.squareAt(2,2));

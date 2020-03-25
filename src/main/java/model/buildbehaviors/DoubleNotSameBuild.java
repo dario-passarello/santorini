@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DoubleNotSameBuild implements BuildBehavior {
 
-    public void build() {
+    public void build(Square dest) {
 
     }
 

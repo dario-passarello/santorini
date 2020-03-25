@@ -5,7 +5,7 @@ import model.Square;
 import java.util.List;
 
 public class DoubleNoPerimeterBuild implements  BuildBehavior{
-    public void build() {
+    public void build(Square dest) {
 
     }
 
@@ -13,9 +13,6 @@ public class DoubleNoPerimeterBuild implements  BuildBehavior{
         return null;
     }
 
-    public void buildCoordinate(Square dest) {
-
-    }
 
     public boolean endBuild() {
         return false;
