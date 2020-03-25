@@ -41,6 +41,10 @@ public class Square {
         return buildLevel;
     }
 
+    public void setBuildLevel(Integer buildLevel){
+        this.buildLevel = buildLevel;
+    }
+
     public boolean isDomed() {
         return domed;
     }
