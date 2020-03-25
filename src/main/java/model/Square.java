@@ -66,6 +66,11 @@ public class Square {
     public int getBuildLevel() {
         return buildLevel;
     }
+
+    public void setBuildLevel(Integer buildLevel){
+        this.buildLevel = buildLevel;
+    }
+
     /**
      * @return true if a dome is built in the Square
      */

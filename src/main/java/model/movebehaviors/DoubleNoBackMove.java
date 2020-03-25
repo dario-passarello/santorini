@@ -7,7 +7,7 @@ import java.util.List;
 public class DoubleNoBackMove extends MoveDecorator {
 
     public DoubleNoBackMove(MoveBehavior moveBehavior){
-        setWrappedBehavior(moveBehavior);
+        wrappedMoveBehavior = moveBehavior;
     }
 
     public List<Square> neighborhood(Square src) {

@@ -2,13 +2,13 @@ package model.wincondition;
 
 //TODO
 public abstract class WinConditionDecorator implements WinCondition {
-    private WinCondition wrappedWinCondition;
+    protected WinCondition wrappedWinCondition;
 
     public WinCondition getWrappedWinCondition() {
         return wrappedWinCondition;
     }
 
-    public void setWrappedWinCondition(WinCondition winCondition){
-        wrappedWinCondition = winCondition;
-    }
+    //public void setWrappedWinCondition(WinCondition winCondition){
+    //    wrappedWinCondition = winCondition;
+    //}
 }

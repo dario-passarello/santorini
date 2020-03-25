@@ -4,7 +4,7 @@ package model.wincondition;
 public class FiveTowerWinCondition extends WinConditionDecorator {
 
     public FiveTowerWinCondition(WinCondition winCondition){
-        setWrappedWinCondition(winCondition);
+        wrappedWinCondition = winCondition;
     }
 
     public boolean checkWinCondition() {
