@@ -7,7 +7,7 @@ import java.util.List;
 public class OpponentPushMove extends MoveDecorator {
 
     public OpponentPushMove(MoveBehavior moveBehavior){
-        setWrappedBehavior(moveBehavior);
+        wrappedMoveBehavior = moveBehavior;
     }
 
     public List<Square> neighborhood(Square src) {

@@ -7,7 +7,7 @@ import java.util.List;
 public class SwapWithOpponentMove extends MoveDecorator {
 
     public SwapWithOpponentMove(MoveBehavior moveBehavior){
-        setWrappedBehavior(moveBehavior);
+        wrappedMoveBehavior = moveBehavior;
     }
 
     public List<Square> neighborhood(Square src) {

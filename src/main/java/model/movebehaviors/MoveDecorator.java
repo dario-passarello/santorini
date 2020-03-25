@@ -1,14 +1,10 @@
 package model.movebehaviors;
 //TODO
 public abstract class MoveDecorator implements MoveBehavior {
-    private MoveBehavior wrappedBehavior;
+    protected MoveBehavior wrappedMoveBehavior;
 
-    public MoveBehavior getWrappedBehavior() {
-        return wrappedBehavior;
-    }
-
-    public void setWrappedBehavior(MoveBehavior moveBehavior){
-        wrappedBehavior = moveBehavior;
-    }
+    //public MoveBehavior getWrappedBehavior() {
+    //    return wrappedBehavior;
+    //}
 }
 

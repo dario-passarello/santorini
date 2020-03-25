@@ -7,7 +7,7 @@ import java.util.List;
 public class UnlimitedPerimetralMove implements MoveDecorator {
 
     public UnlimitedPerimetralMove(MoveBehavior moveBehavior){
-        setWrappedBehavior(moveBehavior);
+        wrappedMoveBehavior = moveBehavior;
     }
 
     public List<Square> neighborhood(Square src) {
