@@ -11,7 +11,7 @@ import java.util.List;
 public class Hestia extends God {
 
     public Hestia(){
-        God("Hestia", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNoPerimeterBuild());
+        super("Hestia", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNoPerimeterBuild());
     }
 
 }

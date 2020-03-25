@@ -51,7 +51,8 @@ public class Game implements Subject, Observer {
      * @return The player who has to play the next turn
      */
     public Player nextTurn() {
-
+        //TODO
+        return null;
     }
 
 

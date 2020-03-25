@@ -11,7 +11,7 @@ import java.util.List;
 public class Hera extends God {
 
     public Hera(){
-        God("Hera", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
+        super("Hera", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
         //INFLUENZA I NEMICI
     }
 

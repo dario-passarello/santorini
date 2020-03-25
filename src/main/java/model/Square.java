@@ -1,5 +1,7 @@
 package model;
 
+import utils.Coordinate;
+
 import java.util.Optional;
 
 public class Square {

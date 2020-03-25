@@ -11,6 +11,6 @@ import java.util.List;
 public class Demeter extends God {
 
     public Demeter() {
-        God("Demeter", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNotSameBuild());
+        super("Demeter", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNotSameBuild());
     }
 }

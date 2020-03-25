@@ -11,6 +11,6 @@ import java.util.List;
 public class Zeus extends God {
 
     public Zeus(){
-        God("Zeus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new BeneathBuild());
+        super("Zeus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new BeneathBuild());
     }
 }

@@ -4,13 +4,14 @@ import model.Square;
 
 import java.util.List;
 
-public class UnlimitedPerimetralMove implements MoveDecorator {
+public class UnlimitedPerimetralMove extends MoveDecorator {
 
     public UnlimitedPerimetralMove(MoveBehavior moveBehavior){
         wrappedMoveBehavior = moveBehavior;
     }
 
     public List<Square> neighborhood(Square src) {
+        //TODO
         return null;
     }
 

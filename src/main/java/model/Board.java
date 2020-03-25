@@ -11,6 +11,7 @@ public class Board {
 
     public Square squareAt(int row, int col) {
         //TODO
+        return null;
     }
-    
+
 }

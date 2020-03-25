@@ -12,7 +12,7 @@ import java.util.List;
 public class Prometheus extends God {
 
     public Prometheus(){
-        God("Prometheus", new StandardWinCondition(), new BuildStartTurn(), new StandardMove(), new StandardBuild());
+        super("Prometheus", new StandardWinCondition(), new BuildStartTurn(), new StandardMove(), new StandardBuild());
     }
 
 }
