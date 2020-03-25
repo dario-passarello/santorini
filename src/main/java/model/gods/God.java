@@ -54,11 +54,18 @@ public abstract class God {
         //TODO
     }
 
+    /**
+     * @param location the position of the builder that wants to move
+     * @return a list of squares where the builder can move
+     */
     public List<Square> getWalkableNeighborhood(Square location){
         //TODO
         return null;
     }
 
+    /**
+     * @param location the initial position of the builder that is going to move
+     */
     public void move(Square location){
         moveBehavior.move(location);
     }
@@ -68,15 +75,25 @@ public abstract class God {
         return false;
     }
 
+    /**
+     * @return true if the player that use this god won
+     */
     public  boolean checkWinCondition(){
         return winCondition.checkWinCondition();
     }
 
+    /**
+     * @param location the position of the builder that wants to build
+     * @return a list of squares where the builder can build
+     */
     public List<Square> getBuildableNeighborhood(Square location){
         //TODO
         return null;
     }
 
+    /**
+     * @param location the position of the builder that is going to build
+     */
     public void build(Square location){
         buildBehavior.build();
     }
