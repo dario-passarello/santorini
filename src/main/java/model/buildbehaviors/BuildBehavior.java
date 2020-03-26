@@ -5,7 +5,8 @@ import model.Square;
 import java.util.List;
 
 public interface BuildBehavior {
-    void build();
+    void build(Square dest);
+
 
     /**
      * @param src the position of the builder that wants to build
@@ -14,7 +15,6 @@ public interface BuildBehavior {
     List<Square> neighborhood(Square src);
 
 
-    void buildCoordinate(Square dest);
 
     boolean endBuild();
 }
