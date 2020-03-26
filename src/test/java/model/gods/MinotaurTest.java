@@ -1,9 +1,6 @@
 package model.gods;
 
-import model.Board;
-import model.Builder;
-import model.Player;
-import model.Square;
+import model.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -88,7 +85,7 @@ class MinotaurTest {
         Square s45 = board.squareAt(4,5);
 
         //creating some obstacles
-        setSquareBuildLevel(s21,2);
+        SquareTest.setSquareBuildLevel(s21,2);
         s43.addDome();
         Builder b45 = new Builder(s45, p1);
         Builder b41 = new Builder(s41, p2);
@@ -106,7 +103,7 @@ class MinotaurTest {
         Builder b22 = new Builder(s22, p2);
 
         List<Square> expectedList = null;               //Minotaur cannot move in any way
-        Assert.assertEquals(b23.getWalkableNeighborhood(),expectedList);
+        Assert.assertSame(b23.getWalkableNeighborhood(),expectedList);
 
     }
 

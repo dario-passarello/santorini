@@ -4,6 +4,8 @@ import model.Square;
 
 import java.util.ArrayList;
 
+import model.SquareTest;
+
 public class FakeStandardBuild extends StandardBuild {
 
     GameDriver game;
@@ -30,7 +32,7 @@ public class FakeStandardBuild extends StandardBuild {
 
         if (dest.getBuildLevel() == 3) dest.addDome();
         else {
-            dest.setBuildLevel(dest.getBuildLevel() + 1);
+            SquareTest.setSquareBuildLevel(dest,dest.getBuildLevel() + 1);
         }
     }
 
