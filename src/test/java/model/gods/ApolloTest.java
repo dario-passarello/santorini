@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import model.SquareTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApolloTest {
@@ -39,15 +40,15 @@ class ApolloTest {
         Square s8 = board.squareAt(4,2);
         Square s9 = board.squareAt(3,2);
         //creating some buildings
-        setSquareBuildLevel(s1,0);
-        setSquareBuildLevel(s2,0);
-        setSquareBuildLevel(s3,1);
-        setSquareBuildLevel(s4,2);
-        setSquareBuildLevel(s5,3);
-        setSquareBuildLevel(s6,0);
-        setSquareBuildLevel(s7,1);
-        setSquareBuildLevel(s8,2);
-        setSquareBuildLevel(s9,3);
+        SquareTest.setSquareBuildLevel(s1,0);
+        SquareTest.setSquareBuildLevel(s2,0);
+        SquareTest.setSquareBuildLevel(s3,1);
+        SquareTest.setSquareBuildLevel(s4,2);
+        SquareTest.setSquareBuildLevel(s5,3);
+        SquareTest.setSquareBuildLevel(s6,0);
+        SquareTest.setSquareBuildLevel(s7,1);
+        SquareTest.setSquareBuildLevel(s8,2);
+        SquareTest.setSquareBuildLevel(s9,3);
         //placing some builder
         Builder b33 = new Builder(s1,p1);                // b33 is the builder that is going to move
         Builder b22 = new Builder(s2,p2);
@@ -63,13 +64,9 @@ class ApolloTest {
         Assert.assertEquals(expectedList, b33.getBuildableNeighborhood());
 
         b33.move(board.squareAt(2,2));
-        Assert.assertEquals(s1.getOccupant(),b22);
-        Assert.assertEquals(s2.getOccupant(),b33);
+        Assert.assertSame(s1.getOccupant().orElse(null),b22);
+        Assert.assertSame(s2.getOccupant().orElse(null),b33);
     }
 
-    private void setSquareBuildLevel(Square sq, int level){
-        for(int i = 0; i < level; i++){
-            sq.build();
-        }
-    }
+
 }
