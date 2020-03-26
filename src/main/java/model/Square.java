@@ -35,7 +35,7 @@ public class Square {
     }
 
     /**
-     * Sets the occupant of this Square
+     * Sets the occupant of the square
      * @param builder the new occupant of the square
      */
     public void setOccupant(Builder builder) {
@@ -70,9 +70,6 @@ public class Square {
         return buildLevel;
     }
 
-    public void setBuildLevel(Integer buildLevel){
-        this.buildLevel = buildLevel;
-    }
 
     /**
      * @return true if a dome is built in the Square

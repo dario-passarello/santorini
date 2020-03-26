@@ -88,10 +88,10 @@ class MinotaurTest {
         Square s45 = board.squareAt(4,5);
 
         //creating some obstacles
-        s21.setBuildLevel(2);
+        setSquareBuildLevel(s21,2);
         s43.addDome();
         Builder b45 = new Builder(s45, p1);
-        Builder b41 = new Builder(s41, p2)
+        Builder b41 = new Builder(s41, p2);
         Builder b25 = new Builder(s25, p3);
 
         //placing some builder
