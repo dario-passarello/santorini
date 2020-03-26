@@ -39,15 +39,15 @@ class ApolloTest {
         Square s8 = board.squareAt(4,2);
         Square s9 = board.squareAt(3,2);
         //creating some buildings
-        s1.setBuildLevel(0);
-        s2.setBuildLevel(0);
-        s3.setBuildLevel(1);
-        s4.setBuildLevel(2);
-        s5.setBuildLevel(3);
-        s6.setBuildLevel(0);
-        s7.setBuildLevel(1);
-        s8.setBuildLevel(2);
-        s9.setBuildLevel(3);
+        setSquareBuildLevel(s1,0);
+        setSquareBuildLevel(s2,0);
+        setSquareBuildLevel(s3,1);
+        setSquareBuildLevel(s4,2);
+        setSquareBuildLevel(s5,3);
+        setSquareBuildLevel(s6,0);
+        setSquareBuildLevel(s7,1);
+        setSquareBuildLevel(s8,2);
+        setSquareBuildLevel(s9,3);
         //placing some builder
         Builder b33 = new Builder(s1,p1);                // b33 is the builder that is going to move
         Builder b22 = new Builder(s2,p2);
@@ -65,5 +65,11 @@ class ApolloTest {
         b33.move(board.squareAt(2,2));
         Assert.assertEquals(s1.getOccupant(),b22);
         Assert.assertEquals(s2.getOccupant(),b33);
+    }
+
+    private void setSquareBuildLevel(Square sq, int level){
+        for(int i = 0; i < level; i++){
+            sq.build();
+        }
     }
 }
