@@ -14,7 +14,10 @@ public class Square {
     private Builder occupant;
 
     public Square(Board board, Coordinate coordinate) {
-
+        this.board = board;
+        this.coordinate = coordinate;
+        this.buildLevel = 0;
+        this.domed = false;
     }
 
     /**
@@ -49,7 +52,7 @@ public class Square {
      * @return an optional object that could contain the builder on the square
      */
     public Optional<Builder> getOccupant(){
-        return Optional.of(occupant);
+        return Optional.ofNullable(occupant);
     }
 
     /**
