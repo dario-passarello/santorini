@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
@@ -12,7 +13,7 @@ public class Board {
      *  Initializes an empty 5x5 board creating all Square
      */
     public Board() {
-        //TODO
+        this.matrix = new ArrayList<>();
     }
 
     /**
@@ -25,6 +26,11 @@ public class Board {
         return null;
     }
 
+    public List<List<Square>> getMatrix() {
+        return matrix;
+    }
 
-
+    public void setMatrix(List<List<Square>> matrix) {
+        this.matrix = matrix;
+    }
 }

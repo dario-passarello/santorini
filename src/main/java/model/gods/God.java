@@ -95,7 +95,7 @@ public abstract class God {
      * @param location the position of the builder that is going to build
      */
     public void build(Square location){
-        buildBehavior.build();
+        buildBehavior.build(location);
     }
 
     public boolean endBuild(){

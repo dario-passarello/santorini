@@ -37,7 +37,9 @@ public class Game implements Subject, Observer {
         MAX_PLAYERS = playerNumber;
     }
 
-    //TODO Getboard ???
+    public Board getBoard() {
+        return board;
+    }
 
     /**
      * Adds new player to the list
@@ -92,6 +94,14 @@ public class Game implements Subject, Observer {
      */
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+
+    /**
+     * @return The list of players currently playing the game
+     */
+    public List<Player> getPlayers(){
+        return this.players;
     }
 
     //Observer interface implementations
