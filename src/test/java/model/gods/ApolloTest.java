@@ -5,6 +5,7 @@ import model.Builder;
 import model.Player;
 import model.Square;
 import model.buildbehaviors.BuildBehavior;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 
@@ -17,18 +18,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ApolloTest {
 
+    private Player p1, p2, p3;
+    private God g1, g2;
+    private Board board;
+
+    @Before
+    public void setUpTest(){
+        p1 = new Player("player1");
+        p2 = new Player("player2");
+        p3 = new Player("player3");
+        g1 = new Apollo();
+        g2 = new Atlas();
+        p1.setGod(g1);
+        p2.setGod(g2);
+        board = new Board();
+    }
+
     /**
      * this test checks if the Apollo's move behavior works
      */
     @Test
-    public void test(){
-        Player p1 = new Player("player1");
-        Player p2 = new Player("player2");
-        God g1 = new Apollo();
-        God g2 = new Atlas();
-        p1.setGod(g1);
-        p2.setGod(g2);
-        Board board = new Board();
+    public void canUsePower(){
 
         Square s33 = board.squareAt(3,3);
         Square s22 = board.squareAt(2,2);
@@ -66,8 +76,8 @@ class ApolloTest {
 
         b33.move(board.squareAt(2,2));
 
-        Assert.assertSame(s1.getOccupant().orElse(null),b22);
-        Assert.assertSame(s2.getOccupant().orElse(null),b33);
+        Assert.assertSame(s33.getOccupant().orElse(null),b22);
+        Assert.assertSame(s22.getOccupant().orElse(null),b33);
 
     }
 

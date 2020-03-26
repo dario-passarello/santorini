@@ -2,6 +2,7 @@ package model.gods;
 
 import model.*;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -11,15 +12,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MinotaurTest {
 
-    @Test
-    public void canUsePower(){
-        Player p1 = new Player("player1");
-        Player p2 = new Player("player2");
-        God g1 = new Minotaur();
-        God g2 = new Atlas();
+    private Player p1, p2, p3;
+    private God g1, g2;
+    private Board board;
+
+    @Before
+    public void setUpTest(){
+        p1 = new Player("player1");
+        p2 = new Player("player2");
+        p3 = new Player("player3");
+        g1 = new Minotaur();
+        g2 = new Atlas();
         p1.setGod(g1);
         p2.setGod(g2);
-        Board board = new Board();
+        board = new Board();
+    }
+
+    @Test
+    public void canUsePower(){
 
         Square s11 = board.squareAt(1,1);
         Square s33 = board.squareAt(3,3);       //s33 is the initial position of Minotaur
@@ -32,12 +42,12 @@ class MinotaurTest {
         Square s42 = board.squareAt(4,2);
         Square s32 = board.squareAt(3,2);
         //creating some buildings
-        s23.setBuildLevel(1);
-        s24.setBuildLevel(2);
-        s34.setBuildLevel(3);
-        s43.setBuildLevel(1);
-        s42.setBuildLevel(2);
-        s32.setBuildLevel(3);
+        SquareTest.setSquareBuildLevel(s23,1);
+        SquareTest.setSquareBuildLevel(s24,2);
+        SquareTest.setSquareBuildLevel(s34,3);
+        SquareTest.setSquareBuildLevel(s43,1);
+        SquareTest.setSquareBuildLevel(s42,2);
+        SquareTest.setSquareBuildLevel(s32,3);
         //placing some builder
         Builder b33 = new Builder(s33, p1);                // b33 is the builder that is going to move
         Builder b22 = new Builder(s22, p2);
@@ -59,14 +69,6 @@ class MinotaurTest {
     }
 
     public void cannotUsePower(){
-        Player p1 = new Player("player1");
-        Player p2 = new Player("player2");
-        Player p3 = new Player("player3");
-        God g1 = new Minotaur();
-        God g2 = new Atlas();
-        p1.setGod(g1);
-        p2.setGod(g2);
-        Board board = new Board();
 
         Square s23 = board.squareAt(2,2);       //s33 is the initial position of Minotaur
         Square s12 = board.squareAt(1,1);
