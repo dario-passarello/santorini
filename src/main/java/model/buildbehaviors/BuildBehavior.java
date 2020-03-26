@@ -16,6 +16,5 @@ public interface BuildBehavior {
 
     void buildCoordinate(Square dest);
 
-
     boolean endBuild();
 }
