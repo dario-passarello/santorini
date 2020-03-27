@@ -1,9 +1,6 @@
 package model.gods;
 
-import model.Board;
-import model.Builder;
-import model.Player;
-import model.Square;
+import model.*;
 import model.buildbehaviors.BuildBehavior;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,20 +10,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import model.SquareTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApolloTest {
 
+
     private Player p1, p2, p3;
     private God g1, g2;
     private Board board;
+    private Game g;
 
     @Before
     public void setUpTest(){
-        p1 = new Player("player1");
-        p2 = new Player("player2");
-        p3 = new Player("player3");
+        p1 = new Player(g,"player1");
+        p2 = new Player(g,"player2");
+        p3 = new Player(g,"player3");
         g1 = new Apollo();
         g2 = new Atlas();
         p1.setGod(g1);

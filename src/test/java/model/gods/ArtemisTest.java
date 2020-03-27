@@ -1,6 +1,7 @@
 package model.gods;
 
 import model.Board;
+import model.Game;
 import model.Player;
 import org.junit.Test;
 
@@ -10,8 +11,10 @@ class ArtemisTest {
 
     @Test
     public void test(){
-        Player p1 = new Player("player1");
-        Player p2 = new Player("player2");
+        Game game = new Game(2);
+
+        Player p1 = new Player(game,"player1");
+        Player p2 = new Player(game,"player2");
         God g1 = new Artemis();
         God g2 = new Atlas();
         p1.setGod(g1);

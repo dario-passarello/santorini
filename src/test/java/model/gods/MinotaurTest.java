@@ -15,12 +15,13 @@ class MinotaurTest {
     private Player p1, p2, p3;
     private God g1, g2;
     private Board board;
+    private Game g;
 
     @Before
     public void setUpTest(){
-        p1 = new Player("player1");
-        p2 = new Player("player2");
-        p3 = new Player("player3");
+        p1 = new Player(g,"player1");
+        p2 = new Player(g,"player2");
+        p3 = new Player(g,"player3");
         g1 = new Minotaur();
         g2 = new Atlas();
         p1.setGod(g1);
@@ -63,9 +64,9 @@ class MinotaurTest {
         Assert.assertEquals(expectedList, b33.getBuildableNeighborhood());
 
         b33.move(board.squareAt(2,2));          //Minotaur push an opponent builder in (1,1)
-        Assert.assertEquals(s33.getOccupant(), null);
-        Assert.assertEquals(s22.getOccupant(), b33);
-        Assert.assertEquals(s11.getOccupant(), b22);
+        Assert.assertNull(s33.getOccupant());
+        Assert.assertEquals(s22.getOccupant().orElse(null), b33);
+        Assert.assertEquals(s11.getOccupant().orElse(null), b22);
     }
 
     public void cannotUsePower(){
