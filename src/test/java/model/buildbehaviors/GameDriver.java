@@ -15,9 +15,6 @@ public class GameDriver {
     public static Board board = new Board();
 
 
-
-
-
     public static List<List<Square>> initialize(){
         ArrayList<Square> row;
         List<List<Square>> matrix = new ArrayList<>();

@@ -83,6 +83,12 @@ public class Square {
     public void addDome() {
         domed = true;
     }
-
+    /**
+     * @return true if the square is not domed or built at the max level
+     */
+    public boolean isBuildable() {
+        //TODO
+        return false;
+    }
 
 }
