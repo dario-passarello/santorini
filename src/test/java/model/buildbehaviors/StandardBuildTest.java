@@ -1,6 +1,7 @@
 package model.buildbehaviors;
 
 import model.Square;
+import model.SquareTest;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,24 +62,25 @@ public class StandardBuildTest {
 
         fake = new FakeStandardBuild();
 
-        Square SquareStart = game.getSquare(4, 4);
-        Square OldSquare = new Square(game.board, SquareStart.getCoordinate());   // Previous Instance of Square (Artificially created)
+        Square squareStart = game.getSquare(4, 4);
+        Square oldSquare = new Square(game.board, squareStart.getCoordinate());   // Previous Instance of Square (Artificially created)
 
-        SquareStart.setBuildLevel(3);
-        OldSquare.setBuildLevel(3);
+        SquareTest.setSquareBuildLevel(squareStart,3);
+        SquareTest.setSquareBuildLevel(oldSquare,3);
 
-        fake.build(SquareStart);
+
+        fake.build(squareStart);
 
 
 
         Assert.assertTrue("The Square should be on the board",
-                game.board.getMatrix().stream().anyMatch(List -> List.contains(SquareStart)));
+                game.board.getMatrix().stream().anyMatch(List -> List.contains(squareStart)));
 
         Assert.assertFalse("The Square should not contain the dome",
-                OldSquare.isDomed());
+                oldSquare.isDomed());
 
         Assert.assertTrue("The Square should either have a built block or a built dome",
-                        ((SquareStart.getBuildLevel() == OldSquare.getBuildLevel() + 1) ||
-                        ((SquareStart.getBuildLevel() == OldSquare.getBuildLevel()) && SquareStart.isDomed())));
+                        ((squareStart.getBuildLevel() == oldSquare.getBuildLevel() + 1) ||
+                        ((squareStart.getBuildLevel() == oldSquare.getBuildLevel()) && squareStart.isDomed())));
     }
 }

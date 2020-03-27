@@ -38,7 +38,23 @@ public class SquareTest {
     }
 
     @Test
-    public void squareShouldBeBuilt(){
+    public void squareShouldBeBuiltCorrectly(){
+        for(int i = 0; i < Square.MAX_HEIGHT; i++) {
+            Square sq = new Square(board,new Coordinate(2,1));
+            for(int j = 0; j < i; j++) {
+                Assert.assertEquals("Square should be at level " + j,sq.getBuildLevel(), j);
+                Assert.assertTrue("Square at level " + j + "should be buildable",sq.isBuildable());
+                sq.build();
+            }
+
+            Assert.assertEquals("Square should be at level " + i,sq.getBuildLevel(), i);
+            Assert.assertTrue("Square at level " + i + "should be buildable",sq.isBuildable());
+            Assert.assertFalse("Square at level " + i + "should not be domed",sq.isDomed());
+            sq.addDome();
+            Assert.assertTrue(sq.isDomed());
+            Assert.assertFalse(sq.isBuildable());
+
+        }
 
     }
 

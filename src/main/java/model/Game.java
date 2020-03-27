@@ -29,9 +29,12 @@ public class Game implements Subject, Observer {
     private final Integer MAX_PLAYERS;
 
 
-
-
+    /**
+     * Constucts a game, building the board and setting up all the things
+     * @param playerNumber the number of player of this game
+     */
     public Game(int playerNumber) {
+        //TODO Build a board
         //Singeton
         this.players = new ArrayList<>();
         MAX_PLAYERS = playerNumber;
