@@ -3,14 +3,18 @@ package model.movebehaviors;
 import model.Builder;
 import model.Square;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 //TODO
 public class DoubleNoBackMove extends MoveDecorator {
 
+    Square previous;
+
     public DoubleNoBackMove(MoveBehavior moveBehavior){
         wrappedMoveBehavior = moveBehavior;
+        previous = null;
     }
 
     /**
@@ -19,7 +23,17 @@ public class DoubleNoBackMove extends MoveDecorator {
      * (if this is the first move, we will have just a standard one,
      * if this is the second move we cannot go in the starting square of the first move)
      */
-    public Set<Square> neighborhood(Square src) {
+    public HashSet<Square> neighborhood(Square src) {
+
+        HashSet<Square> remove = new HashSet<>();
+        remove.add(previous);
+        if(previous == null){
+            return wrappedMoveBehavior.neighborhood()                               // first move
+        }
+        else{
+            return wrappedMoveBehavior.neighborhood().removeAll(remove);            // second move
+        }
+
         return null;
     }
 
@@ -29,6 +43,6 @@ public class DoubleNoBackMove extends MoveDecorator {
      * @return true in the first move, false in the second one
      */
     public boolean move(Builder b, Square dest) {
-
+        return false;
     }
 }
