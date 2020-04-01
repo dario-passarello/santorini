@@ -8,9 +8,10 @@ import java.util.List;
 
 public class GameDriver {
 
-    public static Player player1 = new Player("player1");
-    public static Player player2 = new Player("player2");
+
     public static Game game = new Game(2);
+    public static Player player1 = new Player(game,"player1");
+    public static Player player2 = new Player(game,"player2");
 
     public static Board board = new Board();
 

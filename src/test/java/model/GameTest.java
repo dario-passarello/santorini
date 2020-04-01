@@ -12,14 +12,15 @@ public class GameTest {
     Player bob;
     Player charlie;
     Player dana;
+
     @Before
     public void prepareTest() {
         testGame = new Game(3);
-        alice = new Player("Alice");
-        alice2 = new Player("Alice");
-        bob = new Player("Bob");
-        charlie = new Player("Charlie");
-        dana = new Player("Dana");
+        alice = new Player(testGame, "Alice");
+        alice2 = new Player(testGame, "Alice");
+        bob = new Player(testGame,"Bob");
+        charlie = new Player(testGame, "Charlie");
+        dana = new Player(testGame,"Dana");
     }
     @Test
     public void playersShouldBeAddedAndRemovedNoDuplicates() {

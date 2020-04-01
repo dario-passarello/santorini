@@ -1,16 +1,13 @@
 package model.gods;
 
 import model.*;
-import model.buildbehaviors.BuildBehavior;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class ApolloTest {
 
@@ -58,6 +55,7 @@ class ApolloTest {
         SquareTest.setSquareBuildLevel(s43,1);
         SquareTest.setSquareBuildLevel(s42,2);
         SquareTest.setSquareBuildLevel(s32,3);
+
         //placing some builder
         Builder b33 = new Builder(s33, p1);                // b33 is the builder that is going to move
         Builder b22 = new Builder(s22, p2);

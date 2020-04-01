@@ -21,6 +21,8 @@ public class StandardBuildTest {
         game.start();
         game.setbuilder(4, 5);
         game.setdome(5, 3);
+
+
     }
 
 

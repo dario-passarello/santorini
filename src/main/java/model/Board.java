@@ -1,19 +1,22 @@
 package model;
 
+import utils.Coordinate;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
     final static int BOARD_SIZE = 5;
 
-    private List<List<Square>> matrix;
+    private Square[][] matrix;
     //Pointer to game ??
 
     /**
-     *  Initializes an empty 5x5 board creating all Square
+     *  Initializes an empty 5x5 board creating all Squares
      */
     public Board() {
-        this.matrix = new ArrayList<>();
+        this.matrix = new Square[BOARD_SIZE][BOARD_SIZE];
+        //TODO
     }
 
     /**
@@ -21,16 +24,26 @@ public class Board {
      * @param col the number of the column
      * @return the reference to the Square object located at (row,col)
      */
-    public Square squareAt(int row, int col) throws IndexOutOfBoundsException {
+    public Square squareAt(int row, int col) {
+        //TODO
+        return null;
+    }
+    /**
+     * @param coord The coordinate object representing the coordinates of
+     *              the requested Square object
+     * @return the reference to the Square object located at the coordinate
+     */
+    public Square squareAt(Coordinate coord) {
         //TODO
         return null;
     }
 
-    public List<List<Square>> getMatrix() {
-        return matrix;
+    /**
+     * @return squares in the board that aren't occupied by a builder
+     */
+    public List<Square> getFreeSquares() {
+        //TODO
+        return null;
     }
 
-    public void setMatrix(List<List<Square>> matrix) {
-        this.matrix = matrix;
-    }
 }

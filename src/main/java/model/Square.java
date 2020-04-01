@@ -2,6 +2,8 @@ package model;
 
 import utils.Coordinate;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Square {
@@ -35,17 +37,11 @@ public class Square {
     }
 
     /**
-     * Sets the occupant of the square
-     * @param builder the new occupant of the square
+     * @return the squares adjacent to this square (also diagonal neighbors)
      */
-    public void setOccupant(Builder builder) {
-        occupant = builder;
-    }
-    /**
-     *  Empties the square.  (no builder on it)
-     */
-    public void setEmptySquare() {
-        occupant = null;
+    public List<Square> getNeighborhood() {
+        //TOdo
+        return null;
     }
 
     /**
@@ -53,6 +49,21 @@ public class Square {
      */
     public Optional<Builder> getOccupant(){
         return Optional.ofNullable(occupant);
+    }
+    /**
+     * Sets the occupant of the square
+     * @param builder the new occupant of the square
+     */
+    public void setOccupant(Builder builder) {
+        occupant = builder;
+    }
+
+
+    /**
+     *  Empties the square.  (no builder on it)
+     */
+    public void setEmptySquare() {
+        occupant = null;
     }
 
     /**
@@ -62,7 +73,6 @@ public class Square {
     public void build() {
         //TODO
     }
-
     /**
      * @return get the current build level (dome excluded)
      */
@@ -91,4 +101,18 @@ public class Square {
         return false;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Square)) return false;
+        Square square = (Square) o;
+        return board.equals(square.board) &&
+                coordinate.equals(square.coordinate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(board, coordinate);
+    }
 }
