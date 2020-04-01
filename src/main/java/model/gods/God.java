@@ -2,7 +2,7 @@ package model.gods;
 
 import model.Player;
 import model.Square;
-import model.buildbehaviors.BuildBehavior;
+import model.buildbehaviours.BuildBehavior;
 import model.movebehaviors.MoveBehavior;
 import model.startbehaviors.StartBehavior;
 import model.wincondition.WinCondition;

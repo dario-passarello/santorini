@@ -1,13 +1,13 @@
 package model.gods;
 
-import model.Square;
-import model.buildbehaviors.BeneathBuild;
+import model.buildbehaviours.BeneathBuild;
 import model.movebehaviors.StandardMove;
 import model.startbehaviors.NoStartTurn;
 import model.wincondition.StandardWinCondition;
 
-import java.util.List;
-
+/**
+ * Allows the player to build a block beneath itself
+ */
 public class Zeus extends God {
 
     public Zeus(){

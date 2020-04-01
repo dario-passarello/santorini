@@ -1,12 +1,9 @@
 package model.gods;
 
-import model.Square;
-import model.buildbehaviors.StandardBuild;
+import model.buildbehaviours.StandardBuild;
 import model.movebehaviors.StandardMove;
 import model.startbehaviors.NoStartTurn;
 import model.wincondition.StandardWinCondition;
-
-import java.util.List;
 
 public class Hera extends God {
 

@@ -41,7 +41,7 @@ class StandardMoveTest {
         Builder b14 = new Builder(board.squareAt(1,4), p1);     //edge neighborhood
         Builder b55 = new Builder(board.squareAt(5,5), p1);     //corner neighborhood
 
-        List<Square> expectedList = Arrays.asList(  board.squareAt(1,1), board.squareAt(1,2), board.squareAt(1,3),
+        List<Square> expectedL\ist = Arrays.asList(  board.squareAt(1,1), board.squareAt(1,2), board.squareAt(1,3),
                                                     board.squareAt(2,3), board.squareAt(3,3), board.squareAt(3,2),
                                                     board.squareAt(3,1), board.squareAt(2,1));
         Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
