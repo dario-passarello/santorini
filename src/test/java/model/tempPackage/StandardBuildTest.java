@@ -1,7 +1,8 @@
-package model.buildbehaviors;
+package model.tempPackage;
 
 import model.Square;
 import model.SquareTest;
+import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

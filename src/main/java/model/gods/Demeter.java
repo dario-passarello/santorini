@@ -1,13 +1,13 @@
 package model.gods;
 
-import model.Square;
-import model.buildbehaviors.DoubleNotSameBuild;
+import model.buildbehaviours.DoubleNotSameBuild;
 import model.movebehaviors.StandardMove;
 import model.startbehaviors.NoStartTurn;
 import model.wincondition.StandardWinCondition;
 
-import java.util.List;
-
+/**
+ * Allow the player to build one additional time, but not on the same space
+ */
 public class Demeter extends God {
 
     public Demeter() {

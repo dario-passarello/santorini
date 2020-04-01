@@ -1,6 +1,5 @@
 package model;
 
-import model.buildbehaviors.BuildBehavior;
 import model.gods.God;
 
 import java.util.List;
