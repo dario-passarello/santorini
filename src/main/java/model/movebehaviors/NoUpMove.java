@@ -29,7 +29,7 @@ public class NoUpMove extends MoveDecorator{
             }
         }
 
-        return wrappedMoveBehavior.neighborhood().removeAll(remove);
+        return wrappedMoveBehavior.neighborhood(src).removeAll(remove);
     }
 
     /**
@@ -38,6 +38,6 @@ public class NoUpMove extends MoveDecorator{
      * @return a boolean that indicates if the move phase is ended or not
      */
     public boolean move(Builder b, Square dest) {
-        return false
+        return false;
     }
 }

@@ -14,7 +14,7 @@ public class UnlimitedPerimetralMove extends MoveDecorator {
     }
 
     public HashSet<Square> neighborhood(Square src) {
-        return wrappedMoveBehavior.neighborhood();
+        return wrappedMoveBehavior.neighborhood(src);
     }
 
     /**

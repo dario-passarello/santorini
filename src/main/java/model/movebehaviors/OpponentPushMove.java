@@ -30,7 +30,7 @@ public class OpponentPushMove extends MoveDecorator {
             }
         }
 
-        return wrappedMoveBehavior.neighborhood().addAll(neighborhood);
+        return wrappedMoveBehavior.neighborhood(src).addAll(neighborhood);
     }
 
 

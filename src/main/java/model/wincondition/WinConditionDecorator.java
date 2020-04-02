@@ -8,7 +8,4 @@ public abstract class WinConditionDecorator implements WinCondition {
         return wrappedWinCondition;
     }
 
-    //public void setWrappedWinCondition(WinCondition winCondition){
-    //    wrappedWinCondition = winCondition;
-    //}
 }

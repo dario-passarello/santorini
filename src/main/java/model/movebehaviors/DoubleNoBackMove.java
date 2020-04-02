@@ -28,10 +28,10 @@ public class DoubleNoBackMove extends MoveDecorator {
         HashSet<Square> remove = new HashSet<>();
         remove.add(previous);
         if(previous == null){
-            return wrappedMoveBehavior.neighborhood()                               // first move
+            return wrappedMoveBehavior.neighborhood(src)                               // first move
         }
         else{
-            return wrappedMoveBehavior.neighborhood().removeAll(remove);            // second move
+            return wrappedMoveBehavior.neighborhood(src).removeAll(remove);            // second move
         }
 
         return null;
