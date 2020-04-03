@@ -19,9 +19,9 @@ public class SwapWithOpponentMove extends MoveDecorator {
      * @return the standard neighborhood + special neighborhood
      * (we also consider reachable squares occupied by an opponent builder)
      */
-    public HashSet<Square> neighborhood(Square src) {
-        HashSet<Square> adjacent = src.getNeighbors();
-        HashSet<Square> neighborhood = new HashSet<Square>();
+    public Set<Square> neighborhood(Square src) {
+        Set<Square> adjacent = src.getNeighbors();
+        Set<Square> neighborhood = new HashSet<Square>();
         for(Square square : adjacent){
             if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 &&
                     square.getBuilder() != null &&
@@ -39,6 +39,18 @@ public class SwapWithOpponentMove extends MoveDecorator {
      * @return a boolean that indicates if the move phase is ended or not
      */
     public boolean move(Builder b, Square dest) {
-        return false;
+        if(dest.getOccupant().isPresent()){
+            Square start = b.getPosition();
+            Builder enemy = dest.getOccupant().get();
+
+            dest.setOccupant(b);
+            b.setPosition(dest);
+            start.setOccupant(enemy);
+            enemy.setPosition(start);
+
+            return false;
+        } else {
+            return wrappedMoveBehavior.move(b, dest);
+        }
     }
 }

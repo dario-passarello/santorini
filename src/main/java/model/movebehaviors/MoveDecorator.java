@@ -9,7 +9,9 @@ import java.util.Set;
 //TODO
 public abstract class MoveDecorator implements MoveBehavior {
 
-    public HashSet<Square> neighborhood(Square src){
+    protected MoveBehavior wrappedMoveBehavior;
+
+    public Set<Square> neighborhood(Square src){
         return null;
     }
 
