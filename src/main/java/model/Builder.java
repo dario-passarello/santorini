@@ -1,5 +1,7 @@
 package model;
 
+import model.gods.God;
+
 import java.util.List;
 
 public class Builder {
@@ -47,18 +49,16 @@ public class Builder {
     /**
      * Moves the player
      * @param sq The square where the builder will be moved
-     * @param forced Set it false if the builder is moved inside his turn,
-     *               true if the move is forced by another player's God power
-     *               outside his turn
      * @return true if the builder could be moved again after this move
      *          because of his power, false if his move phase is terminated
      *          or the builder move was forced
      */
-    public boolean move(Square sq, boolean forced) {
-        position = sq;
-        //TODO
-        return false;
+    public boolean move(Square sq) {
+        God playerGod = owner.getGod();
+        return playerGod.move(this,sq);
     }
+
+
     /**
      * Builds in the square passed as parameter
      * @param sq The square where the builder will build a structure
@@ -67,8 +67,8 @@ public class Builder {
      *
      */
     public boolean build(Square sq) {
-        //TODO
-        return false;
+        God playerGod = owner.getGod();
+        return playerGod.build(this,sq);
     }
 
 }

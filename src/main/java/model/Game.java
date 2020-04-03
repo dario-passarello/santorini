@@ -7,14 +7,13 @@ import utils.Observer;
 import utils.Observable;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 
 public class Game implements Observable, Cloneable {
 
-    private Integer MAX_PLAYERS;
+    private Integer max_players;
     private List<Player> players;
     private Turn currentTurn;
     private Board board;
@@ -40,15 +39,14 @@ public class Game implements Observable, Cloneable {
     public Game(int playerNumber) {
         //TODO Build a board
         this.players = new ArrayList<>();
-        MAX_PLAYERS = playerNumber;
+        max_players = playerNumber;
     }
 
     /**
      *  @return a Reference to the game board
      */
     public Board getBoard() {
-        //TODO
-        return null;
+        return board;
     }
     /*
      *      +-----------------------------+
@@ -75,6 +73,12 @@ public class Game implements Observable, Cloneable {
     public int playerCount() {
         return players.size();
     }
+    /**
+     * @return maximum number of players in this game
+     */
+    public int maxPlayers() {
+        return maxPlayers();
+    }
     /*
      *      +-----------------------------+
      *      | STATE MACHINE INPUT METHODS |
@@ -86,7 +90,6 @@ public class Game implements Observable, Cloneable {
      * @param num Number of players
      */
     public void setNumberOfPlayers(int num){
-        //TODO
     }
     /**
      * Adds new player to the list and then updates the game state
@@ -112,10 +115,9 @@ public class Game implements Observable, Cloneable {
 
     /**
      * Copies a list of god in the game and updates the game state
-     * @param godList The list of god that should be copied
+     * @param godList The list of the names of the gods chosen for the game
      */
-    public void submitGodList(List<God> godList) {
-        this.godList = new ArrayList<>(godList);
+    public void submitGodList(List<String> godList) {
         //TODO
     }
     /**
@@ -132,6 +134,23 @@ public class Game implements Observable, Cloneable {
      */
     public void quitGame() {
         //TODO
+    }
+
+    /**
+     * @return a reference to the current game state
+     */
+    public GameState getGameState() {
+        return currentGameState; //TODO
+    }
+
+    /**
+     * Set the current turn state
+     * @param gameState a game state
+     */
+    public void setTurnState(GameState gameState) {
+        gameState.onExit();
+        currentGameState = gameState;
+        gameState.onEntry();
     }
 
     /**

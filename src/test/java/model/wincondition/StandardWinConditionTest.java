@@ -6,12 +6,9 @@ import model.Player;
 import model.gods.Atlas;
 import model.gods.Demeter;
 import model.gods.God;
-import model.gods.Pan;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class StandardWinConditionTest {
 
@@ -41,7 +38,7 @@ class StandardWinConditionTest {
         SquareTest.setSquareBuildLevel(s33,3);
         SquareTest.setSquareBuildLevel(s32,2);
         Square start = s32;
-        b1 = p1.buildBuilder(s33);
+        b1 = p1.addBuilder(s33);
         Assert.assertSame(p1.getGod().checkWinCondition(start,b1).orElse(null), expectedWinner);
 
     }
@@ -55,7 +52,7 @@ class StandardWinConditionTest {
         SquareTest.setSquareBuildLevel(s33,3);
         SquareTest.setSquareBuildLevel(s32,3);
         Square start = s32;
-        b1 = p1.buildBuilder(s33);
+        b1 = p1.addBuilder(s33);
         Assert.assertSame(p1.getGod().checkWinCondition(start,b1).orElse(null), expectedWinner);
 
 

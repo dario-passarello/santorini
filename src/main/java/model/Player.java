@@ -2,6 +2,7 @@ package model;
 
 import model.gods.God;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -35,7 +36,7 @@ public class Player {
      * @param god Set god for the player
      */
     public void setGod(God god) {
-
+        this.god = god;
     }
 
     /**
@@ -43,16 +44,15 @@ public class Player {
      * @param square The square where the new builder should be placed
      * @return the builder object placed in the board
      */
-    public Builder buildBuilder(Square square) {
-        //Add another builder
-        return null; //TODO
+    public Builder addBuilder(Square square) {
+        builders.add(new Builder(square, this));
     }
 
     /**
      * @return the god object related to the player
      */
     public God getGod(){
-        return null; //TODO
+        return god;
     }
 
     public Game getGame() {
@@ -66,7 +66,7 @@ public class Player {
      * @return get a copy of the list of the builders controlled by the players
      */
     public List<Builder> getBuilders() {
-        return null; //TODO (non una ref a builders)
+        return new ArrayList<>(builders);
     }
 
 

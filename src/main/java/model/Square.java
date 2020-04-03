@@ -2,9 +2,7 @@ package model;
 
 import utils.Coordinate;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class Square {
     final static int MAX_HEIGHT = 3;
@@ -15,11 +13,14 @@ public class Square {
     private Integer buildLevel;
     private Builder occupant;
 
+
     public Square(Board board, Coordinate coordinate) {
         this.board = board;
         this.coordinate = coordinate;
-        this.buildLevel = 0;
         this.domed = false;
+        this.buildLevel = 0;
+        this.occupant = null;
+
     }
 
     /**
@@ -39,9 +40,15 @@ public class Square {
     /**
      * @return the squares adjacent to this square (also diagonal neighbors)
      */
-    public List<Square> getNeighborhood() {
-        //TOdo
-        return null;
+    public Set<Square> getNeighbors() {
+        HashSet<Square> sqSet = new HashSet<>();
+        for(int x = Math.max(0,coordinate.getX() - 1); x <= Math.min(Board.BOARD_SIZE - 1, coordinate.getX() + 1); x++){
+            for(int y = Math.max(0,coordinate.getY() - 1); y <= Math.min(Board.BOARD_SIZE - 1, coordinate.getY() + 1); y++) {
+                if(x == coordinate.getX() && y == coordinate.getY()) continue;
+                sqSet.add(board.squareAt(x,y));
+            }
+        }
+        return sqSet;
     }
 
     /**
@@ -58,7 +65,6 @@ public class Square {
         occupant = builder;
     }
 
-
     /**
      *  Empties the square.  (no builder on it)
      */
@@ -71,7 +77,10 @@ public class Square {
      * automatically be built
      */
     public void build() {
-        //TODO
+        if(buildLevel < MAX_HEIGHT)
+            buildLevel++;
+        else
+            domed = true;
     }
     /**
      * @return get the current build level (dome excluded)
@@ -97,8 +106,13 @@ public class Square {
      * @return true if the square is not domed or built at the max level
      */
     public boolean isBuildable() {
-        //TODO
-        return false;
+        return !domed && buildLevel <= MAX_HEIGHT;
+    }
+
+    public boolean isPerimetral() {
+        int x = coordinate.getX();
+        int y = coordinate.getY();
+        return x == 0 || x == Board.BOARD_SIZE - 1 || y == 0 || y == Board.BOARD_SIZE - 1;
     }
 
 

@@ -24,8 +24,8 @@ public class PlayerTest {
         Assert.assertEquals(player.getBuilders().size(),0);
         Assert.assertFalse(player.isReady());
         player.setGod(new Apollo());
-        player.buildBuilder(new Square(game.getBoard(),new Coordinate(2,1)));
-        player.buildBuilder(new Square(game.getBoard(),new Coordinate(4,1)));
+        player.addBuilder(new Square(game.getBoard(),new Coordinate(2,1)));
+        player.addBuilder(new Square(game.getBoard(),new Coordinate(4,1)));
         Assert.assertEquals(player.getBuilders().size(),2);
         player.toggleReady();
         Assert.assertTrue(player.isReady());

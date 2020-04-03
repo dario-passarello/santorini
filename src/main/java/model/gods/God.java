@@ -1,5 +1,6 @@
 package model.gods;
 
+import model.Builder;
 import model.Player;
 import model.Square;
 import model.buildbehaviours.BuildBehavior;
@@ -66,8 +67,8 @@ public abstract class God {
     /**
      * @param location the initial position of the builder that is going to move
      */
-    public void move(Square location){
-        moveBehavior.move(location);
+    public boolean move(Builder builder, Square location){
+        return moveBehavior.move(builder, location);
     }
 
     public boolean endMove(){
@@ -94,8 +95,8 @@ public abstract class God {
     /**
      * @param location the position of the builder that is going to build
      */
-    public void build(Square location){
-        buildBehavior.build(location);
+    public boolean build(Builder builder, Square location){
+        return buildBehavior.build(location);
     }
 
     public boolean endBuild(){
