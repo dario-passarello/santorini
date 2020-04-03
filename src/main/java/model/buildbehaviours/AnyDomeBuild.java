@@ -2,10 +2,13 @@ package model.buildbehaviours;
 
 import model.Square;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class AnyDomeBuild implements BuildBehavior {
+
+    private BuildBehavior wrappedBuildBehavior;
 
     /**
      * Allows the player to build either a dome or a block, no matter what the level of the square is
@@ -18,8 +21,13 @@ public class AnyDomeBuild implements BuildBehavior {
 
 
 
-    public Set<Square> neighborhood(Square src) {
-        return null;
+    public HashSet<Square> neighborhood(Square src) {
+        return wrappedBuildBehavior.neighborhood(src);
+    }
+
+
+    public AnyDomeBuild(BuildBehavior buildBehavior){
+        this.wrappedBuildBehavior = buildBehavior;
     }
 
 

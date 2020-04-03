@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Board {
-    final static int BOARD_SIZE = 5;
+    public final static int BOARD_SIZE = 5;
 
     private Square[][] matrix;
 

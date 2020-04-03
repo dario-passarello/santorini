@@ -2,7 +2,9 @@ package model;
 
 import utils.Coordinate;
 
+
 import java.util.*;
+
 
 public class Square {
     final static int MAX_HEIGHT = 3;
@@ -41,7 +43,7 @@ public class Square {
      * @return the squares adjacent to this square (also diagonal neighbors)
      */
     public Set<Square> getNeighbors() {
-        HashSet<Square> sqSet = new HashSet<>();
+        Set<Square> sqSet = new HashSet<>();
         for(int x = Math.max(0,coordinate.getX() - 1); x <= Math.min(Board.BOARD_SIZE - 1, coordinate.getX() + 1); x++){
             for(int y = Math.max(0,coordinate.getY() - 1); y <= Math.min(Board.BOARD_SIZE - 1, coordinate.getY() + 1); y++) {
                 if(x == coordinate.getX() && y == coordinate.getY()) continue;

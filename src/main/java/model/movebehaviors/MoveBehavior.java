@@ -5,6 +5,7 @@ import model.Square;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //TODO
 public interface MoveBehavior {
@@ -13,7 +14,7 @@ public interface MoveBehavior {
      * @param src is the starting point of a builder
      * @return the set of squares where he can go
      */
-    HashSet<Square> neighborhood(Square src);
+    Set<Square> neighborhood(Square src);
 
 
     /**

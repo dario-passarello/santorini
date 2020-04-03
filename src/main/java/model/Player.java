@@ -45,7 +45,9 @@ public class Player {
      * @return the builder object placed in the board
      */
     public Builder addBuilder(Square square) {
-        builders.add(new Builder(square, this));
+        Builder b = new Builder(square, this);
+        builders.add(b);
+        return b;
     }
 
     /**

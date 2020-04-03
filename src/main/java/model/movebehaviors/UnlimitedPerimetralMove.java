@@ -1,5 +1,6 @@
 package model.movebehaviors;
 
+import model.Board;
 import model.Builder;
 import model.Square;
 
@@ -13,7 +14,7 @@ public class UnlimitedPerimetralMove extends MoveDecorator {
         wrappedMoveBehavior = moveBehavior;
     }
 
-    public HashSet<Square> neighborhood(Square src) {
+    public Set<Square> neighborhood(Square src) {
         return wrappedMoveBehavior.neighborhood(src);
     }
 
@@ -25,6 +26,8 @@ public class UnlimitedPerimetralMove extends MoveDecorator {
      * it will return true every time dest is in the perimeter
      */
     public boolean move(Builder b, Square dest) {
-    return false;
+        Board board = dest.getBoard();
+        wrappedMoveBehavior.move(b, dest);
+        return b.getPosition().isPerimetral();
     }
 }

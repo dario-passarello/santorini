@@ -19,10 +19,10 @@ public class NoUpMove extends MoveDecorator{
      * @return the standard neighborhood - special neighborhood
      * (the builder cannot go on squares with a level < level of src)
      */
-    public HashSet<Square> neighborhood(Square src) {
+    public Set<Square> neighborhood(Square src) {
 
-        HashSet<Square> adjacent = src.getNeighbors();
-        HashSet<Square> remove = new HashSet<>();
+        Set<Square> adjacent = src.getNeighbors();
+        Set<Square> remove = new HashSet<>();
         for(Square square : adjacent){
             if(square.getBuildLevel() > src.getBuildLevel()){
                 remove.add(square);
@@ -38,6 +38,6 @@ public class NoUpMove extends MoveDecorator{
      * @return a boolean that indicates if the move phase is ended or not
      */
     public boolean move(Builder b, Square dest) {
-        return false;
+        return wrappedMoveBehavior.move(b, dest);
     }
 }

@@ -23,15 +23,16 @@ public class DoubleNoBackMove extends MoveDecorator {
      * (if this is the first move, we will have just a standard one,
      * if this is the second move we cannot go in the starting square of the first move)
      */
-    public HashSet<Square> neighborhood(Square src) {
+    public Set<Square> neighborhood(Square src) {
 
-        HashSet<Square> remove = new HashSet<>();
+        Set<Square> remove = new HashSet<>();
         remove.add(previous);
         if(previous == null){
             return wrappedMoveBehavior.neighborhood(src)                               // first move
         }
         else{
-            return wrappedMoveBehavior.neighborhood(src).removeAll(remove);            // second move
+            neighborhood(src).removeAll(remove);
+            return wrappedMoveBehavior.neighborhood(src);            // second move
         }
 
         return null;
@@ -43,6 +44,8 @@ public class DoubleNoBackMove extends MoveDecorator {
      * @return true in the first move, false in the second one
      */
     public boolean move(Builder b, Square dest) {
-        return false;
+        wrappedMoveBehavior.move(b, dest);
+        return previous == null;
     }
 }
+
