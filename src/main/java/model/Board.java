@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    final static int BOARD_SIZE = 5;
+    public final static int BOARD_SIZE = 5;
 
     private Square[][] matrix;
     //Pointer to game ??

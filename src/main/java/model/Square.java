@@ -2,6 +2,7 @@ package model;
 
 import utils.Coordinate;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -99,6 +100,10 @@ public class Square {
     public boolean isBuildable() {
         //TODO
         return false;
+    }
+
+    public HashSet<Square> getNeighbors(){
+        return null;
     }
 
 

@@ -2,14 +2,18 @@ package model.buildbehaviours;
 
 import model.Square;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DoubleNotSameBuild implements BuildBehavior {
+public class DoubleNotSameBuild extends BuildDecorator {
 
     // Contains the Square the player has built on the first time
     // Null - if this is the first ordinary build of the turn
     private Square previous;
+    private boolean second;
+    private BuildBehavior wrappedBuildBehavior;
+
 
 
     public boolean build(Square dest) {
@@ -22,8 +26,21 @@ public class DoubleNotSameBuild implements BuildBehavior {
      * @param src the position of the builder that wants to build
      * @return the set of square where the builder can build
      */
-    public Set<Square> neighborhood(Square src) {
-        return null;
+    public HashSet<Square> neighborhood(Square src) {
+        if(second == false){
+            return this.wrappedBuildBehavior.neighborhood(src);
+        }
+        else{
+            HashSet<Square> buildable = this.wrappedBuildBehavior.neighborhood(src);
+            if(buildable.contains(previous)) buildable.remove(previous);
+            return buildable;
+        }
+    }
+
+    public DoubleNotSameBuild(BuildBehavior buildBehavior){
+        this.wrappedBuildBehavior = buildBehavior;
+        this.second = false;
+        this.previous = null;
     }
 
 
