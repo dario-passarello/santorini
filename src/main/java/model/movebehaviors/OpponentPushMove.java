@@ -72,7 +72,7 @@ public class OpponentPushMove extends MoveDecorator {
             int pushY = destY + dirY;
 
             Board board = dest.getBoard();
-            Square push = board.squareAt(pushX, pushY)          //push square
+            Square push = board.squareAt(pushX, pushY);          //push square
             Builder enemy = dest.getOccupant();
 
             push.setOccupant(dest.getOccupant());

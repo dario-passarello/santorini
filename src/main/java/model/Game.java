@@ -1,6 +1,6 @@
 package model;
 
-import model.gamestates.GameState;
+import model.gamestates.*;
 import model.gods.God;
 import utils.Coordinate;
 import utils.Observer;
@@ -19,12 +19,19 @@ public class Game implements Observable, Cloneable {
     private Board board;
     private List<God> godList;
 
+    private Player host; //TODO
     private Player winner;
 
     private GameState currentGameState;
 
-
     private List<Observer> observers;
+
+    public final GameState setupState = new EndGameState(this);
+    public final GameState lobbyState = new LobbyState(this);
+    public final GameState pickGodState = new PickGodState(this);
+    public final GameState placeBuilderState = new PlaceBuilderState(this);
+    public final GameState turnState = new TurnState(this);
+    public final GameState endGameState = new EndGameState(this);
 
 
     public Game() {

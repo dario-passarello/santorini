@@ -17,7 +17,7 @@ public class StandardMove implements MoveBehavior {
     /**
      * @param src is the starting point of a builder
      * @return the set of square of a standard neighborhood
-     * (squares adjacent to src, not occupied and a level <= level of src + 1
+     * (squares adjacent to src, not occupied and a level less or equal than level of src + 1
      */
     public Set<Square> neighborhood(Square src) {
         Integer level = src.getBuildLevel();

@@ -17,7 +17,7 @@ public class NoUpMove extends MoveDecorator{
     /**
      * @param src is the starting point of a builder
      * @return the standard neighborhood - special neighborhood
-     * (the builder cannot go on squares with a level < level of src)
+     * (the builder cannot go on squares with a level less than the level of src)
      */
     public Set<Square> neighborhood(Square src) {
 
