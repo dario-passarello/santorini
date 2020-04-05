@@ -22,11 +22,11 @@ class StandardWinConditionTest {
     public void init()
     {
         g = new Game();
+        board = g.getBoard();
         p1 = new Player(g, "player1");
         p2 = new Player(g, "player2");
         g1 = new Demeter(p1);                     //they have standard win condition
         g2 = new Atlas(p2);
-        board = new Board();
     }
 
     @Test

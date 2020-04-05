@@ -9,6 +9,7 @@ import model.startbehaviors.StartBehavior;
 import model.wincondition.WinCondition;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class God {
 
@@ -80,7 +81,7 @@ public abstract class God {
     /**
      * @return true if the player that use this god won
      */
-    public  boolean checkWinCondition(Square start, Builder builder){
+    public Optional<Player> checkWinCondition(Square start, Builder builder){
         return winCondition.checkWinCondition(start, builder);
     }
 
