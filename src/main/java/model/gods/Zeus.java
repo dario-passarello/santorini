@@ -1,5 +1,6 @@
 package model.gods;
 
+import model.Player;
 import model.buildbehaviours.BeneathBuild;
 import model.buildbehaviours.StandardBuild;
 import model.movebehaviors.StandardMove;
@@ -11,8 +12,8 @@ import model.wincondition.StandardWinCondition;
  */
 public class Zeus extends God {
 
-    public Zeus(){
-        super("Zeus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new BeneathBuild(new StandardBuild()));
+    public Zeus(Player player){
+        super(player, "Zeus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new BeneathBuild(new StandardBuild()));
     }
 
     @Override

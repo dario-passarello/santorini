@@ -12,44 +12,50 @@ import java.util.List;
 
 public abstract class God {
 
-    private String name;
-    private WinCondition winCondition;
-    private StartBehavior startBehavior;
-    private MoveBehavior moveBehavior;
-    private BuildBehavior buildBehavior;
+    protected final Player player;
+    protected String name;
+    protected WinCondition winCondition;
+    protected StartBehavior startBehavior;
+    protected MoveBehavior moveBehavior;
+    protected BuildBehavior buildBehavior;
 
-    public God(String name, WinCondition winCondition, StartBehavior startBehavior, MoveBehavior moveBehavior, BuildBehavior buildBehavior){
-        setName(name);
+    public God(Player player, String name, WinCondition winCondition, StartBehavior startBehavior, MoveBehavior moveBehavior, BuildBehavior buildBehavior){
+
+        this.player = player;
+        this.name = name;
         setWinCondition(winCondition);
         setStartBehavior(startBehavior);
         setMoveBehavior(moveBehavior);
         setBuildBehavior(buildBehavior);
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
 
     public void setWinCondition(WinCondition winCondition){
         this.winCondition = winCondition;
     }
-
     public void setStartBehavior(StartBehavior startBehavior){
         this.startBehavior = startBehavior;
     }
-
     public void setMoveBehavior(MoveBehavior moveBehavior) {
         this.moveBehavior = moveBehavior;
     }
-
     public void setBuildBehavior(BuildBehavior buildBehavior) {
         this.buildBehavior = buildBehavior;
     }
 
-    public Player getPlayer(){      //probably useless (?)
-        //TODO
-        return null;
+    public WinCondition getWinCondition() {
+        return winCondition;
     }
+    public StartBehavior getStartBehavior() {
+        return startBehavior;
+    }
+    public MoveBehavior getMoveBehavior() {
+        return moveBehavior;
+    }
+    public BuildBehavior getBuildBehavior() {
+        return buildBehavior;
+    }
+
 
     public void startTurn(){
         //TODO
@@ -71,16 +77,11 @@ public abstract class God {
         return moveBehavior.move(builder, location);
     }
 
-    public boolean endMove(){
-        //TODO
-        return false;
-    }
-
     /**
      * @return true if the player that use this god won
      */
-    public  boolean checkWinCondition(){
-        return winCondition.checkWinCondition();
+    public  boolean checkWinCondition(Square start, Builder builder){
+        return winCondition.checkWinCondition(start, builder);
     }
 
     /**

@@ -1,11 +1,6 @@
 package model.movebehaviors;
 
-import model.SquareTest;
-import model.Board;
-import model.Builder;
-import model.Player;
-import model.Square;
-import model.gods.Apollo;
+import model.*;
 import model.gods.Atlas;
 import model.gods.God;
 import model.gods.Pan;
@@ -16,22 +11,20 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class StandardMoveTest {
 
     private Player p1, p2;
     private God g1, g2;
     private Board board;
+    private Game g;
 
     @Before
     public void init(){
-        p1 = new Player("player1");
-        p2 = new Player("player2");
-        g1 = new Pan();                         //Pan has a standard move behavior
-        g2 = new Atlas();
-        p1.setGod(g1);
-        p2.setGod(g2);
+        g = new Game();
+        p1 = new Player(g, "player1");
+        p2 = new Player(g, "player2");
+        g1 = new Pan(p1);                         //Pan has a standard move behavior
+        g2 = new Atlas(p2);
         board = new Board();
     }
 
@@ -80,7 +73,7 @@ class StandardMoveTest {
     }
 
     public void moveTest(){
-        Builder b33 = new Builder(board.squareAt(3,3));
+        Builder b33 = new Builder(board.squareAt(3,3), p1);
         //b33.move(board.squareAt(2,2));                        make the move (?)
 
         Assert.assertSame(board.squareAt(2,2).getOccupant().orElse(null), b33);

@@ -1,5 +1,6 @@
 package model.gods;
 
+import model.Player;
 import model.buildbehaviours.DoubleNoPerimeterBuild;
 import model.buildbehaviours.StandardBuild;
 import model.movebehaviors.StandardMove;
@@ -11,8 +12,8 @@ import model.wincondition.StandardWinCondition;
  */
 public class Hestia extends God {
 
-    public Hestia(){
-        super("Hestia", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNoPerimeterBuild(new StandardBuild()));
+    public Hestia(Player player){
+        super(player, "Hestia", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNoPerimeterBuild(new StandardBuild()));
     }
 
     @Override

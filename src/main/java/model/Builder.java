@@ -5,6 +5,7 @@ import model.gods.God;
 import java.util.List;
 
 public class Builder {
+
     private Square position;
     private Player owner;
 
@@ -18,6 +19,10 @@ public class Builder {
      */
     public Square getPosition() {
         return position; //TODO
+    }
+
+    public void setPosition(Square position) {
+        this.position = position;
     }
 
     /**

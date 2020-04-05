@@ -1,5 +1,6 @@
 package model.gods;
 
+import model.Player;
 import model.buildbehaviours.DoubleNotSameBuild;
 import model.buildbehaviours.StandardBuild;
 import model.movebehaviors.StandardMove;
@@ -11,8 +12,8 @@ import model.wincondition.StandardWinCondition;
  */
 public class Demeter extends God {
 
-    public Demeter() {
-        super("Demeter", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNotSameBuild(new StandardBuild()));
+    public Demeter(Player player) {
+        super(player, "Demeter", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNotSameBuild(new StandardBuild()));
     }
 
     @Override

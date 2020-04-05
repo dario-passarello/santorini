@@ -1,5 +1,6 @@
 package model.gods;
 
+import model.Player;
 import model.buildbehaviours.AnyDomeBuild;
 import model.buildbehaviours.StandardBuild;
 import model.movebehaviors.StandardMove;
@@ -12,8 +13,8 @@ import model.wincondition.StandardWinCondition;
 public class Atlas extends God {
 
 
-    public Atlas(){
-        super("Atlas", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new AnyDomeBuild(new StandardBuild()));
+    public Atlas(Player player){
+        super(player, "Atlas", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new AnyDomeBuild(new StandardBuild()));
     }
 
     @Override
