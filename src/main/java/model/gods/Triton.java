@@ -12,4 +12,8 @@ public class Triton extends God{
         super("Triton", new StandardWinCondition(), new NoStartTurn(), new UnlimitedPerimetralMove(new StandardMove()), new StandardBuild());
     }
 
+    @Override
+    public void resetBehaviors() {
+    }
+
 }

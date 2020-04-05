@@ -4,7 +4,6 @@ import model.Builder;
 import model.Square;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 //TODO
@@ -27,15 +26,11 @@ public class DoubleNoBackMove extends MoveDecorator {
 
         Set<Square> remove = new HashSet<>();
         remove.add(previous);
-        if(previous == null){
-            return wrappedMoveBehavior.neighborhood(src);                              // first move
-        }
-        else{
+        // second move
+        if (previous != null) {
             neighborhood(src).removeAll(remove);
-            return wrappedMoveBehavior.neighborhood(src);            // second move
         }
-
-        return null;
+        return wrappedMoveBehavior.neighborhood(src);                              // first move
     }
 
     /**

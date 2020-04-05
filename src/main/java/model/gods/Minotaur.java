@@ -11,4 +11,8 @@ public class Minotaur extends God {
     public Minotaur() {
         super("Minotaur", new StandardWinCondition(), new NoStartTurn(), new OpponentPushMove(new StandardMove()), new StandardBuild());
     }
+
+    @Override
+    public void resetBehaviors() {
+    }
 }

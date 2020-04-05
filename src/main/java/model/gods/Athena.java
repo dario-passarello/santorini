@@ -12,4 +12,7 @@ public class Athena extends God {
         //INFLUENZA GLI AVVERSARI
     }
 
+    @Override
+    public void resetBehaviors() {
+    }
 }

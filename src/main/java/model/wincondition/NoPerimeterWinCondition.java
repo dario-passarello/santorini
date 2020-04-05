@@ -22,11 +22,11 @@ public class NoPerimeterWinCondition extends WinConditionDecorator{
                 builder.getPosition().getCoordinate().getX() == 5 ||
                 builder.getPosition().getCoordinate().getY() == 1 ||
                 builder.getPosition().getCoordinate().getY() == 5){
-            return null;
+            return Optional.empty();
         } else {
             return wrappedWinCondition.checkWinCondition(start, builder);
         }
     }
 
-    public Optional<Player> checkSpecialWinCondition() {return null;}
+    public Optional<Player> checkSpecialWinCondition() {return wrappedWinCondition.checkSpecialWinCondition();}
 }

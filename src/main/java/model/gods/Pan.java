@@ -12,4 +12,8 @@ public class Pan extends God {
         super("Pan", new TwoDownWinCondition(new StandardWinCondition()), new NoStartTurn(), new StandardMove(), new StandardBuild());
     }
 
+    @Override
+    public void resetBehaviors() {
+    }
+
 }

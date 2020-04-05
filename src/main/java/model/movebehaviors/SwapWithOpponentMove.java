@@ -4,7 +4,6 @@ import model.Builder;
 import model.Square;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 //TODO
@@ -21,16 +20,16 @@ public class SwapWithOpponentMove extends MoveDecorator {
      */
     public Set<Square> neighborhood(Square src) {
         Set<Square> adjacent = src.getNeighbors();
-        Set<Square> neighborhood = new HashSet<Square>();
+        Set<Square> neighborhood = new HashSet<>();
         for(Square square : adjacent){
             if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 &&
-                    square.getBuilder() != null &&
-                    (square.getBuilder().getOwner() != src.getBuilder().getOwner)){
+                    square.getOccupant().isPresent() &&
+                    (square.getOccupant().get().getOwner() != src.getOccupant().get().getOwner())){
                 neighborhood.add(square);
             }
         }
-
-        return wrappedMoveBehavior.neighborhood(src).addAll(neighborhood);
+        neighborhood(src).addAll(neighborhood);
+        return wrappedMoveBehavior.neighborhood(src);
     }
 
     /**

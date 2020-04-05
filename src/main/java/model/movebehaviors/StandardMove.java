@@ -20,11 +20,10 @@ public class StandardMove implements MoveBehavior {
      * (squares adjacent to src, not occupied and a level less or equal than level of src + 1
      */
     public Set<Square> neighborhood(Square src) {
-        Integer level = src.getBuildLevel();
         Set<Square> adjacent = src.getNeighbors();
-        Set<Square> neighborhood = new Set<Square>();
+        Set<Square> neighborhood = new HashSet<>();
         for (Square square: adjacent){
-            if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 && square.getBuilder() == null){
+            if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 && !square.getOccupant().isPresent()){
                 neighborhood.add(square);
             }
         }

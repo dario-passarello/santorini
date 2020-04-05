@@ -12,4 +12,7 @@ public class Chronus extends God {
         super("Chronus", new FiveTowerWinCondition(new StandardWinCondition()), new NoStartTurn(), new StandardMove(), new StandardBuild());
     }
 
+    @Override
+    public void resetBehaviors() {
+    }
 }

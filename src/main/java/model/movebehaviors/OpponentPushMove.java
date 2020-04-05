@@ -5,7 +5,6 @@ import model.Builder;
 import model.Square;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 //TODO
@@ -22,7 +21,7 @@ public class OpponentPushMove extends MoveDecorator {
      */
     public Set<Square> neighborhood(Square src) {
         Set<Square> adjacent = src.getNeighbors();
-        Set<Square> neighborhood = new HashSet<Square>();
+        Set<Square> neighborhood = new HashSet<>();
         for(Square square : adjacent){
             if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 &&                                      //if it's reachable
                      !square.getOccupant().isPresent() &&                                                   //and there is another builder
@@ -47,7 +46,8 @@ public class OpponentPushMove extends MoveDecorator {
                 }
             }
         }
-        return wrappedMoveBehavior.neighborhood(src).addAll(neighborhood);
+        neighborhood(src).addAll(neighborhood);
+        return wrappedMoveBehavior.neighborhood(src);
     }
 
 
@@ -73,9 +73,9 @@ public class OpponentPushMove extends MoveDecorator {
 
             Board board = dest.getBoard();
             Square push = board.squareAt(pushX, pushY);          //push square
-            Builder enemy = dest.getOccupant();
+            Builder enemy = dest.getOccupant().get();
 
-            push.setOccupant(dest.getOccupant());
+            push.setOccupant(dest.getOccupant().get());
             enemy.setPosition(push);
 
             dest.setOccupant(b);
@@ -87,9 +87,6 @@ public class OpponentPushMove extends MoveDecorator {
         } else {
             return wrappedMoveBehavior.move(b,dest);
         }
-
-
-        return false;
     }
 
 }

@@ -4,7 +4,6 @@ import model.Builder;
 import model.Square;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 //TODO
@@ -28,8 +27,8 @@ public class NoUpMove extends MoveDecorator{
                 remove.add(square);
             }
         }
-
-        return wrappedMoveBehavior.neighborhood(src).removeAll(remove);
+        neighborhood(src).removeAll(remove);
+        return wrappedMoveBehavior.neighborhood(src);
     }
 
     /**

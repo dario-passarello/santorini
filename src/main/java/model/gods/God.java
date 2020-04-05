@@ -42,7 +42,7 @@ public abstract class God {
         this.moveBehavior = moveBehavior;
     }
 
-    public  void setBuildBehavior(BuildBehavior buildBehavior) {
+    public void setBuildBehavior(BuildBehavior buildBehavior) {
         this.buildBehavior = buildBehavior;
     }
 

@@ -12,4 +12,8 @@ public class Hera extends God {
         //INFLUENZA I NEMICI
     }
 
+    @Override
+    public void resetBehaviors() {
+    }
+
 }

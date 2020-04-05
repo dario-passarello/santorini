@@ -19,12 +19,12 @@ public class StandardWinCondition implements WinCondition{
     public Optional<Player> checkWinCondition(Square start, Builder builder){
         if(builder.getPosition().getBuildLevel() == 3 && start.getBuildLevel() == 2)
         {
-            return builder.getOwner();
+            return Optional.of(builder.getOwner());
         } else {
-            return null;
+            return Optional.empty();
         }
 
     }
 
-    public Optional<Player> checkSpecialWinCondition(){return null;}
+    public Optional<Player> checkSpecialWinCondition(){return Optional.empty();}
 }

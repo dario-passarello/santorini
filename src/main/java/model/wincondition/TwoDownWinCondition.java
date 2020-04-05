@@ -20,11 +20,11 @@ public class TwoDownWinCondition extends WinConditionDecorator {
      */
     public Optional<Player> checkWinCondition(Square start, Builder builder){
         if(start.getBuildLevel() - builder.getPosition().getBuildLevel() >= 2){     //if the special condition is happening
-            return builder.getOwner();
+            return Optional.of(builder.getOwner());
         } else {
             return wrappedWinCondition.checkWinCondition(start, builder);
         }
     }
 
-    public Optional<Player> checkSpecialWinCondition() {return null;}
+    public Optional<Player> checkSpecialWinCondition() {return wrappedWinCondition.checkSpecialWinCondition();}
 }
