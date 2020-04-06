@@ -4,15 +4,16 @@ import model.Board;
 import model.Builder;
 import model.Player;
 import model.Square;
+import model.gods.God;
 
 import java.util.Optional;
 
 //TODO
 public class FiveTowerWinCondition extends WinConditionDecorator {
 
-    private Player chronus;
+    private God chronus;
 
-    public FiveTowerWinCondition(WinCondition winCondition, Player chronus){
+    public FiveTowerWinCondition(WinCondition winCondition, God chronus){
         wrappedWinCondition = winCondition;
     }
 
@@ -38,7 +39,7 @@ public class FiveTowerWinCondition extends WinConditionDecorator {
             }
         }
         if(counter >= 5){
-            return Optional.of(chronus);                 //need Chronus Player reference
+            return Optional.of(chronus.getPlayer());                 //need Chronus Player reference
         }
         else {
             return Optional.empty();

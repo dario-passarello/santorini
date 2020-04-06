@@ -9,8 +9,8 @@ import model.wincondition.TwoDownWinCondition;
 
 public class Pan extends God {
 
-    public Pan(Player player){
-        super(player, "Pan", new TwoDownWinCondition(new StandardWinCondition()), new NoStartTurn(), new StandardMove(), new StandardBuild());
+    public Pan(){
+        super("Pan", new TwoDownWinCondition(new StandardWinCondition()), new NoStartTurn(), new StandardMove(), new StandardBuild());
     }
 
     @Override

@@ -12,8 +12,8 @@ import model.wincondition.StandardWinCondition;
  */
 public class Hestia extends God {
 
-    public Hestia(Player player){
-        super(player, "Hestia", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNoPerimeterBuild(new StandardBuild()));
+    public Hestia(){
+        super("Hestia", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNoPerimeterBuild(new StandardBuild()));
     }
 
     @Override

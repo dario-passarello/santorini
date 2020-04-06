@@ -9,8 +9,8 @@ import model.wincondition.StandardWinCondition;
 
 public class Artemis extends God {
 
-    public Artemis(Player player){
-        super(player, "Artemis", new StandardWinCondition(), new NoStartTurn(), new DoubleNoBackMove(new StandardMove()), new StandardBuild());
+    public Artemis(){
+        super("Artemis", new StandardWinCondition(), new NoStartTurn(), new DoubleNoBackMove(new StandardMove()), new StandardBuild());
     }
 
     @Override

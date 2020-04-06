@@ -4,7 +4,7 @@ import model.Game;
 import model.Player;
 import utils.Coordinate;
 
-import java.util.List;
+import java.util.Set;
 
 public class PlaceBuilderState implements GameState {
     Game game;
@@ -31,28 +31,30 @@ public class PlaceBuilderState implements GameState {
      * Inputs the number of player to the game
      *
      * @param num number of player participating in the game
+     * @param hostPlayerName
+     * @return
      */
-    public void setNumberOfPlayers(int num) {
+    public boolean configureGame(int num, String hostPlayerName) {
 
     }
 
     /**
      * Adds a player to the game
      *
-     * @param p A reference to the player object
+     * @param name A reference to the player object
      * @return true if the player is correctly added to the game
      */
-    public boolean addPlayer(Player p) {
+    public boolean registerPlayer(String name) {
         return false;
     }
 
     /**
      * Removes a player from the game
      *
-     * @param p The player name
+     * @param name The player name
      * @return true if the player is correctly removed from the game
      */
-    public boolean removePlayer(String p) {
+    public boolean unregisterPlayer(String name) {
         return false;
     }
 
@@ -60,25 +62,27 @@ public class PlaceBuilderState implements GameState {
      * Copies a list of god in the game and updates the game state
      *
      * @param godList The list of the names of the gods chosen for the game
+     * @return
      */
-    public void submitGodList(List<String> godList) {
+    public boolean submitGodList(Set<String> godList) {
 
     }
 
     /**
      * Inputs coordinates in the game state (useful for builders placement phase)
-     *
-     * @param player     The player that is setting the coordinates
+     *  @param player     The player that is setting the coordinates
      * @param coordinate The coordinate given to the model
+     * @return
      */
-    public void selectCoordinate(Player player, Coordinate coordinate) {
+    public boolean selectCoordinate(Player player, Coordinate coordinate) {
 
     }
 
     /**
      * Quits the game
+     * @return
      */
-    public void quitGame() {
+    public boolean quitGame() {
 
     }
 }

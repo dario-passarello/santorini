@@ -10,26 +10,10 @@ public class Player {
     private String name;
     private God god;
     private List<Builder> builders;
-    private boolean ready; //For the lobby
 
     public Player(Game game, String name) {
         this.game = game;
         this.name = name;
-        ready = false;
-    }
-
-    /**
-     * Toggles the ready status for the player waiting in lobby
-     */
-    public void toggleReady() {
-        ready = !ready;
-    }
-
-    /**
-     * @return true if the player is ready to start the game
-     */
-    public boolean isReady() {
-        return ready;
     }
 
     /**
@@ -70,8 +54,5 @@ public class Player {
     public List<Builder> getBuilders() {
         return new ArrayList<>(builders);
     }
-
-
-
 
 }

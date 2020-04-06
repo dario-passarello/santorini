@@ -10,8 +10,8 @@ import model.wincondition.StandardWinCondition;
 
 public class Apollo extends God {
     
-    public Apollo(Player player) {
-        super(player, "Apollo", new StandardWinCondition(), new NoStartTurn(), new SwapWithOpponentMove(new StandardMove()), new StandardBuild());
+    public Apollo() {
+        super("Apollo", new StandardWinCondition(), new NoStartTurn(), new SwapWithOpponentMove(new StandardMove()), new StandardBuild());
 
     }
 

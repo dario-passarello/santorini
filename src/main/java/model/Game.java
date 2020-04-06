@@ -9,11 +9,14 @@ import utils.Observable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class Game implements Observable, Cloneable {
 
-    private Integer max_players;
+
+    private Integer maxPlayers;
     private List<Player> players;
     private Turn currentTurn;
     private Board board;
@@ -28,6 +31,7 @@ public class Game implements Observable, Cloneable {
 
     public final GameState setupState = new EndGameState(this);
     public final GameState lobbyState = new LobbyState(this);
+    public final GameState godSelectionState = new GodSelectionState(this);
     public final GameState pickGodState = new PickGodState(this);
     public final GameState placeBuilderState = new PlaceBuilderState(this);
     public final GameState turnState = new TurnState(this);
@@ -46,7 +50,7 @@ public class Game implements Observable, Cloneable {
     public Game(int playerNumber) {
         //TODO Build a board
         this.players = new ArrayList<>();
-        max_players = playerNumber;
+        maxPlayers = playerNumber;
     }
 
     /**
@@ -57,7 +61,7 @@ public class Game implements Observable, Cloneable {
     }
     /*
      *      +-----------------------------+
-     *      | PURE OBSERVERS METHODS      |
+     *      | GETTERS AND SETTERS         |
      *      +-----------------------------+
      */
     /**
@@ -83,8 +87,8 @@ public class Game implements Observable, Cloneable {
     /**
      * @return maximum number of players in this game
      */
-    public int maxPlayers() {
-        return maxPlayers();
+    public int getMaxPlayers() {
+        return maxPlayers;
     }
     /*
      *      +-----------------------------+
@@ -95,8 +99,11 @@ public class Game implements Observable, Cloneable {
      *
      * Sets number of players and then updates the game state
      * @param num Number of players
+     * @param hostPlayerName Name of the player who hosts this game
+     * @return true if this function call is legit for the current GameState
      */
-    public void setNumberOfPlayers(int num){
+    public boolean configureGame(String hostPlayerName, int num){
+        return currentGameState.configureGame(num, hostPlayerName);
     }
     /**
      * Adds new player to the list and then updates the game state
@@ -104,42 +111,48 @@ public class Game implements Observable, Cloneable {
      * @return true if the insertion of the player succeeded, false if the insertion failed because there
      * is another player with the same name or the game is full
      */
-    public boolean addPlayer(Player p) {
-        //TODO
-        return false;
+    public boolean registerPlayer(Player p) {
+        return currentGameState.registerPlayer(p);
     }
     /**
      * Searches a player by name and removes it from the list and then updates the game state
      *
-     * @return true if the player removal succeeded, false if the player is not
-     * in the list or could not be removed
+     * @return true if this function call is legit for the current GameState and the player removal succeeded
      */
-    public boolean removePlayer(String playerName) {
-        //TODO Remove player if exists
+    public boolean unregisterPlayer(String playerName) {
+        return currentGameState.unregisterPlayer(playerName);
+    }
 
-        return false;
+    public boolean readyToStart(){
+        return currentGameState.readyToStart();
     }
 
     /**
      * Copies a list of god in the game and updates the game state
      * @param godList The list of the names of the gods chosen for the game
+     * @return true if this function call is legit for the current GameState and if godList
+     *  is a valid
      */
-    public void submitGodList(List<String> godList) {
-        //TODO
+    public boolean submitGodList(Set<String> godList) {
+        return currentGameState.submitGodList(godList);
     }
     /**
      * Inputs coordinates in the game state (useful for builders placement phase)
      * @param player The player that is setting the coordinates
      * @param coordinate The coordinate given to the model
+     * @return true if this function call is legit for the current GameState and if
+     *  the parameters are valid
      */
-    public void selectCoordinate(Player player, Coordinate coordinate) {
-        //TODO
+    public boolean selectCoordinate(Player player, Coordinate coordinate) {
+        return currentGameState.selectCoordinate(player, coordinate);
     }
 
     /**
      *  Quits the game
+     *  @return true if this function call is legit for the current GameState
      */
-    public void quitGame() {
+    public boolean quitGame() {
+        return currentGameState.quitGame();
         //TODO
     }
 
@@ -154,18 +167,10 @@ public class Game implements Observable, Cloneable {
      * Set the current turn state
      * @param gameState a game state
      */
-    public void setTurnState(GameState gameState) {
+    public void setGameState(GameState gameState) {
         gameState.onExit();
         currentGameState = gameState;
         gameState.onEntry();
-    }
-
-    /**
-     * @return true if the game is full and all players are ready to start
-     */
-    public boolean readyToStart() {
-        //TODO
-        return false;
     }
 
     /**
@@ -189,6 +194,40 @@ public class Game implements Observable, Cloneable {
     public Turn getCurrentTurn() {
         //TODO
         return null;
+    }
+
+    public void setMaxPlayers(int max) {
+        maxPlayers = max;
+    }
+
+
+    /**
+     * Add a new player to the player list
+     * @param name Name of the new player
+     * @return Returns false if a player with the same name exists
+     */
+    public boolean createPlayer(String name) {
+        if(players.stream().anyMatch(p -> p.getName().equals(name)) || players.size() >= maxPlayers)
+            return false;
+        else {
+            players.add(new Player(this,name));
+            return true;
+        }
+    }
+    /**
+     * Removes a player from the player list
+     * @param name Name of the player to be removed
+     * @return Returns false if a player with the same name exists
+     */
+    public boolean removePlayer(String name) {
+        int prevSize = players.size();
+        players = players.stream().filter(p -> !p.getName().equals(name) || host.getName().equals(name))
+                .collect(Collectors.toList());
+        return players.size() < prevSize;
+    }
+
+    public void setGodList(List<God> list) {
+        godList = new ArrayList<>(list);
     }
 
 

@@ -12,8 +12,8 @@ import model.wincondition.StandardWinCondition;
  */
 public class Demeter extends God {
 
-    public Demeter(Player player) {
-        super(player, "Demeter", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNotSameBuild(new StandardBuild()));
+    public Demeter() {
+        super("Demeter", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNotSameBuild(new StandardBuild()));
     }
 
     @Override

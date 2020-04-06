@@ -13,8 +13,8 @@ import model.wincondition.StandardWinCondition;
 public class Atlas extends God {
 
 
-    public Atlas(Player player){
-        super(player, "Atlas", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new AnyDomeBuild(new StandardBuild()));
+    public Atlas(){
+        super("Atlas", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new AnyDomeBuild(new StandardBuild()));
     }
 
     @Override
