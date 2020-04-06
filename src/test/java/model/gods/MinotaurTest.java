@@ -5,10 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MinotaurTest {
 
@@ -19,96 +18,108 @@ class MinotaurTest {
 
     @Before
     public void setUpTest(){
+        g = new Game();
+        board = g.getBoard();
         p1 = new Player(g,"player1");
         p2 = new Player(g,"player2");
         p3 = new Player(g,"player3");
-        g1 = new Minotaur();
-        g2 = new Atlas();
-        p1.setGod(g1);
-        p2.setGod(g2);
-        board = new Board();
+        g1 = new Minotaur(p1);
+        g2 = new Atlas(p2);
     }
 
     @Test
     public void canUsePower(){
+        Square[][] s = new Square[Board.BOARD_SIZE][Board.BOARD_SIZE];
+        for(int i = 0; i < Board.BOARD_SIZE; i++){              //row
+            for(int j = 0; j < Board.BOARD_SIZE; j++) {         //column
+                s[i][j] = board.squareAt(i,j);
+            }
+        }
 
+        //creating some buildings
+        SquareTest.setSquareBuildLevel(s[0][0],1);
+        SquareTest.setSquareBuildLevel(s[0][2],2);
+        SquareTest.setSquareBuildLevel(s[0][4],3);
+        SquareTest.setSquareBuildLevel(s[1][2],1);
+        SquareTest.setSquareBuildLevel(s[1][3],2);
+        SquareTest.setSquareBuildLevel(s[2][1],1);
+        SquareTest.setSquareBuildLevel(s[2][3],3);
+        SquareTest.setSquareBuildLevel(s[2][4],3);
+        SquareTest.setSquareBuildLevel(s[3][1],2);
+        SquareTest.setSquareBuildLevel(s[3][2],3);
+        SquareTest.setSquareBuildLevel(s[3][3],3);
+        SquareTest.setSquareBuildLevel(s[4][4],1);
+        //placing some builder
+        Builder b22 = new Builder(s[2][2], p1);                 //b22 is the builder that is going to move
+        Builder b11 = new Builder(s[1][1], p2);
+        Builder b12 = new Builder(s[1][2], p2);
+        Builder b13 = new Builder(s[1][3], p2);
+        Builder b21 = new Builder(s[2][1], p2);
+        Builder b23 = new Builder(s[2][3], p2);
+        Builder b31 = new Builder(s[3][1], p2);
+        Builder b32 = new Builder(s[3][2], p2);
+        Builder b33 = new Builder(s[3][3], p2);
+
+        List<Square> expectedList = Arrays.asList(s[1][1], s[1][2], s[1][1]);
+        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+
+        SquareTest.setSquareBuildLevel(s[2][2],1);
+        expectedList.addAll(Arrays.asList(s[1][3],s[3][1]));
+        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+
+        SquareTest.setSquareBuildLevel(s[2][2],2);
+        expectedList.addAll(Arrays.asList(s[2][3], s[3][2], s[3][3]));
+        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+
+        SquareTest.setSquareBuildLevel(s[2][2],3);
+        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+
+
+        b22.move(s[3][3]);          //Minotaur push
+        Assert.assertFalse(s[2][2].getOccupant().isPresent());
+        Assert.assertSame(s[3][3].getOccupant().orElse(null), b22);
+        Assert.assertSame(s[4][4].getOccupant().orElse(null), b33);
+
+    }
+
+    @Test
+    public void canNotUsePower(){
+        Square s01 = board.squareAt(0,1);
+        Square s02 = board.squareAt(0,2);
+        Square s03 = board.squareAt(0,3);
         Square s11 = board.squareAt(1,1);
-        Square s33 = board.squareAt(3,3);       //s33 is the initial position of Minotaur
+        Square s12 = board.squareAt(1,2);
+        Square s13 = board.squareAt(1,3);
+        Square s21 = board.squareAt(2,1);
         Square s22 = board.squareAt(2,2);
         Square s23 = board.squareAt(2,3);
-        Square s24 = board.squareAt(2,4);
+        Square s30 = board.squareAt(3,0);
+        Square s14 = board.squareAt(1,4);
         Square s34 = board.squareAt(3,4);
-        Square s44 = board.squareAt(4,4);
-        Square s43 = board.squareAt(4,3);
-        Square s42 = board.squareAt(4,2);
-        Square s32 = board.squareAt(3,2);
+
         //creating some buildings
+        SquareTest.setSquareBuildLevel(s13,1);
+        SquareTest.setSquareBuildLevel(s14,3);
+        SquareTest.setSquareBuildLevel(s22,2);
         SquareTest.setSquareBuildLevel(s23,1);
-        SquareTest.setSquareBuildLevel(s24,2);
-        SquareTest.setSquareBuildLevel(s34,3);
-        SquareTest.setSquareBuildLevel(s43,1);
-        SquareTest.setSquareBuildLevel(s42,2);
-        SquareTest.setSquareBuildLevel(s32,3);
+        s34.addDome();
         //placing some builder
-        Builder b33 = new Builder(s33, p1);                // b33 is the builder that is going to move
+        Builder b01 = new Builder(s01, p1);
+        Builder b02 = new Builder(s02, p2);
+        Builder b03 = new Builder(s03, p2);
+        Builder b11 = new Builder(s11, p1);
+        Builder b12 = new Builder(s12, p1);         // b12 is the builder that is going to move
+        Builder b13 = new Builder(s13, p2);
+        Builder b21 = new Builder(s21, p2);
         Builder b22 = new Builder(s22, p2);
         Builder b23 = new Builder(s23, p2);
-        Builder b24 = new Builder(s24, p2);
-        Builder b34 = new Builder(s34, p2);
-        Builder b44 = new Builder(s44, p1);
-        Builder b43 = new Builder(s43, p1);
-        Builder b42 = new Builder(s42, p1);
-        Builder b32 = new Builder(s32, p1);
+        Builder b30 = new Builder(s30, p1);
 
-        List<Square> expectedList = (List<Square>) Arrays.asList(s22,s23);   //b1 should be able to move only on these squares
-        Assert.assertEquals(expectedList, b33.getBuildableNeighborhood());
-
-        b33.move(board.squareAt(2,2));          //Minotaur push an opponent builder in (1,1)
-        Assert.assertNull(s33.getOccupant());
-        Assert.assertEquals(s22.getOccupant().orElse(null), b33);
-        Assert.assertEquals(s11.getOccupant().orElse(null), b22);
-    }
-
-    public void cannotUsePower(){
-
-        Square s23 = board.squareAt(2,2);       //s33 is the initial position of Minotaur
-        Square s12 = board.squareAt(1,1);
-        Square s13 = board.squareAt(3,3);
-        Square s14 = board.squareAt(2,3);
-        Square s24 = board.squareAt(2,4);
-        Square s34 = board.squareAt(3,4);
-        Square s33 = board.squareAt(4,4);
-        Square s32 = board.squareAt(4,3);
-        Square s22 = board.squareAt(4,2);
-        //"Blocking" squares
-        Square s21 = board.squareAt(2,1);
-        Square s43 = board.squareAt(4,3);
-        Square s25 = board.squareAt(2,5);
-        Square s41 = board.squareAt(4,1);
-        Square s45 = board.squareAt(4,5);
-
-        //creating some obstacles
-        SquareTest.setSquareBuildLevel(s21,2);
-        s43.addDome();
-        Builder b45 = new Builder(s45, p1);
-        Builder b41 = new Builder(s41, p2);
-        Builder b25 = new Builder(s25, p3);
-
-        //placing some builder
-        Builder b23 = new Builder(s23, p1);                // b33 is the builder that is going to move
-        Builder b12 = new Builder(s12, p2);
-        Builder b13 = new Builder(s13, p2);
-        Builder b14 = new Builder(s14, p2);
-        Builder b24 = new Builder(s24, p2);
-        Builder b34 = new Builder(s34, p2);
-        Builder b33 = new Builder(s33, p2);
-        Builder b32 = new Builder(s32, p2);
-        Builder b22 = new Builder(s22, p2);
-
-        List<Square> expectedList = null;               //Minotaur cannot move in any way
-        Assert.assertSame(b23.getWalkableNeighborhood(),expectedList);
+        List<Square> expectedList = new ArrayList<>();              //b12 cannot move, so it's empty
+        Assert.assertEquals(expectedList, b12.getWalkableNeighborhood());
 
     }
+
 
 
 }

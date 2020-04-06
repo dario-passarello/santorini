@@ -19,14 +19,13 @@ class ApolloTest {
 
     @Before
     public void setUpTest(){
+        g = new Game();
+        board = g.getBoard();
         p1 = new Player(g,"player1");
         p2 = new Player(g,"player2");
         p3 = new Player(g,"player3");
-        g1 = new Apollo();
-        g2 = new Atlas();
-        p1.setGod(g1);
-        p2.setGod(g2);
-        board = new Board();
+        g1 = new Apollo(p1);
+        g2 = new Atlas(p2);
     }
 
     /**
