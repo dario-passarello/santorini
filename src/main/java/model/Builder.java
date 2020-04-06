@@ -11,6 +11,7 @@ public class Builder {
 
     public Builder(Square position, Player owner) {
         this.position = position;
+        position.setOccupant(this);
         this.owner = owner;
     }
 
@@ -23,6 +24,12 @@ public class Builder {
 
     public void setPosition(Square position) {
         this.position = position;
+    }
+
+    public void moveToSquare(Square position) {
+        this.position.setEmptySquare();
+        this.position = position;
+        position.setOccupant(this);
     }
 
     /**

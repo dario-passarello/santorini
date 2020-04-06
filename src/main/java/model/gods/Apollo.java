@@ -15,7 +15,4 @@ public class Apollo extends God {
 
     }
 
-    @Override
-    public void resetBehaviors() {
-    }
 }

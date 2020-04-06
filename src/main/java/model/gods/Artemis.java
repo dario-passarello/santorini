@@ -13,8 +13,5 @@ public class Artemis extends God {
         super("Artemis", new StandardWinCondition(), new NoStartTurn(), new DoubleNoBackMove(new StandardMove()), new StandardBuild());
     }
 
-    @Override
-    public void resetBehaviors() {
-    }
 
 }

@@ -1,5 +1,7 @@
 package model.gods;
 
+import java.util.Optional;
+
 public class GodFactory {
     public GodFactory() {
 
@@ -36,7 +38,7 @@ public class GodFactory {
             case "Zeus":
                 return new Zeus();
             default:
-                return null;
+                return new Mortal();
         }
     }
 }

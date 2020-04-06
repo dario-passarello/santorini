@@ -16,8 +16,5 @@ public class Hephaestus extends God {
         super("Hephaestus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleSameBuild(new StandardBuild()));
     }
 
-    @Override
-    public void resetBehaviors() {
-    }
 
 }
