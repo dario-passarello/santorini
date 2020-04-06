@@ -9,8 +9,8 @@ import model.wincondition.StandardWinCondition;
 
 public class Triton extends God{
 
-    public Triton(Player player){
-        super(player, "Triton", new StandardWinCondition(), new NoStartTurn(), new UnlimitedPerimetralMove(new StandardMove()), new StandardBuild());
+    public Triton(){
+        super("Triton", new StandardWinCondition(), new NoStartTurn(), new UnlimitedPerimetralMove(new StandardMove()), new StandardBuild());
     }
 
     @Override

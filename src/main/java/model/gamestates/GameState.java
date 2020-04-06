@@ -1,10 +1,9 @@
 package model.gamestates;
 
 import model.Player;
-import model.gods.God;
 import utils.Coordinate;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  *  Interface for the States of the GameState machine
@@ -21,37 +20,44 @@ public interface GameState {
 
     /**
      *  Inputs the number of player to the game
-     *  @param num number of player participating in the game
+     * @param num number of player participating in the game
+     * @param hostPlayerName the player name of the host
+     * @return
      */
-    void setNumberOfPlayers(int num);
+    boolean configureGame(int num, String hostPlayerName);
 
     /**
      * Adds a player to the game
-     * @param p A reference to the player object
+     * @param name A reference to the player object
      * @return true if the player is correctly added to the game
      */
-    boolean addPlayer(Player p);
+    boolean registerPlayer(String name);
     /**
      * Removes a player from the game
-     * @param p The player name
+     * @param name The player name
      * @return true if the player is correctly removed from the game
      */
-    boolean removePlayer(String p);
+    boolean unregisterPlayer(String name);
+
+    boolean readyToStart();
 
     /**
      * Copies a list of god in the game and updates the game state
      * @param godList The list of the names of the gods chosen for the game
+     * @return
      */
-    void submitGodList(List<String> godList);
+    boolean submitGodList(Set<String> godList);
     /**
      * Inputs coordinates in the game state (useful for builders placement phase)
      * @param player The player that is setting the coordinates
      * @param coordinate The coordinate given to the model
+     * @return
      */
-    void selectCoordinate(Player player, Coordinate coordinate);
+    boolean selectCoordinate(Player player, Coordinate coordinate);
     /**
      *  Quits the game
+     * @return
      */
-    void quitGame();
+    boolean quitGame();
 
 }

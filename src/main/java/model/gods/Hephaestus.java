@@ -12,8 +12,8 @@ import model.wincondition.StandardWinCondition;
  */
 public class Hephaestus extends God {
 
-    public Hephaestus(Player player){
-        super(player, "Hephaestus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleSameBuild(new StandardBuild()));
+    public Hephaestus(){
+        super("Hephaestus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleSameBuild(new StandardBuild()));
     }
 
     @Override

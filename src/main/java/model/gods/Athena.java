@@ -8,8 +8,8 @@ import model.wincondition.StandardWinCondition;
 
 public class Athena extends God {
 
-    public Athena(Player player){
-        super(player, "Athena", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
+    public Athena(){
+        super( "Athena", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
         //INFLUENZA GLI AVVERSARI
     }
 

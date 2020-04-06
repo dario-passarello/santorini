@@ -8,8 +8,8 @@ import model.wincondition.StandardWinCondition;
 
 public class Prometheus extends God {
 
-    public Prometheus(Player player){
-        super(player, "Prometheus", new StandardWinCondition(), new BuildStartTurn(), new StandardMove(), new StandardBuild());
+    public Prometheus(){
+        super("Prometheus", new StandardWinCondition(), new BuildStartTurn(), new StandardMove(), new StandardBuild());
     }
 
 }

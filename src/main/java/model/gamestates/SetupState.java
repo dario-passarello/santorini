@@ -4,8 +4,7 @@ import model.Game;
 import model.Player;
 import utils.Coordinate;
 
-import java.util.List;
-import java.util.logging.Logger;
+import java.util.Set;
 
 public class SetupState implements GameState {
     Game game;
@@ -14,53 +13,49 @@ public class SetupState implements GameState {
         this.game = game;
     }
 
-    @Override
     public void onEntry() {
 
     }
 
-    @Override
     public void onExit() {
 
     }
 
-    @Override
-    public void setNumberOfPlayers(int num) {
-        if(num > 1 && num <= 3){
-            game.setNumberOfPlayers(num);
+    public boolean configureGame(int num, String hostPlayerName) {
+        if(num > 1 && num <= 3 && !hostPlayerName.isEmpty()){
+            game.setMaxPlayers(num);
+            game.createPlayer(hostPlayerName);
+            game.setGameState(game.lobbyState);
             game.notifyObservers();
-            game.setTurnState(game.lobbyState);
+            return true;
         }
         else {
             //TODO Log that the number is incorrect
-            //Remain in this state
+            return false;
         }
     }
-
-    @Override
-    public boolean addPlayer(Player p) {
-        //TODO
+    //TODO: Add proper logger
+    public boolean registerPlayer(String name) {
         return false;
     }
 
-    @Override
-    public boolean removePlayer(String p) {
-        //TODO
+    public boolean unregisterPlayer(String name) {
         return false;
     }
 
-    @Override
-    public void submitGodList(List<String> godList) {
-
+    public boolean readyToStart() {
+        return false;
     }
 
-    @Override
-    public void selectCoordinate(Player player, Coordinate coordinate) {
-
+    public boolean submitGodList(Set<String> godList) {
+        return false;
     }
 
-    @Override
-    public void quitGame() {
+    public boolean selectCoordinate(Player player, Coordinate coordinate) {
+        return false;
+    }
 
+    public boolean quitGame() {
+        return false;
     }
 }

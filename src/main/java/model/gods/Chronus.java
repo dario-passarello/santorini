@@ -9,8 +9,9 @@ import model.wincondition.StandardWinCondition;
 
 public class Chronus extends God {
 
-    public Chronus(Player player){
-        super(player, "Chronus", new FiveTowerWinCondition(new StandardWinCondition(), player), new NoStartTurn(), new StandardMove(), new StandardBuild());
+    public Chronus(){
+        super("Chronus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
+        super.setWinCondition(new FiveTowerWinCondition(new StandardWinCondition(), this));
     }
 
     @Override

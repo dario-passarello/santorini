@@ -12,8 +12,8 @@ import model.wincondition.StandardWinCondition;
  */
 public class Zeus extends God {
 
-    public Zeus(Player player){
-        super(player, "Zeus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new BeneathBuild(new StandardBuild()));
+    public Zeus(){
+        super("Zeus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new BeneathBuild(new StandardBuild()));
     }
 
     @Override

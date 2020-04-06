@@ -13,16 +13,17 @@ import java.util.Optional;
 
 public abstract class God {
 
-    protected final Player player;
+    protected Player player;
     protected String name;
     protected WinCondition winCondition;
+    protected WinCondition resetWinCondition;
     protected StartBehavior startBehavior;
     protected MoveBehavior moveBehavior;
+    protected MoveBehavior resetMoveBehavior;
     protected BuildBehavior buildBehavior;
 
-    public God(Player player, String name, WinCondition winCondition, StartBehavior startBehavior, MoveBehavior moveBehavior, BuildBehavior buildBehavior){
+    public God(String name, WinCondition winCondition, StartBehavior startBehavior, MoveBehavior moveBehavior, BuildBehavior buildBehavior){
 
-        this.player = player;
         this.name = name;
         setWinCondition(winCondition);
         setStartBehavior(startBehavior);
@@ -31,6 +32,9 @@ public abstract class God {
     }
 
 
+    public void setPlayer(Player p) {
+        player = p;
+    }
     public void setWinCondition(WinCondition winCondition){
         this.winCondition = winCondition;
     }
@@ -44,6 +48,9 @@ public abstract class God {
         this.buildBehavior = buildBehavior;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
     public WinCondition getWinCondition() {
         return winCondition;
     }
@@ -70,21 +77,20 @@ public abstract class God {
         //TODO
         return null;
     }
-
     /**
      * @param location the initial position of the builder that is going to move
+     * @return true if the player could move again, false if his move phase terminates here
      */
     public boolean move(Builder builder, Square location){
         return moveBehavior.move(builder, location);
     }
-
     /**
-     * @return true if the player that use this god won
+     * @return Optionally a reference to the player that won the player
      */
+
     public Optional<Player> checkWinCondition(Square start, Builder builder){
         return winCondition.checkWinCondition(start, builder);
     }
-
     /**
      * @param location the position of the builder that wants to build
      * @return a list of squares where the builder can build
@@ -93,7 +99,6 @@ public abstract class God {
         //TODO
         return null;
     }
-
     /**
      * @param location the position of the builder that is going to build
      */
@@ -101,13 +106,12 @@ public abstract class God {
         return buildBehavior.build(location);
     }
 
-    public boolean endBuild(){
-        //TODO
-        return false;
-    }
+
+
 
     public void resetBehaviors(){
-        //TODO
+        this.moveBehavior = resetMoveBehavior;
+        this.winCondition = resetWinCondition;
     }
 
 }

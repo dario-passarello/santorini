@@ -4,52 +4,68 @@ import model.Game;
 import model.Player;
 import utils.Coordinate;
 
-import java.util.List;
+import java.util.Set;
 
 public class LobbyState implements GameState {
     Game game;
     public LobbyState(Game game){
         this.game = game;
     }
-    @Override
+
     public void onEntry() {
 
     }
 
-    @Override
     public void onExit() {
 
     }
 
-    @Override
-    public void setNumberOfPlayers(int num) {
 
-    }
-
-    @Override
-    public boolean addPlayer(Player p) {
-        //TODO
+    public boolean configureGame(int num, String hostPlayerName) {
         return false;
     }
 
+
+    public boolean registerPlayer(String name) {
+        if(game.createPlayer(name)){
+            game.notifyObservers();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public boolean unregisterPlayer(String name) {
+        if(game.removePlayer(name)){
+            game.notifyObservers();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
-    public boolean removePlayer(String p) {
-        //TODO
+    public boolean readyToStart() {
+        if(game.getPlayers().size() == game.getMaxPlayers()) {
+            game.setGameState(game.godSelectionState);
+            game.notifyObservers();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public boolean submitGodList(Set<String> godList) {
         return false;
     }
 
-    @Override
-    public void submitGodList(List<String> godList) {
-
+    public boolean selectCoordinate(Player player, Coordinate coordinate) {
+        return false;
     }
 
-    @Override
-    public void selectCoordinate(Player player, Coordinate coordinate) {
-
-    }
-
-    @Override
-    public void quitGame() {
-
+    public boolean quitGame() {
+        return false;
     }
 }

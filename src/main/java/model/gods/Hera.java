@@ -8,8 +8,8 @@ import model.wincondition.StandardWinCondition;
 
 public class Hera extends God {
 
-    public Hera(Player player){
-        super(player, "Hera", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
+    public Hera(){
+        super("Hera", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
         //INFLUENZA I NEMICI
     }
 
