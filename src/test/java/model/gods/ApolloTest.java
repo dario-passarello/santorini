@@ -24,8 +24,10 @@ class ApolloTest {
         p1 = new Player(g,"player1");
         p2 = new Player(g,"player2");
         p3 = new Player(g,"player3");
-        g1 = new Apollo(p1);
-        g2 = new Atlas(p2);
+        g1 = new Apollo();
+        g2 = new Atlas();
+        p1.setGod(g1);
+        p2.setGod(g2);
     }
 
     /**
@@ -69,7 +71,7 @@ class ApolloTest {
         List<Square> expectedList = Arrays.asList(s22,s23);   //b1 should be able to move only on these squares
         Assert.assertEquals(expectedList, b33.getBuildableNeighborhood());
 
-        b33.move(board.squareAt(2,2),false);
+        b33.move(board.squareAt(2,2));
 
         Assert.assertSame(s33.getOccupant().orElse(null),b22);
         Assert.assertSame(s22.getOccupant().orElse(null),b33);

@@ -1,7 +1,6 @@
 package model.gamestates;
 
 import model.Game;
-import model.Player;
 import utils.Coordinate;
 
 import java.util.Set;
@@ -51,7 +50,12 @@ public class SetupState implements GameState {
         return false;
     }
 
-    public boolean selectCoordinate(Player player, Coordinate coordinate) {
+    @Override
+    public boolean pickGod(String godName) {
+        return false;
+    }
+
+    public boolean selectCoordinate(Coordinate coordinate) {
         return false;
     }
 

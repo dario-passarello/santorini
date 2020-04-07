@@ -22,9 +22,11 @@ class FiveTowerWinConditionTest {
         board = g.getBoard();
         p1 = new Player(g, "player1");
         p2 = new Player(g, "player2");
-        g1 = new Chronus(p1);                     //they have standard win condition
-        g2 = new Atlas(p2);
-        g2.setWinCondition(new FiveTowerWinCondition((g2.getWinCondition()), p1));
+        g1 = new Chronus();                     //they have standard win condition
+        g2 = new Atlas();
+        p1.setGod(g1);
+        p2.setGod(g2);
+        g2.setWinCondition(new FiveTowerWinCondition((g2.getWinCondition()), g1));
     }
 
     @Test

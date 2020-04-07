@@ -25,21 +25,21 @@ public class FiveTowerWinCondition extends WinConditionDecorator {
     @Override
     public Optional<Player> checkWinCondition(Square start, Builder builder) {
         //TODO
-        return null;
+        return wrappedWinCondition.checkWinCondition(start, builder);
     }
 
     public Optional<Player> checkSpecialWinCondition() {
         Board board = null; //TODO
         int counter = 0;
-        for(int i = 1; i <= board.BOARD_SIZE; i++){                 //need BOARD_SIZE
-            for(int j = 1; j <= board.BOARD_SIZE; j++){
+        for(int i = 1; i <= Board.BOARD_SIZE; i++){
+            for(int j = 1; j <= Board.BOARD_SIZE; j++){
                 if(board.squareAt(i,j).getBuildLevel() == 3 && board.squareAt(i,j).isDomed()){
                     counter++;
                 }
             }
         }
         if(counter >= 5){
-            return Optional.of(chronus.getPlayer());                 //need Chronus Player reference
+            return Optional.of(chronus.getPlayer());
         }
         else {
             return Optional.empty();

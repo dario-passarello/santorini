@@ -17,7 +17,4 @@ public class Atlas extends God {
         super("Atlas", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new AnyDomeBuild(new StandardBuild()));
     }
 
-    @Override
-    public void resetBehaviors() {
-    }
 }

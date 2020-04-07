@@ -25,8 +25,10 @@ class StandardWinConditionTest {
         board = g.getBoard();
         p1 = new Player(g, "player1");
         p2 = new Player(g, "player2");
-        g1 = new Demeter(p1);                     //they have standard win condition
-        g2 = new Atlas(p2);
+        g1 = new Demeter();                     //they have standard win condition
+        g2 = new Atlas();
+        p1.setGod(g1);
+        p2.setGod(g2);
     }
 
     @Test

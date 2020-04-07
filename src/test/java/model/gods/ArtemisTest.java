@@ -6,8 +6,6 @@ import model.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ArtemisTest {
 
     private Player p1, p2, p3;
@@ -21,8 +19,10 @@ class ArtemisTest {
         board = g.getBoard();
         Player p1 = new Player(g,"player1");
         Player p2 = new Player(g,"player2");
-        God g1 = new Artemis(p1);
-        God g2 = new Atlas(p2);
+        God g1 = new Artemis();
+        God g2 = new Atlas();
+        p1.setGod(g1);
+        p2.setGod(g2);
     }
 
     @Test

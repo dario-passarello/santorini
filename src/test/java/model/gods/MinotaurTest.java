@@ -23,8 +23,10 @@ class MinotaurTest {
         p1 = new Player(g,"player1");
         p2 = new Player(g,"player2");
         p3 = new Player(g,"player3");
-        g1 = new Minotaur(p1);
-        g2 = new Atlas(p2);
+        g1 = new Minotaur();
+        g2 = new Atlas();
+        p1.setGod(g1);
+        p2.setGod(g2);
     }
 
     @Test

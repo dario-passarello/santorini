@@ -29,13 +29,15 @@ public class Game implements Observable, Cloneable {
 
     private List<Observer> observers;
 
-    public final GameState setupState = new EndGameState(this);
+    public final GameState setupState = new SetupState(this);
     public final GameState lobbyState = new LobbyState(this);
     public final GameState godSelectionState = new GodSelectionState(this);
-    public final GameState pickGodState = new PickGodState(this);
-    public final GameState placeBuilderState = new PlaceBuilderState(this);
+    private List<GameState> pickGodStates = new ArrayList<>();
+    private List<GameState> placeBuilderStates = new ArrayList<>();
     public final GameState turnState = new TurnState(this);
     public final GameState endGameState = new EndGameState(this);
+
+    public static final int BUILDERS_PER_PLAYER = 2;
 
 
     public Game() {
@@ -100,51 +102,65 @@ public class Game implements Observable, Cloneable {
      * Sets number of players and then updates the game state
      * @param num Number of players
      * @param hostPlayerName Name of the player who hosts this game
-     * @return true if this function call is legit for the current GameState
+     * @return true if true if this function call is legit for the current GameState function call is legit for the current GameState
      */
     public boolean configureGame(String hostPlayerName, int num){
         return currentGameState.configureGame(num, hostPlayerName);
     }
     /**
-     * Adds new player to the list and then updates the game state
-     *
-     * @return true if the insertion of the player succeeded, false if the insertion failed because there
-     * is another player with the same name or the game is full
+     * Adds a new player waiting in the lobby and updates the game state
+     * @param playerName name of the player
+     * @return false if there is another player with the same name of one of the player in the lobby
+     * or if the lobby is full.
      */
-    public boolean registerPlayer(Player p) {
-        return currentGameState.registerPlayer(p);
+    public boolean registerPlayer(String playerName) {
+        return currentGameState.registerPlayer(playerName);
     }
     /**
-     * Searches a player by name and removes it from the list and then updates the game state
-     *
-     * @return true if this function call is legit for the current GameState and the player removal succeeded
+     * Searches a player by name and removes it from the lobby and then updates the game state
+     * @return true if the function call is legit for the current GameState and the player removal succeeded
      */
     public boolean unregisterPlayer(String playerName) {
         return currentGameState.unregisterPlayer(playerName);
     }
 
+    /**
+     * Starts the game after all players are in lobby
+     * @return true if the are enough players to start the game
+     * and if the function call is legit for the current GameState
+     */
     public boolean readyToStart(){
         return currentGameState.readyToStart();
     }
 
     /**
-     * Copies a list of god in the game and updates the game state
-     * @param godList The list of the names of the gods chosen for the game
+     * Receives the list of the names of the gods chosen by the host for the game
+     * @param godList The list of the names of the gods chosen for the game, it should contain
+     *                a number of valid god names equal to the number of the player in the game or
+     *                it could be left empty (in this case a game with 3 "mortals" will be initialized
      * @return true if this function call is legit for the current GameState and if godList
-     *  is a valid
+     *  is a valid list
      */
     public boolean submitGodList(Set<String> godList) {
         return currentGameState.submitGodList(godList);
     }
+
+    /**
+     * Receive the godPick from the player
+     * @param godName
+     * @return true if this function call is legit for the current GameState
+     */
+    public boolean pickGod(String godName) {
+        return currentGameState.pickGod(godName);
+    }
     /**
      * Inputs coordinates in the game state (useful for builders placement phase)
-     * @param player The player that is setting the coordinates
      * @param coordinate The coordinate given to the model
      * @return true if this function call is legit for the current GameState and if
      *  the parameters are valid
      */
-    public boolean selectCoordinate(Player player, Coordinate coordinate) {
-        return currentGameState.selectCoordinate(player, coordinate);
+    public boolean selectCoordinate(Coordinate coordinate) {
+        return currentGameState.selectCoordinate(coordinate);
     }
 
     /**
@@ -197,6 +213,7 @@ public class Game implements Observable, Cloneable {
     }
 
     public void setMaxPlayers(int max) {
+
         maxPlayers = max;
     }
 
@@ -230,7 +247,25 @@ public class Game implements Observable, Cloneable {
         godList = new ArrayList<>(list);
     }
 
+    public List<God> getGodList() {
+        return new ArrayList<>(godList);
+    }
 
+    public void generatePickAndPlaceStates(){
+        for(int i = 0; i < players.size(); i++){
+            Player p = players.get(i);
+            pickGodStates.add(0,new PickGodState(this,p,players.size() - i - 1));
+            placeBuilderStates.add(0, new PlaceBuilderState(this,p,i));
+        }
+    }
+
+    public GameState getPlaceBuilderState(int order){
+        return placeBuilderStates.get(order);
+    }
+
+    public GameState getPickGodState(int order){
+        return placeBuilderStates.get(order);
+    }
 
     //Subject interface implementations
     public void addObserver(Observer o) {

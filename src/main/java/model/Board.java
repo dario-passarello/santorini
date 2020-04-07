@@ -41,6 +41,7 @@ public class Board {
         return matrix[coord.getX()][coord.getY()];
     }
 
+
     /**
      * @return squares in the board that aren't occupied by a builder
      */
@@ -50,6 +51,13 @@ public class Board {
                 .filter(sq -> !sq.getOccupant().isPresent())
                 .collect(Collectors.toList());
 
+    }
+
+    public static boolean checkValidCoordinate(Coordinate coord) {
+        return coord.getX() >= 0
+                && coord.getX() < BOARD_SIZE
+                && coord.getY() >= 0
+                && coord.getY() < BOARD_SIZE;
     }
 
 }

@@ -7,6 +7,8 @@ import model.startbehaviors.NoStartTurn;
 import model.wincondition.FiveTowerWinCondition;
 import model.wincondition.StandardWinCondition;
 
+import java.util.List;
+
 public class Chronus extends God {
 
     public Chronus(){
@@ -15,6 +17,9 @@ public class Chronus extends God {
     }
 
     @Override
-    public void resetBehaviors() {
+    public void configureAllOtherWinConditions(List<God> targets) {
+        for(God g : targets) {
+            g.setWinCondition(new FiveTowerWinCondition(g.getWinCondition(),this));
+        }
     }
 }

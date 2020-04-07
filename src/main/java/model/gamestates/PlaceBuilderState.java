@@ -1,5 +1,6 @@
 package model.gamestates;
 
+import model.Board;
 import model.Game;
 import model.Player;
 import utils.Coordinate;
@@ -7,82 +8,78 @@ import utils.Coordinate;
 import java.util.Set;
 
 public class PlaceBuilderState implements GameState {
-    Game game;
+    private final Player player;
+    private final Game game;
+    private final int order;
+    private int buildersPlaced;
 
-    public PlaceBuilderState(Game game){
+    public PlaceBuilderState(Game game, Player player, int order){
         this.game = game;
+        this.player = player;
+        this.order = order;
+        this.buildersPlaced = 0;
     }
 
-    /**
-     * Executed when the state machine enters in the state
-     */
     public void onEntry() {
-
+        this.buildersPlaced = 0;
     }
 
-    /**
-     * Executed when the state machine exits the state
-     */
     public void onExit() {
 
     }
 
-    /**
-     * Inputs the number of player to the game
-     *
-     * @param num number of player participating in the game
-     * @param hostPlayerName
-     * @return
-     */
     public boolean configureGame(int num, String hostPlayerName) {
-
+        return false;
     }
 
-    /**
-     * Adds a player to the game
-     *
-     * @param name A reference to the player object
-     * @return true if the player is correctly added to the game
-     */
     public boolean registerPlayer(String name) {
         return false;
     }
 
-    /**
-     * Removes a player from the game
-     *
-     * @param name The player name
-     * @return true if the player is correctly removed from the game
-     */
     public boolean unregisterPlayer(String name) {
         return false;
     }
 
-    /**
-     * Copies a list of god in the game and updates the game state
-     *
-     * @param godList The list of the names of the gods chosen for the game
-     * @return
-     */
+    public boolean readyToStart() {
+        return false;
+    }
+
     public boolean submitGodList(Set<String> godList) {
-
+        return false;
     }
 
-    /**
-     * Inputs coordinates in the game state (useful for builders placement phase)
-     *  @param player     The player that is setting the coordinates
-     * @param coordinate The coordinate given to the model
-     * @return
-     */
-    public boolean selectCoordinate(Player player, Coordinate coordinate) {
-
+    public boolean pickGod(String godName) {
+        return false;
     }
 
-    /**
-     * Quits the game
-     * @return
-     */
+    public boolean selectCoordinate(Coordinate coordinate) {
+        if(!Board.checkValidCoordinate(coordinate)) {
+            return false; //The square should be valid
+        }
+        if(!game.getBoard().getFreeSquares().contains(game.getBoard().squareAt(coordinate))){
+            return false; //The square should be empty
+        }
+        player.addBuilder(game.getBoard().squareAt(coordinate)); //Add new builder
+        buildersPlaced++;
+        if(buildersPlaced >= Game.BUILDERS_PER_PLAYER) { //If all builder were placed
+            if(order + 1 < game.getMaxPlayers()) { //If other players need to place builder
+                game.setGameState(game.getPlaceBuilderState(order + 1));
+            }
+            else{
+                game.setGameState(game.turnState);
+            }
+        }
+        game.notifyObservers();
+        return true;
+    }
+
     public boolean quitGame() {
+        game.setGameState(game.setupState);
+        game.notifyObservers();
+        return true;
+    }
 
+    public Player getPlayer() {
+        return player;
     }
 }

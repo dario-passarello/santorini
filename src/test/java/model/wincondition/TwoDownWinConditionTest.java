@@ -2,14 +2,11 @@ package model.wincondition;
 
 import model.*;
 import model.gods.Atlas;
-import model.gods.Demeter;
 import model.gods.God;
 import model.gods.Pan;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TwoDownWinConditionTest {
 
@@ -25,8 +22,10 @@ class TwoDownWinConditionTest {
         board = g.getBoard();
         p1 = new Player(g, "player1");
         p2 = new Player(g, "player2");
-        g1 = new Pan(p1);                     //Pan have this win condition
-        g2 = new Atlas(p2);
+        g1 = new Pan();                     //Pan have this win condition
+        g2 = new Atlas();
+        p1.setGod(g1);
+        p2.setGod(g2);
     }
 
     @Test

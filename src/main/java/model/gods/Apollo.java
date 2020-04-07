@@ -9,14 +9,10 @@ import model.wincondition.StandardWinCondition;
 
 
 public class Apollo extends God {
-
     
     public Apollo() {
         super("Apollo", new StandardWinCondition(), new NoStartTurn(), new SwapWithOpponentMove(new StandardMove()), new StandardBuild());
 
     }
 
-    @Override
-    public void resetBehaviors() {
-    }
 }

@@ -5,10 +5,12 @@ import model.Player;
 import model.Square;
 import model.buildbehaviours.BuildBehavior;
 import model.movebehaviors.MoveBehavior;
+import model.movebehaviors.MoveDecorator;
 import model.startbehaviors.StartBehavior;
 import model.wincondition.WinCondition;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class God {
@@ -47,9 +49,16 @@ public abstract class God {
     public void setBuildBehavior(BuildBehavior buildBehavior) {
         this.buildBehavior = buildBehavior;
     }
+    public void captureResetBehaviors() {
+        resetMoveBehavior = moveBehavior;
+        resetWinCondition = winCondition;
+    }
 
     public Player getPlayer() {
         return player;
+    }
+    public String getName() {
+        return name;
     }
     public WinCondition getWinCondition() {
         return winCondition;
@@ -108,10 +117,37 @@ public abstract class God {
 
 
 
+    public void setAllMoveBehaviors(List<God> targets){
+
+    }
+
+    public void configureAllOtherWinConditions(List<God> targets){
+
+    }
+
 
     public void resetBehaviors(){
         this.moveBehavior = resetMoveBehavior;
         this.winCondition = resetWinCondition;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof God)) return false;
+        God god = (God) o;
+        if(player == null && god.player == null) {
+            return name.equals(god.name);
+        }
+        else {
+            return Objects.equals(player, god.player) &&
+                    name.equals(god.name);
+        }
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(player, name);
+    }
 }

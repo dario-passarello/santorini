@@ -45,7 +45,7 @@ public class StandardMove implements MoveBehavior {
 
         Square start = b.getPosition();
         dest.setOccupant(b);
-        start.setOccupant(null);
+        start.setEmptySquare();
         b.setPosition(dest);
 
         return false;

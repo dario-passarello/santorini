@@ -23,8 +23,10 @@ class NoPerimeterWinConditionTest {
         board = g.getBoard();
         p1 = new Player(g, "player1");
         p2 = new Player(g, "player2");
-        g1 = new Hera(p1);                     //she applies this malus to the win condition
-        g2 = new Atlas(p2);
+        g1 = new Hera();                     //she applies this malus to the win condition
+        g2 = new Atlas();
+        p1.setGod(g1);
+        p2.setGod(g2);
         g2.setWinCondition(new NoPerimeterWinCondition(g2.getWinCondition()));
     }
 

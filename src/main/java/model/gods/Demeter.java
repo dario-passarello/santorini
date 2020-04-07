@@ -16,7 +16,5 @@ public class Demeter extends God {
         super("Demeter", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNotSameBuild(new StandardBuild()));
     }
 
-    @Override
-    public void resetBehaviors() {
-    }
+
 }

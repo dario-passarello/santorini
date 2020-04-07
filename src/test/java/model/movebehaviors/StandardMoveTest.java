@@ -21,11 +21,13 @@ class StandardMoveTest {
     @Before
     public void init(){
         g = new Game();
+        board = g.getBoard();
         p1 = new Player(g, "player1");
         p2 = new Player(g, "player2");
-        g1 = new Pan(p1);                         //Pan has a standard move behavior
-        g2 = new Atlas(p2);
-        board = new Board();
+        g1 = new Pan();                         //Pan has a standard move behavior
+        g2 = new Atlas();
+        p1.setGod(g1);
+        p2.setGod(g2);
     }
 
     @Test

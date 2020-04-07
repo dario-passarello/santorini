@@ -8,8 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class TritonTest {
 
     private Player p1;
@@ -22,7 +20,8 @@ class TritonTest {
         g = new Game();
         board = g.getBoard();
         p1 = new Player(g,"player1");
-        g1 = new Triton(p1);
+        g1 = new Triton();
+        p1.setGod(g1);
     }
 
     @Test
