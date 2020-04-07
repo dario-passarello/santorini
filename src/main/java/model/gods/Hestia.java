@@ -16,4 +16,8 @@ public class Hestia extends God {
         super("Hestia", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNoPerimeterBuild(new StandardBuild()));
     }
 
+    @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
 }

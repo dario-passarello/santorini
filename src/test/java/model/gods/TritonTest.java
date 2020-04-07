@@ -25,11 +25,12 @@ class TritonTest {
 
     @Test
     public void youCanContinueAfterPerimeter(){
-        Builder b13 = new Builder(s[1][3], p1);
-        Assert.assertTrue(b13.move(s[0][4]));           //from center to perimeter
-        Assert.assertTrue(b13.move(s[1][4]));           //from perimeter to perimeter
-        Assert.assertFalse(b13.move(s[1][3]));          //from perimeter to center
-        Assert.assertTrue(b13.move(s[2][3]));           //from center to center
+
+        Builder b13 = new Builder(board.squareAt(1,3), p1);
+        Assert.assertTrue(b13.move(board.squareAt(0,4)));           //from center to perimeter
+        Assert.assertTrue(b13.move(board.squareAt(1,4)));           //from perimeter to perimeter
+        Assert.assertFalse(b13.move(board.squareAt(1,3)));          //from perimeter to center
+        Assert.assertFalse(b13.move(board.squareAt(2,3)));           //from center to center
     }
 
 }

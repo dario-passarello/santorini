@@ -9,4 +9,9 @@ public class Mortal extends God {
     public Mortal(){
         super("Mortal",new StandardWinCondition(),new NoStartTurn(), new StandardMove(), new StandardBuild());
     }
+
+    @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
 }

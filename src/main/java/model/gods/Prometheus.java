@@ -12,4 +12,8 @@ public class Prometheus extends God {
         super("Prometheus", new StandardWinCondition(), new BuildStartTurn(), new StandardMove(), new StandardBuild());
     }
 
+    @Override
+    public boolean hasSpecialStartPower() {
+        return true;
+    }
 }

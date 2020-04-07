@@ -68,4 +68,8 @@ public class Turn {
         //TODO
     }
 
+    public void nextTurn() {
+
+    }
+
 }

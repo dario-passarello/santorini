@@ -19,6 +19,11 @@ public class Athena extends God {
     }
 
     @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
+
+    @Override
     public void setAllMoveBehaviors(List<God> targets) {
         //Apply temporary debuff to other players
         for(God g : targets.stream().filter(g -> g.equals(this)).collect(Collectors.toList())) {

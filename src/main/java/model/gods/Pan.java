@@ -14,4 +14,8 @@ public class Pan extends God {
     }
 
 
+    @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
 }

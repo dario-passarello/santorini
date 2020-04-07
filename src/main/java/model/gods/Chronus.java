@@ -17,6 +17,11 @@ public class Chronus extends God {
     }
 
     @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
+
+    @Override
     public void configureAllOtherWinConditions(List<God> targets) {
         for(God g : targets) {
             g.setWinCondition(new FiveTowerWinCondition(g.getWinCondition(),this));
