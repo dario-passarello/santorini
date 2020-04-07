@@ -21,7 +21,7 @@ public class AnyDomeBuild implements BuildBehavior {
 
 
 
-    public HashSet<Square> neighborhood(Square src) {
+    public Set<Square> neighborhood(Square src) {
         return wrappedBuildBehavior.neighborhood(src);
     }
 

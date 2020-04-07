@@ -19,7 +19,7 @@ public interface BuildBehavior {
      * @param src the position of the builder that wants to build
      * @return the set of squares where the builder can build
      */
-    HashSet<Square> neighborhood(Square src);
+    Set<Square> neighborhood(Square src);
 
 
 }

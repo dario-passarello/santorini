@@ -15,7 +15,12 @@ public class DoubleNoPerimeterBuild extends BuildDecorator{
 
 
     public boolean build(Square dest) {
-        return false;
+        if(second == false){
+            second = true;
+            wrappedBuildBehavior.build(dest);
+            return true;
+        }
+        else return wrappedBuildBehavior.build(dest);
     }
 
     /**
@@ -24,14 +29,15 @@ public class DoubleNoPerimeterBuild extends BuildDecorator{
      * @param src the position of the builder that wants to build
      * @return
      */
-    public HashSet<Square> neighborhood(Square src) {
+    public Set<Square> neighborhood(Square src) {
         if(second == false) return this.wrappedBuildBehavior.neighborhood(src);
         else{
-            HashSet<Square> buildable = wrappedBuildBehavior.neighborhood(src);
+            Set<Square> buildable = wrappedBuildBehavior.neighborhood(src);
+            Set<Square> remove = new HashSet<>();
             for(Square square : buildable){
-                if((square.getCoordinate().getY() != Board.BOARD_SIZE) &&
-                    square.getCoordinate().getX() != Board.BOARD_SIZE) buildable.remove(square);
+                if(square.isPerimetral()) remove.add(square);
             }
+            buildable.removeAll(remove);
             return buildable;
         }
     }
