@@ -1,8 +1,6 @@
 package model.gods;
 
-import model.Board;
-import model.Game;
-import model.Player;
+import model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,11 +10,13 @@ class ArtemisTest {
     private God g1, g2;
     private Board board;
     private Game g;
+    private Square[][] s;
 
     @Before
     public void init(){
         g = new Game();
         board = g.getBoard();
+        s = BoardTest.boardToMatrix(board);
         Player p1 = new Player(g,"player1");
         Player p2 = new Player(g,"player2");
         God g1 = new Artemis();

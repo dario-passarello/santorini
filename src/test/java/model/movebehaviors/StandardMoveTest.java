@@ -17,11 +17,13 @@ class StandardMoveTest {
     private God g1, g2;
     private Board board;
     private Game g;
+    private Square[][] s;
 
     @Before
     public void init(){
         g = new Game();
         board = g.getBoard();
+        s = BoardTest.boardToMatrix(board);
         p1 = new Player(g, "player1");
         p2 = new Player(g, "player2");
         g1 = new Pan();                         //Pan has a standard move behavior
@@ -32,20 +34,19 @@ class StandardMoveTest {
 
     @Test
     public void simpleNeighborhoodTest(){
-        Builder b22 = new Builder(board.squareAt(2,2), p1);     //full neighborhood
-        Builder b14 = new Builder(board.squareAt(1,4), p1);     //edge neighborhood
-        Builder b55 = new Builder(board.squareAt(5,5), p1);     //corner neighborhood
+        Builder b22 = new Builder(s[2][2], p1);     //full neighborhood
+        Builder b14 = new Builder(s[1][4], p1);     //edge neighborhood
+        Builder b55 = new Builder(s[5][5], p1);     //corner neighborhood
 
-        List<Square> expectedList = Arrays.asList(  board.squareAt(1,1), board.squareAt(1,2), board.squareAt(1,3),
-                                                    board.squareAt(2,3), board.squareAt(3,3), board.squareAt(3,2),
-                                                    board.squareAt(3,1), board.squareAt(2,1));
+        List<Square> expectedList = Arrays.asList(  s[1][1], s[1][2],s[1][3],
+                                                    s[2][3], s[3][3], s[3][2],
+                                                    s[3][1], s[2][1]);
         Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
 
-        expectedList = Arrays.asList(   board.squareAt(1,3), board.squareAt(1,5), board.squareAt(2,3),
-                                        board.squareAt(2,4), board.squareAt(2,5));
+        expectedList = Arrays.asList(s[1][3], s[1][5], s[2][3], s[2][4], s[2][5]);
         Assert.assertEquals(expectedList, b14.getWalkableNeighborhood());
 
-        expectedList = Arrays.asList(board.squareAt(4,4), board.squareAt(4,5), board.squareAt(5,4));
+        expectedList = Arrays.asList(s[4][4], s[4][5], s[5][4]);
         Assert.assertEquals(expectedList, b55.getWalkableNeighborhood());
     }
 
@@ -75,11 +76,11 @@ class StandardMoveTest {
     }
 
     public void moveTest(){
-        Builder b33 = new Builder(board.squareAt(3,3), p1);
+        Builder b33 = new Builder(s[3][3], p1);
         //b33.move(board.squareAt(2,2));                        make the move (?)
 
-        Assert.assertSame(board.squareAt(2,2).getOccupant().orElse(null), b33);
-        Assert.assertSame(board.squareAt(3,3).getOccupant().orElse(null), null);
+        Assert.assertSame(s[2][2].getOccupant().orElse(null), b33);
+        Assert.assertSame(s[3][3].getOccupant().orElse(null), null);
 
     }
 

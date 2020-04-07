@@ -17,12 +17,14 @@ class StandardWinConditionTest {
     private Board board;
     private Builder b1;
     private Game g;
+    private Square[][] s;
 
     @Before
     public void init()
     {
         g = new Game();
         board = g.getBoard();
+        s = BoardTest.boardToMatrix(board);
         p1 = new Player(g, "player1");
         p2 = new Player(g, "player2");
         g1 = new Demeter();                     //they have standard win condition
@@ -35,12 +37,10 @@ class StandardWinConditionTest {
     public void youShouldWin(){
         Player expectedWinner = p1;
 
-        Square s33 = board.squareAt(3,3);
-        Square s32 = board.squareAt(3,2);
-        SquareTest.setSquareBuildLevel(s33,3);
-        SquareTest.setSquareBuildLevel(s32,2);
-        Square start = s32;
-        b1 = p1.addBuilder(s33);
+        SquareTest.setSquareBuildLevel(s[3][3],3);
+        SquareTest.setSquareBuildLevel(s[3][2],2);
+        Square start = s[3][2];
+        b1 = p1.addBuilder(s[3][3]);
         Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start,b1).orElse(null), expectedWinner);
 
     }
@@ -49,12 +49,10 @@ class StandardWinConditionTest {
     public void youShouldNotWin(){
         Player expectedWinner = null;
 
-        Square s33 = board.squareAt(3,3);
-        Square s32 = board.squareAt(3,2);
-        SquareTest.setSquareBuildLevel(s33,3);
-        SquareTest.setSquareBuildLevel(s32,3);
-        Square start = s32;
-        b1 = p1.addBuilder(s33);
+        SquareTest.setSquareBuildLevel(s[3][3],3);
+        SquareTest.setSquareBuildLevel(s[3][2],3);
+        Square start = s[3][2];
+        b1 = p1.addBuilder(s[3][3]);
         Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start,b1).orElse(null), expectedWinner);
     }
 }

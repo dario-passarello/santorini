@@ -15,11 +15,13 @@ class MinotaurTest {
     private God g1, g2;
     private Board board;
     private Game g;
+    private Square[][] s;
 
     @Before
     public void setUpTest(){
         g = new Game();
         board = g.getBoard();
+        s = BoardTest.boardToMatrix(board);
         p1 = new Player(g,"player1");
         p2 = new Player(g,"player2");
         p3 = new Player(g,"player3");
@@ -31,13 +33,6 @@ class MinotaurTest {
 
     @Test
     public void canUsePower(){
-        Square[][] s = new Square[Board.BOARD_SIZE][Board.BOARD_SIZE];
-        for(int i = 0; i < Board.BOARD_SIZE; i++){              //row
-            for(int j = 0; j < Board.BOARD_SIZE; j++) {         //column
-                s[i][j] = board.squareAt(i,j);
-            }
-        }
-
         //creating some buildings
         SquareTest.setSquareBuildLevel(s[0][0],1);
         SquareTest.setSquareBuildLevel(s[0][2],2);
@@ -86,36 +81,24 @@ class MinotaurTest {
 
     @Test
     public void canNotUsePower(){
-        Square s01 = board.squareAt(0,1);
-        Square s02 = board.squareAt(0,2);
-        Square s03 = board.squareAt(0,3);
-        Square s11 = board.squareAt(1,1);
-        Square s12 = board.squareAt(1,2);
-        Square s13 = board.squareAt(1,3);
-        Square s21 = board.squareAt(2,1);
-        Square s22 = board.squareAt(2,2);
-        Square s23 = board.squareAt(2,3);
-        Square s30 = board.squareAt(3,0);
-        Square s14 = board.squareAt(1,4);
-        Square s34 = board.squareAt(3,4);
 
         //creating some buildings
-        SquareTest.setSquareBuildLevel(s13,1);
-        SquareTest.setSquareBuildLevel(s14,3);
-        SquareTest.setSquareBuildLevel(s22,2);
-        SquareTest.setSquareBuildLevel(s23,1);
-        s34.addDome();
+        SquareTest.setSquareBuildLevel(s[1][3],1);
+        SquareTest.setSquareBuildLevel(s[1][4],3);
+        SquareTest.setSquareBuildLevel(s[2][2],2);
+        SquareTest.setSquareBuildLevel(s[2][3],1);
+        s[3][4].addDome();
         //placing some builder
-        Builder b01 = new Builder(s01, p1);
-        Builder b02 = new Builder(s02, p2);
-        Builder b03 = new Builder(s03, p2);
-        Builder b11 = new Builder(s11, p1);
-        Builder b12 = new Builder(s12, p1);         // b12 is the builder that is going to move
-        Builder b13 = new Builder(s13, p2);
-        Builder b21 = new Builder(s21, p2);
-        Builder b22 = new Builder(s22, p2);
-        Builder b23 = new Builder(s23, p2);
-        Builder b30 = new Builder(s30, p1);
+        Builder b01 = new Builder(s[0][1], p1);
+        Builder b02 = new Builder(s[0][2], p2);
+        Builder b03 = new Builder(s[0][3], p2);
+        Builder b11 = new Builder(s[1][1], p1);
+        Builder b12 = new Builder(s[1][2], p1);         // b12 is the builder that is going to move
+        Builder b13 = new Builder(s[1][3], p2);
+        Builder b21 = new Builder(s[2][1], p2);
+        Builder b22 = new Builder(s[2][2], p2);
+        Builder b23 = new Builder(s[2][3], p2);
+        Builder b30 = new Builder(s[3][0], p1);
 
         List<Square> expectedList = new ArrayList<>();              //b12 cannot move, so it's empty
         Assert.assertEquals(expectedList, b12.getWalkableNeighborhood());

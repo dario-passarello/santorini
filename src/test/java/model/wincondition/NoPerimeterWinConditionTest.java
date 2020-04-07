@@ -15,12 +15,14 @@ class NoPerimeterWinConditionTest {
     private Board board;
     private Builder b2;
     private Game g;
+    private Square[][] s;
 
     @Before
     public void init()
     {
         g = new Game();
         board = g.getBoard();
+        s = BoardTest.boardToMatrix(board);
         p1 = new Player(g, "player1");
         p2 = new Player(g, "player2");
         g1 = new Hera();                     //she applies this malus to the win condition
@@ -33,12 +35,10 @@ class NoPerimeterWinConditionTest {
     @Test
     public void youShouldNotWin(){
         Player expectedWinner = null;
-        Square s41 = board.squareAt(3,3);
-        Square s32 = board.squareAt(3,2);
-        SquareTest.setSquareBuildLevel(s41,3);
-        SquareTest.setSquareBuildLevel(s32,2);
-        Square start = s32;
-        b2 = p2.addBuilder(s41);
+        SquareTest.setSquareBuildLevel(s[4][1],3);
+        SquareTest.setSquareBuildLevel(s[3][2],2);
+        Square start = s[3][2];
+        b2 = p2.addBuilder(s[4][1]);
         Assert.assertSame(p2.getGod().getWinCondition().checkWinCondition(start,b2).orElse(null), expectedWinner);
     }
 

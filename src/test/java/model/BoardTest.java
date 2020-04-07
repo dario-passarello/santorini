@@ -37,4 +37,15 @@ public class BoardTest {
         assertThrows(IndexOutOfBoundsException.class, () -> b.squareAt(0,Board.BOARD_SIZE));
 
     }
+
+    public static Square[][] boardToMatrix(Board board){
+        Square[][] s = new Square[Board.BOARD_SIZE][Board.BOARD_SIZE];
+        for(int i = 0; i < Board.BOARD_SIZE; i++){              //row
+            for(int j = 0; j < Board.BOARD_SIZE; j++) {         //column
+                s[i][j] = board.squareAt(i,j);
+            }
+        }
+
+        return s;
+    }
 }
