@@ -1,0 +1,843 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <help_text>// Uncomment the following line to change the fontsize and font:
+fontsize=10
+// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Welcome to UMLet!
+//
+// Double-click on elements to add them to the diagram, or to copy them
+// Edit elements by modifying the text in this panel
+// Hold Ctrl to select multiple elements
+// Use Ctrl+mouse to select via lasso
+//
+// Use +/- or Ctrl+mouse wheel to zoom
+// Drag a whole relation at its central square icon
+//
+// Press Ctrl+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)
+// Edit the files in the "palettes" directory to create your own element palettes
+//
+// Select "Custom Elements &gt; New..." to create new element types
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// This text will be stored with each diagram;  use it for notes.</help_text>
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>217</x>
+      <y>0</y>
+      <w>77</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>385</x>
+      <y>294</y>
+      <w>91</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+pickGod(God)</panel_attributes>
+    <additional_attributes>30.0;70.0;50.0;70.0;50.0;10.0;10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>329</x>
+      <y>259</y>
+      <w>91</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+setGodList(Set&lt;God&gt;)
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>329</x>
+      <y>350</y>
+      <w>259</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+pickGod(God)[game.getNumberOfPlayersWithGod() == game.maxPlayers()]</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>784</x>
+      <y>392</y>
+      <w>63</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>EndGame</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>343</x>
+      <y>525</y>
+      <w>1323</w>
+      <h>413</h>
+    </coordinates>
+    <panel_attributes>Turn
+--
+
+
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>812</x>
+      <y>413</y>
+      <w>119</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+[alivePlayers &gt; 1 || winCondition]</panel_attributes>
+    <additional_attributes>10.0;160.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>399</x>
+      <y>14</y>
+      <w>462</w>
+      <h>392</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+confirm()</panel_attributes>
+    <additional_attributes>600.0;540.0;600.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>392</y>
+      <w>91</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+exit()</panel_attributes>
+    <additional_attributes>10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>917</x>
+      <y>399</y>
+      <w>14</w>
+      <h>14</h>
+    </coordinates>
+    <panel_attributes>type=final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>210</x>
+      <y>7</y>
+      <w>14</w>
+      <h>14</h>
+    </coordinates>
+    <panel_attributes>type=initial</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>329</x>
+      <y>105</y>
+      <w>238</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+addPlayer(Player)[game.getNumberOfPlayer == game.getMaxPlayers]</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>357</x>
+      <y>581</y>
+      <w>14</w>
+      <h>14</h>
+    </coordinates>
+    <panel_attributes>type=initial</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>364</x>
+      <y>581</y>
+      <w>63</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>413</x>
+      <y>581</y>
+      <w>133</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>SelectionPhase
+--
+StartBehaviour : boolean
+-.
+on entry / moveLosingConditionCheck
+on entry / startBehavior
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>539</x>
+      <y>602</y>
+      <w>140</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+selectBuilder(Builder)</panel_attributes>
+    <additional_attributes>10.0;20.0;180.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>665</x>
+      <y>602</y>
+      <w>126</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>ShowWalkableFirst
+--
+deselectable : Boolean
+--
+On entry / getWalkableNeighborhood</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>931</x>
+      <y>609</y>
+      <w>119</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>Move
+--
+on entry / move() :Boolean / next()
+on exit / next()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>784</x>
+      <y>609</y>
+      <w>161</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>selectCoordinate(Coordinate)
+lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;210.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>497</x>
+      <y>532</y>
+      <w>112</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>[moveLosingConditionCheck]
+lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>280</x>
+      <y>77</y>
+      <w>126</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>Lobby
+--
+
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>280</x>
+      <y>217</y>
+      <w>126</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>God Selection
+--
+godlist : List&lt;God&gt;
+-.
+
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>280</x>
+      <y>315</y>
+      <w>126</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>PickGod
+--
+on exit \update current player</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>434</x>
+      <y>805</y>
+      <w>98</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>SelectBuilderSpecialPhase</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>469</x>
+      <y>637</y>
+      <w>70</w>
+      <h>182</h>
+    </coordinates>
+    <panel_attributes>useGodPower()
+lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>686</x>
+      <y>805</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>ShowBuildableSpecial</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>504</x>
+      <y>826</y>
+      <w>217</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>selectBuilder()
+lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0;290.0;50.0;290.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>735</x>
+      <y>637</y>
+      <w>112</w>
+      <h>182</h>
+    </coordinates>
+    <panel_attributes>selectCoordinate(Coordinate)
+lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;240.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>504</x>
+      <y>637</y>
+      <w>231</w>
+      <h>182</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+useGodPower()</panel_attributes>
+    <additional_attributes>310.0;240.0;310.0;70.0;10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>364</x>
+      <y>609</y>
+      <w>84</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>useGodPower()
+lt=-&gt;
+</panel_attributes>
+    <additional_attributes>100.0;300.0;10.0;300.0;10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>413</x>
+      <y>546</y>
+      <w>63</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>Nessun builder
+selezionato</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>504</x>
+      <y>763</y>
+      <w>217</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>selectBuilder()
+lt=-&gt;
+[b == game.selectedBuilder()]</panel_attributes>
+    <additional_attributes>290.0;60.0;290.0;20.0;10.0;20.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>693</x>
+      <y>812</y>
+      <w>168</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>selectBuilder()
+lt=-&gt;
+selectBuilder(Builder b)[b != game.selectedBuilder]</panel_attributes>
+    <additional_attributes>60.0;30.0;60.0;80.0;170.0;80.0;170.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>637</y>
+      <w>175</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+selectBuilder(Builder b)
+[b == game.selectedBuilder()] &amp;&amp; deselectable</panel_attributes>
+    <additional_attributes>230.0;10.0;230.0;30.0;10.0;30.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>623</x>
+      <y>567</y>
+      <w>217</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+selectBuilder(Builder b)[b != game.selectedBuilder &amp;&amp; deselectable]</panel_attributes>
+    <additional_attributes>90.0;50.0;90.0;20.0;210.0;20.0;210.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>980</x>
+      <y>644</y>
+      <w>70</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[move() == true]</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>931</x>
+      <y>693</y>
+      <w>126</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>ShowWalkableAdditional
+--
+On entry / getWalkableNeighborhood</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1050</x>
+      <y>644</y>
+      <w>168</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+endPhase()</panel_attributes>
+    <additional_attributes>170.0;10.0;170.0;100.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>868</x>
+      <y>630</y>
+      <w>112</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+selectCoordinate(Coordinate)</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0;10.0;110.0;90.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1043</x>
+      <y>616</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[move() == false]</panel_attributes>
+    <additional_attributes>100.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1113</x>
+      <y>609</y>
+      <w>126</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>ShowBuildableFirst
+--
+On entry / getWalkableNeighborhood</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1344</x>
+      <y>609</y>
+      <w>119</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>Buildable
+--
+on entry / build() :Boolean / next()
+on exit / next()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1344</x>
+      <y>693</y>
+      <w>112</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>ShowWalkableAdditional
+--
+On entry / getWalkableNeighborhood</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1232</x>
+      <y>616</y>
+      <w>126</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>selectCoordinate(Coordinate)
+lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;160.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1386</x>
+      <y>644</y>
+      <w>70</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[build() == true]</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1526</x>
+      <y>609</y>
+      <w>119</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>EndTurn
+--
+on entry / endTurn() /nextTurn()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1281</x>
+      <y>630</y>
+      <w>112</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+selectCoordinate(Coordinate)</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0;10.0;110.0;90.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1456</x>
+      <y>616</y>
+      <w>84</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[build() == false]</panel_attributes>
+    <additional_attributes>100.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>1575</x>
+      <y>707</y>
+      <w>14</w>
+      <h>14</h>
+    </coordinates>
+    <panel_attributes>type=final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1575</x>
+      <y>644</y>
+      <w>21</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>581</x>
+      <y>805</y>
+      <w>70</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>Fase Build Extra
+(es. Prometheus)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>280</x>
+      <y>7</y>
+      <w>126</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>Setup
+valign=top
+--
+On Exit/ Create Game
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>287</x>
+      <y>28</y>
+      <w>112</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+setNumberOfPlayers(Integer)</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>385</x>
+      <y>28</y>
+      <w>56</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+quitGame()</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>371</x>
+      <y>84</y>
+      <w>287</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+addPlayer(Player)[game.getNumberOfPlayer &lt; game.getMaxPlayers]
+OR
+removePlayer(Player)</panel_attributes>
+    <additional_attributes>50.0;10.0;80.0;10.0;80.0;60.0;10.0;60.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>273</x>
+      <y>427</y>
+      <w>126</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>PlaceBuilder
+--
+on exit \update current player</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>392</x>
+      <y>427</y>
+      <w>161</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+selectCoordinate(Coordinate)
+</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0;80.0;40.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>322</x>
+      <y>455</y>
+      <w>35</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0;30.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1225</x>
+      <y>644</y>
+      <w>70</w>
+      <h>196</h>
+    </coordinates>
+    <panel_attributes>useGodPower()
+lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;260.0;70.0;260.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1274</x>
+      <y>805</y>
+      <w>126</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>ShowBuildableSpecial
+--
+On entry / getWalkableNeighborhood</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1204</x>
+      <y>644</y>
+      <w>84</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>useGodPower()
+lt=-&gt;</panel_attributes>
+    <additional_attributes>100.0;280.0;10.0;280.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>1442</x>
+      <y>805</y>
+      <w>126</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>BuildDome
+--
+on entry / build() :Boolean / next()
+on exit / next()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1351</x>
+      <y>770</y>
+      <w>112</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+selectCoordinate(Coordinate)</panel_attributes>
+    <additional_attributes>140.0;50.0;140.0;20.0;10.0;20.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1540</x>
+      <y>644</y>
+      <w>70</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[build() == false]</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1449</x>
+      <y>707</y>
+      <w>98</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[build() == true]</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0;120.0;140.0</additional_attributes>
+  </element>
+</diagram>

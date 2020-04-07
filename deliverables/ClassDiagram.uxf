@@ -1,0 +1,1440 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>4</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>932</x>
+      <y>400</y>
+      <w>108</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>*Game*
+--
+- currentTurn: Turn
+- player : Winner
+--
++Game()
+
++getBoard() : Board
+
++getPlayers() : List&lt;Player&gt;
++getWinnner() : Optional&lt;Player&gt;
+
++removePlayer(String):boolean
++playerCount() : int
+
++getGameState() : GameState
++setGameState() 
+
++getTurn() : Turn
++nextTurn() 
+
++setNumberOfPlayers(int,String) : bool
++addPlayer(String) : bool
++removePlayer(String) : bool
++readyToStart() : bool
++submitGodList(Set&lt;String&gt;) : bool
++pickGod(String) : bool
++selectCoordinate() : bool
++quitGame() : bool
+
++addObserver(Observer)
++deleteObserver(Observer)
++notifyObservers()
+
++clone() : Player
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>844</x>
+      <y>716</y>
+      <w>88</w>
+      <h>92</h>
+    </coordinates>
+    <panel_attributes>*Player*
+--
+-name: String
+-order: Integer
+-god: AbstractGod
+-ready : boolean
+
+--
++Player(String,God,Integer)
+
++toggleReady()
++isReady() : boolean
++getGod() : God
++getBuilders() : List&lt;Builder&gt;
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>972</x>
+      <y>720</y>
+      <w>128</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>*Builder*
+--
+--
++Builder(Square)
++getPosition() : Square
++getOwner() : Player
++getWalkableNeighbours() : List&lt;Square&gt;
++getBuildableNeighbours() : List&lt;Square&gt;
+
++move(Square sq)
++build(Square sq) 
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>928</x>
+      <y>740</y>
+      <w>52</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>m2=1..N
+lt=&lt;&lt;&lt;&lt;-
+owns &gt;
+
+
+</panel_attributes>
+    <additional_attributes>10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>592</y>
+      <w>40</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>m2=2..3
+lt=&lt;&lt;&lt;&lt;-
+
+
+
+</panel_attributes>
+    <additional_attributes>80.0;20.0;10.0;20.0;10.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1132</x>
+      <y>704</y>
+      <w>96</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>*Square*
+--
+_MAX_HEIGHT := 3_
+-coordinates : Coordinate
+-domed : Boolean
+-level : Integer
+--
++Square(Coordinates)
++getBoard() : Board
++getCoordinates() : Coordinate
+
++getOccupant() : Optional&lt;Builder&gt;
++setOccupant(Builder)
++setEmptySquare()
+
++build()
++getBuildLevel() : BuildLevel
+
++isDomed() : Boolean
++addDome() : Boolean
++isBuildable() : Boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1096</x>
+      <y>740</y>
+      <w>44</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m2=0..1
+located in &gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1168</x>
+      <y>624</y>
+      <w>40</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>m2=25
+lt=&lt;&lt;&lt;&lt;-
+made of &gt;
+
+
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>452</y>
+      <w>148</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>/*God*/
+--
+#name : String
+--
+/+God(String,WinCondition, MoveBehavior, BuildBehavior)/
++setCondition(WinCondition)
++setMoveBehavior(MoveBehavior)
++getPlayer() : Player
+
++startTurn()
+
++getMoveNeighbours(Coordinate) : Set&lt;Square&gt;
++move(Coordinate) : Boolean
++checkWinCondition() : Optional&lt;Player&gt;
++checkSpecialWinCondition() : Optional&lt;Player&gt;
++getBuildNeighbours(Coordinate) : Set&lt;Squares&gt;
++build(Coordinate) : Boolean
++resetBehaviors()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>784</x>
+      <y>500</y>
+      <w>100</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>lt=-
+&lt; bound to</panel_attributes>
+    <additional_attributes>10.0;10.0;230.0;540.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>564</x>
+      <y>332</y>
+      <w>84</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;10.0;190.0;380.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>448</x>
+      <y>312</y>
+      <w>120</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+*BuildBehavior*
+--
+/+neighbours(Square) : Set&lt;Square&gt;/
+/+build(Builder,Square)/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>384</x>
+      <y>488</y>
+      <w>116</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+*MoveBehavior*
+--
+/+neighbourhood(Square) : Set&lt;Square&gt;/
+/+move(Builder, Square) : Boolean/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>436</x>
+      <y>688</y>
+      <w>84</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+*StartTurnBehavior*
+--
+/+startTurn()/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>496</x>
+      <y>496</y>
+      <w>152</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;20.0;360.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>476</x>
+      <y>536</y>
+      <w>172</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;380.0;410.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>680</x>
+      <y>284</y>
+      <w>136</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+*WinCondition*
+--
+/+checkWinCondition(): Optional&lt;Player&gt;/
+/+checkSpecialWinCondition(): Optional&lt;Player&gt;/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>712</x>
+      <y>316</y>
+      <w>24</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>40.0;10.0;10.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>592</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*SwapWithOpponentMove*
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++move(Builder, Square) : Boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>432</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*DoubleNoBackMove*
+--
+-previous : Square
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++move(Builder, Square) : Boolean
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>264</x>
+      <y>428</y>
+      <w>128</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>300.0;190.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>156</x>
+      <y>412</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*StandardMove*
+--
++neighbourhood(Square) : List&lt;Square&gt;
++move(Builder, Square) : Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>228</x>
+      <y>532</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*MoveDecorator*
+--
+#wrappedObject : MoveBehavior
+--
+/+neighbourhood(Square) : Set&lt;Square&gt;/
+/+move(Builder, Square) : Boolean/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>132</x>
+      <y>564</y>
+      <w>104</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>128</x>
+      <y>448</y>
+      <w>108</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>250.0;240.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>512</y>
+      <w>56</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>136</x>
+      <y>108</y>
+      <w>440</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>BuildBehavior
+bg=#e0ffff
+layer=-1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>480</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*NoUpMove*
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++move(Builder, Square) : Boolean
+layer=-1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>128</x>
+      <y>500</y>
+      <w>108</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>250.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>176</x>
+      <y>216</y>
+      <w>116</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*StandardBuild*
+
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++build(Builder,Square) : Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>288</x>
+      <y>232</y>
+      <w>168</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>400.0;240.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>316</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*AnyDomeBuild*
+
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++build(Builder,Square) : Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>288</x>
+      <y>336</y>
+      <w>168</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>400.0;20.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>176</x>
+      <y>260</y>
+      <w>112</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>*DoubleNoSameBuild*
+--
+-previous : Square
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++build(Builder,Square) : Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>284</x>
+      <y>276</y>
+      <w>172</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>410.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>176</x>
+      <y>164</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*DoubleSameBuild*
+--
+-second : Boolean
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++build(Builder,Square) : Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>284</x>
+      <y>184</y>
+      <w>172</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>410.0;340.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>536</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*OpponentPushMove*
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++move(Builder, Square) : Boolean
+layer=0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>128</x>
+      <y>556</y>
+      <w>108</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>250.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>768</x>
+      <y>216</y>
+      <w>140</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*StandardWinCondition*
+--
++checkWinCondition() : Optional&lt;Player&gt;
++checkSpecialWinCondition(): Optional&lt;Player&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>668</x>
+      <y>248</y>
+      <w>36</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>70.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>744</x>
+      <y>248</y>
+      <w>80</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>612</x>
+      <y>216</y>
+      <w>144</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*WinConditionDecorator*
+--
+#wrappedObject : WinCondition
+--
+/+checkWinCondition() : Optional&lt;Player&gt;/
+/+checkSpecialWinCondition(): Optional&lt;Player&gt;/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>760</x>
+      <y>152</y>
+      <w>144</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>*TwoDownWinCondition*
+--
++checkWinCondition() : Optional&lt;Player&gt;
++checkSpecialWinCondition(): Optional&lt;Player&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>180</y>
+      <w>40</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>0</x>
+      <y>388</y>
+      <w>552</w>
+      <h>276</h>
+    </coordinates>
+    <panel_attributes>MoveBehavior
+bg=#e0ffff
+layer=-1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>344</x>
+      <y>772</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*NoStartTurn*
+
+--
++startTurn()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>504</x>
+      <y>772</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*BuildStartTurn*
+
+--
++startTurn()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>720</y>
+      <w>64</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>496</x>
+      <y>720</y>
+      <w>72</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>596</x>
+      <y>52</y>
+      <w>324</w>
+      <h>308</h>
+    </coordinates>
+    <panel_attributes>WinCondition
+--
+bg=#e0ffff
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>672</x>
+      <y>660</y>
+      <w>84</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>*Apollo*
+--
+--
++God(String,WinCondition, 
+	MoveBehavior, BuildBehavior)
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>704</x>
+      <y>584</y>
+      <w>12</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>668</x>
+      <y>712</y>
+      <w>108</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>For clarity we haven't modeled all gods.
+Other gods are similar to Apollo model
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>632</x>
+      <y>432</y>
+      <w>172</w>
+      <h>340</h>
+    </coordinates>
+    <panel_attributes>Gods
+--
+bg=#e0ffff
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>308</x>
+      <y>668</y>
+      <w>312</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>*StartBehavior*
+--
+bg=#e0ffff
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1496</x>
+      <y>408</y>
+      <w>124</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+*GameState*
+--
+/+onEntry()/
+/+onExit()/
+
+
+/+setNumberOfPlayers(int,String) : bool/
+/+addPlayer(String) : bool/
+/+removePlayer(String) : bool/
+/+readyToStart() : bool/
+/+submitGodList(Set&lt;String&gt;) : bool/
+/+pickGod(String) : bool/
+/+selectCoordinate() : bool/
+/+quitGame() : bool/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1036</x>
+      <y>416</y>
+      <w>468</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+gameState</panel_attributes>
+    <additional_attributes>1150.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1380</x>
+      <y>432</y>
+      <w>104</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+*TurnState*
+--
+/+onEntry()/
+/+onExit()/
+
+
+/+selectBuilder(Builder) : bool/
+/+useGodPower() : bool/
+/+selectCoordinate(Coordinate) : bool/
+/+endPhase() : bool/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1260</x>
+      <y>372</y>
+      <w>508</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>GameStates
+--
+bg=#e0ffff
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>564</x>
+      <y>520</y>
+      <w>56</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>Strategy Pattern</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>820</x>
+      <y>316</y>
+      <w>56</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Decorator Pattern
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>288</x>
+      <y>496</y>
+      <w>56</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>Decorator Pattern</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>352</x>
+      <y>144</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*BeneathBuild*
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++build(Builder,Square) : Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>180</y>
+      <w>108</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>250.0;330.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>176</x>
+      <y>596</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*UnlimetedPerimetralMove*
+--
++neighbourhood(Square) : List&lt;Square&gt;
++move(Builder,Square) : Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>228</x>
+      <y>568</y>
+      <w>12</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>600</x>
+      <y>148</y>
+      <w>124</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>*FiveTowerWinCondition*
+--
+Player chronusPlayer
+--
++checkWinCondition() : Optional&lt;Player&gt;
++checkSpecialWinCondition(): Optional&lt;Player&gt;
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>628</x>
+      <y>180</y>
+      <w>32</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>60.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>216</x>
+      <y>120</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*DoubleNoPerimeterBuild*
+--
++neighbourhood(Square) : Set&lt;Square&gt;
++build(Builder,Square) : Boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>320</x>
+      <y>156</y>
+      <w>148</w>
+      <h>164</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>350.0;390.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>676</x>
+      <y>84</y>
+      <w>168</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>*NoPerimeterWinCondition*
+--
++checkWinCondition() : Optional&lt;Player&gt;
++checkSpecialWinCondition(): Optional&lt;Player&gt;
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>724</x>
+      <y>112</y>
+      <w>12</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;260.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1124</x>
+      <y>576</y>
+      <w>92</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>*Board*
+--
+--
++ Board()
++ squareAt(Coordinate) : Square
++ getFreeSquares() : List&lt;Square&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1036</x>
+      <y>596</y>
+      <w>96</w>
+      <h>12</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>220.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1016</x>
+      <y>140</y>
+      <w>108</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>*GameController*
+--
+- model : GameModel
+- view : View
+- gods : Set&lt;God&gt;
+- numberOfPlayers : Integer
+--
++GameController()
+
++setNumberOfPlayers(int,String) : bool
++addPlayer(String)  : bool
++removePlayer(String)  : bool
++readyToStart()  : bool
++submitGodList(Set&lt;String&gt;)  : bool
++pickGod(String)  : bool
++selectCoordinate()  : bool
++quitGame()  : bool
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>972</x>
+      <y>280</y>
+      <w>12</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>
+lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>936</x>
+      <y>264</y>
+      <w>56</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>java.util.Observable</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1024</x>
+      <y>244</y>
+      <w>12</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1052</x>
+      <y>100</y>
+      <w>48</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>
+lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>100.0;20.0;10.0;20.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1092</x>
+      <y>100</y>
+      <w>48</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+java.util.Observer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>192</x>
+      <y>476</y>
+      <w>56</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>NoDiagonal</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1212</x>
+      <y>448</y>
+      <w>176</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+turnState</panel_attributes>
+    <additional_attributes>420.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1132</x>
+      <y>432</y>
+      <w>84</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>Turn
+--
+-Player currentPlayer
+
+--
++Turn(Player)
++getCurrentPlayer() : Player
++getTurnState() : TurnState
++setTurnState(TurnState)
+
++selectBuilder(Builder) : bool
++useGodPower() : bool
++selectCoordinate(Coordinate) : bool
++endPhase() : bool</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1036</x>
+      <y>448</y>
+      <w>104</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>lt=-
+currentTurn</panel_attributes>
+    <additional_attributes>10.0;20.0;240.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1508</x>
+      <y>540</y>
+      <w>88</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>PlaceBuilders
+--
++onEntry()
++onExit()
+
++setNumberOfPlayers()
++addPlayer(Player)
++removePlayer(String)
++submitGodList(Stream&lt;God&gt;)
++selectCoordinate()
++quitGame()
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1368</x>
+      <y>560</y>
+      <w>88</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>SelectionPhase
+--
++onEntry()
++onExit()
+
+
++selectBuilder(Builder)
++useGodPower()
++selectCoordinate(Coordinate)
++endPhase()
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1376</x>
+      <y>516</y>
+      <w>40</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1540</x>
+      <y>500</y>
+      <w>16</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>20.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1012</x>
+      <y>80</y>
+      <w>256</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>Controller
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1008</x>
+      <y>280</y>
+      <w>100</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+/GameModel/
+--
+
+/+setNumberOfPlayers(int,String) : bool/
+/+addPlayer(String) : bool/
+/+removePlayer(String) : bool/
+/+readyToStart() : bool/
+/+submitGodList(Set&lt;String&gt;) : bool/
+/+pickGod(String) : bool/
+/+selectCoordinate() : bool/
+/+quitGame() : bool/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1020</x>
+      <y>356</y>
+      <w>12</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>
+lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1144</x>
+      <y>160</y>
+      <w>108</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>*TurnController*
+--
+- model : Game
+- view : View
+- gods : Set&lt;God&gt;
+- numberOfPlayers : Integer
+--
++Controller()
+
++selectBuilder(Builder)  : bool
++useGodPower() : bool
++selectCoordinate(Coordinate) : bool
++endPhase()  : bool
+
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1132</x>
+      <y>304</y>
+      <w>100</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+/TurnModel/
+--
+/+selectBuilder(Builder) : bool/
+/+useGodPower() : bool/
+/+selectCoordinate(Coordinate) : bool/
+/+endPhase() : bool/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1180</x>
+      <y>372</y>
+      <w>12</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>
+lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1180</x>
+      <y>244</y>
+      <w>12</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1136</x>
+      <y>100</y>
+      <w>60</w>
+      <h>68</h>
+    </coordinates>
+    <panel_attributes>
+lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;20.0;130.0;20.0;130.0;150.0</additional_attributes>
+  </element>
+</diagram>
