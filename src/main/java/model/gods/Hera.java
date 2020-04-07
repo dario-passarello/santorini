@@ -17,9 +17,14 @@ public class Hera extends God {
     }
 
     @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
+
+    @Override
     public void configureAllOtherWinConditions(List<God> targets) {
         //Set No Perimeter win condition to all other gods
-        for(God g : targets.stream().filter(g -> g.equals(this)).collect(Collectors.toList())){
+        for(God g : targets.stream().filter(g -> !g.equals(this)).collect(Collectors.toList())){
             g.setWinCondition(new NoPerimeterWinCondition(g.getWinCondition()));
         }
     }

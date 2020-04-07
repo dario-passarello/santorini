@@ -14,5 +14,8 @@ public class Triton extends God{
     }
 
 
-
+    @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
 }

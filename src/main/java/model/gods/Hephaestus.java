@@ -17,4 +17,8 @@ public class Hephaestus extends God {
     }
 
 
+    @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
 }

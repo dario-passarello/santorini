@@ -16,4 +16,8 @@ public class Zeus extends God {
         super("Zeus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new BeneathBuild(new StandardBuild()));
     }
 
+    @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
 }

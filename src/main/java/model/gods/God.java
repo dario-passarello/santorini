@@ -72,6 +72,8 @@ public abstract class God {
     public BuildBehavior getBuildBehavior() {
         return buildBehavior;
     }
+    public abstract boolean hasSpecialStartPower();
+    public abstract boolean hasSpecialBuildPower();
 
 
     public void startTurn(){
@@ -122,7 +124,7 @@ public abstract class God {
     }
 
     public void configureAllOtherWinConditions(List<God> targets){
-
+        //Standard method does nothing
     }
 
 

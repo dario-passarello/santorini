@@ -15,4 +15,8 @@ public class Apollo extends God {
 
     }
 
+    @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
 }

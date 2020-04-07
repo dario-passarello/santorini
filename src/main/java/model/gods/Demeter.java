@@ -17,4 +17,8 @@ public class Demeter extends God {
     }
 
 
+    @Override
+    public boolean hasSpecialStartPower() {
+        return false;
+    }
 }

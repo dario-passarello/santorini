@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-public class Game implements Observable, Cloneable {
+public class Game implements Observable, GameModel {
 
 
     private Integer maxPlayers;
@@ -22,7 +22,7 @@ public class Game implements Observable, Cloneable {
     private Board board;
     private List<God> godList;
 
-    private Player host; //TODO
+    private Player host;
     private Player winner;
 
     private GameState currentGameState;
@@ -97,79 +97,36 @@ public class Game implements Observable, Cloneable {
      *      | STATE MACHINE INPUT METHODS |
      *      +-----------------------------+
      */
-    /**
-     *
-     * Sets number of players and then updates the game state
-     * @param num Number of players
-     * @param hostPlayerName Name of the player who hosts this game
-     * @return true if true if this function call is legit for the current GameState function call is legit for the current GameState
-     */
     public boolean configureGame(String hostPlayerName, int num){
         return currentGameState.configureGame(num, hostPlayerName);
     }
-    /**
-     * Adds a new player waiting in the lobby and updates the game state
-     * @param playerName name of the player
-     * @return false if there is another player with the same name of one of the player in the lobby
-     * or if the lobby is full.
-     */
+    
     public boolean registerPlayer(String playerName) {
         return currentGameState.registerPlayer(playerName);
     }
-    /**
-     * Searches a player by name and removes it from the lobby and then updates the game state
-     * @return true if the function call is legit for the current GameState and the player removal succeeded
-     */
+
     public boolean unregisterPlayer(String playerName) {
         return currentGameState.unregisterPlayer(playerName);
     }
 
-    /**
-     * Starts the game after all players are in lobby
-     * @return true if the are enough players to start the game
-     * and if the function call is legit for the current GameState
-     */
     public boolean readyToStart(){
         return currentGameState.readyToStart();
     }
 
-    /**
-     * Receives the list of the names of the gods chosen by the host for the game
-     * @param godList The list of the names of the gods chosen for the game, it should contain
-     *                a number of valid god names equal to the number of the player in the game or
-     *                it could be left empty (in this case a game with 3 "mortals" will be initialized
-     * @return true if this function call is legit for the current GameState and if godList
-     *  is a valid list
-     */
     public boolean submitGodList(Set<String> godList) {
         return currentGameState.submitGodList(godList);
     }
 
-    /**
-     * Receive the godPick from the player
-     * @param godName
-     * @return true if this function call is legit for the current GameState
-     */
     public boolean pickGod(String godName) {
         return currentGameState.pickGod(godName);
     }
-    /**
-     * Inputs coordinates in the game state (useful for builders placement phase)
-     * @param coordinate The coordinate given to the model
-     * @return true if this function call is legit for the current GameState and if
-     *  the parameters are valid
-     */
+
     public boolean selectCoordinate(Coordinate coordinate) {
         return currentGameState.selectCoordinate(coordinate);
     }
 
-    /**
-     *  Quits the game
-     *  @return true if this function call is legit for the current GameState
-     */
     public boolean quitGame() {
         return currentGameState.quitGame();
-        //TODO
     }
 
     /**
@@ -213,7 +170,6 @@ public class Game implements Observable, Cloneable {
     }
 
     public void setMaxPlayers(int max) {
-
         maxPlayers = max;
     }
 
@@ -247,10 +203,6 @@ public class Game implements Observable, Cloneable {
         godList = new ArrayList<>(list);
     }
 
-    public List<God> getGodList() {
-        return new ArrayList<>(godList);
-    }
-
     public void generatePickAndPlaceStates(){
         for(int i = 0; i < players.size(); i++){
             Player p = players.get(i);
@@ -267,13 +219,17 @@ public class Game implements Observable, Cloneable {
         return placeBuilderStates.get(order);
     }
 
-    //Subject interface implementations
+    //Observable interface implementations
     public void addObserver(Observer o) {
-        //TODO Implement observer pattern
+        this.observers.add(o);
+    }
+
+    public List<God> getGodList() {
+        return new ArrayList<>(godList);
     }
 
     public void deleteObserver(Observer o) {
-        //TODO Implement observer pattern
+        this.observers.remove(o);
     }
 
     public void notifyObservers() {

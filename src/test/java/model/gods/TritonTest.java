@@ -30,7 +30,7 @@ class TritonTest {
         Assert.assertTrue(b13.move(board.squareAt(0,4)));           //from center to perimeter
         Assert.assertTrue(b13.move(board.squareAt(1,4)));           //from perimeter to perimeter
         Assert.assertFalse(b13.move(board.squareAt(1,3)));          //from perimeter to center
-        Assert.assertTrue(b13.move(board.squareAt(2,3)));           //from center to center
+        Assert.assertFalse(b13.move(board.squareAt(2,3)));           //from center to center
     }
 
 }
