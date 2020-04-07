@@ -17,7 +17,13 @@ public class DoubleNotSameBuild extends BuildDecorator {
 
 
     public boolean build(Square dest) {
-        return false;
+        if(second == false){
+            second = true;
+            previous = dest;
+            wrappedBuildBehavior.build(dest);
+            return true;
+        }
+        else return wrappedBuildBehavior.build(dest);
     }
 
     /**
@@ -26,12 +32,12 @@ public class DoubleNotSameBuild extends BuildDecorator {
      * @param src the position of the builder that wants to build
      * @return the set of square where the builder can build
      */
-    public HashSet<Square> neighborhood(Square src) {
+    public Set<Square> neighborhood(Square src) {
         if(second == false){
             return this.wrappedBuildBehavior.neighborhood(src);
         }
         else{
-            HashSet<Square> buildable = this.wrappedBuildBehavior.neighborhood(src);
+            Set<Square> buildable = this.wrappedBuildBehavior.neighborhood(src);
             if(buildable.contains(previous)) buildable.remove(previous);
             return buildable;
         }

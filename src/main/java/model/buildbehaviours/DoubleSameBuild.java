@@ -16,7 +16,13 @@ public class DoubleSameBuild extends BuildDecorator {
 
 
     public boolean build(Square dest) {
-        return false;
+        if(second == false){
+            second = true;
+            previous = dest;
+            wrappedBuildBehavior.build(dest);
+            return true;
+        }
+        else return wrappedBuildBehavior.build(dest);
     }
 
     /**
@@ -25,13 +31,14 @@ public class DoubleSameBuild extends BuildDecorator {
      * @param src the position of the builder that wants to build
      * @return the set of squares where the builder can build
      */
-    public HashSet<Square> neighborhood(Square src) {
+    public Set<Square> neighborhood(Square src) {
         if(second == false){
             return(this.wrappedBuildBehavior.neighborhood(src));
         }
         else{
             HashSet<Square> buildable = new HashSet<>();
-            if(previous.getBuildLevel() < 3) buildable.add(previous);
+            if((previous.getBuildLevel() < 3) || (previous.getBuildLevel() == 3 && !previous.isDomed()))
+                buildable.add(previous);
             return buildable;
         }
     }

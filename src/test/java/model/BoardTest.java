@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.Coordinate;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class BoardTest {
     private Board b;
     @Before
@@ -31,8 +33,8 @@ public class BoardTest {
         Assert.assertEquals(b.squareAt(2,3).getCoordinate(), new Coordinate(2,3));
         Assert.assertEquals(b.squareAt(0,0).getCoordinate(), new Coordinate(0,0));
         Assert.assertEquals(b.squareAt(2,3).getCoordinate(), new Coordinate(4,2));
-        Assert.assertThrows(IndexOutOfBoundsException.class, () -> b.squareAt(Board.BOARD_SIZE,2));
-        Assert.assertThrows(IndexOutOfBoundsException.class, () -> b.squareAt(0,Board.BOARD_SIZE));
+        assertThrows(IndexOutOfBoundsException.class, () -> b.squareAt(Board.BOARD_SIZE,2));
+        assertThrows(IndexOutOfBoundsException.class, () -> b.squareAt(0,Board.BOARD_SIZE));
 
     }
 }

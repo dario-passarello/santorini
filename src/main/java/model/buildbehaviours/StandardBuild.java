@@ -11,16 +11,19 @@ public class StandardBuild implements BuildBehavior {
 
 
     public boolean build(Square dest) {
+        dest.build();
         return false;
     }
 
 
-    public HashSet<Square> neighborhood(Square src) {
-        HashSet<Square> buildable = src.getNeighbors();
-
+    public Set<Square> neighborhood(Square src) {
+        Set<Square> buildable = src.getNeighbors();
+        Set<Square> removable = new HashSet<>();
         for(Square square : buildable){
-            if(square.isDomed() == true) buildable.remove(square);
+            if(square.isDomed() == true) removable.add(square);
         }
+
+        buildable.removeAll(removable);
 
         return buildable;
     }

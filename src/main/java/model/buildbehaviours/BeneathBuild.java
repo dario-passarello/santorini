@@ -11,7 +11,7 @@ public class BeneathBuild extends BuildDecorator{
     private BuildBehavior wrappedBuildBehavior;
 
     public boolean build(Square dest) {
-        return false;
+        return wrappedBuildBehavior.build(dest);
     }
 
 
@@ -20,10 +20,11 @@ public class BeneathBuild extends BuildDecorator{
      * @param src the position of the builder that wants to build
      * @return the list of squares the builder can build
      */
-    public HashSet<Square> neighborhood(Square src) {
-        HashSet<Square> buildable = wrappedBuildBehavior.neighborhood(src);
-        buildable.add(src);
+    public Set<Square> neighborhood(Square src) {
+        Set<Square> buildable = wrappedBuildBehavior.neighborhood(src);
+        if(src.getBuildLevel() <= 2) buildable.add(src);
         return buildable;
+
     }
 
     public BeneathBuild(BuildBehavior buildBehavior){
