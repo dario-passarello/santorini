@@ -11,5 +11,5 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class NoUpMoveTest {
-    //probably useless, we will test this behavior in AthenaTest
+    //probably useless, we will test this behavior in BlockUpMoveTest
 }
