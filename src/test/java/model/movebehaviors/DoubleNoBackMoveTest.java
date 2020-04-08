@@ -4,15 +4,12 @@ import model.*;
 import model.gods.Artemis;
 import model.gods.Atlas;
 import model.gods.God;
-import model.gods.Pan;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DoubleNoBackMoveTest {
 

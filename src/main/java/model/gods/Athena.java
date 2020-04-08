@@ -1,8 +1,7 @@
 package model.gods;
 
-import model.Player;
 import model.buildbehaviours.StandardBuild;
-import model.movebehaviors.MoveBehavior;
+import model.movebehaviors.BlockUpMove;
 import model.movebehaviors.NoUpMove;
 import model.movebehaviors.StandardMove;
 import model.startbehaviors.NoStartTurn;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 public class Athena extends God {
 
     public Athena(){
-        super( "Athena", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
+        super( "Athena", new StandardWinCondition(), new NoStartTurn(), new BlockUpMove(new StandardMove()), new StandardBuild());
         //INFLUENZA GLI AVVERSARI
     }
 

@@ -35,8 +35,8 @@ public class OpponentPushMove extends MoveDecorator {
                 int dirY = srcY - squareY;
                 int pushX = squareX + dirX;
                 int pushY = squareY + dirY;
-                Board board = square.getBoard();
-                if(pushX >= 0 && pushX <= board.BOARD_SIZE-1 && pushY >= 0 && pushY <= board.BOARD_SIZE-1) {     //check if I can push him
+
+                if(pushX >= 0 && pushX <= Board.BOARD_SIZE-1 && pushY >= 0 && pushY <= Board.BOARD_SIZE-1) {     //check if I can push him
                     Square push = square.getBoard().squareAt(squareX + dirX, squareY + dirY);
 
                     if (push.getBuildLevel() - square.getBuildLevel() <= 1 &&
@@ -46,8 +46,8 @@ public class OpponentPushMove extends MoveDecorator {
                 }
             }
         }
-        neighborhood(src).addAll(neighborhood);
-        return wrappedMoveBehavior.neighborhood(src);
+        neighborhood.addAll(wrappedMoveBehavior.neighborhood(src));
+        return neighborhood;
     }
 
 
