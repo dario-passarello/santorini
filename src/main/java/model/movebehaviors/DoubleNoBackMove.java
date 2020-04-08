@@ -26,8 +26,7 @@ public class DoubleNoBackMove extends MoveDecorator {
 
         Set<Square> remove = new HashSet<>();
         remove.add(previous);
-        // second move
-        if (previous != null) {
+        if (previous != null) {                                                    // second move
             neighborhood(src).removeAll(remove);
         }
         return wrappedMoveBehavior.neighborhood(src);                              // first move
@@ -39,8 +38,15 @@ public class DoubleNoBackMove extends MoveDecorator {
      * @return true in the first move, false in the second one
      */
     public boolean move(Builder b, Square dest) {
+        Square save = b.getPosition();
         wrappedMoveBehavior.move(b, dest);
-        return previous == null;
+        if(previous == null){
+            previous = save;
+            return true;
+        } else {
+            previous = null;
+            return false;
+        }
     }
 }
 
