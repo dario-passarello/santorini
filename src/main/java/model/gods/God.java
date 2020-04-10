@@ -73,7 +73,7 @@ public abstract class God {
         return buildBehavior;
     }
     public abstract boolean hasSpecialStartPower();
-    public abstract boolean hasSpecialBuildPower();
+    //public abstract boolean hasSpecialBuildPower();
 
 
     public void startTurn(){
