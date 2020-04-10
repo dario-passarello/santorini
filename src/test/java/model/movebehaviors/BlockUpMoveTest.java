@@ -34,6 +34,7 @@ class BlockUpMoveTest {
         g.setGodList(godList);
     }
 
+    //here we test BlockUpMove and NoUpMove all at once
     @Test
     public void enemyShouldNotMoveUp(){
         Builder b01 = new Builder(s[0][1], p1);

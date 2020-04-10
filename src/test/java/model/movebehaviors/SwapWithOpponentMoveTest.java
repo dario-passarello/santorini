@@ -22,7 +22,7 @@ class SwapWithOpponentMoveTest {
     private Square[][] s;
 
     @Before
-    public void setUpTest(){
+    public void init(){
         g = new Game();
         board = g.getBoard();
         s = BoardTest.boardToMatrix(board);
