@@ -1,11 +1,16 @@
-package model.gods;
+package model.movebehaviors;
 
 import model.*;
+import model.gods.God;
+import model.gods.Triton;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-class TritonTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class UnlimitedPerimetralMoveTest {
+
 
     private Player p1;
     private God g1;

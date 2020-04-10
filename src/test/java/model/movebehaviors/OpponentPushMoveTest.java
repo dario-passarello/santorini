@@ -1,6 +1,9 @@
-package model.gods;
+package model.movebehaviors;
 
 import model.*;
+import model.gods.Atlas;
+import model.gods.God;
+import model.gods.Minotaur;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class MinotaurTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class OpponentPushMoveTest {
 
     private Player p1, p2, p3;
     private God g1, g2;
@@ -104,7 +109,6 @@ class MinotaurTest {
         Assert.assertEquals(expectedList, b12.getWalkableNeighborhood());
 
     }
-
 
 
 }

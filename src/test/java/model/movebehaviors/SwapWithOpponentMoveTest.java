@@ -1,16 +1,19 @@
-package model.gods;
+package model.movebehaviors;
 
 import model.*;
+import model.gods.Apollo;
+import model.gods.Atlas;
+import model.gods.God;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-class ApolloTest {
-
+class SwapWithOpponentMoveTest {
 
     private Player p1, p2, p3;
     private God g1, g2;
@@ -32,9 +35,6 @@ class ApolloTest {
         p2.setGod(g2);
     }
 
-    /**
-     * this test checks if the Apollo's move behavior works
-     */
     @Test
     public void canUsePower(){
         //creating some buildings
@@ -62,12 +62,11 @@ class ApolloTest {
         List<Square> expectedList = Arrays.asList(s[2][2],s[2][3]);   //b1 should be able to move only on these squares
         Assert.assertEquals(expectedList, b33.getBuildableNeighborhood());
 
-        b33.move(board.squareAt(2,2));
+        b33.move(s[2][2]);
 
         Assert.assertSame(s[3][3].getOccupant().orElse(null),b22);
         Assert.assertSame(s[2][2].getOccupant().orElse(null),b33);
 
     }
-
 
 }
