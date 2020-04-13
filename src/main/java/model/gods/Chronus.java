@@ -12,14 +12,16 @@ import java.util.List;
 public class Chronus extends God {
 
     public Chronus(){
-        super("Chronus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
+        super("Chronus",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new StandardMove(),
+                new StandardBuild(),
+                false,
+                false);
         super.setWinCondition(new FiveTowerWinCondition(new StandardWinCondition(), this));
     }
 
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 
     @Override
     public void configureAllOtherWinConditions(List<God> targets) {

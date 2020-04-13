@@ -5,14 +5,14 @@ import utils.Coordinate;
 
 import java.util.List;
 
-public class ShowWalkableFirstState implements TurnState {
+public class ShowWalkableState implements TurnState {
 
     private final Turn turn;
     private final Game game;
     private final boolean deselectable;
     private final boolean firstMove;
 
-    public ShowWalkableFirstState(Turn turn, Game game, boolean deselectable, boolean firstMove){
+    public ShowWalkableState(Turn turn, Game game, boolean deselectable, boolean firstMove){
         this.turn = turn;
         this.game = game;
         this.deselectable = deselectable;
@@ -38,7 +38,6 @@ public class ShowWalkableFirstState implements TurnState {
             turn.setTurnState(turn.builderSelectionState);
             List<Builder> builders = turn.getCurrentPlayer().getBuilders();
             //TODO Notify Observer - Deselected, show builders
-            return true;
         }
         else {
             turn.setActiveBuilder(b);
@@ -67,14 +66,19 @@ public class ShowWalkableFirstState implements TurnState {
         }
         canMoveAgain = turn.getActiveBuilder().move(destSquare);
         if(canMoveAgain) {
-            turn.setTurnState(turn.showWalkableUndeselectableState);
+            turn.setTurnState(turn.showWalkableAdditionalState);
         } else {
-            turn.setTurnState(turn.showW);
+            turn.setTurnState(turn.showBuildableFirstState);
         }
+        //TODO: Notify Observers - Moved, State Change
+        return true;
     }
 
     @Override
     public boolean endPhase() {
-        return false;
+        if(firstMove) return false; //You can't skip first move
+        turn.setTurnState(turn.showBuildableFirstState);
+        //TODO: Notify Observers - State Change
+        return true;
     }
 }

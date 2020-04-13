@@ -10,12 +10,13 @@ import model.wincondition.StandardWinCondition;
 public class Minotaur extends God {
 
     public Minotaur() {
-        super("Minotaur", new StandardWinCondition(), new NoStartTurn(), new OpponentPushMove(new StandardMove()), new StandardBuild());
+        super("Minotaur",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new OpponentPushMove(new StandardMove()),
+                new StandardBuild(),
+                false,
+                false);
     }
 
-
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 }

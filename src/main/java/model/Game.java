@@ -100,7 +100,7 @@ public class Game implements Observable, GameModel {
     public boolean configureGame(String hostPlayerName, int num){
         return currentGameState.configureGame(num, hostPlayerName);
     }
-    
+
     public boolean registerPlayer(String playerName) {
         return currentGameState.registerPlayer(playerName);
     }

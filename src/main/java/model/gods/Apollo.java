@@ -11,12 +11,13 @@ import model.wincondition.StandardWinCondition;
 public class Apollo extends God {
     
     public Apollo() {
-        super("Apollo", new StandardWinCondition(), new NoStartTurn(), new SwapWithOpponentMove(new StandardMove()), new StandardBuild());
+        super("Apollo",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new SwapWithOpponentMove(new StandardMove()), new StandardBuild(),
+                false,
+                false
+        );
 
-    }
-
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
     }
 }

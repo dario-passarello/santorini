@@ -13,12 +13,13 @@ import model.wincondition.StandardWinCondition;
 public class Demeter extends God {
 
     public Demeter() {
-        super("Demeter", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNotSameBuild(new StandardBuild()));
+        super("Demeter",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new StandardMove(),
+                new DoubleNotSameBuild(new StandardBuild()),
+                false,
+                false);
     }
 
-
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 }

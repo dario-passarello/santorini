@@ -14,14 +14,16 @@ import java.util.stream.Collectors;
 public class Athena extends God {
 
     public Athena(){
-        super( "Athena", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
+        super( "Athena",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new StandardMove(),
+                new StandardBuild(),
+                false,
+                false);
         //INFLUENZA GLI AVVERSARI
     }
 
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 
     @Override
     public void setAllMoveBehaviors(List<God> targets) {

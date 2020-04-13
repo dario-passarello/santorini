@@ -6,8 +6,8 @@ import model.Turn;
 import utils.Coordinate;
 
 public class EndTurnState implements TurnState {
-    private Turn turn;
-    private Game game;
+    private final Turn turn;
+    private final Game game;
 
     public EndTurnState(Turn turn, Game game){
         this.turn = turn;

@@ -9,11 +9,13 @@ import model.wincondition.StandardWinCondition;
 public class Prometheus extends God {
 
     public Prometheus(){
-        super("Prometheus", new StandardWinCondition(), new BuildStartTurn(), new StandardMove(), new StandardBuild());
+        super("Prometheus",
+                new StandardWinCondition(),
+                new BuildStartTurn(),
+                new StandardMove(),
+                new StandardBuild(),
+                false,
+                true);
     }
 
-    @Override
-    public boolean hasSpecialStartPower() {
-        return true;
-    }
 }

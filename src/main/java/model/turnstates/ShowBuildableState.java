@@ -1,17 +1,17 @@
 package model.turnstates;
 
-import model.Builder;
-import model.Game;
-import model.Turn;
+import model.*;
 import utils.Coordinate;
 
-public class ShowBuildable implements TurnState {
+public class ShowBuildableState implements TurnState {
     private final Turn turn;
     private final Game game;
+    private final boolean firstBuild;
 
-    public ShowWalkableAdditional(Turn turn, Game game){
+    public ShowBuildableState(Turn turn, Game game, boolean firstBuild){
         this.turn = turn;
         this.game = game;
+        this.firstBuild = firstBuild;
     }
 
 
@@ -31,14 +31,37 @@ public class ShowBuildable implements TurnState {
 
 
     public boolean useGodPower() {
-        return false;
+        if(!turn.getCurrentPlayer().getGod().hasSpecialBuildPower() || !firstBuild)
+            return false;
+        turn.setTurnState(turn.showBuildableSpecialDomeState);
+        //TODO Notify Observers - State Changed
+        return true;
     }
 
     public boolean selectCoordinate(Coordinate c) {
-        return false;
+        Square destSquare;
+        boolean canBuildAgain;
+        if(!Board.checkValidCoordinate(c)){
+            throw new IllegalArgumentException("Coordinate out of range");
+        }
+        destSquare = game.getBoard().squareAt(c);
+        if(!turn.getActiveBuilder().getBuildableNeighborhood().contains(destSquare)){
+            throw new IllegalArgumentException("Coordinate not buildable from the active builder position");
+        }
+        canBuildAgain = turn.getActiveBuilder().move(destSquare);
+        if(canBuildAgain){
+            turn.setTurnState(turn.showBuildableAdditionalState);
+        } else {
+            turn.setTurnState(turn.endTurnState);
+        }
+        //TODO Notify Observers - Build, state changed
+        return true;
     }
 
     public boolean endPhase() {
-        return false;
+        if(firstBuild) return false;
+        turn.setTurnState(turn.endTurnState);
+        //TODO Notify Observers - State Changed
+        return true;
     }
 }
