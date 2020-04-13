@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Board {
+    /**
+     * Number of Squares per side of the board
+     */
     public final static int BOARD_SIZE = 5;
 
     private Square[][] matrix;
@@ -53,6 +56,11 @@ public class Board {
 
     }
 
+    /**
+     * Check if a coordinate has components between 0 and BOARD_SIZE
+     * @param coord A coordinate to check
+     * @return true if the coordinate represents a square in the board
+     */
     public static boolean checkValidCoordinate(Coordinate coord) {
         return coord.getX() >= 0
                 && coord.getX() < BOARD_SIZE

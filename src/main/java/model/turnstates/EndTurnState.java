@@ -15,7 +15,8 @@ public class EndTurnState implements TurnState {
     }
 
     public void onEntry() {
-
+        turn.getCurrentPlayer().getGod().resetBehaviors(); //Reset God Behaviors
+        game.nextTurn(); //Go to the next condition
     }
 
     public void onExit() {

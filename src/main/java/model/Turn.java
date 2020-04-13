@@ -18,12 +18,9 @@ public class Turn {
     public final TurnState showBuildableSpecialDomeState;
     public final TurnState endTurnState;
 
-
     private Game game;
     private TurnState currentState;
     private Player currentPlayer;
-
-
 
     private Builder activeBuilder;
 

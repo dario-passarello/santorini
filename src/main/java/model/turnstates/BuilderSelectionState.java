@@ -22,8 +22,9 @@ public class BuilderSelectionState implements TurnState {
     public void onEntry() {
 
         if(turn.getCurrentPlayer().checkMovingLoseCondition()){
-            //The player lost, switch turn and remove from the turn cycle
-            //TODO Notify Observers  - Lost
+            //The player lost, switch turn and remove from the turn cycle, remove builders
+            turn.getCurrentPlayer().loser();
+            //TODO Notify Observers  - Lost, Update Board
             game.nextTurn();
         }
     }

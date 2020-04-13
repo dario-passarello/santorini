@@ -4,6 +4,7 @@ import model.*;
 import utils.Coordinate;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ShowWalkableState implements TurnState {
 
@@ -55,8 +56,12 @@ public class ShowWalkableState implements TurnState {
 
     @Override
     public boolean selectCoordinate(Coordinate c) throws IllegalArgumentException {
+        Square prevSquare = turn.getActiveBuilder().getPosition();
         Square destSquare;
+        Optional<Player> optionalWinner;
+
         boolean canMoveAgain;
+        //Move validity check
         if(!Board.checkValidCoordinate(c)){
             throw new IllegalArgumentException("Coordinate out of range");
         }
@@ -64,7 +69,13 @@ public class ShowWalkableState implements TurnState {
         if(!turn.getActiveBuilder().getWalkableNeighborhood().contains(destSquare)){
             throw new IllegalArgumentException("Coordinate not walkable from the active builder position");
         }
+        //Movement
         canMoveAgain = turn.getActiveBuilder().move(destSquare);
+
+        //Win condition check
+        optionalWinner = turn.getCurrentPlayer().getGod().checkWinCondition(prevSquare, turn.getActiveBuilder()); //Check win condition
+        optionalWinner.ifPresent(game::declareWinner);
+
         if(canMoveAgain) {
             turn.setTurnState(turn.showWalkableAdditionalState);
         } else {

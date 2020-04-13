@@ -53,8 +53,7 @@ public class GodSelectionState implements GameState {
         } else if(godNamesList.size() == game.getMaxPlayers()) { //Ma
             godObjectsList = godNamesList.stream().map(factory::getGod).collect(Collectors.toList());
         } else {
-            //TODO Log error
-            return false;
+            throw new IllegalArgumentException("Malformed God List");
         }
         for(God g : godObjectsList) {    //Apply global win condition to all gods
             g.configureAllOtherWinConditions(godObjectsList);

@@ -32,8 +32,9 @@ public class ShowBuildableSpecialState implements TurnState {
         return true;
     }
 
-    public boolean selectCoordinate(Coordinate c) {
+    public boolean selectCoordinate(Coordinate c) throws IllegalArgumentException {
         Square destSquare;
+        boolean canBuildAgain;
         if(Board.checkValidCoordinate(c))
             throw new IllegalArgumentException("Coordinate out of range");
         destSquare = game.getBoard().squareAt(c);
@@ -41,10 +42,19 @@ public class ShowBuildableSpecialState implements TurnState {
             throw new IllegalArgumentException("Coordinate not buildable from the active builder position");
         }
         if(!dome) {
-
+            turn.getActiveBuilder().build(destSquare);
+            canBuildAgain = turn.getActiveBuilder().build(destSquare);
+            if(canBuildAgain){
+                turn.setTurnState(turn.showBuildableAdditionalState);
+            } else {
+                turn.setTurnState(turn.endTurnState);
+            }
         } else {
-
+            turn.getActiveBuilder().buildDome(destSquare);
+            turn.setTurnState(turn.endTurnState);
         }
+        //TODO Notify Observer - Build, State Changed
+        return true;
     }
 
     public boolean endPhase() {

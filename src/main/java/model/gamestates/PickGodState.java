@@ -69,8 +69,7 @@ public class PickGodState implements GameState {
             player.setGod(god);
         }
         else {
-            //TODO log wrong choice
-            return false;
+            throw new IllegalArgumentException("God Name Invalid");
         }
         if(order + 1 < game.getMaxPlayers()) {
             game.setGameState(game.getPickGodState(order + 1)); //Pick next player god

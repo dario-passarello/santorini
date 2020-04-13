@@ -11,10 +11,12 @@ public class Player {
     private String name;
     private God god;
     private List<Builder> builders;
+    private boolean spectator;
 
     public Player(Game game, String name) {
         this.game = game;
         this.name = name;
+        this.spectator = false;
     }
 
     /**
@@ -33,6 +35,11 @@ public class Player {
         Builder b = new Builder(square, this, builders.size());
         builders.add(b);
         return b;
+    }
+
+    public void loser() {
+        spectator = false;
+        builders.forEach(Builder::removeBuilder);
     }
 
     /**
@@ -57,6 +64,9 @@ public class Player {
         return builders.stream().allMatch(builder -> builder.getBuildableNeighborhood().isEmpty());
     }
 
+    public boolean isSpectator() {
+        return spectator;
+    }
 
     /**
      * @return get a copy of the list of the builders controlled by the players

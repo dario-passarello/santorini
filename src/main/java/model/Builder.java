@@ -88,6 +88,18 @@ public class Builder {
         return playerGod.build(this,sq);
     }
 
+    public boolean buildDome(Square sq) {
+        sq.addDome();
+        return false;
+    }
+
+    public void removeBuilder() {
+        sq.
+    }
+
+
+
+
 
     @Override
     public boolean equals(Object o) {

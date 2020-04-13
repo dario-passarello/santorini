@@ -30,7 +30,7 @@ public class LobbyState implements GameState {
             game.notifyObservers();
             return true;
         } else {
-            return false;
+            throw new IllegalArgumentException("Player registration failed");
         }
     }
 
@@ -40,7 +40,7 @@ public class LobbyState implements GameState {
             game.notifyObservers();
             return true;
         } else {
-            return false;
+            throw new IllegalArgumentException("Player not exists");
         }
     }
 

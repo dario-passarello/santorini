@@ -3,6 +3,8 @@ package model.turnstates;
 import model.*;
 import utils.Coordinate;
 
+import java.util.Optional;
+
 public class ShowBuildableState implements TurnState {
     private final Turn turn;
     private final Game game;
@@ -16,7 +18,12 @@ public class ShowBuildableState implements TurnState {
 
 
     public void onEntry() {
-
+        if(firstBuild && turn.getCurrentPlayer().checkBuildingLoseCondition()) {
+            //The player lost, switch turn and remove from the turn cycle, remove builders
+            turn.getCurrentPlayer().loser();
+            //TODO Notify Observers  - Lost, Update Board
+            game.nextTurn();
+        }
     }
 
 
@@ -41,6 +48,7 @@ public class ShowBuildableState implements TurnState {
     public boolean selectCoordinate(Coordinate c) {
         Square destSquare;
         boolean canBuildAgain;
+        Optional<Player> optionalWinner;
         if(!Board.checkValidCoordinate(c)){
             throw new IllegalArgumentException("Coordinate out of range");
         }
@@ -48,7 +56,11 @@ public class ShowBuildableState implements TurnState {
         if(!turn.getActiveBuilder().getBuildableNeighborhood().contains(destSquare)){
             throw new IllegalArgumentException("Coordinate not buildable from the active builder position");
         }
-        canBuildAgain = turn.getActiveBuilder().move(destSquare);
+        canBuildAgain = turn.getActiveBuilder().build(destSquare);
+
+        optionalWinner = turn.getCurrentPlayer().getGod().checkSpecialWinCondition(); //Check win condition
+        optionalWinner.ifPresent(game::declareWinner);
+
         if(canBuildAgain){
             turn.setTurnState(turn.showBuildableAdditionalState);
         } else {

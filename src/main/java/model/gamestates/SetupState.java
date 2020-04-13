@@ -30,7 +30,7 @@ public class SetupState implements GameState {
         }
         else {
             //TODO Log that the number is incorrect
-            return false;
+            throw new IllegalArgumentException("Player numbers allowed are 2 or 3");
         }
     }
     //TODO: Add proper logger
