@@ -15,7 +15,7 @@ public class NoUpMove extends MoveDecorator{
 
     /**
      * @param src is the starting point of a builder
-     * @return the standard neighborhood - special neighborhood
+     * @return the standard neighborhood - removed neighborhood
      * (the builder cannot go on squares with a level less than the level of src)
      */
     public Set<Square> neighborhood(Square src) {
@@ -27,8 +27,9 @@ public class NoUpMove extends MoveDecorator{
                 remove.add(square);
             }
         }
-        neighborhood(src).removeAll(remove);
-        return wrappedMoveBehavior.neighborhood(src);
+        Set<Square> neighborhood = wrappedMoveBehavior.neighborhood(src);
+        neighborhood.removeAll(remove);
+        return neighborhood;
     }
 
     /**

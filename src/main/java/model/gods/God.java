@@ -76,12 +76,14 @@ public abstract class God {
     public BuildBehavior getBuildBehavior() {
         return buildBehavior;
     }
+
     public boolean hasSpecialStartPower() {
         return specialStartPower;
     }
     public boolean hasSpecialBuildPower() {
         return specialBuildPower;
     }
+
 
     /**
      * @param location the position of the builder that wants to move

@@ -28,8 +28,8 @@ public class SwapWithOpponentMove extends MoveDecorator {
                 neighborhood.add(square);
             }
         }
-        neighborhood(src).addAll(neighborhood);
-        return wrappedMoveBehavior.neighborhood(src);
+        neighborhood.addAll(wrappedMoveBehavior.neighborhood(src));
+        return neighborhood;
     }
 
     /**

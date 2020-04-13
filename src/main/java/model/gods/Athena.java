@@ -1,8 +1,7 @@
 package model.gods;
 
-import model.Player;
 import model.buildbehaviours.StandardBuild;
-import model.movebehaviors.MoveBehavior;
+import model.movebehaviors.BlockUpMove;
 import model.movebehaviors.NoUpMove;
 import model.movebehaviors.StandardMove;
 import model.startbehaviors.NoStartTurn;
