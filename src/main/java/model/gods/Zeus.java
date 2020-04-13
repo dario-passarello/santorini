@@ -13,11 +13,13 @@ import model.wincondition.StandardWinCondition;
 public class Zeus extends God {
 
     public Zeus(){
-        super("Zeus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new BeneathBuild(new StandardBuild()));
+        super("Zeus",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new StandardMove(),
+                new BeneathBuild(new StandardBuild()),
+                false,
+                false);
     }
 
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 }

@@ -13,12 +13,13 @@ import model.wincondition.StandardWinCondition;
 public class Hephaestus extends God {
 
     public Hephaestus(){
-        super("Hephaestus", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleSameBuild(new StandardBuild()));
+        super("Hephaestus",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new StandardMove(),
+                new DoubleSameBuild(new StandardBuild()),
+                false,
+                false);
     }
 
-
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 }

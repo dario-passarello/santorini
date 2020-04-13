@@ -13,12 +13,13 @@ import java.util.stream.Collectors;
 public class Hera extends God {
 
     public Hera(){
-        super("Hera", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new StandardBuild());
-    }
-
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
+        super("Hera",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new StandardMove(),
+                new StandardBuild(),
+                false,
+                false);
     }
 
     @Override

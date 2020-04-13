@@ -10,12 +10,13 @@ import model.wincondition.TwoDownWinCondition;
 public class Pan extends God {
 
     public Pan(){
-        super("Pan", new TwoDownWinCondition(new StandardWinCondition()), new NoStartTurn(), new StandardMove(), new StandardBuild());
+        super("Pan",
+                new TwoDownWinCondition(new StandardWinCondition()),
+                new NoStartTurn(),
+                new StandardMove(),
+                new StandardBuild(),
+                false,
+                false);
     }
 
-
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 }

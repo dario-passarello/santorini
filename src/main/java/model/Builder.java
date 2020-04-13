@@ -3,16 +3,20 @@ package model;
 import model.gods.God;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Builder {
 
     private Square position;
     private Player owner;
+    private int id;
 
-    public Builder(Square position, Player owner) {
+
+    public Builder(Square position, Player owner, int id) {
         this.position = position;
         position.setOccupant(this);
         this.owner = owner;
+        this.id = id;
     }
 
     /**
@@ -45,8 +49,8 @@ public class Builder {
      *         and the controlling player's God powers
      */
     public List<Square> getWalkableNeighborhood() {
-        return null; //TODO
-
+        God playerGod = owner.getGod();
+        return playerGod.getWalkableNeighborhood(position);
     }
 
     /**
@@ -55,7 +59,8 @@ public class Builder {
      *         and the controlling player's God powers
      */
     public List<Square> getBuildableNeighborhood() {
-        return null; //TODO
+        God playerGod = owner.getGod();
+        return playerGod.getBuildableNeighborhood(position);
     }
 
     /**
@@ -82,5 +87,22 @@ public class Builder {
         God playerGod = owner.getGod();
         return playerGod.build(this,sq);
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Builder)) return false;
+        Builder builder = (Builder) o;
+        return id == builder.id &&
+                owner.equals(builder.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(owner, id);
+    }
+
+
 
 }

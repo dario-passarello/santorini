@@ -10,12 +10,13 @@ import model.wincondition.StandardWinCondition;
 public class Artemis extends God {
 
     public Artemis(){
-        super("Artemis", new StandardWinCondition(), new NoStartTurn(), new DoubleNoBackMove(new StandardMove()), new StandardBuild());
+        super("Artemis",
+            new StandardWinCondition(),
+            new NoStartTurn(),
+            new DoubleNoBackMove(new StandardMove()), new StandardBuild(),
+            false,
+            false
+        );
     }
 
-
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 }

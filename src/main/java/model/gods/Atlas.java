@@ -14,11 +14,18 @@ public class Atlas extends God {
 
 
     public Atlas(){
-        super("Atlas", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new AnyDomeBuild(new StandardBuild()));
+        super("Atlas",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new StandardMove(),
+                new AnyDomeBuild(new StandardBuild()),
+                false,
+                true);
     }
 
+
     @Override
-    public boolean hasSpecialStartPower() {
-        return false;
+    public boolean hasSpecialBuildPower() {
+        return true;
     }
 }

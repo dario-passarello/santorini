@@ -13,11 +13,13 @@ import model.wincondition.StandardWinCondition;
 public class Hestia extends God {
 
     public Hestia(){
-        super("Hestia", new StandardWinCondition(), new NoStartTurn(), new StandardMove(), new DoubleNoPerimeterBuild(new StandardBuild()));
+        super("Hestia",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new StandardMove(),
+                new DoubleNoPerimeterBuild(new StandardBuild()),
+                false,
+                false);
     }
 
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 }

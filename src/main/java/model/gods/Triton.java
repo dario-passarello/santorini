@@ -10,12 +10,12 @@ import model.wincondition.StandardWinCondition;
 public class Triton extends God{
 
     public Triton(){
-        super("Triton", new StandardWinCondition(), new NoStartTurn(), new UnlimitedPerimetralMove(new StandardMove()), new StandardBuild());
+        super("Triton",
+                new StandardWinCondition(),
+                new NoStartTurn(),
+                new UnlimitedPerimetralMove(new StandardMove()), new StandardBuild(),
+                false,
+                false);
     }
 
-
-    @Override
-    public boolean hasSpecialStartPower() {
-        return false;
-    }
 }

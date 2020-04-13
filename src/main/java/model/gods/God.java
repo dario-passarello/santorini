@@ -16,21 +16,25 @@ import java.util.Optional;
 public abstract class God {
 
     protected Player player;
-    protected String name;
+    protected final String name;
     protected WinCondition winCondition;
     protected WinCondition resetWinCondition;
     protected StartBehavior startBehavior;
     protected MoveBehavior moveBehavior;
     protected MoveBehavior resetMoveBehavior;
     protected BuildBehavior buildBehavior;
+    protected final boolean specialStartPower;
+    protected final boolean specialBuildPower;
 
-    public God(String name, WinCondition winCondition, StartBehavior startBehavior, MoveBehavior moveBehavior, BuildBehavior buildBehavior){
+    public God(String name, WinCondition winCondition, StartBehavior startBehavior, MoveBehavior moveBehavior, BuildBehavior buildBehavior, boolean specialStartPower, boolean specialBuildPower){
 
         this.name = name;
         setWinCondition(winCondition);
         setStartBehavior(startBehavior);
         setMoveBehavior(moveBehavior);
         setBuildBehavior(buildBehavior);
+        this.specialBuildPower = specialBuildPower;
+        this.specialStartPower = specialStartPower;
     }
 
 
@@ -72,13 +76,14 @@ public abstract class God {
     public BuildBehavior getBuildBehavior() {
         return buildBehavior;
     }
-    public abstract boolean hasSpecialStartPower();
-    public abstract boolean hasSpecialBuildPower();
 
-
-    public void startTurn(){
-        //TODO
+    public boolean hasSpecialStartPower() {
+        return specialStartPower;
     }
+    public boolean hasSpecialBuildPower() {
+        return specialBuildPower;
+    }
+
 
     /**
      * @param location the position of the builder that wants to move
