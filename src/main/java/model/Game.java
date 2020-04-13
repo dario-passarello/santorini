@@ -27,7 +27,7 @@ public class Game implements Observable, GameModel {
 
     private GameState currentGameState;
 
-    private List<Observer> observers;
+    private Observer ViewObserver;
 
     public final GameState setupState = new SetupState(this);
     public final GameState lobbyState = new LobbyState(this);
@@ -221,7 +221,7 @@ public class Game implements Observable, GameModel {
 
     //Observable interface implementations
     public void addObserver(Observer o) {
-        this.observers.add(o);
+
     }
 
     public List<God> getGodList() {
@@ -229,12 +229,27 @@ public class Game implements Observable, GameModel {
     }
 
     public void deleteObserver(Observer o) {
-        this.observers.remove(o);
+
     }
 
+
     public void notifyObservers() {
-        observers.forEach(Observer::update);
+
     }
+
+    public void notifyObservers(Set<Square> set) {
+        ViewObserver.update(set, false);
+    }
+
+    public void notifyObservers(Set<Square> set, boolean special) {
+        ViewObserver.update(set, special);
+    }
+
+    public void notifyObservers(boolean condition) {
+        ViewObserver.update(condition);
+    }
+
+
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
