@@ -15,32 +15,27 @@ public class GameTest {
 
     @Before
     public void prepareTest() {
-        testGame = new Game(3);
-        alice = new Player(testGame, "Alice");
-        alice2 = new Player(testGame, "Alice");
-        bob = new Player(testGame,"Bob");
-        charlie = new Player(testGame, "Charlie");
-        dana = new Player(testGame,"Dana");
+        testGame = new Game();
+        testGame.setMaxPlayers(3);
     }
+
     @Test
     public void playersShouldBeAddedAndRemovedNoDuplicates() {
         //START
         Assert.assertEquals(testGame.playerCount(),0);
-        Assert.assertTrue(testGame.addPlayer(alice));
+        Assert.assertTrue(testGame.createPlayer("Alice"));
         Assert.assertEquals(testGame.playerCount(),1);
-        Assert.assertFalse(testGame.addPlayer(alice));
+        Assert.assertFalse(testGame.createPlayer("Alice"));
         Assert.assertEquals(testGame.playerCount(),1);
-        Assert.assertFalse(testGame.addPlayer(alice2));
-        Assert.assertEquals(testGame.playerCount(),1);
-        Assert.assertTrue(testGame.addPlayer(bob));
+        Assert.assertTrue(testGame.createPlayer("Bob"));
         Assert.assertEquals(testGame.playerCount(),2);
-        Assert.assertFalse(testGame.addPlayer(bob));
+        Assert.assertFalse(testGame.createPlayer("Bob"));
         Assert.assertEquals(testGame.playerCount(),2);
         Assert.assertFalse(testGame.removePlayer("Maxwell"));
         Assert.assertEquals(testGame.playerCount(),2);
-        Assert.assertTrue(testGame.addPlayer(dana));
+        Assert.assertTrue(testGame.createPlayer("Dana"));
         Assert.assertEquals(testGame.playerCount(),3);
-        Assert.assertFalse(testGame.addPlayer(charlie));
+        Assert.assertFalse(testGame.createPlayer("Charlie"));
         Assert.assertEquals(testGame.playerCount(),3);
         Assert.assertTrue(testGame.removePlayer("Alice"));
         Assert.assertEquals(testGame.playerCount(),2);
@@ -56,21 +51,11 @@ public class GameTest {
     @Test
     public void gameShouldStartOnlyWhenReady() {
         Assert.assertFalse(testGame.readyToStart());
-        testGame.addPlayer(alice);
+        testGame.createPlayer("Alice");
         Assert.assertFalse(testGame.readyToStart());
-        alice.toggleReady();
+        testGame.createPlayer("Dana");
         Assert.assertFalse(testGame.readyToStart());
-        testGame.addPlayer(dana);
-        dana.toggleReady();
-        Assert.assertFalse(testGame.readyToStart());
-        testGame.addPlayer(charlie);
-        Assert.assertFalse(testGame.readyToStart());
-        charlie.toggleReady();
-        Assert.assertTrue(testGame.readyToStart()); //all players ready
-        alice.toggleReady();
-        Assert.assertFalse(testGame.readyToStart());
-        alice.toggleReady();
-        testGame.removePlayer("Alice");
-        Assert.assertFalse(testGame.readyToStart());
+        testGame.createPlayer("Charlie");
+        Assert.assertTrue(testGame.readyToStart());
     }
 }

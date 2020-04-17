@@ -125,6 +125,10 @@ public class Game implements Observable, GameModel {
         return currentTurn;
     }
 
+    public List<Player> getPlayersInGame() {
+        return players.stream().filter(p -> !p.isSpectator()).collect(Collectors.toList());
+    }
+
     //SETTERS
 
     /**
@@ -136,8 +140,8 @@ public class Game implements Observable, GameModel {
     }
 
 
-    public void setMaxPlayers(int max) {
-        maxPlayers = max;
+    public void setMaxPlayers(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
     }
 
     /**
@@ -151,8 +155,12 @@ public class Game implements Observable, GameModel {
         gameState.onEntry();
     }
 
-    public List<Player> getPlayersInGame() {
-        return players.stream().filter(p -> !p.isSpectator()).collect(Collectors.toList());
+    public void setHost(Player host) {
+        this.host = host;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 
 

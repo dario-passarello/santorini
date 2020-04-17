@@ -94,7 +94,7 @@ public class Builder {
     }
 
     public void removeBuilder() {
-        sq.
+        position.setOccupant(null);
     }
 
 

@@ -9,7 +9,7 @@ public interface GameModel {
      * Sets number of players and then updates the game state
      * @param num Number of players
      * @param hostPlayerName Name of the player who hosts this game
-     * @return true if true if this function call is legit for the current GameState function call is legit for the current GameState
+     * @return true if this function call is legit for the current GameState
      */
     boolean configureGame(String hostPlayerName, int num);
     /**
