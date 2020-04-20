@@ -1,6 +1,7 @@
 package model.gamestates;
 
 import model.Board;
+import model.ErrorMessage;
 import model.Game;
 import model.Player;
 import utils.Coordinate;
@@ -8,78 +9,52 @@ import utils.Coordinate;
 import java.util.Set;
 
 public class PlaceBuilderState implements GameState {
-    private final Player player;
     private final Game game;
-    private final int order;
-    private int buildersPlaced;
 
-    public PlaceBuilderState(Game game, Player player, int order){
+    public PlaceBuilderState(Game game){
         this.game = game;
-        this.player = player;
-        this.order = order;
-        this.buildersPlaced = 0;
-    }
-
-    public void onEntry() {
-        this.buildersPlaced = 0;
-    }
-
-    public void onExit() {
-
-    }
-
-    public boolean configureGame(int num, String hostPlayerName) {
-        return false;
-    }
-
-    public boolean registerPlayer(String name) {
-        return false;
-    }
-
-    public boolean unregisterPlayer(String name) {
-        return false;
-    }
-
-    public boolean readyToStart() {
-        return false;
     }
 
     public boolean submitGodList(Set<String> godList) {
         return false;
     }
 
-    public boolean pickGod(String godName) {
+    public boolean pickGod(String playerName, String godName) {
         return false;
     }
 
-    public boolean selectCoordinate(Coordinate coordinate) {
+    public boolean selectCoordinate(String playerName, Coordinate coordinate) {
+        Player nextPlayer = game.getPlayers().stream()
+                .filter(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("All builders are placed"));
+        if(!nextPlayer.getName().equals(playerName)) {
+            throw new IllegalArgumentException(ErrorMessage.WRONG_BUILD_OWNER);
+        }
         if(!Board.checkValidCoordinate(coordinate)) {
-            return false; //The square should be valid
+            throw new IllegalArgumentException("Coordinate is outside the board");
         }
         if(!game.getBoard().getFreeSquares().contains(game.getBoard().squareAt(coordinate))){
-            return false; //The square should be empty
+            throw new IllegalArgumentException("Square is not free");
         }
-        player.addBuilder(game.getBoard().squareAt(coordinate)); //Add new builder
-        buildersPlaced++;
-        if(buildersPlaced >= Game.BUILDERS_PER_PLAYER) { //If all builder were placed
-            if(order + 1 < game.getMaxPlayers()) { //If other players need to place builder
-                game.setGameState(game.getPlaceBuilderState(order + 1));
-            }
-            else{
-                game.setGameState(game.turnState);
-            }
+        nextPlayer.addBuilder(game.getBoard().squareAt(coordinate));
+        if(game.getPlayers().stream().noneMatch(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)) {
+            game.setGameState(game.turnState);
+            game.nextTurn(true);
         }
-        game.notifyObservers();
+        else {
+            game.setGameState(game.placeBuilderState);
+        }
         return true;
     }
 
     public boolean quitGame() {
-        game.setGameState(game.setupState);
-        game.notifyObservers();
+        game.setGameState(game.endGameState);
         return true;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Game.State getStateIdentifier() {
+        return Game.State.PLACE_BUILDER;
     }
+
 }

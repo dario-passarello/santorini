@@ -2,12 +2,17 @@ package model;
 
 import model.gods.God;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
-public class Player {
-    private Game game;
+public class Player implements Serializable {
+
+    public static final int BUILDERS_PER_PLAYER = 2;
+
+    private transient Game game;
     private String name;
     private God god;
     private List<Builder> builders;
@@ -37,7 +42,7 @@ public class Player {
         return b;
     }
 
-    public void loser() {
+    public void setAsSpectator() {
         spectator = false;
         builders.forEach(Builder::removeBuilder);
     }

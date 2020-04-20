@@ -9,12 +9,11 @@ import java.util.*;
 public class Square {
     final static int MAX_HEIGHT = 3;
 
-    private Board board;
+    private transient Board board;
     private Coordinate coordinate;
     private boolean domed;
     private Integer buildLevel;
-    private Builder occupant;
-
+    private transient Builder occupant;
 
     public Square(Board board, Coordinate coordinate) {
         this.board = board;
@@ -24,6 +23,8 @@ public class Square {
         this.occupant = null;
 
     }
+
+
 
     /**
      * @return a reference to the board in which the square resides
@@ -89,6 +90,13 @@ public class Square {
      */
     public int getBuildLevel() {
         return buildLevel;
+    }
+
+    public Square copySquareStatus(Board b){
+        Square sq = new Square(b, this.coordinate);
+        sq.buildLevel = this.buildLevel;
+        sq.domed = this.domed;
+        return sq;
     }
 
 

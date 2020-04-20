@@ -12,45 +12,25 @@ public class TurnState implements GameState {
         this.game = game;
     }
 
-    public void onEntry() {
-
-    }
-
-    public void onExit() {
-
-    }
-
-    public boolean configureGame(int num, String hostPlayerName) {
-        return false;
-    }
-
-    public boolean registerPlayer(String name) {
-        return false;
-    }
-
-    public boolean unregisterPlayer(String name) {
-        return false;
-    }
-
-    public boolean readyToStart() {
-        return false;
-    }
-
     public boolean submitGodList(Set<String> godList) {
         return false;
     }
 
-    public boolean pickGod(String godName) {
+    public boolean pickGod(String playerName, String godName) {
         return false;
     }
 
-    public boolean selectCoordinate(Coordinate coordinate) {
+    public boolean selectCoordinate(String playerName, Coordinate coordinate) {
         return false;
     }
 
     public boolean quitGame() {
-        game.setGameState(game.setupState);
-        game.notifyObservers();
+        game.setGameState(game.endGameState);
         return true;
     }
+
+    public Game.State getStateIdentifier() {
+        return Game.State.TURN;
+    }
+
 }

@@ -25,31 +25,31 @@ public class GameTest {
     @Test
     public void playersShouldBeAddedAndRemovedNoDuplicates() {
         //START
-        Assert.assertEquals(testGame.playerCount(),0);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),0);
         Assert.assertTrue(testGame.addPlayer(alice));
-        Assert.assertEquals(testGame.playerCount(),1);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),1);
         Assert.assertFalse(testGame.addPlayer(alice));
-        Assert.assertEquals(testGame.playerCount(),1);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),1);
         Assert.assertFalse(testGame.addPlayer(alice2));
-        Assert.assertEquals(testGame.playerCount(),1);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),1);
         Assert.assertTrue(testGame.addPlayer(bob));
-        Assert.assertEquals(testGame.playerCount(),2);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),2);
         Assert.assertFalse(testGame.addPlayer(bob));
-        Assert.assertEquals(testGame.playerCount(),2);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),2);
         Assert.assertFalse(testGame.removePlayer("Maxwell"));
-        Assert.assertEquals(testGame.playerCount(),2);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),2);
         Assert.assertTrue(testGame.addPlayer(dana));
-        Assert.assertEquals(testGame.playerCount(),3);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),3);
         Assert.assertFalse(testGame.addPlayer(charlie));
-        Assert.assertEquals(testGame.playerCount(),3);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),3);
         Assert.assertTrue(testGame.removePlayer("Alice"));
-        Assert.assertEquals(testGame.playerCount(),2);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),2);
         Assert.assertFalse(testGame.removePlayer("Alice"));
-        Assert.assertEquals(testGame.playerCount(),2);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),2);
         Assert.assertFalse(testGame.removePlayer("Bob"));
-        Assert.assertEquals(testGame.playerCount(),1);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),1);
         Assert.assertTrue(testGame.removePlayer("Dana"));
-        Assert.assertEquals(testGame.playerCount(),0);
+        Assert.assertEquals(testGame.getNumberOfPlayers(),0);
         Assert.assertFalse(testGame.removePlayer("Maxwell"));
     }
 

@@ -3,6 +3,7 @@ package model.turnstates;
 import model.Builder;
 import model.Game;
 import model.Turn;
+import model.turnstates.TurnState;
 import utils.Coordinate;
 
 public class EndTurnState implements TurnState {
@@ -14,20 +15,11 @@ public class EndTurnState implements TurnState {
         this.game = game;
     }
 
-    public void onEntry() {
-        turn.getCurrentPlayer().getGod().resetBehaviors(); //Reset God Behaviors
-        game.nextTurn(); //Go to the next condition
-    }
-
-    public void onExit() {
-
-    }
-
-    public boolean selectBuilder(Builder b) {
+    public boolean firstSelection(Builder b, Coordinate c, boolean specialPower) {
         return false;
     }
 
-    public boolean useGodPower() {
+    public boolean selectCoordinate(Coordinate c, boolean specialPower) {
         return false;
     }
 
@@ -36,6 +28,11 @@ public class EndTurnState implements TurnState {
     }
 
     public boolean endPhase() {
-        return false;
+        game.nextTurn(false);
+        return true;
+    }
+
+    public Turn.State getStateID() {
+        return Turn.State.END_TURN;
     }
 }

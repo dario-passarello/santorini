@@ -17,14 +17,6 @@ public class GodSelectionState implements GameState {
         this.game = game;
     }
 
-    public void onEntry() {
-
-    }
-
-    public void onExit() {
-
-    }
-
     public boolean configureGame(int num, String hostPlayerName) {
         return false;
     }
@@ -33,11 +25,9 @@ public class GodSelectionState implements GameState {
         return false;
     }
 
-
     public boolean unregisterPlayer(String name) {
         return false;
     }
-
 
     public boolean readyToStart() {
         return false;
@@ -46,12 +36,20 @@ public class GodSelectionState implements GameState {
     public boolean submitGodList(Set<String> godNamesList) {
         List<God> godObjectsList = new ArrayList<>();
         GodFactory factory = new GodFactory();
-        if(godNamesList.isEmpty()){ //No gods provided => A 3 Mortals game will be started
-            for(int i = 0; i < game.getMaxPlayers(); i++){
+        GameState nextState;
+        if(godNamesList.isEmpty()) { //No gods provided => A 3 Mortals game will be started
+            for(int i = 0; i < game.getNumberOfPlayers(); i++){
                 godObjectsList.add(factory.getGod("Mortal"));
             }
-        } else if(godNamesList.size() == game.getMaxPlayers()) { //Ma
+            for(int i = 0; i < game.getNumberOfPlayers(); i++) {
+                //Bind players to "mortals" and "mortals" to players
+                godObjectsList.get(i).setPlayer(game.getPlayers().get(i));
+                game.getPlayers().get(i).setGod(godObjectsList.get(i));
+            }
+            nextState = game.placeBuilderState;
+        } else if(godNamesList.size() == game.getNumberOfPlayers()) { //Ma
             godObjectsList = godNamesList.stream().map(factory::getGod).collect(Collectors.toList());
+            nextState = game.godPickState;
         } else {
             throw new IllegalArgumentException("Malformed God List");
         }
@@ -60,23 +58,24 @@ public class GodSelectionState implements GameState {
         }
         godObjectsList.forEach(God::captureResetBehaviors); //Set reset methods
         game.setGodList(godObjectsList);
-        game.setGameState(game.getPickGodState(0));
-        game.notifyObservers();
+        game.setGameState(nextState);
         return true;
     }
 
-
-    public boolean pickGod(String godName) {
+    public boolean pickGod(String player, String godName) {
         return false;
     }
 
-    public boolean selectCoordinate(Coordinate coordinate) {
+    public boolean selectCoordinate(String playerName, Coordinate coordinate) {
         return false;
     }
 
     public boolean quitGame() {
-        game.setGameState(game.setupState);
-        game.notifyObservers();
+        game.setGameState(game.endGameState);
         return true;
+    }
+
+    public Game.State getStateIdentifier() {
+        return Game.State.GOD_SELECTION;
     }
 }

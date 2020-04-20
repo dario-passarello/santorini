@@ -1,8 +1,6 @@
 package model;
 
 import utils.Coordinate;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,12 +11,35 @@ public class Board {
      */
     public final static int BOARD_SIZE = 5;
 
+    private transient Game game;
     private Square[][] matrix;
 
+    public Board() {
+        buildBoard();
+    }
     /**
      *  Initializes an empty 5x5 board creating all Squares
      */
-    public Board() {
+    public Board(Game game) {
+        this.game = game;
+        buildBoard();
+    }
+
+    /**
+     * Board deep-copy constructor.
+     * Creates a new empty board with copying all squares states
+     * @param b The board to be copied
+     */
+    public Board(Board b) {
+        this.matrix = new Square[BOARD_SIZE][BOARD_SIZE];
+        for(int x = 0; x < BOARD_SIZE; x++) {
+            for(int y = 0; y < BOARD_SIZE; y++) {
+                this.matrix[x][y] = b.matrix[x][y].copySquareStatus(this);
+            }
+        }
+    }
+
+    private void buildBoard() {
         this.matrix = new Square[BOARD_SIZE][BOARD_SIZE];
         for(int x = 0; x < BOARD_SIZE; x++) {
             for(int y = 0; y < BOARD_SIZE; y++) {
@@ -53,7 +74,6 @@ public class Board {
                 .mapToObj(i -> matrix[i / BOARD_SIZE][i % BOARD_SIZE])
                 .filter(sq -> !sq.getOccupant().isPresent())
                 .collect(Collectors.toList());
-
     }
 
     /**

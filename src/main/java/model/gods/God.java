@@ -5,32 +5,29 @@ import model.Player;
 import model.Square;
 import model.buildbehaviours.BuildBehavior;
 import model.movebehaviors.MoveBehavior;
-import model.movebehaviors.MoveDecorator;
-import model.startbehaviors.StartBehavior;
 import model.wincondition.WinCondition;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class God {
+public abstract class God implements Serializable {
 
-    protected Player player;
+    protected transient Player player;
     protected final String name;
-    protected WinCondition winCondition;
-    protected WinCondition resetWinCondition;
-    protected StartBehavior startBehavior;
-    protected MoveBehavior moveBehavior;
-    protected MoveBehavior resetMoveBehavior;
-    protected BuildBehavior buildBehavior;
+    protected transient WinCondition winCondition;
+    protected transient WinCondition resetWinCondition;
+    protected transient MoveBehavior moveBehavior;
+    protected transient MoveBehavior resetMoveBehavior;
+    protected transient BuildBehavior buildBehavior;
     protected final boolean specialStartPower;
     protected final boolean specialBuildPower;
 
-    public God(String name, WinCondition winCondition, StartBehavior startBehavior, MoveBehavior moveBehavior, BuildBehavior buildBehavior, boolean specialStartPower, boolean specialBuildPower){
+    public God(String name, WinCondition winCondition,  MoveBehavior moveBehavior, BuildBehavior buildBehavior, boolean specialStartPower, boolean specialBuildPower){
 
         this.name = name;
         setWinCondition(winCondition);
-        setStartBehavior(startBehavior);
         setMoveBehavior(moveBehavior);
         setBuildBehavior(buildBehavior);
         this.specialBuildPower = specialBuildPower;
@@ -43,9 +40,6 @@ public abstract class God {
     }
     public void setWinCondition(WinCondition winCondition){
         this.winCondition = winCondition;
-    }
-    public void setStartBehavior(StartBehavior startBehavior){
-        this.startBehavior = startBehavior;
     }
     public void setMoveBehavior(MoveBehavior moveBehavior) {
         this.moveBehavior = moveBehavior;
@@ -66,9 +60,6 @@ public abstract class God {
     }
     public WinCondition getWinCondition() {
         return winCondition;
-    }
-    public StartBehavior getStartBehavior() {
-        return startBehavior;
     }
     public MoveBehavior getMoveBehavior() {
         return moveBehavior;

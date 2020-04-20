@@ -2,15 +2,15 @@ package model;
 
 import model.gods.God;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Builder {
+public class Builder implements Serializable {
 
     private Square position;
     private Player owner;
     private int id;
-
 
     public Builder(Square position, Player owner, int id) {
         this.position = position;
@@ -94,12 +94,9 @@ public class Builder {
     }
 
     public void removeBuilder() {
-        sq.
+        this.position.setEmptySquare();
+        this.position = null;
     }
-
-
-
-
 
     @Override
     public boolean equals(Object o) {

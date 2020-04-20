@@ -4,7 +4,6 @@ import model.Player;
 import model.buildbehaviours.DoubleSameBuild;
 import model.buildbehaviours.StandardBuild;
 import model.movebehaviors.StandardMove;
-import model.startbehaviors.NoStartTurn;
 import model.wincondition.StandardWinCondition;
 
 /**
@@ -15,7 +14,6 @@ public class Hephaestus extends God {
     public Hephaestus(){
         super("Hephaestus",
                 new StandardWinCondition(),
-                new NoStartTurn(),
                 new StandardMove(),
                 new DoubleSameBuild(new StandardBuild()),
                 false,

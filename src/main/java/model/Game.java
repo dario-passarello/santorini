@@ -3,62 +3,65 @@ package model;
 import model.gamestates.*;
 import model.gods.God;
 import utils.Coordinate;
-import utils.Observer;
 import utils.Observable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 
-public class Game implements Observable, GameModel {
+public class Game implements Observable<GameObserver>, GameModel {
 
+    public enum State implements StateIdentifier{
+        GOD_SELECTION,
+        GOD_PICK,
+        PLACE_BUILDER,
+        TURN,
+        END_GAME
+    }
 
-    private Integer maxPlayers;
-    private List<Player> players;
-    private Turn currentTurn;
     private Board board;
     private List<God> godList;
 
-    private Player host;
+    private List<Player> players;
     private Player winner;
+
+    private Turn currentTurn;
+    private List<Turn> turnRotation;
 
     private GameState currentGameState;
 
-    private List<Observer> observers;
+    private List<GameObserver> observers;
 
-    private Observer ViewObserver;
-
-    public final GameState setupState = new SetupState(this);
-    public final GameState lobbyState = new LobbyState(this);
     public final GameState godSelectionState = new GodSelectionState(this);
-    private List<GameState> pickGodStates = new ArrayList<>();
-    private List<GameState> placeBuilderStates = new ArrayList<>();
+    public final GameState godPickState = new GodPickState(this);
+    public final GameState placeBuilderState = new PlaceBuilderState(this);
     public final GameState turnState = new TurnState(this);
     public final GameState endGameState = new EndGameState(this);
 
-    public static final int BUILDERS_PER_PLAYER = 2;
+    public static final int MIN_PLAYERS = 2;
+    public static final int MAX_PLAYERS = 3;
 
     /**
      * Initializes a game, building the board and setting up all the things
      */
-    public Game() {
-        //TODO Build a board
-        this.players = new ArrayList<>();
-    }
-
-    /**
-     * Initializes a game, building the board and setting up all the things
-     *
-     * @param playerNumber the number of player of this game
-     */
-    @Deprecated
-    public Game(int playerNumber) {
-        //TODO Build a board
-        this.players = new ArrayList<>();
-        maxPlayers = playerNumber;
+    public Game(List<String> names, int maxPlayers) throws DuplicateNameException {
+        if(maxPlayers < MIN_PLAYERS || maxPlayers > MAX_PLAYERS) {
+            throw new IllegalArgumentException(ErrorMessage.PLAYER_NUMBER_ERROR);
+        }
+        if(names.stream().anyMatch(name -> Collections.frequency(names, name) > 1)) {
+            throw new DuplicateNameException();
+        }
+        players = names.stream()
+                .map(name -> new Player(this, name))
+                .collect(Collectors.toList());
+        turnRotation = players.stream()
+                .map(p -> new Turn(this,p))
+                .collect(Collectors.toList());
+        this.board = new Board(this);
+        this.godList = new ArrayList<>();
+        this.observers = new ArrayList<>();
+        this.setGameState(this.godSelectionState);
     }
 
     //GETTERS
@@ -88,15 +91,8 @@ public class Game implements Observable, GameModel {
     /**
      * @return number of players in the game
      */
-    public int playerCount() {
+    public int getNumberOfPlayers() {
         return players.size();
-    }
-
-    /**
-     * @return maximum number of players in this game
-     */
-    public int getMaxPlayers() {
-        return maxPlayers;
     }
 
     /**
@@ -104,14 +100,6 @@ public class Game implements Observable, GameModel {
      */
     public GameState getGameState() {
         return currentGameState;
-    }
-
-    public GameState getPlaceBuilderState(int order) {
-        return placeBuilderStates.get(order);
-    }
-
-    public GameState getPickGodState(int order) {
-        return placeBuilderStates.get(order);
     }
 
     public List<God> getGodList() {
@@ -125,8 +113,18 @@ public class Game implements Observable, GameModel {
         return currentTurn;
     }
 
-    //SETTERS
+    public List<Player> getPlayersInGame() {
+        return players.stream().filter(p -> !p.isSpectator()).collect(Collectors.toList());
+    }
 
+    public List<Builder> getAllBuilders() {
+        List<Builder> builderList = new ArrayList<>();
+        getPlayersInGame().forEach(p -> builderList.addAll(p.getBuilders()));
+        return builderList;
+    }
+
+
+    //SETTERS
     /**
      * List
      * @param list the list of gods chosen by the host for this game
@@ -135,100 +133,59 @@ public class Game implements Observable, GameModel {
         godList = new ArrayList<>(list);
     }
 
-
-    public void setMaxPlayers(int max) {
-        maxPlayers = max;
-    }
-
     /**
      * Set the current turn state
-     *
      * @param gameState a game state
      */
     public void setGameState(GameState gameState) {
-        gameState.onExit();
         currentGameState = gameState;
-        gameState.onEntry();
+        notifyObservers((GameObserver g) -> g.receiveGameState(currentGameState.getStateIdentifier()));
     }
 
-    public List<Player> getPlayersInGame() {
-        return players.stream().filter(p -> !p.isSpectator()).collect(Collectors.toList());
+    public void setWinner(Player winner) {
+        this.winner = winner;
+        setGameState(endGameState);
     }
-
 
     //MODIFIERS
 
     /**
      * Ends the current turn and advances to the next turn
      */
-    public void nextTurn() {
-        //TODO Define the behavior of this function (Player Ordering)
+    public void nextTurn(boolean firstTurn) {
+        if(!firstTurn)
+            Collections.rotate(turnRotation,1);
+        currentTurn = turnRotation.get(0);
+        currentTurn.newTurn(); //initializes the new turn
     }
 
-    /**
-     * Add a new player to the player list
-     *
-     * @param name Name of the new player
-     * @return Returns false if a player with the same name exists
-     */
-    public boolean createPlayer(String name) {
-        if (players.stream().anyMatch(p -> p.getName().equals(name)) || players.size() >= maxPlayers)
-            return false;
+    public void removePlayer(Player player) {
+        if(!players.contains(player)) {
+            throw new NoSuchElementException(ErrorMessage.PLAYER_NOT_FOUND);
+        }
+        if(player.isSpectator()) {
+            throw new IllegalArgumentException(ErrorMessage.PLAYER_ALREADY_REMOVED);
+        }
+        player.setAsSpectator();
+        if(getPlayersInGame().size() == 2) { //If Only two players remain
+            setWinner(players.stream()       //The other player is the winner
+                    .filter(p -> p != player)
+                    .findFirst().orElseThrow(UnknownError::new));
+            setGameState(endGameState);
+        }
         else {
-            players.add(new Player(this, name));
-            return true;
+            if (turnRotation.stream() //If the player removed is playing in the current turn, advance to next turn
+                    .filter(t -> t.getCurrentPlayer().equals(player))
+                    .findFirst()
+                    .orElseThrow(UnknownError::new) == currentTurn) {
+                nextTurn(false);
+            }
+            turnRotation.remove(currentTurn); //Remove player from turn rotation
+            notifyObservers(obs -> obs.notifyPlayerElimination(player.getName()));
         }
-    }
-
-    /**
-     * Removes a player from the player list
-     *
-     * @param name Name of the player to be removed
-     * @return Returns false if a player with the same name exists
-     */
-    public boolean removePlayer(String name) {
-        int prevSize = players.size();
-        players = players.stream().filter(p -> !p.getName().equals(name) || host.getName().equals(name))
-                .collect(Collectors.toList());
-        return players.size() < prevSize;
-    }
-
-    /**
-     * Generate game states dependant on the number of players
-     */
-    public void generatePickAndPlaceStates() {
-        for (int i = 0; i < players.size(); i++) {
-            Player p = players.get(i);
-            pickGodStates.add(0, new PickGodState(this, p, players.size() - i - 1));
-            placeBuilderStates.add(0, new PlaceBuilderState(this, p, i));
-        }
-    }
-
-    public void declareWinner(Player winner) {
-
     }
 
     //STATE MACHINE METHODS
-
-    @Override
-    public boolean configureGame(String hostPlayerName, int num) {
-        return currentGameState.configureGame(num, hostPlayerName);
-    }
-
-    @Override
-    public boolean registerPlayer(String playerName) {
-        return currentGameState.registerPlayer(playerName);
-    }
-
-    @Override
-    public boolean unregisterPlayer(String playerName) {
-        return currentGameState.unregisterPlayer(playerName);
-    }
-
-    @Override
-    public boolean readyToStart() {
-        return currentGameState.readyToStart();
-    }
 
     @Override
     public boolean submitGodList(Set<String> godList) {
@@ -236,13 +193,13 @@ public class Game implements Observable, GameModel {
     }
 
     @Override
-    public boolean pickGod(String godName) {
-        return currentGameState.pickGod(godName);
+    public boolean pickGod(String playerName, String godName) {
+        return currentGameState.pickGod(playerName, godName);
     }
 
     @Override
-    public boolean selectCoordinate(Coordinate coordinate) {
-        return currentGameState.selectCoordinate(coordinate);
+    public boolean selectCoordinate(String playerName, Coordinate coordinate) {
+        return currentGameState.selectCoordinate(playerName, coordinate);
     }
 
     @Override
@@ -253,37 +210,19 @@ public class Game implements Observable, GameModel {
     //OBSERVABLE INTERFACE IMPLEMENTATION
 
     @Override
-    public void addObserver(Observer o) {
-        this.observers.add(o);
+    public void registerObserver(GameObserver m) {
+        observers.add(m);
     }
 
     @Override
-    public void deleteObserver(Observer o) {
-
+    public void unregisterObserver(GameObserver m) {
+        observers.remove(m);
     }
-
 
     @Override
-    public void notifyObservers() {
-
-    }
-
-    public void notifyObservers(Set<Square> set) {
-        ViewObserver.update(set, false);
-    }
-
-    public void notifyObservers(Set<Square> set, boolean special) {
-        ViewObserver.update(set, special);
-    }
-
-    public void notifyObservers(boolean condition) {
-        ViewObserver.update(condition);
+    public void notifyObservers(Consumer<GameObserver> notifyAction) {
+        observers.forEach(notifyAction);
     }
 
 
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
 }

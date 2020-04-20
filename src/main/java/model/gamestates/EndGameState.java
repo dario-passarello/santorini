@@ -12,14 +12,6 @@ public class EndGameState implements GameState {
         this.game = game;
     }
 
-    public void onEntry() {
-
-    }
-
-    public void onExit() {
-
-    }
-
     public boolean configureGame(int num, String hostPlayerName) {
         return false;
     }
@@ -32,7 +24,6 @@ public class EndGameState implements GameState {
         return false;
     }
 
-    @Override
     public boolean readyToStart() {
         return false;
     }
@@ -41,17 +32,19 @@ public class EndGameState implements GameState {
         return false;
     }
 
-    public boolean pickGod(String godName) {
+    public boolean pickGod(String playerName, String godName) {
         return false;
     }
 
-    public boolean selectCoordinate(Coordinate coordinate) {
+    public boolean selectCoordinate(String name, Coordinate coordinate) {
         return false;
     }
 
     public boolean quitGame() {
-        game.setGameState(game.setupState);
-        game.notifyObservers();
-        return true;
+        return false;
+    }
+
+    public Game.State getStateIdentifier() {
+        return Game.State.END_GAME;
     }
 }
