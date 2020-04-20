@@ -21,7 +21,7 @@ public class ServerClientHandler implements Runnable{
             while(true){
                 String line = in.nextLine();
                 if(line.equals("quit")){
-                    break;;
+                    break;
                 } else {
                     out.println("Received:" + line);
                     out.flush();
