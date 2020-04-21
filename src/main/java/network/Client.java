@@ -9,30 +9,34 @@ import java.util.Scanner;
 public class Client {
 
     private String ip;
-    private  int port;
+    private int port;
 
     public Client(String ip, int port){
         this.ip = ip;
         this.port = port;
     }
 
-    public void startClient() throws IOException {
-
+    public void run() throws IOException {
         Socket socket = new Socket(ip, port);
-        //System.out.println("Connection established");
+        System.out.println("Connection established");
+
         Scanner socketIn = new Scanner(socket.getInputStream());
         PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
         Scanner stdin = new Scanner(System.in);
-        try {
-            while (true) {
+        String socketLine;
+
+        try{
+            socketLine = socketIn.nextLine();
+            System.out.println(socketLine);
+            while (true){
                 String inputLine = stdin.nextLine();
                 socketOut.println(inputLine);
                 socketOut.flush();
-                String socketLine = socketIn.nextLine();
-                //System.out.println(socketLine);
+                socketLine = socketIn.nextLine();
+                System.out.println(socketLine);
             }
         } catch(NoSuchElementException e){
-            System.out.println("Connection closed");
+            System.out.println("Connection closed from the client side");
         } finally {
             stdin.close();
             socketIn.close();
