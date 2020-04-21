@@ -1,60 +1,37 @@
 package controller;
 
+import model.DuplicateNameException;
 import model.Game;
-import model.GameModel;
 import model.gods.God;
+import network.RemoteView;
 import utils.Coordinate;
 
+import java.util.List;
 import java.util.Set;
 
 public class GameController {
 
+
     private Game model;
     private Set<God> gods;
+    private List<RemoteView> remoteviews;
     private Integer NumberOfPlayers;
 
-    public void SetNumberOfPlayers(int number, String HostName){
-        try {
-            if(!model.configureGame(HostName, number)){
-                // TODO handle (the method was called in a wrong state)
-            }
-
-        }
-        catch(IllegalArgumentException exception){
-                // TODO report that the number is invalid
-        }
-
+    public GameController(List<RemoteView> remoteviews, List<String> nicknames) throws DuplicateNameException {
+        this.model = new Game(nicknames, nicknames.size());
+        this.remoteviews = remoteviews;
+        this.NumberOfPlayers = nicknames.size();
     }
 
-    public void AddPlayer(String name){
-        try {
-            if (!model.registerPlayer(name)){
-                //TODO handle (the method was called in a wrong state)
-            }
-        }
-        catch(IllegalArgumentException exception){
-                //TODO report that the name already exists
-        }
-
+    public void StartGame(){
+        model.setGameState(model.godSelectionState);
+        // Maybe Send GodList?
     }
 
-    public void RemovePlayer(String name){
-        try {
-            if (!model.registerPlayer(name)){
-                //TODO handle (the method was called in a wrong state)
-            }
-        }
-        catch(IllegalArgumentException exception){
-                // TODO name does not exists or name is the host of the room
-        }
 
-    }
 
-    public void Start(){
-        if(!model.readyToStart()){
-            // TODO there are not enough players in the room
-        }
-    }
+    // TODO Handle removal of the player
+
 
     public void submitGodList(Set<String> GodList){
         try {
@@ -74,9 +51,9 @@ public class GameController {
         }
     }
 
-    public void PickGod(String GodName){
+    public void PickGod(String PlayerName, String GodName){
         try {
-            if (!model.pickGod(GodName)){
+            if (!model.pickGod(PlayerName, GodName)){
                 //TODO handle (the method was called in a wrong state)
             }
         }

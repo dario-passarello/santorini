@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 public class Coordinate {
@@ -32,4 +33,5 @@ public class Coordinate {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
 }
