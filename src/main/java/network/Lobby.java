@@ -39,18 +39,21 @@ public class Lobby {
     }
 
     public synchronized void createGame(Connection c) throws InterruptedException {
-        while(!ready(c)) {                                                           //if there isn't enough player, wait
+        while (!ready(c)) {                                                           //if there isn't enough player, wait
             wait();
         }
 
         Set<Connection> players = new HashSet<>();
-        for(int i = 0; i < numOfPlayer; i++){
+        for (int i = 0; i < numOfPlayer; i++) {
             players.add(waitingConnection.poll());
         }
-
-        RemoteView remoteView = new RemoteView(/*...*/);            //what should we pass to the RemoteView constructor?
+        //TODO
+        /*
+        RemoteView remoteView = new RemoteView();            //what should we pass to the RemoteView constructor?
         GameModel model = new Game();
         Controller controller = new Controller(model);
         model.addObserver(remoteView);
         remoteView.addObserver(controller);
+        */
     }
+}

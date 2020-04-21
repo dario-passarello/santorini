@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Connection extends Observable<String> implements Runnable {
+public class Connection /*extends Observable<String>*/ implements Runnable {        //TODO connection should be observable
 
     private Socket socket;
     private Scanner in;
@@ -13,6 +13,7 @@ public class Connection extends Observable<String> implements Runnable {
     private Server server;
     private String name;
     private boolean active = true;
+    private int numPlayer;
 
     public Connection(Socket socket, Server server){
         this.socket = socket;
@@ -58,10 +59,6 @@ public class Connection extends Observable<String> implements Runnable {
         return name;
     }
 
-    public int getNumPlayer() {
-        return numPlayer;
-    }
-
     @Override
     public void run() {
         try{
@@ -75,11 +72,10 @@ public class Connection extends Observable<String> implements Runnable {
                 send("Error! invalid number");                            //we should ask again numPlayer (TO DO)
             }
             Lobby.getLobbyInstance(numPlayer).acquire(this);
-
-
             while(isActive()){
                 //HERE WE SHOULD LINK TO THE FSM
-
+                //TODO
+                break;
                 //String read = in.nextLine();
                 //notify(read);
             }

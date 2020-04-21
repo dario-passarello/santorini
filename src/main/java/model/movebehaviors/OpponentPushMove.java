@@ -24,7 +24,7 @@ public class OpponentPushMove extends MoveDecorator {
         Set<Square> neighborhood = new HashSet<>();
         for(Square square : adjacent){
             if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 &&                                      //if it's reachable
-                     !square.getOccupant().isPresent() &&                                                   //and there is another builder
+                     square.getOccupant().isPresent() &&                                                   //and there is another builder
                     (square.getOccupant().get().getOwner() != src.getOccupant().get().getOwner())){        // that is not mine
 
                 int srcX = src.getCoordinate().getX();
