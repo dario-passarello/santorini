@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.Coordinate;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PlayerTest {
 
     private Player player;
@@ -13,8 +16,13 @@ public class PlayerTest {
 
     @Before
     public void setupTests() {
-        game = new Game();
-        player = new Player(game,"test");
+        List<String> names = Arrays.asList("test", "test2");
+        try {
+            game = new Game(names, 2);
+        } catch (DuplicateNameException e) {
+            System.err.println(e.getMessage());
+        }
+        player = game.getPlayers().get(0);
 
     }
     @Test

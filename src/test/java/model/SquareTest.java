@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.Coordinate;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SquareTest {
     private Game game;
     private Board board;
@@ -12,7 +15,12 @@ public class SquareTest {
     @Before
     public void setupTest() {
 
-        game = new Game();
+        List<String> names = Arrays.asList("player1", "player2");
+        try {
+            game = new Game(names, 2);
+        } catch (DuplicateNameException e) {
+            System.err.println(e.getMessage());
+        }
         board = game.getBoard();
     }
 
