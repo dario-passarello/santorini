@@ -13,7 +13,15 @@ import java.util.Set;
 
 public class BeneathBuildTest {
 
-    private static Game game = new Game();
+    private static Game game;
+
+    static {
+        try {
+            game = new Game(Arrays.asList("Tester1, Tester2"), 2);
+        } catch (DuplicateNameException e) {
+            e.printStackTrace();
+        }
+    }
     private static Board board = new Board();
     private static Builder test1;
     private static Builder test2;
@@ -98,11 +106,11 @@ public class BeneathBuildTest {
 
     private static void setting(){
 
-        test1 = new Builder(board.squareAt(4, 0), player);      // Corner
-        test2 = new Builder(board.squareAt(4, 2), player);      // Edge
-        test3 = new Builder(board.squareAt(2, 1), player);      // Regular
+        test1 = new Builder(board.squareAt(4, 0), player,0);      // Corner
+        test2 = new Builder(board.squareAt(4, 2), player,0);      // Edge
+        test3 = new Builder(board.squareAt(2, 1), player,0);      // Regular
 
-        board.squareAt(3, 1).addDome();                         // Adding a dome to check it will not be present
+        board.squareAt(3, 1).addDome();                             // Adding a dome to check it will not be present
 
         build1 = board.squareAt(4, 1);                   // Level 3 Square:
         build2 = board.squareAt(3, 0);                   // Level 2 Square:
