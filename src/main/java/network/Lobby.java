@@ -1,8 +1,10 @@
 package network;
 
+import controller.GameController;
 import model.Game;
 import model.GameModel;
 
+import java.rmi.Remote;
 import java.util.*;
 
 public class Lobby {
@@ -43,17 +45,16 @@ public class Lobby {
             wait();
         }
 
-        Set<Connection> players = new HashSet<>();
+        /* TODO 
+        List<RemoteView> remoteViews = new ArrayList<>();
+        Connection player;
         for (int i = 0; i < numOfPlayer; i++) {
-            players.add(waitingConnection.poll());
+            player = waitingConnection.poll();
+            remoteViews.add(new RemoteView(player));
         }
-        //TODO
-        /*
-        RemoteView remoteView = new RemoteView();            //what should we pass to the RemoteView constructor?
-        GameModel model = new Game();
-        Controller controller = new Controller(model);
-        model.addObserver(remoteView);
-        remoteView.addObserver(controller);
+
+        GameController gameController = new GameController(remoteViews);
+        gameController.startGame();
         */
     }
 }
