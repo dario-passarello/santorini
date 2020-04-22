@@ -10,7 +10,7 @@ import java.util.Set;
 //TODO
 public class OpponentPushMove extends MoveDecorator {
 
-    public OpponentPushMove(MoveBehavior moveBehavior){
+    public OpponentPushMove(MoveBehavior moveBehavior) {
         wrappedMoveBehavior = moveBehavior;
     }
 
@@ -22,10 +22,10 @@ public class OpponentPushMove extends MoveDecorator {
     public Set<Square> neighborhood(Square src) {
         Set<Square> adjacent = src.getNeighbors();
         Set<Square> neighborhood = new HashSet<>();
-        for(Square square : adjacent){
-            if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 &&                                      //if it's reachable
-                     !square.getOccupant().isPresent() &&                                                   //and there is another builder
-                    (square.getOccupant().get().getOwner() != src.getOccupant().get().getOwner())){        // that is not mine
+        for (Square square : adjacent) {
+            if ((square.getBuildLevel() - src.getBuildLevel()) <= 1 &&                                      //if it's reachable
+                    !square.getOccupant().isPresent() &&                                                   //and there is another builder
+                    (square.getOccupant().get().getOwner() != src.getOccupant().get().getOwner())) {        // that is not mine
 
                 int srcX = src.getCoordinate().getX();
                 int srcY = src.getCoordinate().getY();
@@ -36,7 +36,7 @@ public class OpponentPushMove extends MoveDecorator {
                 int pushX = squareX + dirX;
                 int pushY = squareY + dirY;
 
-                if(pushX >= 0 && pushX <= Board.BOARD_SIZE-1 && pushY >= 0 && pushY <= Board.BOARD_SIZE-1) {     //check if I can push him
+                if (pushX >= 0 && pushX <= Board.BOARD_SIZE - 1 && pushY >= 0 && pushY <= Board.BOARD_SIZE - 1) {     //check if I can push him
                     Square push = square.getBoard().squareAt(squareX + dirX, squareY + dirY);
 
                     if (push.getBuildLevel() - square.getBuildLevel() <= 1 &&
@@ -52,15 +52,15 @@ public class OpponentPushMove extends MoveDecorator {
 
 
     /**
-     * @param b is the builder we want to move
+     * @param b    is the builder we want to move
      * @param dest is the square where our builder want to go
      * @return a boolean that indicates if the move phase is ended or not
-     *
+     * <p>
      * if b goes to a square occupied by an opponent builder, he will push him in the same direction
      */
     public boolean move(Builder b, Square dest) {
 
-        if(dest.getOccupant().isPresent()){
+        if (dest.getOccupant().isPresent()) {
             Square src = b.getPosition();                       //starting position
             int srcX = src.getCoordinate().getX();              //his coordinate
             int srcY = src.getCoordinate().getY();
@@ -85,7 +85,7 @@ public class OpponentPushMove extends MoveDecorator {
 
             return false;
         } else {
-            return wrappedMoveBehavior.move(b,dest);
+            return wrappedMoveBehavior.move(b, dest);
         }
     }
 

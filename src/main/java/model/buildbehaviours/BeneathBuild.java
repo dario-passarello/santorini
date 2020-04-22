@@ -8,12 +8,9 @@ import java.util.Set;
 
 public class BeneathBuild extends BuildDecorator{
 
-    private BuildBehavior wrappedBuildBehavior;
-
     public boolean build(Square dest) {
         return wrappedBuildBehavior.build(dest);
     }
-
 
     /**
      * It is like the StandardBuild, but adds the square the builder is currently positioned on

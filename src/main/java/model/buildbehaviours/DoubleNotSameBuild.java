@@ -12,12 +12,11 @@ public class DoubleNotSameBuild extends BuildDecorator {
     // Null - if this is the first ordinary build of the turn
     private Square previous;
     private boolean second;
-    private BuildBehavior wrappedBuildBehavior;
 
 
 
     public boolean build(Square dest) {
-        if(second == false){
+        if(!second){
             second = true;
             previous = dest;
             wrappedBuildBehavior.build(dest);
