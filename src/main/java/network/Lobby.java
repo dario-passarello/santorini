@@ -35,7 +35,7 @@ public class Lobby {
     }
 
     public boolean ready(Connection c){
-        return (waitingConnection.size() >= c.getNumPlayer());
+        return (waitingConnection.size() >= numOfPlayer);
     }
 
     public synchronized void createGame(Connection c) throws InterruptedException {
@@ -44,7 +44,7 @@ public class Lobby {
         }
 
         Set<Connection> players = new HashSet<>();
-        for(int i = 0; i < c.getNumPlayer(); i++){
+        for(int i = 0; i < numOfPlayer; i++){
             players.add(waitingConnection.poll());
         }
 

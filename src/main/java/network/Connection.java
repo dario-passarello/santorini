@@ -14,9 +14,6 @@ public class Connection extends Observable<String> implements Runnable {
     private String name;
     private boolean active = true;
 
-
-    private int numPlayer;
-
     public Connection(Socket socket, Server server){
         this.socket = socket;
         this.server = server;
@@ -50,10 +47,10 @@ public class Connection extends Observable<String> implements Runnable {
         active = false;
     }
 
-    private void close(){
+    private void close(int numPlayer){
         closeConnection();
         System.out.println("Deregistering client...");
-        server.deregisterConnection(this);
+        server.deregisterConnection(this, numPlayer);
         System.out.println("Done!");
     }
 
@@ -89,7 +86,7 @@ public class Connection extends Observable<String> implements Runnable {
         } catch(IOException | InterruptedException e){
             System.err.println(e.getMessage());
         } finally {
-            close();
+            close(numPlayer);
         }
     }
 }
