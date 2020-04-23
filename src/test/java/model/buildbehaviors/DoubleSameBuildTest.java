@@ -14,7 +14,15 @@ import java.util.Set;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DoubleSameBuildTest {
 
-    private static Game game = new Game();
+    private static Game game;
+
+    static {
+        try {
+            game = new Game(Arrays.asList("Tester1, Tester2"), 2);
+        } catch (DuplicateNameException e) {
+            e.printStackTrace();
+        }
+    }
     private static Board board = new Board();
     private static Builder test1;
     private static Builder test2;
@@ -129,9 +137,9 @@ public class DoubleSameBuildTest {
 
     private static void setting(){
 
-        test1 = new Builder(board.squareAt(4, 0), player);
-        test2 = new Builder(board.squareAt(4, 2), player);
-        test3 = new Builder(board.squareAt(2, 1), player);
+        test1 = new Builder(board.squareAt(4, 0), player,0);
+        test2 = new Builder(board.squareAt(4, 2), player,0);
+        test3 = new Builder(board.squareAt(2, 1), player,0);
 
         board.squareAt(3, 1).addDome();
 

@@ -2,9 +2,12 @@ package model.movebehaviors;
 
 import model.Board;
 import model.Builder;
+import model.ErrorMessage;
 import model.Square;
+import utils.Coordinate;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 //TODO
@@ -22,33 +25,30 @@ public class OpponentPushMove extends MoveDecorator {
     public Set<Square> neighborhood(Square src) {
         Set<Square> adjacent = src.getNeighbors();
         Set<Square> neighborhood = new HashSet<>();
-        for (Square square : adjacent) {
-            if ((square.getBuildLevel() - src.getBuildLevel()) <= 1 &&                                      //if it's reachable
-                    !square.getOccupant().isPresent() &&                                                   //and there is another builder
-                    (square.getOccupant().get().getOwner() != src.getOccupant().get().getOwner())) {        // that is not mine
-
-                int srcX = src.getCoordinate().getX();
-                int srcY = src.getCoordinate().getY();
-                int squareX = square.getCoordinate().getX();
-                int squareY = square.getCoordinate().getY();
-                int dirX = srcX - squareX;
-                int dirY = srcY - squareY;
-                int pushX = squareX + dirX;
-                int pushY = squareY + dirY;
-
-                if (pushX >= 0 && pushX <= Board.BOARD_SIZE - 1 && pushY >= 0 && pushY <= Board.BOARD_SIZE - 1) {     //check if I can push him
-                    Square push = square.getBoard().squareAt(squareX + dirX, squareY + dirY);
-
-                    if (push.getBuildLevel() - square.getBuildLevel() <= 1 &&
-                            !push.getOccupant().isPresent()) {
-                        neighborhood.add(square);
-                    }
+        Builder currBuilder = src.getOccupant().orElseThrow(() -> new UnknownError(ErrorMessage.MALFORMED_BOARD));
+        /*
+         *  Check for each neighbor if
+         *  - There is a builder controlled from another player
+         *  - The builder could be pushed:
+         *      - Is not in an edge
+         *      - The square's height is at most 1 level higher compared to the neighbor
+         */
+        for(Square neighbor : adjacent){
+            Optional<Builder> builderOpt = neighbor.getOccupant();
+            if(!builderOpt.isPresent()) continue;
+            if(neighbor.getBuildLevel() - src.getBuildLevel() <= 1
+                    && builderOpt.get().getOwner().equals(currBuilder.getOwner())) {
+                Optional<Coordinate> optPushCoordinate = getPushDestination(src, neighbor);
+                if(!optPushCoordinate.isPresent()) continue;
+                Square pushSquare = neighbor.getBoard().squareAt(optPushCoordinate.get());
+                if (pushSquare.getBuildLevel() - neighbor.getBuildLevel() <= 1 && !pushSquare.getOccupant().isPresent() && !pushSquare.isDomed())
+                    neighborhood.add(neighbor);
                 }
             }
-        }
         neighborhood.addAll(wrappedMoveBehavior.neighborhood(src));
         return neighborhood;
-    }
+        }
+
 
 
     /**
@@ -62,31 +62,33 @@ public class OpponentPushMove extends MoveDecorator {
 
         if (dest.getOccupant().isPresent()) {
             Square src = b.getPosition();                       //starting position
-            int srcX = src.getCoordinate().getX();              //his coordinate
-            int srcY = src.getCoordinate().getY();
-            int destX = dest.getCoordinate().getX();            //dest coordinate
-            int destY = dest.getCoordinate().getY();
-            int dirX = srcX - destX;                            //push direction
-            int dirY = srcY - destY;
-            int pushX = destX + dirX;                           //push coordinate
-            int pushY = destY + dirY;
-
             Board board = dest.getBoard();
-            Square push = board.squareAt(pushX, pushY);          //push square
+
+            Square push = board.squareAt(getPushDestination(src, dest)
+                    .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.ILLEGAL_MOVE)));
             Builder enemy = dest.getOccupant().get();
 
             push.setOccupant(dest.getOccupant().get());
             enemy.setPosition(push);
-
             dest.setOccupant(b);
             b.setPosition(dest);
+            src.setEmptySquare();
 
-            src.setOccupant(null);
-
-            return false;
+            return false; //Override the standard behavior
         } else {
             return wrappedMoveBehavior.move(b, dest);
         }
+    }
+
+    private Optional<Coordinate> getPushDestination(Square src, Square neighbor) {
+        int srcX = src.getCoordinate().getX();
+        int srcY = src.getCoordinate().getY();
+        int squareX = neighbor.getCoordinate().getX();
+        int squareY = neighbor.getCoordinate().getY();
+        int dirX = srcX - squareX;
+        int dirY = srcY - squareY;
+        Coordinate result = new Coordinate(dirX, dirY);
+        return Board.checkValidCoordinate(result) ? Optional.of(result) : Optional.empty();
     }
 
 }

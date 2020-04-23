@@ -9,4 +9,5 @@ public class ErrorMessage {
     public static final String PLAYER_NUMBER_ERROR = "Match should have 2 or 3 players";
     public static final String PLAYER_NOT_FOUND = "No such player in the game";
     public static final String PLAYER_ALREADY_REMOVED = "The player was already removed from the game";
+    public static final String MALFORMED_BOARD = "Square without builder, malformed board";
 }

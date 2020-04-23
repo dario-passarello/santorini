@@ -8,6 +8,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 class TwoDownWinConditionTest {
 
     private Player p1, p2;
@@ -19,15 +22,22 @@ class TwoDownWinConditionTest {
 
     @Before
     public void init() {
-        g = new Game();
+        List<String> names = Arrays.asList("player1", "player2");
+        try {
+            g = new Game(names, 2);
+        } catch (DuplicateNameException e) {
+            System.err.println(e.getMessage());
+        }
         board = g.getBoard();
         s = BoardTest.boardToMatrix(board);
-        p1 = new Player(g, "player1");
-        p2 = new Player(g, "player2");
+        p1 = g.getPlayers().get(0);
+        p2 = g.getPlayers().get(1);
         g1 = new Pan();                     //Pan have this win condition
         g2 = new Atlas();
         p1.setGod(g1);
         p2.setGod(g2);
+        List<God> godList = Arrays.asList(g1, g2);
+        g.setGodList(godList);
     }
 
     @Test

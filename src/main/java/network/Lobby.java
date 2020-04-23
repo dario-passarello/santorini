@@ -1,8 +1,10 @@
 package network;
 
+import controller.GameController;
 import model.Game;
 import model.GameModel;
 
+import java.rmi.Remote;
 import java.util.*;
 
 public class Lobby {
@@ -35,22 +37,24 @@ public class Lobby {
     }
 
     public boolean ready(Connection c){
-        return (waitingConnection.size() >= c.getNumPlayer());
+        return (waitingConnection.size() >= numOfPlayer);
     }
 
     public synchronized void createGame(Connection c) throws InterruptedException {
-        while(!ready(c)) {                                                           //if there isn't enough player, wait
+        while (!ready(c)) {                                                           //if there isn't enough player, wait
             wait();
         }
 
-        Set<Connection> players = new HashSet<>();
-        for(int i = 0; i < c.getNumPlayer(); i++){
-            players.add(waitingConnection.poll());
+        /* TODO 
+        List<RemoteView> remoteViews = new ArrayList<>();
+        Connection player;
+        for (int i = 0; i < numOfPlayer; i++) {
+            player = waitingConnection.poll();
+            remoteViews.add(new RemoteView(player));
         }
 
-        RemoteView remoteView = new RemoteView(/*...*/);            //what should we pass to the RemoteView constructor?
-        GameModel model = new Game();
-        Controller controller = new Controller(model);
-        model.addObserver(remoteView);
-        remoteView.addObserver(controller);
+        GameController gameController = new GameController(remoteViews);
+        gameController.startGame();
+        */
     }
+}
