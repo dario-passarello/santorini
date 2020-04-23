@@ -7,10 +7,13 @@ import model.gods.God;
 import model.gods.Mortal;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class BlockUpMoveTest {
 
@@ -20,7 +23,7 @@ class BlockUpMoveTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init(){
         List<String> names = Arrays.asList("player1", "player2");
         try {
@@ -50,7 +53,8 @@ class BlockUpMoveTest {
         SquareTest.setSquareBuildLevel(s[3][3], 1);
 
         b01.move(s[0][0]);
-        List<Square> expectedList = Arrays.asList(s[4][3], s[3][4]);
-        Assert.assertEquals(expectedList, b44.getWalkableNeighborhood());
+        Set<Square> expected = new HashSet<>(Arrays.asList(s[4][3], s[3][4]));
+        Set<Square> actual = new HashSet<>(b44.getWalkableNeighborhood());
+        Assert.assertTrue(expected.equals(actual));
     }
 }

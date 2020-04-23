@@ -22,30 +22,38 @@ public class OpponentPushMove extends MoveDecorator {
     public Set<Square> neighborhood(Square src) {
         Set<Square> adjacent = src.getNeighbors();
         Set<Square> neighborhood = new HashSet<>();
+
+        int srcX, srcY, squareX, squareY, dirX,dirY, pushX, pushY;
+        Square push;
+        srcX = src.getCoordinate().getX();
+        srcY = src.getCoordinate().getY();
         for(Square square : adjacent){
             if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 &&                                      //if it's reachable
+                    !square.isDomed() &&
                      square.getOccupant().isPresent() &&                                                   //and there is another builder
                     (square.getOccupant().get().getOwner() != src.getOccupant().get().getOwner())){        // that is not mine
 
-                int srcX = src.getCoordinate().getX();
-                int srcY = src.getCoordinate().getY();
-                int squareX = square.getCoordinate().getX();
-                int squareY = square.getCoordinate().getY();
-                int dirX = srcX - squareX;
-                int dirY = srcY - squareY;
-                int pushX = squareX + dirX;
-                int pushY = squareY + dirY;
+                squareX = square.getCoordinate().getX();
+                squareY = square.getCoordinate().getY();
+                dirX = squareX - srcX;
+                dirY = squareY - srcY;
+                pushX = squareX + dirX;
+                pushY = squareY + dirY;
 
                 if(pushX >= 0 && pushX <= Board.BOARD_SIZE-1 && pushY >= 0 && pushY <= Board.BOARD_SIZE-1) {     //check if I can push him
-                    Square push = square.getBoard().squareAt(squareX + dirX, squareY + dirY);
+
+                    push = square.getBoard().squareAt(pushX, pushY);
+                    //System.out.println("["+push.getCoordinate().getX()+","+push.getCoordinate().getY()+"]");
 
                     if (push.getBuildLevel() - square.getBuildLevel() <= 1 &&
+                            !push.isDomed() &&
                             !push.getOccupant().isPresent()) {
                         neighborhood.add(square);
                     }
                 }
             }
         }
+
         neighborhood.addAll(wrappedMoveBehavior.neighborhood(src));
         return neighborhood;
     }
@@ -66,8 +74,8 @@ public class OpponentPushMove extends MoveDecorator {
             int srcY = src.getCoordinate().getY();
             int destX = dest.getCoordinate().getX();            //dest coordinate
             int destY = dest.getCoordinate().getY();
-            int dirX = srcX - destX;                            //push direction
-            int dirY = srcY - destY;
+            int dirX = destX - srcX;                            //push direction
+            int dirY = destY - srcY;
             int pushX = destX + dirX;                           //push coordinate
             int pushY = destY + dirY;
 

@@ -7,7 +7,8 @@ import model.gods.God;
 import model.gods.Mortal;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,7 @@ class FiveTowerWinConditionTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init()
     {
         List<String> names = Arrays.asList("player1", "player2");
@@ -59,6 +60,7 @@ class FiveTowerWinConditionTest {
         s[3][3].addDome();
         Assert.assertSame(p1.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
         Assert.assertSame(p2.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
+
         SquareTest.setSquareBuildLevel(s[3][2],3);
         s[3][2].addDome();
         Assert.assertSame(p1.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);

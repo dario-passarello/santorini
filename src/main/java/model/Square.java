@@ -131,8 +131,7 @@ public class Square {
         if (this == o) return true;
         if (!(o instanceof Square)) return false;
         Square square = (Square) o;
-        return board.equals(square.board) &&
-                coordinate.equals(square.coordinate);
+        return coordinate.equals(square.coordinate);
     }
 
     @Override

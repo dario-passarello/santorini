@@ -7,10 +7,13 @@ import model.gods.God;
 import model.gods.Mortal;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class DoubleNoBackMoveTest {
 
@@ -20,7 +23,7 @@ class DoubleNoBackMoveTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init(){
         List<String> names = Arrays.asList("player1", "player2");
         try {
@@ -44,17 +47,19 @@ class DoubleNoBackMoveTest {
     public void youShouldNotComeBack(){
         Builder b22 = new Builder(s[2][2], p1, 1);
 
-        List<Square> expectedList = Arrays.asList(  s[1][1], s[1][2],s[1][3],
-                                                    s[2][1], s[2][3],
-                                                    s[3][1], s[3][2], s[3][3]);
-        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+        Set<Square> expected = new HashSet<>(Arrays.asList(  s[1][1], s[1][2],s[1][3],
+                                                             s[2][1], s[2][3],
+                                                             s[3][1], s[3][2], s[3][3]));
+        Set<Square> actual = new HashSet<>(b22.getWalkableNeighborhood());
+        Assert.assertTrue(expected.equals(actual));
 
         Assert.assertTrue(b22.move(s[1][2]));
 
-        expectedList = Arrays.asList(  s[0][1], s[0][2],s[0][3],
-                                       s[1][1], s[1][3],
-                                       s[2][1], s[2][3]);
-        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+        expected = new HashSet<>(Arrays.asList(  s[0][1], s[0][2],s[0][3],
+                                                 s[1][1], s[1][3],
+                                                 s[2][1], s[2][3]));
+        actual = new HashSet<>(b22.getWalkableNeighborhood());
+        Assert.assertTrue(expected.equals(actual));
 
         Assert.assertFalse(b22.move(s[1][3]));
     }

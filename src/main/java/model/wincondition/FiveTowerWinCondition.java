@@ -31,8 +31,8 @@ public class FiveTowerWinCondition extends WinConditionDecorator {
     public Optional<Player> checkSpecialWinCondition() {
         Board board = null; //TODO
         int counter = 0;
-        for(int i = 1; i <= Board.BOARD_SIZE; i++){
-            for(int j = 1; j <= Board.BOARD_SIZE; j++){
+        for(int i = 0; i <= Board.BOARD_SIZE-1; i++){
+            for(int j = 0; j <= Board.BOARD_SIZE-1; j++){
                 if(board.squareAt(i,j).getBuildLevel() == 3 && board.squareAt(i,j).isDomed()){
                     counter++;
                 }

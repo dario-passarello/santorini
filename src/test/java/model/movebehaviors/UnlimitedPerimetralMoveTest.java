@@ -6,7 +6,8 @@ import model.gods.Mortal;
 import model.gods.Triton;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,7 @@ class UnlimitedPerimetralMoveTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init(){
         List<String> names = Arrays.asList("player1", "player2");
         try {
