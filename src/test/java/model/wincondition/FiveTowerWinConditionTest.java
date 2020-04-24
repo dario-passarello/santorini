@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,6 +39,8 @@ class FiveTowerWinConditionTest {
         g2 = new Mortal();
         p1.setGod(g1);
         p2.setGod(g2);
+        g1.setPlayer(p1);
+        g2.setPlayer(p2);
         List<God> godList = Arrays.asList(g1, g2);
         g.setGodList(godList);
         g2.setWinCondition(new FiveTowerWinCondition((g2.getWinCondition()), g1));
@@ -48,33 +51,33 @@ class FiveTowerWinConditionTest {
 
         SquareTest.setSquareBuildLevel(s[1][1],3);
         s[1][1].addDome();
-        Assert.assertSame(p1.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
-        Assert.assertSame(p2.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
+
+        Assert.assertSame(p1.getGod().checkSpecialWinCondition().orElse(null), null);
+        Assert.assertSame(p2.getGod().checkSpecialWinCondition().orElse(null), null);
 
         SquareTest.setSquareBuildLevel(s[2][0],3);
         s[2][0].addDome();
-        Assert.assertSame(p1.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
-        Assert.assertSame(p2.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
+        Assert.assertSame(p1.getGod().checkSpecialWinCondition().orElse(null), null);
+        Assert.assertSame(p2.getGod().checkSpecialWinCondition().orElse(null), null);
 
         SquareTest.setSquareBuildLevel(s[3][3],3);
         s[3][3].addDome();
-        Assert.assertSame(p1.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
-        Assert.assertSame(p2.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
+        Assert.assertSame(p1.getGod().getWinCondition().checkSpecialWinCondition(board).orElse(null), null);
+        Assert.assertSame(p2.getGod().getWinCondition().checkSpecialWinCondition(board).orElse(null), null);
 
         SquareTest.setSquareBuildLevel(s[3][2],3);
         s[3][2].addDome();
-        Assert.assertSame(p1.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
-        Assert.assertSame(p2.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
+        Assert.assertSame(p1.getGod().checkSpecialWinCondition().orElse(null), null);
+        Assert.assertSame(p2.getGod().checkSpecialWinCondition().orElse(null), null);
 
-        SquareTest.setSquareBuildLevel(s[4][0],3);
+        SquareTest.setSquareBuildLevel(s[4][0],2);              //that is not a complete tower!
         s[4][0].addDome();
-        Assert.assertSame(p1.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), p1);
-        Assert.assertSame(p2.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), p1);
+        Assert.assertSame(p1.getGod().checkSpecialWinCondition().orElse(null), null);
+        Assert.assertSame(p2.getGod().checkSpecialWinCondition().orElse(null), null);
 
-        SquareTest.setSquareBuildLevel(s[4][0],2);
-
-        Assert.assertSame(p1.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
-        Assert.assertSame(p2.getGod().getWinCondition().checkSpecialWinCondition().orElse(null), null);
+        SquareTest.setSquareBuildLevel(s[4][0],1);
+        Assert.assertSame(p1.getGod().checkSpecialWinCondition().orElse(null), p1);
+        Assert.assertSame(p2.getGod().checkSpecialWinCondition().orElse(null), p1);
 
     }
 }

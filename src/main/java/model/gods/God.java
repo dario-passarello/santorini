@@ -1,5 +1,6 @@
 package model.gods;
 
+import model.Board;
 import model.Builder;
 import model.Player;
 import model.Square;
@@ -98,7 +99,8 @@ public abstract class God implements Serializable {
     }
 
     public Optional<Player> checkSpecialWinCondition() {
-        return winCondition.checkSpecialWinCondition();
+        Board board = this.getPlayer().getGame().getBoard();
+        return winCondition.checkSpecialWinCondition(board);
     }
 
     /**

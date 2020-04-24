@@ -15,6 +15,7 @@ public class FiveTowerWinCondition extends WinConditionDecorator {
 
     public FiveTowerWinCondition(WinCondition winCondition, God chronus){
         wrappedWinCondition = winCondition;
+        this.chronus = chronus;
     }
 
     /**
@@ -28,8 +29,7 @@ public class FiveTowerWinCondition extends WinConditionDecorator {
         return wrappedWinCondition.checkWinCondition(start, builder);
     }
 
-    public Optional<Player> checkSpecialWinCondition() {
-        Board board = null; //TODO
+    public Optional<Player> checkSpecialWinCondition(Board board) {
         int counter = 0;
         for(int i = 0; i <= Board.BOARD_SIZE-1; i++){
             for(int j = 0; j <= Board.BOARD_SIZE-1; j++){
