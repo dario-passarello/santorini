@@ -54,7 +54,6 @@ class StandardWinConditionTest {
         SquareTest.setSquareBuildLevel(s[3][2],2);
         Square start = s[3][2];
         b1 = new Builder(s[3][3], p1, 1);
-        //b1 = p1.addBuilder(s[3][3]);
         Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start,b1).orElse(null), expectedWinner);
 
     }
@@ -68,6 +67,6 @@ class StandardWinConditionTest {
         Square start = s[3][2];
         b1 = new Builder(s[3][3], p1, 1);
         //b1 = p1.addBuilder(s[3][3]);
-        Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start,b1).orElse(null), expectedWinner);
+        Assert.assertSame(p1.getGod().checkWinCondition(start,b1).orElse(null), expectedWinner);
     }
 }

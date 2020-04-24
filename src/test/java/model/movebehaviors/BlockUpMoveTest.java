@@ -55,9 +55,7 @@ class BlockUpMoveTest {
         b01.move(s[0][0]);
         Set<Square> expected = new HashSet<>(Arrays.asList(s[4][3], s[3][4]));
         Set<Square> actual = new HashSet<>(b44.getWalkableNeighborhood());
-        for(Square s : actual){
-            System.out.println("["+s.getCoordinate().getX()+","+s.getCoordinate().getY()+"]");
-        }
+
         Assert.assertEquals(expected, actual);
     }
 }

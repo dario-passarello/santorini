@@ -25,7 +25,6 @@ public class FiveTowerWinCondition extends WinConditionDecorator {
      */
     @Override
     public Optional<Player> checkWinCondition(Square start, Builder builder) {
-        //TODO
         return wrappedWinCondition.checkWinCondition(start, builder);
     }
 
