@@ -2,9 +2,9 @@ package model.buildbehaviors;
 
 import model.*;
 import model.buildbehaviours.DoubleNotSameBuild;
-import model.buildbehaviours.DoubleSameBuild;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
@@ -20,7 +20,7 @@ public class DoubleNotSameBuildTest {
 
     static {
         try {
-            game = new Game(Arrays.asList("Tester1, Tester2"), 2);
+            game = new Game(Arrays.asList("Tester1", "Tester2"), 2);
         } catch (DuplicateNameException e) {
             e.printStackTrace();
         }

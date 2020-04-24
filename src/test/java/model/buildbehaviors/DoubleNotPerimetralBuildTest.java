@@ -5,10 +5,14 @@ import model.buildbehaviours.DoubleNoPerimeterBuild;
 import model.buildbehaviours.DoubleNotSameBuild;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,7 +24,7 @@ public class DoubleNotPerimetralBuildTest {
 
     static {
         try {
-            game = new Game(Arrays.asList("Tester1, Tester2"), 2);
+            game = new Game(Arrays.asList("Tester1", "Tester2"), 2);
         } catch (DuplicateNameException e) {
             e.printStackTrace();
         }
@@ -42,7 +46,6 @@ public class DoubleNotPerimetralBuildTest {
     public static void init(){
         setting();
     }
-
 
 
 

@@ -4,7 +4,9 @@ import model.DuplicateNameException;
 import model.Game;
 import model.gods.God;
 //import network.RemoteView;
+import network.RemoteView;
 import utils.Coordinate;
+import utils.Message;
 
 import java.util.List;
 import java.util.Set;
@@ -14,16 +16,16 @@ public class GameController {
 
     private Game model;
     private Set<God> gods;
-    /*private List<RemoteView> remoteviews;
+    private List<RemoteView> remoteviews;
     private Integer NumberOfPlayers;
 
-    public GameController(List<RemoteView> remoteviews, List<String> nicknames) throws DuplicateNameException {
-        this.model = new Game(nicknames, nicknames.size());
+    public GameController(List<RemoteView> remoteviews) throws DuplicateNameException {
+        // this.model = new Game(nicknames, nicknames.size());
         this.remoteviews = remoteviews;
-        this.NumberOfPlayers = nicknames.size();
+        this.NumberOfPlayers = remoteviews.size();
     }
-*/
-    public void StartGame(){
+
+    public void startGame(){
         model.setGameState(model.godSelectionState);
         // Maybe Send GodList?
     }
@@ -67,6 +69,12 @@ public class GameController {
     }
 
     public void quitGame(){
+
+    }
+
+
+    public void processMessage(Message message){
+
 
     }
 

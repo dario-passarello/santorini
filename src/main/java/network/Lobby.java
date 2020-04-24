@@ -1,6 +1,7 @@
 package network;
 
 import controller.GameController;
+import model.DuplicateNameException;
 import model.Game;
 import model.GameModel;
 
@@ -30,7 +31,7 @@ public class Lobby {
         throw new IllegalArgumentException("Lobby can have only 2 or 3 players");
     }
 
-    public synchronized void acquire(Connection c) throws InterruptedException {
+    public synchronized void acquire(Connection c) throws InterruptedException, DuplicateNameException {
         waitingConnection.add(c);
         notifyAll();
         createGame(c);
@@ -40,12 +41,12 @@ public class Lobby {
         return (waitingConnection.size() >= numOfPlayer);
     }
 
-    public synchronized void createGame(Connection c) throws InterruptedException {
+    public synchronized void createGame(Connection c) throws InterruptedException, DuplicateNameException {
         while (!ready(c)) {                                                           //if there isn't enough player, wait
             wait();
         }
 
-        /* TODO 
+
         List<RemoteView> remoteViews = new ArrayList<>();
         Connection player;
         for (int i = 0; i < numOfPlayer; i++) {
@@ -55,6 +56,6 @@ public class Lobby {
 
         GameController gameController = new GameController(remoteViews);
         gameController.startGame();
-        */
+
     }
 }

@@ -18,7 +18,7 @@ public class DoubleSameBuildTest {
 
     static {
         try {
-            game = new Game(Arrays.asList("Tester1, Tester2"), 2);
+            game = new Game(Arrays.asList("Tester1", "Tester2"), 2);
         } catch (DuplicateNameException e) {
             e.printStackTrace();
         }
