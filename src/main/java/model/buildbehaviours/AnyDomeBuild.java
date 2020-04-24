@@ -6,10 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AnyDomeBuild implements BuildBehavior {
-
-
-    private BuildBehavior wrappedBuildBehavior;
+public class AnyDomeBuild extends BuildDecorator {
 
     /**
      * Allows the player to build either a dome or a block, no matter what the level of the square is

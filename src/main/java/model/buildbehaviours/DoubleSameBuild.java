@@ -11,12 +11,11 @@ public class DoubleSameBuild extends BuildDecorator {
 
     // Keeps track of the order of the builds
     private boolean second;
-    private BuildBehavior wrappedBuildBehavior;
     private Square previous;
 
 
     public boolean build(Square dest) {
-        if(second == false){
+        if(!second){
             second = true;
             previous = dest;
             wrappedBuildBehavior.build(dest);
@@ -32,7 +31,7 @@ public class DoubleSameBuild extends BuildDecorator {
      * @return the set of squares where the builder can build
      */
     public Set<Square> neighborhood(Square src) {
-        if(second == false){
+        if(!second){
             return(this.wrappedBuildBehavior.neighborhood(src));
         }
         else{

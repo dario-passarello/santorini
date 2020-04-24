@@ -11,11 +11,10 @@ public class DoubleNoPerimeterBuild extends BuildDecorator{
 
     // Keeps track of the order of the builds
     private boolean second;
-    private BuildBehavior wrappedBuildBehavior;
 
 
     public boolean build(Square dest) {
-        if(second == false){
+        if(!second){
             second = true;
             wrappedBuildBehavior.build(dest);
             return true;

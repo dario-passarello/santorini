@@ -21,7 +21,6 @@ public class Athena extends God {
         //INFLUENZA GLI AVVERSARI
     }
 
-
     @Override
     public void setAllMoveBehaviors(List<God> targets) {
         //Apply temporary debuff to other players

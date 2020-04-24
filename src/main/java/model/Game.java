@@ -89,7 +89,7 @@ public class Game implements Observable<GameObserver>, GameModel {
     }
 
     /**
-     * @return number of players in the game
+     * @return number of total players
      */
     public int getNumberOfPlayers() {
         return players.size();

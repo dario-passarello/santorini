@@ -9,11 +9,7 @@ import java.util.Set;
 public abstract class BuildDecorator implements BuildBehavior {
     protected BuildBehavior wrappedBuildBehavior;
 
-    public Set<Square> neighborhood(Square src){
-        return null;
-    }
+    public abstract Set<Square> neighborhood(Square src);
 
-    public boolean build(Square dest){
-        return false;
-    }
+    public abstract boolean build(Square dest);
 }
