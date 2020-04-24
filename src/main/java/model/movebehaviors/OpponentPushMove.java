@@ -87,9 +87,9 @@ public class OpponentPushMove extends MoveDecorator {
         int srcY = src.getCoordinate().getY();
         int squareX = neighbor.getCoordinate().getX();
         int squareY = neighbor.getCoordinate().getY();
-        int dirX = srcX - squareX;
-        int dirY = srcY - squareY;
-        Coordinate result = new Coordinate(dirX, dirY);
+        int dirX = squareX - srcX;
+        int dirY = squareY - srcY;
+        Coordinate result = new Coordinate(dirX+squareX, dirY+squareY);
         return Board.checkValidCoordinate(result) ? Optional.of(result) : Optional.empty();
     }
 

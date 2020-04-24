@@ -71,9 +71,7 @@ class OpponentPushMoveTest {
         Set<Square> expected = new HashSet<>(Arrays.asList(s[1][1], s[1][2], s[2][1]));
         Set<Square> actual = new HashSet<>(b22.getWalkableNeighborhood());
 
-
         Assert.assertEquals(expected, actual);
-
 
         SquareTest.setSquareBuildLevel(s[2][2],1);
         expected.addAll(new HashSet<>(Arrays.asList(s[1][3],s[3][1])));
