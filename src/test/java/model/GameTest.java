@@ -1,26 +1,26 @@
 package model;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import utils.Coordinate;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class GameTest {
-    private Game game;
+    Game testGame2, testGame3;
 
+    @RepeatedTest(9999)
+    public void gameConstructTest(int a, int b){
 
-    @BeforeEach
-    public void setupGame(List<String> names) {
-        //TODO
     }
-
     public static Game setupGameAtTurnPhase(List<String> players, List<String> gods, List<Coordinate> builderPositions) throws DuplicateNameException {
         Game game = new Game(players, players.size());
         Collections.reverse(gods);
@@ -36,7 +36,7 @@ public class GameTest {
         }
         try {
             for (int i = 0; i < players.size() * 2; i++) {
-                game.selectCoordinate(players.get(i / 2), gods.get(i));
+                game.selectCoordinate(players.get(i / 2), builderPositions.get(i));
             }
         } catch (ArrayIndexOutOfBoundsException e) {
             fail("Malformed Test Input: Not enough builder positions provided");

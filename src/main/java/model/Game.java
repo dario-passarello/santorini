@@ -46,7 +46,7 @@ public class Game implements Observable<GameObserver>, GameModel {
      * Initializes a game, building the board and setting up all the things
      */
     public Game(List<String> names, int maxPlayers) throws DuplicateNameException {
-        if(maxPlayers < MIN_PLAYERS || maxPlayers > MAX_PLAYERS) {
+        if(maxPlayers < MIN_PLAYERS || maxPlayers > MAX_PLAYERS || names.size() != maxPlayers) {
             throw new IllegalArgumentException(ErrorMessage.PLAYER_NUMBER_ERROR);
         }
         if(names.stream().anyMatch(name -> Collections.frequency(names, name) > 1)) {

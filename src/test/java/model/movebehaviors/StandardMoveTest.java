@@ -57,7 +57,7 @@ class StandardMoveTest {
         expectedList = Arrays.asList(s[3][3], s[3][4], s[4][3]);
         Assert.assertEquals(expectedList, b44.getWalkableNeighborhood());
     }
-
+    @Test
     public void hinderedNeighborhoodTest(){
         Builder b33 = new Builder(s[2][2], p1, 1);
         //three blocks with just buildings
@@ -82,7 +82,7 @@ class StandardMoveTest {
         List<Square> expectedList = Arrays.asList(s[1][1]);
         Assert.assertEquals(expectedList, b33.getWalkableNeighborhood());
     }
-
+    @Test
     public void moveTest(){
         Builder b22 = new Builder(s[2][2], p1, 1);
 
