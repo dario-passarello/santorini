@@ -9,7 +9,9 @@ import model.gods.God;
 import model.gods.Mortal;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +25,7 @@ class StandardWinConditionTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init()
     {
         List<String> names = Arrays.asList("player1", "player2");
@@ -51,7 +53,8 @@ class StandardWinConditionTest {
         SquareTest.setSquareBuildLevel(s[3][3],3);
         SquareTest.setSquareBuildLevel(s[3][2],2);
         Square start = s[3][2];
-        b1 = p1.addBuilder(s[3][3]);
+        b1 = new Builder(s[3][3], p1, 1);
+        //b1 = p1.addBuilder(s[3][3]);
         Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start,b1).orElse(null), expectedWinner);
 
     }
@@ -63,7 +66,8 @@ class StandardWinConditionTest {
         SquareTest.setSquareBuildLevel(s[3][3],3);
         SquareTest.setSquareBuildLevel(s[3][2],3);
         Square start = s[3][2];
-        b1 = p1.addBuilder(s[3][3]);
+        b1 = new Builder(s[3][3], p1, 1);
+        //b1 = p1.addBuilder(s[3][3]);
         Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start,b1).orElse(null), expectedWinner);
     }
 }

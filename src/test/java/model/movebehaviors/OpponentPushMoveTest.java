@@ -7,11 +7,10 @@ import model.gods.Minotaur;
 import model.gods.Mortal;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +22,7 @@ class OpponentPushMoveTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init(){
         List<String> names = Arrays.asList("player1", "player2");
         try {
@@ -69,19 +68,25 @@ class OpponentPushMoveTest {
         Builder b32 = new Builder(s[3][2], p2, 7);
         Builder b33 = new Builder(s[3][3], p2, 8);
 
-        List<Square> expectedList = Arrays.asList(s[1][1], s[1][2], s[1][1]);
-        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+        Set<Square> expected = new HashSet<>(Arrays.asList(s[1][1], s[1][2], s[2][1]));
+        Set<Square> actual = new HashSet<>(b22.getWalkableNeighborhood());
+
+        Assert.assertEquals(expected, actual);
 
         SquareTest.setSquareBuildLevel(s[2][2],1);
-        expectedList.addAll(Arrays.asList(s[1][3],s[3][1]));
-        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+        expected.addAll(new HashSet<>(Arrays.asList(s[1][3],s[3][1])));
+        actual = new HashSet<>(b22.getWalkableNeighborhood());
+
+        Assert.assertEquals(expected, actual);
 
         SquareTest.setSquareBuildLevel(s[2][2],2);
-        expectedList.addAll(Arrays.asList(s[2][3], s[3][2], s[3][3]));
-        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+        expected.addAll(new HashSet<>(Arrays.asList(s[2][3], s[3][2], s[3][3])));
+        actual = new HashSet<>(b22.getWalkableNeighborhood());
+        Assert.assertEquals(expected, actual);
 
         SquareTest.setSquareBuildLevel(s[2][2],3);
-        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+        actual = new HashSet<>(b22.getWalkableNeighborhood());
+        Assert.assertEquals(expected, actual);
 
 
         b22.move(s[3][3]);          //Minotaur push
@@ -112,8 +117,9 @@ class OpponentPushMoveTest {
         Builder b23 = new Builder(s[2][3], p2, 6);
         Builder b30 = new Builder(s[3][0], p1, 4);
 
-        List<Square> expectedList = new ArrayList<>();              //b12 cannot move, so it's empty
-        Assert.assertEquals(expectedList, b12.getWalkableNeighborhood());
+        Set<Square> expected = new HashSet<>();              //b12 cannot move, so it's empty
+        Set<Square> actual = new HashSet<>(b12.getWalkableNeighborhood());
+        Assert.assertEquals(expected, actual);
 
     }
 

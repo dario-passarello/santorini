@@ -24,7 +24,7 @@ public class Athena extends God {
     @Override
     public void setAllMoveBehaviors(List<God> targets) {
         //Apply temporary debuff to other players
-        for(God g : targets.stream().filter(g -> g.equals(this)).collect(Collectors.toList())) {
+        for(God g : targets.stream().filter(g -> !g.equals(this)).collect(Collectors.toList())) {
             g.setMoveBehavior(new NoUpMove(g.getMoveBehavior()));
         }
     }

@@ -25,6 +25,7 @@ public class OpponentPushMove extends MoveDecorator {
     public Set<Square> neighborhood(Square src) {
         Set<Square> adjacent = src.getNeighbors();
         Set<Square> neighborhood = new HashSet<>();
+
         Builder currBuilder = src.getOccupant().orElseThrow(() -> new UnknownError(ErrorMessage.MALFORMED_BOARD));
         /*
          *  Check for each neighbor if
@@ -37,7 +38,7 @@ public class OpponentPushMove extends MoveDecorator {
             Optional<Builder> builderOpt = neighbor.getOccupant();
             if(!builderOpt.isPresent()) continue;
             if(neighbor.getBuildLevel() - src.getBuildLevel() <= 1
-                    && builderOpt.get().getOwner().equals(currBuilder.getOwner())) {
+                    && !builderOpt.get().getOwner().equals(currBuilder.getOwner())) {
                 Optional<Coordinate> optPushCoordinate = getPushDestination(src, neighbor);
                 if(!optPushCoordinate.isPresent()) continue;
                 Square pushSquare = neighbor.getBoard().squareAt(optPushCoordinate.get());
@@ -62,6 +63,7 @@ public class OpponentPushMove extends MoveDecorator {
 
         if (dest.getOccupant().isPresent()) {
             Square src = b.getPosition();                       //starting position
+
             Board board = dest.getBoard();
 
             Square push = board.squareAt(getPushDestination(src, dest)
@@ -85,9 +87,9 @@ public class OpponentPushMove extends MoveDecorator {
         int srcY = src.getCoordinate().getY();
         int squareX = neighbor.getCoordinate().getX();
         int squareY = neighbor.getCoordinate().getY();
-        int dirX = srcX - squareX;
-        int dirY = srcY - squareY;
-        Coordinate result = new Coordinate(dirX, dirY);
+        int dirX = squareX - srcX;
+        int dirY = squareY - srcY;
+        Coordinate result = new Coordinate(dirX+squareX, dirY+squareY);
         return Board.checkValidCoordinate(result) ? Optional.of(result) : Optional.empty();
     }
 

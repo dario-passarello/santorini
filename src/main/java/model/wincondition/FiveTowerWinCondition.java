@@ -15,6 +15,7 @@ public class FiveTowerWinCondition extends WinConditionDecorator {
 
     public FiveTowerWinCondition(WinCondition winCondition, God chronus){
         wrappedWinCondition = winCondition;
+        this.chronus = chronus;
     }
 
     /**
@@ -28,11 +29,10 @@ public class FiveTowerWinCondition extends WinConditionDecorator {
         return wrappedWinCondition.checkWinCondition(start, builder);
     }
 
-    public Optional<Player> checkSpecialWinCondition() {
-        Board board = null; //TODO
+    public Optional<Player> checkSpecialWinCondition(Board board) {
         int counter = 0;
-        for(int i = 1; i <= Board.BOARD_SIZE; i++){
-            for(int j = 1; j <= Board.BOARD_SIZE; j++){
+        for(int i = 0; i <= Board.BOARD_SIZE-1; i++){
+            for(int j = 0; j <= Board.BOARD_SIZE-1; j++){
                 if(board.squareAt(i,j).getBuildLevel() == 3 && board.squareAt(i,j).isDomed()){
                     counter++;
                 }

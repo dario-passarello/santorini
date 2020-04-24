@@ -1,5 +1,6 @@
 package model.wincondition;
 
+import model.Board;
 import model.Builder;
 import model.Player;
 import model.Square;
@@ -26,5 +27,5 @@ public class TwoDownWinCondition extends WinConditionDecorator {
         }
     }
 
-    public Optional<Player> checkSpecialWinCondition() {return wrappedWinCondition.checkSpecialWinCondition();}
+    public Optional<Player> checkSpecialWinCondition(Board board) {return wrappedWinCondition.checkSpecialWinCondition(board);}
 }

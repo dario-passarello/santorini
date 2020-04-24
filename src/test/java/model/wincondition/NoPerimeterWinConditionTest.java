@@ -7,7 +7,8 @@ import model.gods.Hera;
 import model.gods.Mortal;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +22,7 @@ class NoPerimeterWinConditionTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init()
     {
         List<String> names = Arrays.asList("player1", "player2");
@@ -40,7 +41,7 @@ class NoPerimeterWinConditionTest {
         p2.setGod(g2);
         List<God> godList = Arrays.asList(g1, g2);
         g.setGodList(godList);
-        g2.setWinCondition(new NoPerimeterWinCondition(g2.getWinCondition()));
+        g1.configureAllOtherWinConditions(g.getGodList());
     }
 
     @Test
@@ -49,8 +50,8 @@ class NoPerimeterWinConditionTest {
         SquareTest.setSquareBuildLevel(s[4][1],3);
         SquareTest.setSquareBuildLevel(s[3][2],2);
         Square start = s[3][2];
-        b2 = p2.addBuilder(s[4][1]);
-        Assert.assertSame(p2.getGod().getWinCondition().checkWinCondition(start,b2).orElse(null), expectedWinner);
+        b2 = new Builder(s[4][1], p2, 1);
+        Assert.assertSame(expectedWinner, p2.getGod().getWinCondition().checkWinCondition(start,b2).orElse(null));
     }
 
 }
