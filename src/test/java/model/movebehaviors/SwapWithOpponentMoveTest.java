@@ -2,17 +2,16 @@ package model.movebehaviors;
 
 import model.*;
 import model.gods.Apollo;
-import model.gods.Atlas;
 import model.gods.God;
 import model.gods.Mortal;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Set;
 
 class SwapWithOpponentMoveTest {
 
@@ -22,7 +21,7 @@ class SwapWithOpponentMoveTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init(){
         List<String> names = Arrays.asList("player1", "player2");
         try {
@@ -66,8 +65,9 @@ class SwapWithOpponentMoveTest {
         Builder b42 = new Builder(s[4][2], p1, 4);
         Builder b32 = new Builder(s[3][2], p1, 5);
 
-        List<Square> expectedList = Arrays.asList(s[2][2],s[2][3]);   //b1 should be able to move only on these squares
-        Assert.assertEquals(expectedList, b33.getBuildableNeighborhood());
+        Set<Square> expected = new HashSet<>(Arrays.asList(s[2][2],s[2][3]));   //b1 should be able to move only on these squares
+        Set<Square> actual = new HashSet<>(b33.getWalkableNeighborhood());
+        Assert.assertEquals(expected, actual);
 
         b33.move(s[2][2]);
 

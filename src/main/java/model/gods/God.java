@@ -1,5 +1,6 @@
 package model.gods;
 
+import model.Board;
 import model.Builder;
 import model.Player;
 import model.Square;
@@ -8,9 +9,7 @@ import model.movebehaviors.MoveBehavior;
 import model.wincondition.WinCondition;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class God implements Serializable {
 
@@ -81,8 +80,7 @@ public abstract class God implements Serializable {
      * @return a list of squares where the builder can move
      */
     public List<Square> getWalkableNeighborhood(Square location){
-        //TODO
-        return null;
+        return new ArrayList<>(moveBehavior.neighborhood(location));
     }
 
     /**
@@ -101,7 +99,8 @@ public abstract class God implements Serializable {
     }
 
     public Optional<Player> checkSpecialWinCondition() {
-        return winCondition.checkSpecialWinCondition();
+        Board board = this.getPlayer().getGame().getBoard();
+        return winCondition.checkSpecialWinCondition(board);
     }
 
     /**

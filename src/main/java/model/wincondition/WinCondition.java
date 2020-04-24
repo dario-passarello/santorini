@@ -1,5 +1,6 @@
 package model.wincondition;
 
+import model.Board;
 import model.Builder;
 import model.Player;
 import model.Square;
@@ -18,5 +19,5 @@ public interface WinCondition {
     /**
      * @return true if a win condition occurred after the build phase, otherwise false
      */
-    Optional<Player> checkSpecialWinCondition();
+    Optional<Player> checkSpecialWinCondition(Board board);
 }

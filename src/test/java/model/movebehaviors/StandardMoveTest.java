@@ -7,10 +7,13 @@ import model.gods.Mortal;
 import model.gods.Pan;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class StandardMoveTest {
 
@@ -20,7 +23,7 @@ class StandardMoveTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init(){
         List<String> names = Arrays.asList("player1", "player2");
         try {
@@ -32,8 +35,8 @@ class StandardMoveTest {
         s = BoardTest.boardToMatrix(board);
         p1 = g.getPlayers().get(0);
         p2 = g.getPlayers().get(1);
-        g1 = new Pan();                         //Pan has a standard move behavior
-        g2 = new Mortal();
+        g1 = new Mortal();
+        g2 = new Pan();
         p1.setGod(g1);
         p2.setGod(g2);
         List<God> godList = Arrays.asList(g1, g2);
@@ -46,20 +49,24 @@ class StandardMoveTest {
         Builder b14 = new Builder(s[1][4], p1, 2);     //edge neighborhood
         Builder b44 = new Builder(s[4][4], p1, 3);     //corner neighborhood
 
-        List<Square> expectedList = Arrays.asList(  s[1][1], s[1][2],s[1][3],
+        Set<Square> expected = new HashSet<>(Arrays.asList(  s[1][1], s[1][2],s[1][3],
                                                     s[2][1], s[2][3],
-                                                    s[3][1], s[3][2], s[3][3]);
-        Assert.assertEquals(expectedList, b22.getWalkableNeighborhood());
+                                                    s[3][1], s[3][2], s[3][3]));
+        Set<Square> actual = new HashSet<>(b22. getWalkableNeighborhood());
+        Assert.assertTrue(expected.equals(actual));
 
-        expectedList = Arrays.asList(s[0][3], s[0][4], s[1][3], s[2][3], s[2][4]);
-        Assert.assertEquals(expectedList, b14.getWalkableNeighborhood());
+        expected = new HashSet<>(Arrays.asList(s[0][3], s[0][4], s[1][3], s[2][3], s[2][4]));
+        actual = new HashSet<>(b14. getWalkableNeighborhood());
+        Assert.assertTrue(expected.equals(actual));
 
-        expectedList = Arrays.asList(s[3][3], s[3][4], s[4][3]);
-        Assert.assertEquals(expectedList, b44.getWalkableNeighborhood());
+        expected = new HashSet<>(Arrays.asList(s[3][3], s[3][4], s[4][3]));
+        actual = new HashSet<>(b44. getWalkableNeighborhood());
+        Assert.assertTrue(expected.equals(actual));
     }
+
     @Test
     public void hinderedNeighborhoodTest(){
-        Builder b33 = new Builder(s[2][2], p1, 1);
+        Builder b22 = new Builder(s[2][2], p1, 1);
         //three blocks with just buildings
         SquareTest.setSquareBuildLevel(s[1][1],1);
         SquareTest.setSquareBuildLevel(s[1][2],2);
@@ -79,9 +86,11 @@ class StandardMoveTest {
         Builder b42 = new Builder(s[2][1], p1, 2);
         Builder b32 = new Builder(s[2][3], p2, 1);
 
-        List<Square> expectedList = Arrays.asList(s[1][1]);
-        Assert.assertEquals(expectedList, b33.getWalkableNeighborhood());
+        Set<Square> expected = new HashSet<>(Arrays.asList(s[1][1]));
+        Set<Square> actual = new HashSet<>(b22.getWalkableNeighborhood());
+        Assert.assertTrue(expected.equals(actual));
     }
+
     @Test
     public void moveTest(){
         Builder b22 = new Builder(s[2][2], p1, 1);

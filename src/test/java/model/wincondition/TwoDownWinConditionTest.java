@@ -6,8 +6,10 @@ import model.gods.God;
 import model.gods.Pan;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import javax.swing.plaf.synth.SynthTabbedPaneUI;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +22,7 @@ class TwoDownWinConditionTest {
     private Game g;
     private Square[][] s;
 
-    @Before
+    @BeforeEach
     public void init() {
         List<String> names = Arrays.asList("player1", "player2");
         try {
@@ -47,7 +49,7 @@ class TwoDownWinConditionTest {
             SquareTest.setSquareBuildLevel(s[3][3], i);
             SquareTest.setSquareBuildLevel(s[3][2], i+2);
             Square start = s[3][2];
-            b1 = p1.addBuilder(s[3][3]);
+            b1 = new Builder(s[3][3], p1, 1);
             Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start, b1).orElse(null), expectedWinner);
         }
     }
@@ -55,12 +57,18 @@ class TwoDownWinConditionTest {
     @Test
     public void youShouldNotWin() {
         Player expectedWinner = null;
-        for(int i = 0; i < 3; i++) {                        //checking moves from lvl. 1 to 0, 2 to 1 and 3 to 2
-            SquareTest.setSquareBuildLevel(s[3][3], i);
-            SquareTest.setSquareBuildLevel(s[3][2], i+1);
-            Square start = s[3][2];
-            b1 = p1.addBuilder(s[3][3]);
-            Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start, b1).orElse(null), expectedWinner);
+        Square start = s[3][2];
+        b1 = new Builder(s[3][3], p1, 1);
+
+        //for(int i = 0; i < 3; i++) {                        //checking moves from lvl. 1 to 0, 2 to 1 and 3 to 2
+        SquareTest.setSquareBuildLevel(s[3][2], 1);
+        Player actualWinner = p1.getGod().getWinCondition().checkWinCondition(start, b1).orElse(null);
+        Assert.assertSame(expectedWinner, actualWinner);
+        for(int i = 0; i < 2; i++){
+            SquareTest.setSquareBuildLevel(s[3][3], 1);
+            SquareTest.setSquareBuildLevel(s[3][2], 1);
+            actualWinner = p1.getGod().getWinCondition().checkWinCondition(start, b1).orElse(null);
+            Assert.assertSame(expectedWinner, actualWinner);
         }
     }
 }

@@ -23,7 +23,9 @@ public class StandardMove implements MoveBehavior {
         Set<Square> adjacent = src.getNeighbors();
         Set<Square> neighborhood = new HashSet<>();
         for (Square square: adjacent){
-            if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 && !square.getOccupant().isPresent()){
+            if( (square.getBuildLevel() - src.getBuildLevel()) <= 1 &&
+                    !square.isDomed() &&
+                    !square.getOccupant().isPresent()){
                 neighborhood.add(square);
             }
         }
