@@ -19,10 +19,10 @@ public class NoPerimeterWinCondition extends WinConditionDecorator{
      * @return true accomplish a normal win condition with a malus (you can't win in the perimeter)
      */
     public Optional<Player> checkWinCondition(Square start, Builder builder){
-        if(builder.getPosition().getCoordinate().getX() == 1 ||
-                builder.getPosition().getCoordinate().getX() == 5 ||
-                builder.getPosition().getCoordinate().getY() == 1 ||
-                builder.getPosition().getCoordinate().getY() == 5){
+        if(builder.getPosition().getCoordinate().getX() == 0 ||
+                builder.getPosition().getCoordinate().getX() == 4 ||
+                builder.getPosition().getCoordinate().getY() == 0 ||
+                builder.getPosition().getCoordinate().getY() == 4){
             return Optional.empty();
         } else {
             return wrappedWinCondition.checkWinCondition(start, builder);

@@ -44,5 +44,4 @@ public class GameTest {
         assertEquals("Unexpected turn state",game.getGameState(), game.turnState);
         return game;
     }
-
 }

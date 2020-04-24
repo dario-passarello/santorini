@@ -47,7 +47,7 @@ class FiveTowerWinConditionTest {
     }
 
     @Test
-    public void test(){
+    public void youShouldWinWith5Tower(){
 
         SquareTest.setSquareBuildLevel(s[1][1],3);
         s[1][1].addDome();
@@ -78,6 +78,22 @@ class FiveTowerWinConditionTest {
         SquareTest.setSquareBuildLevel(s[4][0],1);
         Assert.assertSame(p1.getGod().checkSpecialWinCondition().orElse(null), p1);
         Assert.assertSame(p2.getGod().checkSpecialWinCondition().orElse(null), p1);
+
+    }
+
+    @Test
+    public void youShouldHaveSimpleWinConditionToo(){
+        Builder b22 = new Builder(s[2][2], p1, 1);
+        Player expected = null;
+        Player actual = p1.getGod().checkWinCondition(s[2][3], b22).orElse(null);
+        Assert.assertEquals(expected, actual);
+
+        SquareTest.setSquareBuildLevel(s[2][2],3);
+        SquareTest.setSquareBuildLevel(s[2][3],2);
+        expected = p1;
+        actual = p1.getGod().checkWinCondition(s[2][3], b22).orElse(null);
+        Assert.assertEquals(expected, actual);
+
 
     }
 }

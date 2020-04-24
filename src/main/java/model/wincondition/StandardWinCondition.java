@@ -18,13 +18,10 @@ public class StandardWinCondition implements WinCondition{
      * @return true if the builder moved up, reaching a building at level 3
      */
     public Optional<Player> checkWinCondition(Square start, Builder builder){
-        if(builder.getPosition().getBuildLevel() == 3 && start.getBuildLevel() == 2)
-        {
+        if(builder.getPosition().getBuildLevel() == 3 && start.getBuildLevel() == 2){
             return Optional.of(builder.getOwner());
-        } else {
-            return Optional.empty();
         }
-
+        return Optional.empty();
     }
 
     public Optional<Player> checkSpecialWinCondition(Board board){return Optional.empty();}

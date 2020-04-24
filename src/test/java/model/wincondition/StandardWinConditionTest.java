@@ -38,10 +38,12 @@ class StandardWinConditionTest {
         s = BoardTest.boardToMatrix(board);
         p1 = g.getPlayers().get(0);
         p2 = g.getPlayers().get(1);
-        g1 = new Demeter();                     //they have standard win condition
+        g1 = new Mortal();                     //they have standard win condition
         g2 = new Mortal();
         p1.setGod(g1);
         p2.setGod(g2);
+        g1.setPlayer(p1);
+        g2.setPlayer(p2);
         List<God> godList = Arrays.asList(g1, g2);
         g.setGodList(godList);
     }
@@ -54,7 +56,6 @@ class StandardWinConditionTest {
         SquareTest.setSquareBuildLevel(s[3][2],2);
         Square start = s[3][2];
         b1 = new Builder(s[3][3], p1, 1);
-        //b1 = p1.addBuilder(s[3][3]);
         Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start,b1).orElse(null), expectedWinner);
 
     }
@@ -68,6 +69,11 @@ class StandardWinConditionTest {
         Square start = s[3][2];
         b1 = new Builder(s[3][3], p1, 1);
         //b1 = p1.addBuilder(s[3][3]);
-        Assert.assertSame(p1.getGod().getWinCondition().checkWinCondition(start,b1).orElse(null), expectedWinner);
+        Assert.assertSame(p1.getGod().checkWinCondition(start,b1).orElse(null), expectedWinner);
+    }
+
+    @Test
+    public void specialWinConditionIsEmpty(){
+        Assert.assertEquals(null, p1.getGod().checkSpecialWinCondition().orElse(null));
     }
 }

@@ -10,7 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -53,4 +55,11 @@ class UnlimitedPerimetralMoveTest {
         Assert.assertFalse(b13.move(board.squareAt(2,3)));           //from center to center
     }
 
+    @Test
+    public void youShouldHaveSimpleNeighborhood(){
+        Builder b04 = new Builder(s[0][4], p1, 1);
+        Set<Square> expected = new HashSet<>(Arrays.asList(s[0][3], s[1][3], s[1][4]));
+        Set<Square> actual = new HashSet<>(b04.getWalkableNeighborhood());
+        Assert.assertEquals(expected, actual);
+    }
 }
