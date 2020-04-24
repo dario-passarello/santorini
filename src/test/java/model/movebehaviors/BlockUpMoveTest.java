@@ -57,5 +57,27 @@ class BlockUpMoveTest {
         Set<Square> actual = new HashSet<>(b44.getWalkableNeighborhood());
 
         Assert.assertEquals(expected, actual);
+
+        //enemy will have a simple move
+        b44.move(s[3][4]);
+        Assert.assertEquals(s[4][4].getOccupant().orElse(null), null);
+        Assert.assertEquals(s[3][4].getOccupant().orElse(null), b44);
+
+    }
+
+    @Test
+    public void youShouldHaveSimpleNeighborhood(){
+        Builder b01 = new Builder(s[0][1], p1, 1);
+        //SquareTest.setSquareBuildLevel(s[0][0], 0);
+        SquareTest.setSquareBuildLevel(s[1][0], 1);
+        SquareTest.setSquareBuildLevel(s[1][1], 2);
+        SquareTest.setSquareBuildLevel(s[1][2], 1);
+        s[1][2].addDome();
+        Builder b02 = new Builder(s[0][2], p1, 2);
+
+        Set<Square> expected = new HashSet<>(Arrays.asList(s[0][0], s[1][0]));
+        Set<Square> actual = new HashSet<>(b01.getWalkableNeighborhood());
+
+        Assert.assertEquals(expected, actual);
     }
 }

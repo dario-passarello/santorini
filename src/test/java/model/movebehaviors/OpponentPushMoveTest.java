@@ -123,5 +123,16 @@ class OpponentPushMoveTest {
 
     }
 
-
+    @Test
+    public void simpleMoveifAlone(){
+        Builder b22 = new Builder(s[2][2], p1, 1);
+        b22.move(s[2][3]);
+        for(int i = 0; i < Board.BOARD_SIZE; i++){
+            for(int j = 0; j < Board.BOARD_SIZE; j++){
+                if(i == 2 && j == 3) continue;
+                Assert.assertNull(s[i][j].getOccupant().orElse(null));
+            }
+        }
+        Assert.assertEquals(s[2][3].getOccupant().orElse(null), b22);
+    }
 }
