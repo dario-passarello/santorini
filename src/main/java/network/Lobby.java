@@ -46,7 +46,6 @@ public class Lobby {
             wait();
         }
 
-
         List<RemoteView> remoteViews = new ArrayList<>();
         Connection player;
         for (int i = 0; i < numOfPlayer; i++) {
