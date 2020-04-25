@@ -43,7 +43,7 @@ public class Player implements Serializable {
     }
 
     public void setAsSpectator() {
-        spectator = false;
+        spectator = true;
         builders.forEach(Builder::removeBuilder);
     }
 
@@ -53,7 +53,6 @@ public class Player implements Serializable {
     public God getGod(){
         return god;
     }
-
     public Game getGame() {
         return game;
     }
@@ -62,7 +61,7 @@ public class Player implements Serializable {
     }
 
     public boolean checkMovingLoseCondition() {
-        return builders.stream().allMatch(builder -> builder.getBuildableNeighborhood().isEmpty());
+        return builders.stream().allMatch(builder -> builder.getWalkableNeighborhood().isEmpty());
     }
 
     public boolean checkBuildingLoseCondition() {

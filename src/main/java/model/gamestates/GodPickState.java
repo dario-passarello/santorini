@@ -68,8 +68,8 @@ public class GodPickState implements GameState {
                     .filter(g -> g.getPlayer() == null)
                     .findAny()
                     .orElseThrow(() -> new UnknownError("Undefined Error"));
-            unpickedGod.setPlayer(withoutGodReversed.get(0));
-            withoutGodReversed.get(0).setGod(unpickedGod);
+            unpickedGod.setPlayer(withoutGodReversed.get(1));
+            withoutGodReversed.get(1).setGod(unpickedGod);
             game.setGameState(game.placeBuilderState);
         } else {
             game.setGameState(game.godPickState);

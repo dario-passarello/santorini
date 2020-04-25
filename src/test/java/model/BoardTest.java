@@ -1,6 +1,7 @@
 package model;
 
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import utils.Coordinate;
@@ -14,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BoardTest {
     private Board b;
+
+
     @Before
     public void setup() {
         b = new Board();
@@ -33,6 +36,7 @@ public class BoardTest {
             }
         }
     }
+
     @Test
     public void squareAtTestCoordinatesShouldMatch() {
         assertEquals(b.squareAt(2,3).getCoordinate(), new Coordinate(2,3));
@@ -42,6 +46,7 @@ public class BoardTest {
         assertThrows(IndexOutOfBoundsException.class, () -> b.squareAt(0,Board.BOARD_SIZE));
 
     }
+
     @Test
     public void getFreeSquareShouldWork() {
         List<Coordinate> free = new ArrayList<>();
@@ -62,6 +67,41 @@ public class BoardTest {
                 .allMatch(s -> free.contains(s.getCoordinate())));
         }
     }
+
+    @Test
+    public void boardShouldBeDuplicable(){
+        Board b = new Board();
+
+        //add some random buildings
+        SquareTest.setSquareBuildLevel(b.squareAt(0,0), 1);
+        SquareTest.setSquareBuildLevel(b.squareAt(3,4), 2);
+        SquareTest.setSquareBuildLevel(b.squareAt(2,2), 3);
+        b.squareAt(0,3).addDome();
+
+        Board copy = new Board(b);          //duplicate
+        for(int i = 0; i < Board.BOARD_SIZE; i++){
+            for(int j = 0; j < Board.BOARD_SIZE; j++){
+                Assert.assertEquals(b.squareAt(i,j), copy.squareAt(i,j));
+                Assert.assertNotSame(b.squareAt(i,j), copy.squareAt(i,j));
+            }
+        }
+
+    }
+
+    @Test
+    public void coordinateShouldBeValid() {
+        Coordinate coordinate;
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
+            for (int j = 0; j < Board.BOARD_SIZE; j++) {
+                coordinate = new Coordinate(i, j);
+                Assert.assertTrue(Board.checkValidCoordinate(coordinate));
+            }
+        }
+        coordinate = new Coordinate(0,5);
+        Assert.assertFalse(Board.checkValidCoordinate(coordinate));
+
+    }
+
     public static Square[][] boardToMatrix(Board board){
         Square[][] s = new Square[Board.BOARD_SIZE][Board.BOARD_SIZE];
         for(int i = 0; i < Board.BOARD_SIZE; i++){              //row

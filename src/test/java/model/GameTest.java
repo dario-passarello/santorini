@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class GameTest {
+
     @ParameterizedTest
     @ValueSource(ints = {2,3})
     public void gameStateMachineShouldProceedCorrectly(int num){
@@ -33,6 +34,8 @@ public class GameTest {
         assertEquals("Wrong number of players returned", num, mortalGame.getNumberOfPlayers());
         assertEquals("Player name lists don't match",players,mortalGame.getPlayers().stream().map(Player::getName).collect(Collectors.toList()));
         assertEquals("First player is not the first playing",players.get(0),mortalGame.getCurrentTurn().getCurrentPlayer().getName());
+
+        //GodSelectionState checks
         assertSame("First state should be GodSelectionState",mortalGame.godSelectionState,mortalGame.getGameState());
         assertFalse("Action pick god should not be allowed", mortalGame.pickGod("Player_1","Zeus"));
         assertFalse("Action select coordinate should not be allowed",mortalGame.selectCoordinate("Player_2", new Coordinate(2,3)));
@@ -43,6 +46,8 @@ public class GameTest {
         assertSame("The state should be PlaceBuilders in mortal only games",mortalGame.placeBuilderState,mortalGame.getGameState());
         assertTrue("Action quit game should be allowed",mortalGame.quitGame());
         assertSame("State should be End Game", mortalGame.endGameState, mortalGame.getGameState());
+
+        //GodPickState checks
         assertSame("The state should be GodPick in games with gods",godGame.godPickState,godGame.getGameState());
         assertThrows(IllegalArgumentException.class, () -> godGame.pickGod("Player_0","Zeus"));
         assertFalse("Action submit gods should be not allowed", godGame.submitGodList(Set.of()));
@@ -54,6 +59,8 @@ public class GameTest {
                 assertThrows(IllegalArgumentException.class,() -> godGame.pickGod(players.get(ii), gods.get(ii)));
             }
         }
+
+        //PlaceBuilderState checks
         assertSame("The state should be Place Builders",godGame.placeBuilderState, godGame.getGameState());
         assertFalse("Action submit gods should be not allowed", godGame.submitGodList(Set.of()));
         assertFalse("Action pick god should not be allowed",godGame.pickGod("Player_0","Zeus"));
@@ -67,17 +74,58 @@ public class GameTest {
             assertThrows(IllegalArgumentException.class, () ->godGame.selectCoordinate(players.get(fi), new Coordinate(fi + 1,0)));
             assertTrue("Action should be allowed",godGame.selectCoordinate(players.get(i),new Coordinate(0,i + 1)));
             //Place phase should have ended
-            assertThrows(IllegalArgumentException.class, () -> godGame.selectCoordinate(players.get(fi), new Coordinate(4,4)));
+            if(i < num-1) {
+                assertThrows(IllegalArgumentException.class, () -> godGame.selectCoordinate(players.get(fi), new Coordinate(4, 4)));
+            }
         }
-        assertSame(godGame.turnState, godGame.getGameState());
+
+        //TurnState checks
+        assertSame("The state should be Turn",godGame.turnState, godGame.getGameState());
         assertFalse("Action submit god should not be allowed",godGame.submitGodList(Set.of()));
         assertFalse("Action pick god should not be allowed", godGame.pickGod("Player_0","Zeus"));
         assertFalse("Action select coordinate should not be allowed", godGame.selectCoordinate("Player_0",new Coordinate(0,0)));
         assertTrue("Action quit game should be allowed",godGame.quitGame());
         assertSame("State should be End Game", godGame.endGameState, godGame.getGameState());
+
     }
 
+    @ParameterizedTest
+    @ValueSource(ints = {2,3})
+    public void turnStateMachineShouldProceedCorrectly(int num){
+        List<String> players = IntStream.range(1,num + 1).mapToObj(n -> "Player_" + n).collect(Collectors.toList());
+        List<String> gods = List.of("Zeus","Apollo","Chronus").subList(0,num);
+        List<Coordinate> builderPosition = List.of(new Coordinate(0,1), new Coordinate(1,4), new Coordinate(4,3), new Coordinate(0,3), new Coordinate(1,2), new Coordinate(3,2)).subList(0,num*2);
+        Game game = setupGameAtTurnPhase(players, gods, builderPosition);
+        Board board = game.getBoard();
+        final Turn turn = game.getCurrentTurn();
 
+        //MoveState checks
+        assertSame("The turn state should be move",turn.moveState,turn.getTurnState());
+        assertFalse("Action select coordinate should not be allowed",turn.selectCoordinate(new Coordinate(1,0)));
+        assertFalse("Action end phase should not be allowed",turn.getTurnState().endPhase());
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,3).getOccupant().get(), new Coordinate(2,1), false));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(5,2), false));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(0,2), true));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(4,4), false));
+        assertTrue("Action first selection should be allowed",turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(0,2), false));
+
+        //BuildState checks
+        assertSame("The turn state should be build",turn.buildState,turn.getTurnState());
+        assertFalse("Action first selection should not be allowed",turn.firstSelection(board.squareAt(0,2).getOccupant().get(), new Coordinate(0,2), false));
+        assertThrows(IllegalArgumentException.class, () -> turn.selectCoordinate(new Coordinate(0,5), false));
+        assertThrows(IllegalArgumentException.class, () -> turn.selectCoordinate(new Coordinate(0,1), true));
+        assertThrows(IllegalArgumentException.class, () -> turn.selectCoordinate(new Coordinate(4,4), false));
+        assertTrue("Action select coordinate should be allowed",turn.selectCoordinate(new Coordinate(0,1), false));
+
+        //EndTurnState checks
+        assertSame("The turn state should be end turn", turn.endTurnState,turn.getTurnState());
+        assertFalse("Action first selection should not be allowed",turn.firstSelection(board.squareAt(0,2).getOccupant().get(), new Coordinate(0,2), false));
+        assertFalse("Action select coordinate should not be allowed",turn.selectCoordinate(new Coordinate(1,2)));
+        assertTrue("Action end phase should be allowed",turn.endPhase());
+
+        //turn rotation checks
+        assertEquals("Player_1",game.getCurrentTurn().getCurrentPlayer().getName());
+    }
 
     public static Game setupGameAtTurnPhase(List<String> players, List<String> gods, List<Coordinate> builderPositions) throws DuplicateNameException {
         Game game = new Game(players, players.size());
