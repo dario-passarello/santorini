@@ -14,9 +14,7 @@ public class Turn implements Observable<TurnObserver> {
     public enum State {
         MOVE,
         ADDITIONAL_MOVE,
-        SPECIAL_MOVE,
         BUILD,
-        ADDITIONAL_BUILD,
         END_TURN;
     }
 

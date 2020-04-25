@@ -1,5 +1,7 @@
 package model.gods;
 
+import model.ErrorMessage;
+
 import java.util.Optional;
 
 public class GodFactory {
@@ -37,8 +39,10 @@ public class GodFactory {
                 return new Triton();
             case "Zeus":
                 return new Zeus();
-            default:
+            case "Mortal":
                 return new Mortal();
+            default:
+                throw new IllegalArgumentException(ErrorMessage.GOD_NOT_EXISTS);
         }
     }
 }

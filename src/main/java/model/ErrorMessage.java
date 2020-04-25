@@ -1,3 +1,4 @@
+
 package model;
 
 public class ErrorMessage {
@@ -10,4 +11,5 @@ public class ErrorMessage {
     public static final String PLAYER_NOT_FOUND = "No such player in the game";
     public static final String PLAYER_ALREADY_REMOVED = "The player was already removed from the game";
     public static final String MALFORMED_BOARD = "Square without builder, malformed board";
+    public static final String GOD_NOT_EXISTS = "Invalid God Name";
 }

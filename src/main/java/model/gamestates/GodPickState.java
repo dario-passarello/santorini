@@ -43,19 +43,17 @@ public class GodPickState implements GameState {
         List<Player> withoutGodReversed = game.getPlayers().stream()
                 .filter(p -> p.getGod() == null)
                 .collect(Collectors.toList());
+        /*if(withoutGodReversed.size() == 0) {
+            throw new IllegalStateException("All players already picked a god"); //Unreachable
+        }*/
         Collections.reverse(withoutGodReversed);
-        Player nextPlayer = withoutGodReversed.stream() //Next player that should pick
-                .findFirst()
-                .orElse(null);
-        if(nextPlayer == null) {
-            throw new IllegalStateException("All player already picked a god");
-        }
-        else if(!playerName.equals(nextPlayer.getName())) {
+        Player nextPlayer = withoutGodReversed.get(0);
+        if(!playerName.equals(nextPlayer.getName())) {
             throw new IllegalArgumentException("It is not " + playerName + "'s turn to pick his god, or the player not exists");
         }
         //Search if the godName could be chosen in this game, and if no one already picked it
         God god = game.getGodList().stream()
-                .filter(g -> g.getPlayer() != null && g.getName().equals(godName))
+                .filter(g -> g.getPlayer() == null && g.getName().equals(godName))
                 .findAny()
                 .orElse(null);
         if(god == null) { //Check if the god is available (in the list and not already chosen)

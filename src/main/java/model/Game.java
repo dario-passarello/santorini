@@ -20,18 +20,18 @@ public class Game implements Observable<GameObserver>, GameModel {
         END_GAME
     }
 
-    private Board board;
+    private final Board board;
     private List<God> godList;
 
-    private List<Player> players;
+    private final List<Player> players;
     private Player winner;
 
     private Turn currentTurn;
-    private List<Turn> turnRotation;
+    private final List<Turn> turnRotation;
 
     private GameState currentGameState;
 
-    private List<GameObserver> observers;
+    private final List<GameObserver> observers;
 
     public final GameState godSelectionState = new GodSelectionState(this);
     public final GameState godPickState = new GodPickState(this);
@@ -58,6 +58,7 @@ public class Game implements Observable<GameObserver>, GameModel {
         turnRotation = players.stream()
                 .map(p -> new Turn(this,p))
                 .collect(Collectors.toList());
+        this.currentTurn = turnRotation.get(0);
         this.board = new Board(this);
         this.godList = new ArrayList<>();
         this.observers = new ArrayList<>();

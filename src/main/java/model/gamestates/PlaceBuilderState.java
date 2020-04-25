@@ -35,7 +35,7 @@ public class PlaceBuilderState implements GameState {
             throw new IllegalArgumentException("Coordinate is outside the board");
         }
         if(!game.getBoard().getFreeSquares().contains(game.getBoard().squareAt(coordinate))){
-            throw new IllegalArgumentException("Square is not free");
+            throw new IllegalArgumentException("Square " + coordinate.toString() +  " is not free");
         }
         nextPlayer.addBuilder(game.getBoard().squareAt(coordinate));
         if(game.getPlayers().stream().noneMatch(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)) {

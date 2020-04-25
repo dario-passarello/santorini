@@ -5,6 +5,7 @@ import model.gods.God;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Builder implements Serializable {
 

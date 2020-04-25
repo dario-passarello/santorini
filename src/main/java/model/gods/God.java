@@ -108,8 +108,7 @@ public abstract class God implements Serializable {
      * @return a list of squares where the builder can build
      */
     public List<Square> getBuildableNeighborhood(Square location){
-        //TODO
-        return null;
+        return new ArrayList<>(buildBehavior.neighborhood(location));
     }
 
     /**
