@@ -4,6 +4,7 @@ import model.turnstates.*;
 import utils.Coordinate;
 import utils.Observable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -35,6 +36,7 @@ public class Turn implements Observable<TurnObserver> {
     public Turn(Game game, Player currentPlayer) {
         this.currentPlayer = currentPlayer;
         this.game = game;
+        observers = new ArrayList<>();
         //Instantiate all states
         moveState = new MoveState(this, this.game);
         additionalMoveState = new AdditionalMoveState(this, this.game, true);

@@ -154,8 +154,9 @@ public class Game implements Observable<GameObserver>, GameModel {
      * Ends the current turn and advances to the next turn
      */
     public void nextTurn(boolean firstTurn) {
-        if(!firstTurn)
-            Collections.rotate(turnRotation,1);
+        if(!firstTurn) {
+            Collections.rotate(turnRotation, -1);
+        }
         currentTurn = turnRotation.get(0);
         currentTurn.newTurn(); //initializes the new turn
     }
@@ -168,20 +169,19 @@ public class Game implements Observable<GameObserver>, GameModel {
             throw new IllegalArgumentException(ErrorMessage.PLAYER_ALREADY_REMOVED);
         }
         player.setAsSpectator();
-        if(getPlayersInGame().size() == 2) { //If Only two players remain
-            setWinner(players.stream()       //The other player is the winner
-                    .filter(p -> p != player)
-                    .findFirst().orElseThrow(UnknownError::new));
+        if(getPlayersInGame().size() == 1) { //If Only two players remain
+            setWinner(getPlayersInGame().get(0));
             setGameState(endGameState);
         }
         else {
+            Turn removeTurn = currentTurn;
             if (turnRotation.stream() //If the player removed is playing in the current turn, advance to next turn
                     .filter(t -> t.getCurrentPlayer().equals(player))
                     .findFirst()
                     .orElseThrow(UnknownError::new) == currentTurn) {
                 nextTurn(false);
             }
-            turnRotation.remove(currentTurn); //Remove player from turn rotation
+            turnRotation.remove(removeTurn); //Remove player from turn rotation
             notifyObservers(obs -> obs.notifyPlayerElimination(player.getName()));
         }
     }
@@ -206,6 +206,11 @@ public class Game implements Observable<GameObserver>, GameModel {
     @Override
     public boolean quitGame() {
         return currentGameState.quitGame();
+    }
+
+    @Override
+    public Game.State getStateIdentifier(){
+        return currentGameState.getStateIdentifier();
     }
 
     //OBSERVABLE INTERFACE IMPLEMENTATION

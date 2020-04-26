@@ -17,22 +17,6 @@ public class GodSelectionState implements GameState {
         this.game = game;
     }
 
-    public boolean configureGame(int num, String hostPlayerName) {
-        return false;
-    }
-
-    public boolean registerPlayer(String name) {
-        return false;
-    }
-
-    public boolean unregisterPlayer(String name) {
-        return false;
-    }
-
-    public boolean readyToStart() {
-        return false;
-    }
-
     public boolean submitGodList(Set<String> godNamesList) {
         List<God> godObjectsList = new ArrayList<>();
         GodFactory factory = new GodFactory();

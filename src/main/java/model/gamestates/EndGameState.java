@@ -12,22 +12,6 @@ public class EndGameState implements GameState {
         this.game = game;
     }
 
-    public boolean configureGame(int num, String hostPlayerName) {
-        return false;
-    }
-
-    public boolean registerPlayer(String name) {
-        return false;
-    }
-
-    public boolean unregisterPlayer(String name) {
-        return false;
-    }
-
-    public boolean readyToStart() {
-        return false;
-    }
-
     public boolean submitGodList(Set<String> godList) {
         return false;
     }

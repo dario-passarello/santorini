@@ -1,5 +1,6 @@
 package model;
 
+import model.gods.God;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -37,8 +38,10 @@ public class GameTest {
 
         //GodSelectionState checks
         assertSame("First state should be GodSelectionState",mortalGame.godSelectionState,mortalGame.getGameState());
+        assertEquals(mortalGame.getStateIdentifier(), Game.State.GOD_SELECTION);
         assertFalse("Action pick god should not be allowed", mortalGame.pickGod("Player_1","Zeus"));
         assertFalse("Action select coordinate should not be allowed",mortalGame.selectCoordinate("Player_2", new Coordinate(2,3)));
+
         assertThrows(IllegalArgumentException.class, () -> godGame.submitGodList(Set.of("Zeus","Pulcinella"))); //Thr
         assertThrows(IllegalArgumentException.class, () -> mortalGame.submitGodList(Set.of("Zeus")));
         assertTrue("Action submit god list should be allowed",mortalGame.submitGodList(Set.of()));
@@ -49,6 +52,7 @@ public class GameTest {
 
         //GodPickState checks
         assertSame("The state should be GodPick in games with gods",godGame.godPickState,godGame.getGameState());
+        assertEquals(godGame.getStateIdentifier(), Game.State.GOD_PICK);
         assertThrows(IllegalArgumentException.class, () -> godGame.pickGod("Player_0","Zeus"));
         assertFalse("Action submit gods should be not allowed", godGame.submitGodList(Set.of()));
         assertFalse("Action select coordinate should be not allowed", godGame.selectCoordinate("Player_0",new Coordinate(2,3)));
@@ -62,6 +66,7 @@ public class GameTest {
 
         //PlaceBuilderState checks
         assertSame("The state should be Place Builders",godGame.placeBuilderState, godGame.getGameState());
+        assertEquals(godGame.getStateIdentifier(), Game.State.PLACE_BUILDER);
         assertFalse("Action submit gods should be not allowed", godGame.submitGodList(Set.of()));
         assertFalse("Action pick god should not be allowed",godGame.pickGod("Player_0","Zeus"));
         assertThrows(IllegalArgumentException.class, () -> godGame.selectCoordinate("Player_0",new Coordinate(6,7)));
@@ -81,6 +86,7 @@ public class GameTest {
 
         //TurnState checks
         assertSame("The state should be Turn",godGame.turnState, godGame.getGameState());
+        assertEquals(godGame.getStateIdentifier(), Game.State.TURN);
         assertFalse("Action submit god should not be allowed",godGame.submitGodList(Set.of()));
         assertFalse("Action pick god should not be allowed", godGame.pickGod("Player_0","Zeus"));
         assertFalse("Action select coordinate should not be allowed", godGame.selectCoordinate("Player_0",new Coordinate(0,0)));
@@ -124,22 +130,67 @@ public class GameTest {
         assertTrue("Action end phase should be allowed",turn.endPhase());
 
         //turn rotation checks
-        assertEquals("Player_1",game.getCurrentTurn().getCurrentPlayer().getName());
+        assertEquals("Player_2",game.getCurrentTurn().getCurrentPlayer().getName());
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {2,3})
+    public void basicStuffShouldWork(int num){
+        List<String> players = IntStream.range(1,num + 1).mapToObj(n -> "Player_" + n).collect(Collectors.toList());
+        assertThrows(IllegalArgumentException.class, () -> new Game(players, 4));
+        assertThrows(DuplicateNameException.class, () -> new Game(List.of("Player_1","Player_1","Player_2").subList(0,num), num));
+
+        List<String> gods = List.of("Zeus","Apollo","Chronus").subList(0,num);
+        List<Coordinate> builderPosition = List.of(new Coordinate(0,1), new Coordinate(1,4), new Coordinate(4,3), new Coordinate(0,3), new Coordinate(1,2), new Coordinate(3,2)).subList(0,num*2);
+        Game game = setupGameAtTurnPhase(players, gods, builderPosition);
+        Board board = game.getBoard();
+        final Turn turn = game.getCurrentTurn();
+
+        assertTrue(game.getWinner().isEmpty());
+        assertEquals(game.getPlayers(), game.getPlayersInGame());
+        for(int i = 0; i < num*2; i++){
+            assertEquals(game.getAllBuilders().get(i).getPosition().getCoordinate(), builderPosition.get(i));
+        }
+
+        //remove a player
+        assertThrows(NoSuchElementException.class, () -> game.removePlayer(new Player(game, "Fake_Player")));
+        Player removedPlayer = game.getPlayers().get(0);
+        game.removePlayer(removedPlayer);
+        if(num == 2){
+            assertSame(game.endGameState,game.getGameState());
+            assertTrue(removedPlayer.isSpectator());
+            assertEquals(game.getWinner().orElse(null), game.getPlayers().get(1));
+            //endGame checks
+            assertFalse(game.submitGodList(new HashSet<>(gods)));
+            assertFalse(game.pickGod("Player_1", "Zeus"));
+            assertFalse(game.selectCoordinate("Player_1", new Coordinate(3,4)));
+            assertFalse(game.quitGame());
+            assertEquals(game.getStateIdentifier(),Game.State.END_GAME);
+        } else {
+            assertThrows(IllegalArgumentException.class, () -> game.removePlayer(removedPlayer));
+            assertSame(game.turnState,game.getGameState());
+
+        }
+
+
+    }
+
+
 
     public static Game setupGameAtTurnPhase(List<String> players, List<String> gods, List<Coordinate> builderPositions) throws DuplicateNameException {
         Game game = new Game(players, players.size());
-        Collections.reverse(gods);
+        Collections.reverse(players);
         game.submitGodList(new HashSet<>(gods));
-        if(game.getGameState() == game.godPickState) {
-            try {
-                for (int i = 0; i < players.size() - 1; i++) {
-                    game.pickGod(players.get(i), gods.get(i));
-                }
-            } catch (ArrayIndexOutOfBoundsException e) {
-                fail("Malformed Test Input: Not enough gods provided");
+        //if(game.getGameState() == game.godPickState) {
+        try {
+            for (int i = 0; i < players.size() - 1; i++) {
+                game.pickGod(players.get(i), gods.get(i));
             }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            fail("Malformed Test Input: Not enough gods provided");
         }
+        Collections.reverse(players);
+        //}
         try {
             for (int i = 0; i < players.size() * 2; i++) {
                 game.selectCoordinate(players.get(i / 2), builderPositions.get(i));

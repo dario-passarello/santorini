@@ -35,4 +35,10 @@ public interface GameModel {
      *  @return true if this function call is legit for the current GameState
      */
     boolean quitGame();
+
+
+    /**
+     * @return the state identifier of the current GameState
+     */
+    Game.State getStateIdentifier();
 }
