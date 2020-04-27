@@ -137,15 +137,15 @@ public class GameTest {
         assertTrue(game.quitGame());
         assertEquals(game.getGameState(), game.endGameState);
 
-        game.setGameState(game.godPickState);
+        game.setGameState(game.godPickState, null);
         assertTrue(game.quitGame());
         assertEquals(game.getGameState(), game.endGameState);
 
-        game.setGameState(game.placeBuilderState);
+        game.setGameState(game.placeBuilderState, null);
         assertTrue(game.quitGame());
         assertEquals(game.getGameState(), game.endGameState);
 
-        game.setGameState(game.turnState);
+        game.setGameState(game.turnState, null);
         assertTrue(game.quitGame());
         assertEquals(game.getGameState(), game.endGameState);
 

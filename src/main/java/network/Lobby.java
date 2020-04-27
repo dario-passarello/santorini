@@ -5,6 +5,7 @@ import model.DuplicateNameException;
 import model.Game;
 import model.GameModel;
 
+
 import java.rmi.Remote;
 import java.util.*;
 
@@ -14,7 +15,8 @@ public class Lobby {
 
     private static final Lobby twoPlayerLobby = new Lobby(2);
     private static final Lobby threePlayerLobby = new Lobby(3);
-    private Queue<Connection> waitingConnection = new LinkedList<Connection>();
+
+    private final Queue<Connection> waitingConnection = new LinkedList<Connection>();
 
     private Lobby(int numOfPlayer){
         this.numOfPlayer = numOfPlayer;

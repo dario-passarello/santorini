@@ -22,16 +22,12 @@ public class GodPickState implements GameState {
     public boolean pickGod(String playerName, String godName) {
         /*
          *  God should be picked in the reversed order in respect of "log-in" order
-         *  withoutGodReversed contains all players without a god in the "pick-order"
+         *  withoutGod contains all players without a god
          */
-        List<Player> withoutGodReversed = game.getPlayers().stream()
+        List<Player> withoutGod = game.getPlayers().stream()
                 .filter(p -> p.getGod() == null)
                 .collect(Collectors.toList());
-        /*if(withoutGodReversed.size() == 0) {
-            throw new IllegalStateException("All players already picked a god"); //Unreachable
-        }*/
-        Collections.reverse(withoutGodReversed);
-        Player nextPlayer = withoutGodReversed.get(0);
+        Player nextPlayer = withoutGod.get(withoutGod.size() - 1);
         if(!playerName.equals(nextPlayer.getName())) {
             throw new IllegalArgumentException("It is not " + playerName + "'s turn to pick his god, or the player not exists");
         }
@@ -47,16 +43,16 @@ public class GodPickState implements GameState {
         god.setPlayer(nextPlayer);
         nextPlayer.setGod(god);
         //If all gods but one are picked, assign the last god
-        if(withoutGodReversed.size() == 2){
+        if(withoutGod.size() == 2){
             God unpickedGod = game.getGodList().stream()
                     .filter(g -> g.getPlayer() == null)
                     .findAny()
                     .orElseThrow(() -> new UnknownError("Undefined Error"));
-            unpickedGod.setPlayer(withoutGodReversed.get(1));
-            withoutGodReversed.get(1).setGod(unpickedGod);
-            game.setGameState(game.placeBuilderState);
+            unpickedGod.setPlayer(withoutGod.get(0));
+            withoutGod.get(0).setGod(unpickedGod);
+            game.setGameState(game.placeBuilderState, game.getFirstPlayer().getName());
         } else {
-            game.setGameState(game.godPickState);
+            game.setGameState(game.godPickState, withoutGod.get(withoutGod.size() - 2).getName());
         }
         return true;
     }
@@ -66,7 +62,7 @@ public class GodPickState implements GameState {
     }
 
     public boolean quitGame() {
-        game.setGameState(game.endGameState);
+        game.setGameState(game.endGameState, null);
         return true;
     }
 

@@ -25,7 +25,7 @@ public class TurnState implements GameState {
     }
 
     public boolean quitGame() {
-        game.setGameState(game.endGameState);
+        game.setGameState(game.endGameState, null);
         return true;
     }
 

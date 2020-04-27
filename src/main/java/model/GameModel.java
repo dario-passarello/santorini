@@ -22,6 +22,7 @@ public interface GameModel {
      * @return true if this function call is legit for the current GameState
      */
     boolean pickGod(String playerName, String godName);
+
     /**
      * Inputs coordinates in the game state (useful for builders placement phase)
      * @param coordinate The coordinate given to the model

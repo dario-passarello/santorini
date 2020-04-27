@@ -29,7 +29,7 @@ public class DoubleNoPerimeterBuild extends BuildDecorator{
      * @return
      */
     public Set<Square> neighborhood(Square src) {
-        if(second == false) return this.wrappedBuildBehavior.neighborhood(src);
+        if(!second) return this.wrappedBuildBehavior.neighborhood(src);
         else{
             Set<Square> buildable = wrappedBuildBehavior.neighborhood(src);
             Set<Square> remove = new HashSet<>();

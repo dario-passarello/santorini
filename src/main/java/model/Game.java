@@ -62,7 +62,7 @@ public class Game implements Observable<GameObserver>, GameModel {
         this.board = new Board(this);
         this.godList = new ArrayList<>();
         this.observers = new ArrayList<>();
-        this.setGameState(this.godSelectionState);
+        this.setGameState(this.godSelectionState, getFirstPlayer().getName());
     }
 
     //GETTERS
@@ -79,6 +79,19 @@ public class Game implements Observable<GameObserver>, GameModel {
      */
     public List<Player> getPlayers() {
         return new ArrayList<>(this.players);
+    }
+
+    /**
+     * @return the first player to place builder
+     */
+    public Player getFirstPlayer() {
+        return players.get(0);
+    }
+    /**
+     * @return the last player to place builder
+     */
+    public Player getLastPlayer() {
+        return players.get(players.size() - 1);
     }
 
     /**
@@ -137,15 +150,16 @@ public class Game implements Observable<GameObserver>, GameModel {
     /**
      * Set the current turn state
      * @param gameState a game state
+     * @param playerNotified
      */
-    public void setGameState(GameState gameState) {
+    public void setGameState(GameState gameState, String playerNotified) {
         currentGameState = gameState;
-        notifyObservers((GameObserver g) -> g.receiveGameState(currentGameState.getStateIdentifier()));
+        notifyObservers((GameObserver g) -> g.receiveGameState(currentGameState.getStateIdentifier(), playerNotified));
     }
 
     public void setWinner(Player winner) {
         this.winner = winner;
-        setGameState(endGameState);
+        setGameState(endGameState, null);
     }
 
     //MODIFIERS
@@ -171,7 +185,7 @@ public class Game implements Observable<GameObserver>, GameModel {
         player.setAsSpectator();
         if(getPlayersInGame().size() == 1) { //If Only two players remain
             setWinner(getPlayersInGame().get(0));
-            setGameState(endGameState);
+            setGameState(endGameState, null);
         }
         else {
             Turn removeTurn = currentTurn;

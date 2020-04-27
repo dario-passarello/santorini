@@ -1,6 +1,7 @@
 package model.gamestates;
 
 import model.Game;
+import model.Player;
 import model.gods.God;
 import model.gods.GodFactory;
 import utils.Coordinate;
@@ -21,6 +22,7 @@ public class GodSelectionState implements GameState {
         List<God> godObjectsList = new ArrayList<>();
         GodFactory factory = new GodFactory();
         GameState nextState;
+        Player nextPlayer; //The player who will do the next action
         if(godNamesList.isEmpty()) { //No gods provided => A 3 Mortals game will be started
             for(int i = 0; i < game.getNumberOfPlayers(); i++){
                 godObjectsList.add(factory.getGod("Mortal"));
@@ -31,9 +33,11 @@ public class GodSelectionState implements GameState {
                 game.getPlayers().get(i).setGod(godObjectsList.get(i));
             }
             nextState = game.placeBuilderState;
+            nextPlayer = game.getFirstPlayer();
         } else if(godNamesList.size() == game.getNumberOfPlayers()) { //Ma
             godObjectsList = godNamesList.stream().map(factory::getGod).collect(Collectors.toList());
             nextState = game.godPickState;
+            nextPlayer = game.getLastPlayer();
         } else {
             throw new IllegalArgumentException("Malformed God List");
         }
@@ -42,7 +46,7 @@ public class GodSelectionState implements GameState {
         }
         godObjectsList.forEach(God::captureResetBehaviors); //Set reset methods
         game.setGodList(godObjectsList);
-        game.setGameState(nextState);
+        game.setGameState(nextState, nextPlayer.getName());
         return true;
     }
 
@@ -55,7 +59,7 @@ public class GodSelectionState implements GameState {
     }
 
     public boolean quitGame() {
-        game.setGameState(game.endGameState);
+        game.setGameState(game.endGameState, null);
         return true;
     }
 
