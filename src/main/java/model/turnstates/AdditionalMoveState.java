@@ -69,7 +69,7 @@ public class AdditionalMoveState implements TurnState {
         if(!optional)
             return false; //The state is not optional, could not be skipped
         Builder activeBuilder = turn.getActiveBuilder();
-        turn.setTurnState(turn.moveState);
+        turn.setTurnState(turn.buildState);
         turn.notifyObservers(obs -> {
             obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableNeighborhood());
             obs.receiveUpdateDone();

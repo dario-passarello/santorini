@@ -23,10 +23,6 @@ public class EndTurnState implements TurnState {
         return false;
     }
 
-    public boolean selectCoordinate(Coordinate c) {
-        return false;
-    }
-
     public boolean endPhase() {
         game.nextTurn(false);
         return true;

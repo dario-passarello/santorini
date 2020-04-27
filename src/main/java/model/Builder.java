@@ -31,11 +31,6 @@ public class Builder implements Serializable {
         this.position = position;
     }
 
-    public void moveToSquare(Square position) {
-        this.position.setEmptySquare();
-        this.position = position;
-        position.setOccupant(this);
-    }
 
     /**
      * @return the reference of the player who control this builder

@@ -8,10 +8,6 @@ public interface TurnState {
 
     boolean firstSelection(Builder b, Coordinate c, boolean specialPower);
 
-    default boolean firstSelection(Builder b, Coordinate c) {
-        return firstSelection(b, c, false);
-    }
-
     boolean selectCoordinate(Coordinate c, boolean specialPower);
 
     /**

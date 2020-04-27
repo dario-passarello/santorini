@@ -1,25 +1,15 @@
 package model;
 
-import model.gods.God;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import utils.Coordinate;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
@@ -60,6 +50,7 @@ public class GameTest {
             assertTrue(godGame.pickGod(players.get(i),gods.get(i)));
             if(i > 1) {
                 final int ii = i; //The player should not pick twice
+                assertThrows(IllegalArgumentException.class, () -> godGame.pickGod(players.get(ii-1), gods.get(ii)));
                 assertThrows(IllegalArgumentException.class,() -> godGame.pickGod(players.get(ii), gods.get(ii)));
             }
         }
@@ -69,7 +60,7 @@ public class GameTest {
         assertEquals(godGame.getStateIdentifier(), Game.State.PLACE_BUILDER);
         assertFalse("Action submit gods should be not allowed", godGame.submitGodList(Set.of()));
         assertFalse("Action pick god should not be allowed",godGame.pickGod("Player_0","Zeus"));
-        assertThrows(IllegalArgumentException.class, () -> godGame.selectCoordinate("Player_0",new Coordinate(6,7)));
+        assertThrows(IllegalArgumentException.class, () -> godGame.selectCoordinate("Player_1",new Coordinate(6,7)));
         assertThrows(IllegalArgumentException.class, () -> godGame.selectCoordinate("Player_2",new Coordinate(0,0)));
         assertThrows(IllegalArgumentException.class, () -> godGame.selectCoordinate("Missingno", new Coordinate(1,1)));
         for(int i = 0; i < num; i++){
@@ -104,19 +95,22 @@ public class GameTest {
         Game game = setupGameAtTurnPhase(players, gods, builderPosition);
         Board board = game.getBoard();
         final Turn turn = game.getCurrentTurn();
+        assertEquals(turn.getGame(), game);
 
         //MoveState checks
         assertSame("The turn state should be move",turn.moveState,turn.getTurnState());
+        assertEquals(turn.getStateID(), Turn.State.MOVE);
         assertFalse("Action select coordinate should not be allowed",turn.selectCoordinate(new Coordinate(1,0)));
         assertFalse("Action end phase should not be allowed",turn.getTurnState().endPhase());
-        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,3).getOccupant().get(), new Coordinate(2,1), false));
-        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(5,2), false));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,3).getOccupant().get(), new Coordinate(2,1)));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(5,2)));
         assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(0,2), true));
-        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(4,4), false));
-        assertTrue("Action first selection should be allowed",turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(0,2), false));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(4,4)));
+        assertTrue("Action first selection should be allowed",turn.firstSelection(board.squareAt(0,1).getOccupant().get(), new Coordinate(0,2)));
 
         //BuildState checks
         assertSame("The turn state should be build",turn.buildState,turn.getTurnState());
+        assertEquals(turn.getStateID(), Turn.State.BUILD);
         assertFalse("Action first selection should not be allowed",turn.firstSelection(board.squareAt(0,2).getOccupant().get(), new Coordinate(0,2), false));
         assertThrows(IllegalArgumentException.class, () -> turn.selectCoordinate(new Coordinate(0,5), false));
         assertThrows(IllegalArgumentException.class, () -> turn.selectCoordinate(new Coordinate(0,1), true));
@@ -125,12 +119,37 @@ public class GameTest {
 
         //EndTurnState checks
         assertSame("The turn state should be end turn", turn.endTurnState,turn.getTurnState());
+        assertEquals(turn.getStateID(), Turn.State.END_TURN);
         assertFalse("Action first selection should not be allowed",turn.firstSelection(board.squareAt(0,2).getOccupant().get(), new Coordinate(0,2), false));
         assertFalse("Action select coordinate should not be allowed",turn.selectCoordinate(new Coordinate(1,2)));
         assertTrue("Action end phase should be allowed",turn.endPhase());
 
         //turn rotation checks
         assertEquals("Player_2",game.getCurrentTurn().getCurrentPlayer().getName());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {2,3})
+    public void youShouldQuitAtAnytime(int num){
+        List<String> players = IntStream.range(1,num + 1).mapToObj(n -> "Player_" + n).collect(Collectors.toList());
+        List<String> gods = List.of("Zeus","Apollo","Chronus").subList(0,num);
+        Game game = new Game(players, num);
+        assertTrue(game.quitGame());
+        assertEquals(game.getGameState(), game.endGameState);
+
+        game.setGameState(game.godPickState);
+        assertTrue(game.quitGame());
+        assertEquals(game.getGameState(), game.endGameState);
+
+        game.setGameState(game.placeBuilderState);
+        assertTrue(game.quitGame());
+        assertEquals(game.getGameState(), game.endGameState);
+
+        game.setGameState(game.turnState);
+        assertTrue(game.quitGame());
+        assertEquals(game.getGameState(), game.endGameState);
+
+        assertFalse(game.quitGame());
     }
 
     @ParameterizedTest
@@ -143,7 +162,6 @@ public class GameTest {
         List<String> gods = List.of("Zeus","Apollo","Chronus").subList(0,num);
         List<Coordinate> builderPosition = List.of(new Coordinate(0,1), new Coordinate(1,4), new Coordinate(4,3), new Coordinate(0,3), new Coordinate(1,2), new Coordinate(3,2)).subList(0,num*2);
         Game game = setupGameAtTurnPhase(players, gods, builderPosition);
-        Board board = game.getBoard();
         final Turn turn = game.getCurrentTurn();
 
         assertTrue(game.getWinner().isEmpty());
@@ -169,19 +187,74 @@ public class GameTest {
         } else {
             assertThrows(IllegalArgumentException.class, () -> game.removePlayer(removedPlayer));
             assertSame(game.turnState,game.getGameState());
-
         }
 
 
     }
 
+     @Test
+     public void everythingShouldWorkInTurnFSM(){
+        // First game: Prometheus vs. Triton
+         List<String> players = IntStream.range(1,3).mapToObj(n -> "Player_" + n).collect(Collectors.toList());
+         List<String> gods = List.of("Triton", "Prometheus");
+         List<Coordinate> builderPosition = List.of(new Coordinate(0,1), new Coordinate(1,4), new Coordinate(4,3), new Coordinate(0,3));
+         Game game = setupGameAtTurnPhase(players, gods, builderPosition);
+
+         //Prometheus turn
+         final Turn turn1 = game.getCurrentTurn();
+         assertTrue(turn1.firstSelection(turn1.getCurrentPlayer().getBuilders().get(0),new Coordinate(0,2), true));
+         assertEquals(turn1.getTurnState(), turn1.specialMoveState);
+         assertFalse(turn1.endPhase());
+         assertFalse(turn1.firstSelection(turn1.getCurrentPlayer().getBuilders().get(0),new Coordinate(2,2), true));
+         assertThrows(IllegalArgumentException.class, () -> turn1.selectCoordinate(new Coordinate(0,2)));
+         assertThrows(IllegalArgumentException.class, () -> turn1.selectCoordinate(new Coordinate(4,5)));
+         assertThrows(IllegalArgumentException.class, () -> turn1.selectCoordinate(new Coordinate(1,1), true));
+         assertTrue(turn1.selectCoordinate(new Coordinate(1,1)));
+         assertEquals(turn1.getTurnState(), turn1.buildState);
+         assertFalse(turn1.endPhase());
+         assertTrue(turn1.selectCoordinate(new Coordinate(0,1)));
+         assertEquals(turn1.getTurnState(), turn1.endTurnState);
+         assertTrue(turn1.endPhase());
+
+         //Triton turn
+         final Turn turn2 = game.getCurrentTurn();
+         assertTrue(turn2.firstSelection(turn2.getCurrentPlayer().getBuilders().get(0),new Coordinate(4,4)));
+         assertEquals(turn2.getTurnState(), turn2.additionalMoveState);
+         assertEquals(turn2.getStateID(), Turn.State.ADDITIONAL_MOVE);
+         assertTrue(turn2.selectCoordinate(new Coordinate(3,4)));
+         assertEquals(turn2.getTurnState(), turn2.additionalMoveState);
+         assertTrue(turn2.endPhase());
+         assertEquals(turn2.getTurnState(), turn2.buildState);
+        //--------------------------------------------------------------------------------------------------------------
+         //Second game: Atlas vs. Demeter
+         gods = List.of("Demeter", "Atlas");
+         game = setupGameAtTurnPhase(players, gods, builderPosition);
+
+         //Atlas turn
+         final Turn turn3 = game.getCurrentTurn();
+         assertTrue(turn3.firstSelection(turn3.getCurrentPlayer().getBuilders().get(0),new Coordinate(1,2)));
+         assertEquals(turn3.getTurnState(), turn3.buildState);
+         assertTrue(turn3.selectCoordinate(new Coordinate(0,1), true));
+         assertTrue(game.getBoard().squareAt(0,1).isDomed() && game.getBoard().squareAt(0,1).getBuildLevel() == 0);
+         assertEquals(turn3.getTurnState(), turn3.endTurnState);
+         assertTrue(turn3.endPhase());
+
+         //Demeter turn
+         final Turn turn4 = game.getCurrentTurn();
+         assertTrue(turn4.firstSelection(turn4.getCurrentPlayer().getBuilders().get(0), new Coordinate(4,2)));
+         assertEquals(turn4.getTurnState(), turn4.buildState);
+         assertTrue(turn4.selectCoordinate(new Coordinate(4,3)));
+         assertEquals(turn4.getTurnState(), turn4.additionalBuildState);
+         assertTrue(turn4.endPhase());
+
+
+     }
 
 
     public static Game setupGameAtTurnPhase(List<String> players, List<String> gods, List<Coordinate> builderPositions) throws DuplicateNameException {
         Game game = new Game(players, players.size());
         Collections.reverse(players);
         game.submitGodList(new HashSet<>(gods));
-        //if(game.getGameState() == game.godPickState) {
         try {
             for (int i = 0; i < players.size() - 1; i++) {
                 game.pickGod(players.get(i), gods.get(i));
@@ -190,7 +263,6 @@ public class GameTest {
             fail("Malformed Test Input: Not enough gods provided");
         }
         Collections.reverse(players);
-        //}
         try {
             for (int i = 0; i < players.size() * 2; i++) {
                 game.selectCoordinate(players.get(i / 2), builderPositions.get(i));

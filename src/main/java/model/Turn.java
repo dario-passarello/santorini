@@ -41,11 +41,10 @@ public class Turn implements Observable<TurnObserver> {
         moveState = new MoveState(this, this.game);
         additionalMoveState = new AdditionalMoveState(this, this.game, true);
         specialMoveState = new AdditionalMoveState(this, this.game, false);
-        buildState = new BuildState(this, this.game,false);
-        additionalBuildState = new BuildState(this, this.game,true );
+        buildState = new BuildState(this, this.game, false);
+        additionalBuildState = new BuildState(this, this.game, true);
         endTurnState = new EndTurnState(this, this.game);
     }
-
 
 
     public Game getGame() {
@@ -89,7 +88,7 @@ public class Turn implements Observable<TurnObserver> {
     }
 
     public boolean firstSelection(Builder b, Coordinate c) {
-        return currentState.firstSelection(b,c);
+        return firstSelection(b,c, false);
     }
 
     /**
@@ -113,6 +112,10 @@ public class Turn implements Observable<TurnObserver> {
      */
     public boolean endPhase() {
         return currentState.endPhase();
+    }
+
+    public Turn.State getStateID(){
+        return currentState.getStateID();
     }
 
     public void newTurn() {

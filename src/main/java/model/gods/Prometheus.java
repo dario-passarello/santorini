@@ -12,8 +12,8 @@ public class Prometheus extends God {
                 new StandardWinCondition(),
                 new StandardMove(),
                 new StandardBuild(),
-                false,
-                true);
+                true,
+                false);
     }
 
 }
