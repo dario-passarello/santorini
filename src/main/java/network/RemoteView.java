@@ -7,6 +7,7 @@ public class RemoteView {
 
     private Connection connection;
     private GameController controller;
+    private String Nickname;
 
     public RemoteView(Connection connection){
         this.connection = connection;
