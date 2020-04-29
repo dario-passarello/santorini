@@ -6,22 +6,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Player implements Serializable {
 
     public static final int BUILDERS_PER_PLAYER = 2;
 
-    private transient Game game;
-    private String name;
+    private transient final Game game;
+    private final String name;
     private God god;
-    private List<Builder> builders;
+    private final List<Builder> builders;
     private boolean spectator;
 
     public Player(Game game, String name) {
         this.game = game;
         this.name = name;
         this.spectator = false;
+        this.builders = new ArrayList<>();
     }
 
     /**
@@ -43,7 +43,7 @@ public class Player implements Serializable {
     }
 
     public void setAsSpectator() {
-        spectator = false;
+        spectator = true;
         builders.forEach(Builder::removeBuilder);
     }
 
@@ -53,7 +53,6 @@ public class Player implements Serializable {
     public God getGod(){
         return god;
     }
-
     public Game getGame() {
         return game;
     }
@@ -62,7 +61,7 @@ public class Player implements Serializable {
     }
 
     public boolean checkMovingLoseCondition() {
-        return builders.stream().allMatch(builder -> builder.getBuildableNeighborhood().isEmpty());
+        return builders.stream().allMatch(builder -> builder.getWalkableNeighborhood().isEmpty());
     }
 
     public boolean checkBuildingLoseCondition() {

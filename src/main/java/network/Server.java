@@ -30,13 +30,22 @@ public class Server {
     //Deregister connection
     public synchronized void deregisterConnection(Connection c, int numPlayer){
         connections.remove(c);
-        if(numPlayer == 2){                   //deregistering a two-player game
-            //browse twoPlayingConnection and remove every Pair of Connection that contains c (calling closeConnection first)
-        } else {
-            //browse threePlayingConnection and remove every Triplet of Connection that contains c (calling closeConnection first)
+        List<ArrayList<Connection>> playingConnection;                  //it could be twoPlayingConnection or threePlayingConnection
+        if(numPlayer == 2) {                                            //deregistering a two-player game
+            playingConnection = twoPlayingConnection;
+        } else {                                                        //deregistering a three-player game
+            playingConnection = threePlayingConnection;
         }
 
-        //Connection opponent = playingConnection.get(c);               OLD CODE
+        for(ArrayList<Connection> play : playingConnection){
+            if(!play.contains(c)) continue;
+            for(Connection player : play){
+                player.closeConnection();
+            }
+            playingConnection.remove(play);
+        }
+
+        //Connection opponent = playingConnection.get(c);               EXAMPLE CODE
         //if(opponent != null){
         //    opponent.closeConnection();
         //    playingConnection.remove(c);
@@ -57,5 +66,4 @@ public class Server {
             }
         }
     }
-
 }

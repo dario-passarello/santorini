@@ -15,22 +15,6 @@ public class GodPickState implements GameState {
         this.game = game;
     }
 
-    public boolean configureGame(int num, String hostPlayerName) {
-        return false;
-    }
-
-    public boolean registerPlayer(String name) {
-        return false;
-    }
-
-    public boolean unregisterPlayer(String name) {
-        return false;
-    }
-
-    public boolean readyToStart() {
-        return false;
-    }
-
     public boolean submitGodList(Set<String> godList) {
         return false;
     }
@@ -38,24 +22,18 @@ public class GodPickState implements GameState {
     public boolean pickGod(String playerName, String godName) {
         /*
          *  God should be picked in the reversed order in respect of "log-in" order
-         *  withoutGodReversed contains all players without a god in the "pick-order"
+         *  withoutGod contains all players without a god
          */
-        List<Player> withoutGodReversed = game.getPlayers().stream()
+        List<Player> withoutGod = game.getPlayers().stream()
                 .filter(p -> p.getGod() == null)
                 .collect(Collectors.toList());
-        Collections.reverse(withoutGodReversed);
-        Player nextPlayer = withoutGodReversed.stream() //Next player that should pick
-                .findFirst()
-                .orElse(null);
-        if(nextPlayer == null) {
-            throw new IllegalStateException("All player already picked a god");
-        }
-        else if(!playerName.equals(nextPlayer.getName())) {
+        Player nextPlayer = withoutGod.get(withoutGod.size() - 1);
+        if(!playerName.equals(nextPlayer.getName())) {
             throw new IllegalArgumentException("It is not " + playerName + "'s turn to pick his god, or the player not exists");
         }
         //Search if the godName could be chosen in this game, and if no one already picked it
         God god = game.getGodList().stream()
-                .filter(g -> g.getPlayer() != null && g.getName().equals(godName))
+                .filter(g -> g.getPlayer() == null && g.getName().equals(godName))
                 .findAny()
                 .orElse(null);
         if(god == null) { //Check if the god is available (in the list and not already chosen)
@@ -65,16 +43,16 @@ public class GodPickState implements GameState {
         god.setPlayer(nextPlayer);
         nextPlayer.setGod(god);
         //If all gods but one are picked, assign the last god
-        if(withoutGodReversed.size() == 2){
+        if(withoutGod.size() == 2){
             God unpickedGod = game.getGodList().stream()
                     .filter(g -> g.getPlayer() == null)
                     .findAny()
                     .orElseThrow(() -> new UnknownError("Undefined Error"));
-            unpickedGod.setPlayer(withoutGodReversed.get(0));
-            withoutGodReversed.get(0).setGod(unpickedGod);
-            game.setGameState(game.placeBuilderState);
+            unpickedGod.setPlayer(withoutGod.get(0));
+            withoutGod.get(0).setGod(unpickedGod);
+            game.setGameState(game.placeBuilderState, game.getFirstPlayer().getName());
         } else {
-            game.setGameState(game.godPickState);
+            game.setGameState(game.godPickState, withoutGod.get(withoutGod.size() - 2).getName());
         }
         return true;
     }
@@ -84,7 +62,7 @@ public class GodPickState implements GameState {
     }
 
     public boolean quitGame() {
-        game.setGameState(game.endGameState);
+        game.setGameState(game.endGameState, null);
         return true;
     }
 

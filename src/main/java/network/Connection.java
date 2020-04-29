@@ -89,6 +89,7 @@ public class Connection /*extends Observable<String>*/ implements Runnable {    
             Lobby.getLobbyInstance(numPlayer).acquire(this);
             while(isActive()){
                 //HERE WE SHOULD LINK TO THE FSM
+
                 //TODO
                 break;
                 //String read = in.nextLine();

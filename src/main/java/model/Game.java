@@ -20,18 +20,18 @@ public class Game implements Observable<GameObserver>, GameModel {
         END_GAME
     }
 
-    private Board board;
+    private final Board board;
     private List<God> godList;
 
-    private List<Player> players;
+    private final List<Player> players;
     private Player winner;
 
     private Turn currentTurn;
-    private List<Turn> turnRotation;
+    private final List<Turn> turnRotation;
 
     private GameState currentGameState;
 
-    private List<GameObserver> observers;
+    private final List<GameObserver> observers;
 
     public final GameState godSelectionState = new GodSelectionState(this);
     public final GameState godPickState = new GodPickState(this);
@@ -58,10 +58,11 @@ public class Game implements Observable<GameObserver>, GameModel {
         turnRotation = players.stream()
                 .map(p -> new Turn(this,p))
                 .collect(Collectors.toList());
+        this.currentTurn = turnRotation.get(0);
         this.board = new Board(this);
         this.godList = new ArrayList<>();
         this.observers = new ArrayList<>();
-        this.setGameState(this.godSelectionState);
+        this.setGameState(this.godSelectionState, getFirstPlayer().getName());
     }
 
     //GETTERS
@@ -78,6 +79,19 @@ public class Game implements Observable<GameObserver>, GameModel {
      */
     public List<Player> getPlayers() {
         return new ArrayList<>(this.players);
+    }
+
+    /**
+     * @return the first player to place builder
+     */
+    public Player getFirstPlayer() {
+        return players.get(0);
+    }
+    /**
+     * @return the last player to place builder
+     */
+    public Player getLastPlayer() {
+        return players.get(players.size() - 1);
     }
 
     /**
@@ -136,15 +150,16 @@ public class Game implements Observable<GameObserver>, GameModel {
     /**
      * Set the current turn state
      * @param gameState a game state
+     * @param playerNotified
      */
-    public void setGameState(GameState gameState) {
+    public void setGameState(GameState gameState, String playerNotified) {
         currentGameState = gameState;
-        notifyObservers((GameObserver g) -> g.receiveGameState(currentGameState.getStateIdentifier()));
+        notifyObservers((GameObserver g) -> g.receiveGameState(currentGameState.getStateIdentifier(), playerNotified));
     }
 
     public void setWinner(Player winner) {
         this.winner = winner;
-        setGameState(endGameState);
+        setGameState(endGameState, null);
     }
 
     //MODIFIERS
@@ -153,8 +168,9 @@ public class Game implements Observable<GameObserver>, GameModel {
      * Ends the current turn and advances to the next turn
      */
     public void nextTurn(boolean firstTurn) {
-        if(!firstTurn)
-            Collections.rotate(turnRotation,1);
+        if(!firstTurn) {
+            Collections.rotate(turnRotation, -1);
+        }
         currentTurn = turnRotation.get(0);
         currentTurn.newTurn(); //initializes the new turn
     }
@@ -167,20 +183,19 @@ public class Game implements Observable<GameObserver>, GameModel {
             throw new IllegalArgumentException(ErrorMessage.PLAYER_ALREADY_REMOVED);
         }
         player.setAsSpectator();
-        if(getPlayersInGame().size() == 2) { //If Only two players remain
-            setWinner(players.stream()       //The other player is the winner
-                    .filter(p -> p != player)
-                    .findFirst().orElseThrow(UnknownError::new));
-            setGameState(endGameState);
+        if(getPlayersInGame().size() == 1) { //If Only two players remain
+            setWinner(getPlayersInGame().get(0));
+            setGameState(endGameState, null);
         }
         else {
+            Turn removeTurn = currentTurn;
             if (turnRotation.stream() //If the player removed is playing in the current turn, advance to next turn
                     .filter(t -> t.getCurrentPlayer().equals(player))
                     .findFirst()
                     .orElseThrow(UnknownError::new) == currentTurn) {
                 nextTurn(false);
             }
-            turnRotation.remove(currentTurn); //Remove player from turn rotation
+            turnRotation.remove(removeTurn); //Remove player from turn rotation
             notifyObservers(obs -> obs.notifyPlayerElimination(player.getName()));
         }
     }
@@ -205,6 +220,11 @@ public class Game implements Observable<GameObserver>, GameModel {
     @Override
     public boolean quitGame() {
         return currentGameState.quitGame();
+    }
+
+    @Override
+    public Game.State getStateIdentifier(){
+        return currentGameState.getStateIdentifier();
     }
 
     //OBSERVABLE INTERFACE IMPLEMENTATION

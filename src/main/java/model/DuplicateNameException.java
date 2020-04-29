@@ -1,4 +1,4 @@
 package model;
 
-public class DuplicateNameException extends Exception {
+public class DuplicateNameException extends RuntimeException {
 }

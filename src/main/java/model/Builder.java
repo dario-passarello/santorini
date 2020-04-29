@@ -5,6 +5,7 @@ import model.gods.God;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Builder implements Serializable {
 
@@ -30,11 +31,6 @@ public class Builder implements Serializable {
         this.position = position;
     }
 
-    public void moveToSquare(Square position) {
-        this.position.setEmptySquare();
-        this.position = position;
-        position.setOccupant(this);
-    }
 
     /**
      * @return the reference of the player who control this builder

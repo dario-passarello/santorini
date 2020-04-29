@@ -8,6 +8,9 @@ import utils.Coordinate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 public class SquareTest {
     private Game game;
     private Board board;
@@ -34,6 +37,7 @@ public class SquareTest {
         Assert.assertFalse(sq.isDomed());
 
     }
+
     @Test
     public void builderShouldBePlacedCorrectly() {
         Square sq = new Square(board, new Coordinate(2,3));
@@ -67,6 +71,20 @@ public class SquareTest {
             Assert.assertTrue(sq.isDomed());
             Assert.assertFalse(sq.isBuildable());
 
+        }
+
+    }
+
+    @Test
+    public void perimetralConditionShouldBeCorrect(){
+        for(int i = 0; i < Board.BOARD_SIZE; i++){
+            for(int j = 0; j < Board.BOARD_SIZE; j++){
+                if(i == 0 || i == 4 || j == 0  || j == 4){
+                    assertTrue(board.squareAt(i,j).isPerimetral());
+                } else {
+                    assertFalse(board.squareAt(i,j).isPerimetral());
+                }
+            }
         }
 
     }

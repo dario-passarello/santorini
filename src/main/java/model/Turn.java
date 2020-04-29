@@ -4,6 +4,7 @@ import model.turnstates.*;
 import utils.Coordinate;
 import utils.Observable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -14,9 +15,7 @@ public class Turn implements Observable<TurnObserver> {
     public enum State {
         MOVE,
         ADDITIONAL_MOVE,
-        SPECIAL_MOVE,
         BUILD,
-        ADDITIONAL_BUILD,
         END_TURN;
     }
 
@@ -37,15 +36,15 @@ public class Turn implements Observable<TurnObserver> {
     public Turn(Game game, Player currentPlayer) {
         this.currentPlayer = currentPlayer;
         this.game = game;
+        observers = new ArrayList<>();
         //Instantiate all states
         moveState = new MoveState(this, this.game);
         additionalMoveState = new AdditionalMoveState(this, this.game, true);
         specialMoveState = new AdditionalMoveState(this, this.game, false);
-        buildState = new BuildState(this, this.game,false);
-        additionalBuildState = new BuildState(this, this.game,true );
+        buildState = new BuildState(this, this.game, false);
+        additionalBuildState = new BuildState(this, this.game, true);
         endTurnState = new EndTurnState(this, this.game);
     }
-
 
 
     public Game getGame() {
@@ -89,7 +88,7 @@ public class Turn implements Observable<TurnObserver> {
     }
 
     public boolean firstSelection(Builder b, Coordinate c) {
-        return currentState.firstSelection(b,c);
+        return firstSelection(b,c, false);
     }
 
     /**
@@ -113,6 +112,10 @@ public class Turn implements Observable<TurnObserver> {
      */
     public boolean endPhase() {
         return currentState.endPhase();
+    }
+
+    public Turn.State getStateID(){
+        return currentState.getStateID();
     }
 
     public void newTurn() {

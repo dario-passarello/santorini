@@ -7,6 +7,7 @@ import model.Player;
 import utils.Coordinate;
 
 import java.util.Set;
+import java.util.function.Function;
 
 public class PlaceBuilderState implements GameState {
     private final Game game;
@@ -24,10 +25,11 @@ public class PlaceBuilderState implements GameState {
     }
 
     public boolean selectCoordinate(String playerName, Coordinate coordinate) {
-        Player nextPlayer = game.getPlayers().stream()
+        Function<Void,Player> nextPlayerCalculator = (v) -> game.getPlayers().stream()
                 .filter(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("All builders are placed"));
+        Player nextPlayer = nextPlayerCalculator.apply(null);
         if(!nextPlayer.getName().equals(playerName)) {
             throw new IllegalArgumentException(ErrorMessage.WRONG_BUILD_OWNER);
         }
@@ -35,21 +37,22 @@ public class PlaceBuilderState implements GameState {
             throw new IllegalArgumentException("Coordinate is outside the board");
         }
         if(!game.getBoard().getFreeSquares().contains(game.getBoard().squareAt(coordinate))){
-            throw new IllegalArgumentException("Square is not free");
+            throw new IllegalArgumentException("Square " + coordinate.toString() +  " is not free");
         }
         nextPlayer.addBuilder(game.getBoard().squareAt(coordinate));
         if(game.getPlayers().stream().noneMatch(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)) {
-            game.setGameState(game.turnState);
+            game.setGameState(game.turnState, game.getFirstPlayer().getName());
             game.nextTurn(true);
         }
         else {
-            game.setGameState(game.placeBuilderState);
+            nextPlayer = nextPlayerCalculator.apply(null);
+            game.setGameState(game.placeBuilderState, nextPlayer.getName());
         }
         return true;
     }
 
     public boolean quitGame() {
-        game.setGameState(game.endGameState);
+        game.setGameState(game.endGameState, null);
         return true;
     }
 

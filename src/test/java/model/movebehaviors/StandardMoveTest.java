@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -52,16 +54,16 @@ class StandardMoveTest {
         Set<Square> expected = new HashSet<>(Arrays.asList(  s[1][1], s[1][2],s[1][3],
                                                     s[2][1], s[2][3],
                                                     s[3][1], s[3][2], s[3][3]));
-        Set<Square> actual = new HashSet<>(b22. getWalkableNeighborhood());
-        Assert.assertTrue(expected.equals(actual));
+        Set<Square> actual = new HashSet<>(b22.getWalkableNeighborhood());
+        assertEquals(expected, actual);
 
         expected = new HashSet<>(Arrays.asList(s[0][3], s[0][4], s[1][3], s[2][3], s[2][4]));
-        actual = new HashSet<>(b14. getWalkableNeighborhood());
-        Assert.assertTrue(expected.equals(actual));
+        actual = new HashSet<>(b14.getWalkableNeighborhood());
+        assertEquals(expected, actual);
 
         expected = new HashSet<>(Arrays.asList(s[3][3], s[3][4], s[4][3]));
         actual = new HashSet<>(b44. getWalkableNeighborhood());
-        Assert.assertTrue(expected.equals(actual));
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -88,7 +90,7 @@ class StandardMoveTest {
 
         Set<Square> expected = new HashSet<>(Arrays.asList(s[1][1]));
         Set<Square> actual = new HashSet<>(b22.getWalkableNeighborhood());
-        Assert.assertTrue(expected.equals(actual));
+        assertTrue(expected.equals(actual));
     }
 
     @Test
@@ -97,8 +99,8 @@ class StandardMoveTest {
 
         b22.move(s[3][3]);
 
-        Assert.assertSame(s[3][3].getOccupant().orElse(null), b22);
-        Assert.assertSame(s[2][2].getOccupant().orElse(null), null);
+        assertSame(s[3][3].getOccupant().orElse(null), b22);
+        assertSame(s[2][2].getOccupant().orElse(null), null);
 
     }
 

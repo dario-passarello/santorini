@@ -35,7 +35,7 @@ public class Client {
                 socketLine = socketIn.nextLine();
                 System.out.println(socketLine);
             }
-        } catch(NoSuchElementException e){
+        } catch(NoSuchElementException e) {
             System.out.println("Connection closed from the client side");
         } finally {
             stdin.close();

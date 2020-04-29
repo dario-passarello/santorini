@@ -78,10 +78,6 @@ public class MoveState implements TurnState {
         return false;
     }
 
-    public boolean selectCoordinate(Coordinate c) {
-        return false;
-    }
-
     public boolean endPhase() {
         return false;
     }
