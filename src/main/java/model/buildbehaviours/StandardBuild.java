@@ -21,6 +21,7 @@ public class StandardBuild implements BuildBehavior {
         Set<Square> removable = new HashSet<>();
         for(Square square : buildable){
             if(square.isDomed() == true || square.getOccupant().isPresent()) removable.add(square);
+
         }
 
         buildable.removeAll(removable);
