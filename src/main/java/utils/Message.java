@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.Serializable;
+import java.net.Socket;
 
 public class Message implements Serializable {
 
@@ -27,5 +28,7 @@ public class Message implements Serializable {
     public MessageType getMessageType(){
         return this.type;
     }
+
+
 
 }
