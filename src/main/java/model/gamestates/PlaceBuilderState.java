@@ -8,6 +8,7 @@ import utils.Coordinate;
 
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class PlaceBuilderState implements GameState {
     private final Game game;
@@ -25,11 +26,11 @@ public class PlaceBuilderState implements GameState {
     }
 
     public boolean selectCoordinate(String playerName, Coordinate coordinate) {
-        Function<Void,Player> nextPlayerCalculator = (v) -> game.getPlayers().stream()
+        Supplier<Player> nextPlayerCalculator = () -> game.getPlayers().stream()
                 .filter(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("All builders are placed"));
-        Player nextPlayer = nextPlayerCalculator.apply(null);
+        Player nextPlayer = nextPlayerCalculator.get();
         if(!nextPlayer.getName().equals(playerName)) {
             throw new IllegalArgumentException(ErrorMessage.WRONG_BUILD_OWNER);
         }
@@ -45,7 +46,7 @@ public class PlaceBuilderState implements GameState {
             game.nextTurn(true);
         }
         else {
-            nextPlayer = nextPlayerCalculator.apply(null);
+            nextPlayer = nextPlayerCalculator.get();
             game.setGameState(game.placeBuilderState, nextPlayer.getName());
         }
         return true;
