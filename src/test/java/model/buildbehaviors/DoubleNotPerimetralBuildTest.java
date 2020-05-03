@@ -55,21 +55,22 @@ public class DoubleNotPerimetralBuildTest {
     @Order(1)
     @Test
     public void FirstNeighborhoodTest(){
-        Set<Square> Expected1 = new HashSet<>(Arrays.asList(    board.squareAt(3, 0),       // Expected Neighborhood corner
+        Set<Square> Expected1 = new HashSet<>(Arrays.asList(
+                board.squareAt(3, 0),       // Expected Neighborhood corner
                 board.squareAt(4, 1)));
 
-        Set<Square> Expected2 = new HashSet<>(Arrays.asList(    board.squareAt(4, 1),       // Expected Neighborhood edge
-                board.squareAt(3, 2),
+        Set<Square> Expected2 = new HashSet<>(Arrays.asList(
+                board.squareAt(4, 1),       // Expected Neighborhood edge
                 board.squareAt(3, 3),
                 board.squareAt(4, 3)));
 
-        Set<Square> Expected3 = new HashSet<>(Arrays.asList(    board.squareAt(3, 0),       // Expected Neighborhood regular
+        Set<Square> Expected3 = new HashSet<>(Arrays.asList(
+                board.squareAt(3, 0),       // Expected Neighborhood regular
                 board.squareAt(2, 0),
                 board.squareAt(1, 0),
                 board.squareAt(1, 1),
                 board.squareAt(1, 2),
-                board.squareAt(2, 2),
-                board.squareAt(3, 2)));
+                board.squareAt(2, 2)));
 
         Set<Square> Actual1 = behavior1.neighborhood(test1.getPosition());
         Set<Square> Actual2 = behavior1.neighborhood(test2.getPosition());
@@ -110,15 +111,15 @@ public class DoubleNotPerimetralBuildTest {
     @Test
     public void SecondNeighborhoodTest(){
 
-        Set<Square> Expected1 = new HashSet<>(Arrays.asList(    board.squareAt(2, 1),
+        Set<Square> Expected1 = new HashSet<>(Arrays.asList(
                 board.squareAt(2, 2),
                 board.squareAt(2, 3),
                 board.squareAt(3, 3)));
 
-        Set<Square> Expected2 = new HashSet<>(Arrays.asList(    board.squareAt(2, 2),
+        Set<Square> Expected2 = new HashSet<>(Arrays.asList(
+                board.squareAt(2, 2),
                 board.squareAt(1, 1),
-                board.squareAt(1, 2),
-                board.squareAt(3, 2)));
+                board.squareAt(1, 2)));
 
         Set<Square> Actual1 = behavior1.neighborhood(test4.getPosition());
         Set<Square> Actual2 = behavior2.neighborhood(test3.getPosition());
