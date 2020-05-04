@@ -2,8 +2,7 @@ package controller;
 
 import model.Game;
 import model.gods.God;
-//import network.RemoteView;
-import network.RemoteView;
+import view.RemoteView;
 import utils.Coordinate;
 import utils.Message;
 

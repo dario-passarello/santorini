@@ -8,9 +8,10 @@ public class ServerApp {
     {
         Server server;
         try {
-            server = new Server();
+            server = new
+                    Server();
             server.run();
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("Impossible to initialize the server: " + e.getMessage() + "!");
         }
     }
