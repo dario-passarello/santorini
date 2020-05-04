@@ -20,7 +20,7 @@ public class TwoDownWinCondition extends WinConditionDecorator {
      * @return true if accomplish a normal win condition or a special one (going down of two level in a single move)
      */
     public Optional<Player> checkWinCondition(Square start, Builder builder){
-        if(start.getBuildLevel() - builder.getPosition().getBuildLevel() >= 2){     //if the special condition is happening
+        if(start.getBuildLevel() - builder.getSquare().getBuildLevel() >= 2){     //if the special condition is happening
             return Optional.of(builder.getOwner());
         } else {
             return wrappedWinCondition.checkWinCondition(start, builder);

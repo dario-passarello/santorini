@@ -1,14 +1,13 @@
 package model.gamestates;
 
 import model.Game;
+import model.GameObserver;
 import model.Player;
 import model.gods.God;
 import model.gods.GodFactory;
 import utils.Coordinate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GodSelectionState implements GameState {
@@ -46,7 +45,12 @@ public class GodSelectionState implements GameState {
         }
         godObjectsList.forEach(God::captureResetBehaviors); //Set reset methods
         game.setGodList(godObjectsList);
-        game.setGameState(nextState, nextPlayer.getName());
+        game.setGameState(nextState, nextPlayer);
+        game.notifyObservers((obs) -> {
+            obs.receiveAvailableGodList(game.getGodList().stream().map(God::new).collect(Collectors.toList()));
+            obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+            obs.receiveUpdateDone();
+        });
         return true;
     }
 
@@ -60,6 +64,7 @@ public class GodSelectionState implements GameState {
 
     public boolean quitGame() {
         game.setGameState(game.endGameState, null);
+        game.notifyObservers(GameObserver::receiveUpdateDone);
         return true;
     }
 

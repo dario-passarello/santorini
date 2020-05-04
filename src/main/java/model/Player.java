@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Player implements Serializable {
 
@@ -14,7 +16,7 @@ public class Player implements Serializable {
     private transient final Game game;
     private final String name;
     private God god;
-    private final List<Builder> builders;
+    private transient final List<Builder> builders;
     private boolean spectator;
 
     public Player(Game game, String name) {
@@ -22,6 +24,16 @@ public class Player implements Serializable {
         this.name = name;
         this.spectator = false;
         this.builders = new ArrayList<>();
+    }
+
+    public Player(Player player) {
+        this.game = null;
+        this.builders = player.builders.stream().map(Builder::new).collect(Collectors.toList());
+        this.name = player.name;
+        if(god != null) {
+            this.god = new God(player.god);
+        }
+        this.spectator = player.spectator;
     }
 
     /**

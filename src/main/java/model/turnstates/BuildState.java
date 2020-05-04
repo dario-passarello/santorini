@@ -47,7 +47,7 @@ public class BuildState implements TurnState {
                 turn.setTurnState(turn.additionalBuildState);
                 //Send the buildable square for the additional build phase
                 turn.notifyObservers(obs -> {
-                    obs.receiveAllowedSquares(activeBuilder,activeBuilder.getBuildableNeighborhood());
+                    obs.receiveAllowedSquares(activeBuilder,activeBuilder.getBuildableCoordinates());
                 } );
             } else {
                 turn.setTurnState(turn.endTurnState);

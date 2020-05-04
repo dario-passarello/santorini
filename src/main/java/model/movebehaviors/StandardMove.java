@@ -4,7 +4,6 @@ import model.Builder;
 import model.Square;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -45,10 +44,10 @@ public class StandardMove implements MoveBehavior {
      */
     public boolean move(Builder b, Square dest) {
 
-        Square start = b.getPosition();
+        Square start = b.getSquare();
         dest.setOccupant(b);
         start.setEmptySquare();
-        b.setPosition(dest);
+        b.setSquare(dest);
 
         return false;
     }

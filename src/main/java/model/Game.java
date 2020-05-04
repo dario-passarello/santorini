@@ -62,7 +62,7 @@ public class Game implements Observable<GameObserver>, GameModel {
         this.board = new Board(this);
         this.godList = new ArrayList<>();
         this.observers = new ArrayList<>();
-        this.setGameState(this.godSelectionState, getFirstPlayer().getName());
+        this.setGameState(this.godSelectionState, getFirstPlayer());
     }
 
     //GETTERS
@@ -148,13 +148,13 @@ public class Game implements Observable<GameObserver>, GameModel {
     }
 
     /**
-     * Set the current turn state
+     * Set the current turn state and send message to observers
      * @param gameState a game state
      * @param playerNotified
      */
-    public void setGameState(GameState gameState, String playerNotified) {
+    public void setGameState(GameState gameState, Player playerNotified) {
         currentGameState = gameState;
-        notifyObservers((GameObserver g) -> g.receiveGameState(currentGameState.getStateIdentifier(), playerNotified));
+        notifyObservers((GameObserver g) -> g.receiveGameState(currentGameState.getStateIdentifier(), new Player(playerNotified)));
     }
 
     public void setWinner(Player winner) {
@@ -196,7 +196,10 @@ public class Game implements Observable<GameObserver>, GameModel {
                 nextTurn(false);
             }
             turnRotation.remove(removeTurn); //Remove player from turn rotation
-            notifyObservers(obs -> obs.notifyPlayerElimination(player.getName()));
+            notifyObservers(obs -> {
+                obs.receivePlayerElimination(new Player(player));
+                obs.receiveUpdateDone();
+            });
         }
     }
 

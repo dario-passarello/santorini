@@ -1,14 +1,12 @@
 package model.gamestates;
 
-import model.Board;
-import model.ErrorMessage;
-import model.Game;
-import model.Player;
+import model.*;
 import utils.Coordinate;
 
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class PlaceBuilderState implements GameState {
     private final Game game;
@@ -42,18 +40,25 @@ public class PlaceBuilderState implements GameState {
         }
         nextPlayer.addBuilder(game.getBoard().squareAt(coordinate));
         if(game.getPlayers().stream().noneMatch(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)) {
-            game.setGameState(game.turnState, game.getFirstPlayer().getName());
+            game.setGameState(game.turnState, new Player(game.getFirstPlayer()));
             game.nextTurn(true);
         }
         else {
             nextPlayer = nextPlayerCalculator.get();
-            game.setGameState(game.placeBuilderState, nextPlayer.getName());
+            game.setGameState(game.placeBuilderState, new Player(nextPlayer));
         }
+        game.notifyObservers(obs -> {
+            obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+            obs.receiveBoard(new Board(game.getBoard()));
+            obs.receiveUpdateDone();
+        });
+
         return true;
     }
 
     public boolean quitGame() {
         game.setGameState(game.endGameState, null);
+        game.notifyObservers(GameObserver::receiveUpdateDone);
         return true;
     }
 

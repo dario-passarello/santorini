@@ -35,7 +35,7 @@ public class AdditionalMoveState implements TurnState {
         }
         activeBuilder = turn.getActiveBuilder();
         walkableSquares = turn.getActiveBuilder().getWalkableNeighborhood();
-        currentSquare = turn.getActiveBuilder().getPosition();
+        currentSquare = turn.getActiveBuilder().getSquare();
         moveSquare = game.getBoard().squareAt(c);
         if(!walkableSquares.contains(moveSquare)) {
             throw new IllegalArgumentException(ErrorMessage.ILLEGAL_MOVE);
@@ -46,13 +46,13 @@ public class AdditionalMoveState implements TurnState {
             turn.setTurnState(turn.additionalMoveState);
             turn.notifyObservers(obs -> {
                 obs.receiveBuildersPositions(game.getAllBuilders());
-                obs.receiveAllowedSquares(activeBuilder, activeBuilder.getWalkableNeighborhood());
+                obs.receiveAllowedSquares(activeBuilder, activeBuilder.getWalkableCoordinates());
                 obs.receiveUpdateDone();
             });
         } else {
             turn.notifyObservers(obs -> {
                 obs.receiveBuildersPositions(game.getAllBuilders());
-                obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableNeighborhood());
+                obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableCoordinates());
                 obs.receiveUpdateDone();
             });
             turn.setTurnState(turn.buildState);
@@ -71,7 +71,7 @@ public class AdditionalMoveState implements TurnState {
         Builder activeBuilder = turn.getActiveBuilder();
         turn.setTurnState(turn.buildState);
         turn.notifyObservers(obs -> {
-            obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableNeighborhood());
+            obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableCoordinates());
             obs.receiveUpdateDone();
         });
         return true;

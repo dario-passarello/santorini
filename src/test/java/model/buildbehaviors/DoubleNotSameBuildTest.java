@@ -4,7 +4,6 @@ import model.*;
 import model.buildbehaviours.DoubleNotSameBuild;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
@@ -69,9 +68,9 @@ public class DoubleNotSameBuildTest {
                 board.squareAt(1, 2),
                 board.squareAt(2, 2)));
 
-        Set<Square> Actual1 = behavior1.neighborhood(test1.getPosition());
-        Set<Square> Actual2 = behavior1.neighborhood(test2.getPosition());
-        Set<Square> Actual3 = behavior1.neighborhood(test3.getPosition());
+        Set<Square> Actual1 = behavior1.neighborhood(test1.getSquare());
+        Set<Square> Actual2 = behavior1.neighborhood(test2.getSquare());
+        Set<Square> Actual3 = behavior1.neighborhood(test3.getSquare());
 
         Assertions.assertAll("The First neighborhood should return the correct neighbors",
                 () -> Assert.assertEquals(Expected1, Actual1),
@@ -123,8 +122,8 @@ public class DoubleNotSameBuildTest {
                 board.squareAt(1, 1),
                 board.squareAt(1, 2)));
 
-        Set<Square> Actual1 = behavior1.neighborhood(test4.getPosition());
-        Set<Square> Actual2 = behavior2.neighborhood(test3.getPosition());
+        Set<Square> Actual1 = behavior1.neighborhood(test4.getSquare());
+        Set<Square> Actual2 = behavior2.neighborhood(test3.getSquare());
 
         Assert.assertEquals("1", Expected1, Actual1);
         Assert.assertEquals("2", Expected2, Actual2);

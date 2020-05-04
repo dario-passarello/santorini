@@ -33,7 +33,7 @@ public class MoveState implements TurnState {
         playerGod = turn.getCurrentPlayer().getGod();
         squaresAllowed =
                 specialPower ? builder.getBuildableNeighborhood() : builder.getWalkableNeighborhood();
-        currentSquare = builder.getPosition();
+        currentSquare = builder.getSquare();
         actionSquare = game.getBoard().squareAt(coordinate);
 
         if(!squaresAllowed.contains(actionSquare)) {
@@ -48,7 +48,7 @@ public class MoveState implements TurnState {
             turn.setTurnState(turn.specialMoveState);
             turn.notifyObservers(obs -> {
                 obs.receiveBoard(new Board(game.getBoard()));
-                obs.receiveAllowedSquares(builder, builder.getWalkableNeighborhood());
+                obs.receiveAllowedSquares(builder, builder.getWalkableCoordinates());
             });
         } else {
             canMoveAgain = builder.move(actionSquare);
@@ -56,13 +56,13 @@ public class MoveState implements TurnState {
                 turn.setTurnState(turn.additionalMoveState);
                 turn.notifyObservers(obs -> {
                     obs.receiveBuildersPositions(game.getAllBuilders());
-                    obs.receiveAllowedSquares(builder, builder.getWalkableNeighborhood());
+                    obs.receiveAllowedSquares(builder, builder.getWalkableCoordinates());
                 });
             } else {
                 turn.setTurnState(turn.buildState);
                 turn.notifyObservers(obs -> {
                     obs.receiveBuildersPositions(game.getAllBuilders());
-                    obs.receiveAllowedSquares(builder, builder.getBuildableNeighborhood());
+                    obs.receiveAllowedSquares(builder, builder.getBuildableCoordinates());
                 });
             }
             playerGod.checkWinCondition(currentSquare, builder).ifPresent(game::setWinner);

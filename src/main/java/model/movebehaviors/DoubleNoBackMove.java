@@ -36,7 +36,7 @@ public class DoubleNoBackMove extends MoveDecorator {
      * @return true in the first move, false in the second one
      */
     public boolean move(Builder b, Square dest) {
-        Square save = b.getPosition();
+        Square save = b.getSquare();
         wrappedMoveBehavior.move(b, dest);
         if(previous == null){
             previous = save;
