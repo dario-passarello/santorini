@@ -259,21 +259,21 @@ public class GameControllerTest {
         Set<String> correct = new HashSet<String>();    correct.add("Atlas");   correct.add("Demeter");
         Set<String> wrong = new HashSet<String>();      wrong.add("Atlas");     wrong.add("Demeter");   wrong.add("Artemis");
 
-        /* Setting */ game.setGameState(start, "Tester1");
+        /* Setting */ game.setGameState(start, game.getFirstPlayer());
 
             //Check Mortal Creation
             gamecontroller.submitGodList(client1, empty);
             Assert.assertEquals(game.getStateIdentifier()+": Problem in Creating a Mortal game",
                     game.getGameState().getStateIdentifier(), ending.get(0));
 
-        /* Resetting */ game.setGameState(start, "Tester1");
+        /* Resetting */ game.setGameState(start, game.getFirstPlayer());
 
             //Check CorrectGodList Creation
             gamecontroller.submitGodList(client1, correct);
             Assert.assertEquals(game.getStateIdentifier()+": Problem in using the List of God to create a game",
                     game.getGameState().getStateIdentifier(), ending.get(1));
 
-        /* Resetting */ game.setGameState(start, "Tester1");
+        /* Resetting */ game.setGameState(start, game.getFirstPlayer());
 
             //Check Malformed GodList
             gamecontroller.submitGodList(client1, wrong);
@@ -291,7 +291,7 @@ public class GameControllerTest {
         List<God> godlist = chosenlist.stream().map(factory::getGod).collect(Collectors.toList());
         game.setGodList(godlist);
 
-        /* Setting */   game.setGameState(start, "Tester1");
+        /* Setting */   game.setGameState(start, game.getFirstPlayer());
                         for(Player player : game.getPlayers()) player.setGod(null);
 
             //Check Regular Call
@@ -299,7 +299,7 @@ public class GameControllerTest {
             Assert.assertEquals(game.getStateIdentifier()+": Problem with the call of the method with correct inputs\n",
                     game.getGameState().getStateIdentifier(), ending.get(0));
 
-        /* Resetting */ game.setGameState(start, "Tester1");
+        /* Resetting */ game.setGameState(start, game.getFirstPlayer());
                         for(Player player : game.getPlayers()) player.setGod(null);
 
             //Check IllegalName
@@ -307,7 +307,7 @@ public class GameControllerTest {
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal name is not handled correctly\n",
                     game.getGameState().getStateIdentifier(), ending.get(1));
 
-        /* Resetting */ game.setGameState(start, "Tester1");
+        /* Resetting */ game.setGameState(start, game.getFirstPlayer());
                         for(Player player : game.getPlayers()) player.setGod(null);
 
             //Check IllegalGod
@@ -333,7 +333,7 @@ public class GameControllerTest {
         game.getLastPlayer().setGod(new GodFactory().getGod("Mortal"));
         game.getLastPlayer().getGod().setPlayer(game.getLastPlayer());
 
-        /* Setting */   game.setGameState(start, "Tester1");
+        /* Setting */   game.setGameState(start, game.getFirstPlayer());
 
 
             //Check calling the method with an illegal username
@@ -341,21 +341,21 @@ public class GameControllerTest {
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal usename is not handled correctly\n",
                     game.getGameState().getStateIdentifier(), ending.get(0));
 
-        /* Setting */   game.setGameState(start, "Tester1");
+        /* Setting */   game.setGameState(start, game.getFirstPlayer());
 
             //Check calling the method with a coordinate that it's not on the board
             gamecontroller.placeBuilder(client1, new CoordinateMessage(notEvenInTheBoard));
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal coordinate is not handled correctly\n",
                     game.getGameState().getStateIdentifier(), ending.get(1));
 
-        /* Setting */   game.setGameState(start, "Tester1");
+        /* Setting */   game.setGameState(start, game.getFirstPlayer());
 
             //Check calling the method on an occupied square
             gamecontroller.placeBuilder(client1, new CoordinateMessage(occupiedCoordinate));
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: Problem when calling the method on an occupied square\n",
                     game.getGameState().getStateIdentifier(), ending.get(2));
 
-        /* Setting */   game.setGameState(start, "Tester1");
+        /* Setting */   game.setGameState(start, game.getFirstPlayer());
 
             //Check Regular Call
             gamecontroller.placeBuilder(client1, new CoordinateMessage(correctCoordinate));
