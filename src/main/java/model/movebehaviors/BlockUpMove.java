@@ -21,7 +21,7 @@ public class BlockUpMove extends MoveDecorator{
      * @return a boolean that indicates if the move phase is ended or not
      */
     public boolean move(Builder b, Square dest) {
-        if(dest.getBuildLevel() > b.getPosition().getBuildLevel()){                //if you move up, other builder will not move up on their next turn
+        if(dest.getBuildLevel() > b.getSquare().getBuildLevel()){                //if you move up, other builder will not move up on their next turn
             b.getOwner().getGod().setAllMoveBehaviors(b.getOwner().getGame().getGodList());
         }
         return wrappedMoveBehavior.move(b, dest);

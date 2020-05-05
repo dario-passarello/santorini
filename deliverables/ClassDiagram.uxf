@@ -1004,7 +1004,7 @@ gameBoard</panel_attributes>
     <panel_attributes>*GameController*
 --
 - model : GameModel
-- remoteviews : List&lt;RemoteView&gt;
+- remoteviews : List&lt;view.RemoteView&gt;
 - gods : Set&lt;God&gt;
 - numberOfPlayers : Integer
 -

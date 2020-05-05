@@ -39,13 +39,13 @@ public class SwapWithOpponentMove extends MoveDecorator {
      */
     public boolean move(Builder b, Square dest) {
         if(dest.getOccupant().isPresent()){
-            Square start = b.getPosition();
+            Square start = b.getSquare();
             Builder enemy = dest.getOccupant().get();
 
             dest.setOccupant(b);
-            b.setPosition(dest);
+            b.setSquare(dest);
             start.setOccupant(enemy);
-            enemy.setPosition(start);
+            enemy.setSquare(start);
 
             return false;
         } else {

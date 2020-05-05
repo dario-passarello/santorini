@@ -13,4 +13,5 @@ public class ErrorMessage {
     public static final String MALFORMED_BOARD = "Square without builder, malformed board";
     public static final String GOD_NOT_EXISTS = "Invalid God Name";
     public static final String NOT_OPTIONAL_STATE = "The state is not optional, it can't be skipped";
+    public static final String GOD_NOT_ASSIGNED = "Player has no god assigned";
 }

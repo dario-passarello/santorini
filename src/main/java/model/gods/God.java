@@ -11,7 +11,7 @@ import model.wincondition.WinCondition;
 import java.io.Serializable;
 import java.util.*;
 
-public abstract class God implements Serializable {
+public class God implements Serializable {
 
     protected transient Player player;
     protected final String name;
@@ -31,6 +31,12 @@ public abstract class God implements Serializable {
         setBuildBehavior(buildBehavior);
         this.specialBuildPower = specialBuildPower;
         this.specialStartPower = specialStartPower;
+    }
+
+    public God(God god) {
+        this.name = god.name;
+        this.specialBuildPower = god.specialBuildPower;
+        this.specialStartPower = god.specialStartPower;
     }
 
 

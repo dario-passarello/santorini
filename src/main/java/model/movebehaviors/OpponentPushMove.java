@@ -62,7 +62,7 @@ public class OpponentPushMove extends MoveDecorator {
     public boolean move(Builder b, Square dest) {
 
         if (dest.getOccupant().isPresent()) {
-            Square src = b.getPosition();                       //starting position
+            Square src = b.getSquare();                       //starting position
 
             Board board = dest.getBoard();
 
@@ -71,9 +71,9 @@ public class OpponentPushMove extends MoveDecorator {
             Builder enemy = dest.getOccupant().get();
 
             push.setOccupant(dest.getOccupant().get());
-            enemy.setPosition(push);
+            enemy.setSquare(push);
             dest.setOccupant(b);
-            b.setPosition(dest);
+            b.setSquare(dest);
             src.setEmptySquare();
 
             return false; //Override the standard behavior

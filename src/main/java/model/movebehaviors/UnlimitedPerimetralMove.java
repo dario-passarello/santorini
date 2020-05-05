@@ -24,6 +24,6 @@ public class UnlimitedPerimetralMove extends MoveDecorator {
      */
     public boolean move(Builder b, Square dest) {
         wrappedMoveBehavior.move(b, dest);
-        return b.getPosition().isPerimetral();
+        return b.getSquare().isPerimetral();
     }
 }

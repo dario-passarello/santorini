@@ -1,6 +1,7 @@
 package model.gamestates;
 
 import model.Game;
+import model.GameObserver;
 import utils.Coordinate;
 
 import java.util.Set;
@@ -26,6 +27,7 @@ public class TurnState implements GameState {
 
     public boolean quitGame() {
         game.setGameState(game.endGameState, null);
+        game.notifyObservers(GameObserver::receiveUpdateDone);
         return true;
     }
 

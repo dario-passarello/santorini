@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class StandardBuildTest {
@@ -60,9 +59,9 @@ public class StandardBuildTest {
                 board.squareAt(2, 2),
                 board.squareAt(3, 2)));
 
-        Set<Square> Actual1 = behavior.neighborhood(test1.getPosition());
-        Set<Square> Actual2 = behavior.neighborhood(test2.getPosition());
-        Set<Square> Actual3 = behavior.neighborhood(test3.getPosition());
+        Set<Square> Actual1 = behavior.neighborhood(test1.getSquare());
+        Set<Square> Actual2 = behavior.neighborhood(test2.getSquare());
+        Set<Square> Actual3 = behavior.neighborhood(test3.getSquare());
 
         Assert.assertEquals("1", Expected1, Actual1);
         Assert.assertEquals("2", Expected2, Actual2);

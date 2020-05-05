@@ -9,8 +9,8 @@ import java.util.*;
 public class Square {
     final static int MAX_HEIGHT = 3;
 
-    private transient Board board;
-    private Coordinate coordinate;
+    private transient final Board board;
+    private final Coordinate coordinate;
     private boolean domed;
     private Integer buildLevel;
     private transient Builder occupant;
@@ -21,11 +21,15 @@ public class Square {
         this.domed = false;
         this.buildLevel = 0;
         this.occupant = null;
-
     }
 
-
-
+    public Square(Square square) {
+        this.board = null;
+        this.coordinate = square.coordinate;
+        this.domed = square.domed;
+        this.buildLevel = square.buildLevel;
+        this.occupant = null;
+    }
     /**
      * @return a reference to the board in which the square resides
      */

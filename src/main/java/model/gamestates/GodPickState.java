@@ -1,6 +1,8 @@
 package model.gamestates;
 
+import model.Board;
 import model.Game;
+import model.GameObserver;
 import model.Player;
 import model.gods.God;
 import utils.Coordinate;
@@ -50,9 +52,18 @@ public class GodPickState implements GameState {
                     .orElseThrow(() -> new UnknownError("Undefined Error"));
             unpickedGod.setPlayer(withoutGod.get(0));
             withoutGod.get(0).setGod(unpickedGod);
-            game.setGameState(game.placeBuilderState, game.getFirstPlayer().getName());
+            game.setGameState(game.placeBuilderState, new Player(game.getFirstPlayer()));
+            game.notifyObservers(obs -> {
+                obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+                obs.receiveUpdateDone();
+            });
         } else {
-            game.setGameState(game.godPickState, withoutGod.get(withoutGod.size() - 2).getName());
+            game.setGameState(game.godPickState, new Player(withoutGod.get(withoutGod.size() - 2)));
+            game.notifyObservers(obs -> {
+                obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+                obs.receiveBoard(new Board(game.getBoard()));
+                obs.receiveUpdateDone();
+            });
         }
         return true;
     }
@@ -63,6 +74,7 @@ public class GodPickState implements GameState {
 
     public boolean quitGame() {
         game.setGameState(game.endGameState, null);
+        game.notifyObservers(GameObserver::receiveUpdateDone);
         return true;
     }
 

@@ -1,34 +1,39 @@
 package model;
 
 import model.gods.God;
+import utils.Coordinate;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Builder implements Serializable {
 
-    private Square position;
+    private Square square;
     private Player owner;
     private int id;
 
-    public Builder(Square position, Player owner, int id) {
-        this.position = position;
-        position.setOccupant(this);
+    public Builder(Square square, Player owner, int id) {
+        this.square = square;
+        square.setOccupant(this);
         this.owner = owner;
         this.id = id;
+    }
+
+    public Builder(Builder builder) {
+        this(new Square(builder.square), null, builder.id);
     }
 
     /**
      * @return the reference of the square where the player is located
      */
-    public Square getPosition() {
-        return position; //TODO
+    public Square getSquare() {
+        return square; //TODO
     }
 
-    public void setPosition(Square position) {
-        this.position = position;
+    public void setSquare(Square square) {
+        this.square = square;
     }
 
 
@@ -46,7 +51,16 @@ public class Builder implements Serializable {
      */
     public List<Square> getWalkableNeighborhood() {
         God playerGod = owner.getGod();
-        return playerGod.getWalkableNeighborhood(position);
+        if(playerGod == null) {
+            throw new IllegalStateException(ErrorMessage.GOD_NOT_ASSIGNED);
+        }
+        return playerGod.getWalkableNeighborhood(square);
+    }
+
+    public List<Coordinate> getWalkableCoordinates() {
+        return getWalkableNeighborhood().stream()
+                .map(Square::getCoordinate)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -56,7 +70,16 @@ public class Builder implements Serializable {
      */
     public List<Square> getBuildableNeighborhood() {
         God playerGod = owner.getGod();
-        return playerGod.getBuildableNeighborhood(position);
+        if(playerGod == null) {
+            throw new IllegalStateException(ErrorMessage.GOD_NOT_ASSIGNED);
+        }
+        return playerGod.getBuildableNeighborhood(square);
+    }
+
+    public List<Coordinate> getBuildableCoordinates() {
+        return getBuildableNeighborhood().stream()
+                .map(Square::getCoordinate)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -68,6 +91,9 @@ public class Builder implements Serializable {
      */
     public boolean move(Square sq) {
         God playerGod = owner.getGod();
+        if(playerGod == null) {
+            throw new IllegalStateException(ErrorMessage.GOD_NOT_ASSIGNED);
+        }
         return playerGod.move(this,sq);
     }
 
@@ -81,6 +107,9 @@ public class Builder implements Serializable {
      */
     public boolean build(Square sq) {
         God playerGod = owner.getGod();
+        if(playerGod == null) {
+            throw new IllegalStateException(ErrorMessage.GOD_NOT_ASSIGNED);
+        }
         return playerGod.build(this,sq);
     }
 
@@ -90,8 +119,8 @@ public class Builder implements Serializable {
     }
 
     public void removeBuilder() {
-        this.position.setEmptySquare();
-        this.position = null;
+        this.square.setEmptySquare();
+        this.square = null;
     }
 
     @Override

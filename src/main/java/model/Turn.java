@@ -124,14 +124,16 @@ public class Turn implements Observable<TurnObserver> {
         } else {
             this.setTurnState(this.moveState);
             this.notifyObservers((TurnObserver obs) -> { //Start composite update of observers
-                obs.receiveActivePlayer(currentPlayer.getName()); //Send current player
+                obs.receiveActivePlayer(new Player(currentPlayer)); //Send current player
                 obs.receiveBoard(new Board(game.getBoard())); //Send a copy of the board
-                obs.receiveBuildersPositions(currentPlayer.getBuilders());
+                obs.receiveBuildersPositions(currentPlayer.getBuilders().stream() //Send a copy
+                        .map(Builder::new)
+                        .collect(Collectors.toList()));
                 currentPlayer.getBuilders() //For each builder send his walkable neighbours
-                        .forEach(builder -> obs.receiveAllowedSquares(builder, builder.getWalkableNeighborhood()));
+                        .forEach(builder -> obs.receiveAllowedSquares(builder, builder.getWalkableCoordinates()));
                 if(currentPlayer.getGod().hasSpecialBuildPower()) { //If has special power send his buildable neighbour for special power
                     obs.receiveSpecialPowerInfo(currentPlayer.getBuilders().stream()
-                            .collect(Collectors.toMap(Function.identity(), Builder::getBuildableNeighborhood)));
+                            .collect(Collectors.toMap(Function.identity(), Builder::getBuildableCoordinates)));
                 }
                 obs.receiveUpdateDone(); //Send the update done signal for the composite update
             });

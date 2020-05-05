@@ -5,7 +5,6 @@ import model.buildbehaviours.DoubleSameBuild;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -68,9 +67,9 @@ public class DoubleSameBuildTest {
                 board.squareAt(2, 2),
                 board.squareAt(3, 2)));
 
-        Set<Square> Actual1 = behavior1.neighborhood(test1.getPosition());
-        Set<Square> Actual2 = behavior1.neighborhood(test2.getPosition());
-        Set<Square> Actual3 = behavior1.neighborhood(test3.getPosition());
+        Set<Square> Actual1 = behavior1.neighborhood(test1.getSquare());
+        Set<Square> Actual2 = behavior1.neighborhood(test2.getSquare());
+        Set<Square> Actual3 = behavior1.neighborhood(test3.getSquare());
 
         Assertions.assertAll("The First neighborhood should return the correct neighbors",
                 () -> Assert.assertEquals(Expected1, Actual1),
@@ -115,8 +114,8 @@ public class DoubleSameBuildTest {
             Set<Square> Expected1 = new HashSet<>();
             Set<Square> Expected2 = new HashSet<>(Arrays.asList(    board.squareAt(3, 0)));
 
-            Set<Square> Actual1 = behavior1.neighborhood(test1.getPosition());
-            Set<Square> Actual2 = behavior2.neighborhood(test3.getPosition());
+            Set<Square> Actual1 = behavior1.neighborhood(test1.getSquare());
+            Set<Square> Actual2 = behavior2.neighborhood(test3.getSquare());
 
             Assert.assertEquals("1", Expected1, Actual1);
             Assert.assertEquals("2", Expected2, Actual2);

@@ -63,9 +63,9 @@ public class BeneathBuildTest {
                 board.squareAt(2, 1),
                 board.squareAt(3, 2)));
 
-        Set<Square> Actual1 = behavior.neighborhood(test1.getPosition());
-        Set<Square> Actual2 = behavior.neighborhood(test2.getPosition());
-        Set<Square> Actual3 = behavior.neighborhood(test3.getPosition());
+        Set<Square> Actual1 = behavior.neighborhood(test1.getSquare());
+        Set<Square> Actual2 = behavior.neighborhood(test2.getSquare());
+        Set<Square> Actual3 = behavior.neighborhood(test3.getSquare());
 
         Assert.assertEquals("1", Expected1, Actual1);
         Assert.assertEquals("2", Expected2, Actual2);
@@ -119,7 +119,7 @@ public class BeneathBuildTest {
         for(int i = 0; i < 3; i++) build1.build();                       // Create Buildings in the board
         for(int i = 0; i < 2; i++) build2.build();
         for(int i = 0; i < 1; i++) build3.build();
-        for(int i = 0; i < 3; i++) test2.getPosition().build();
+        for(int i = 0; i < 3; i++) test2.getSquare().build();
 
     }
 }
