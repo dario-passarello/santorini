@@ -202,14 +202,14 @@ public class GameTest {
          final Turn turn1 = game.getCurrentTurn();
          assertTrue(turn1.firstSelection(turn1.getCurrentPlayer().getBuilders().get(0),new Coordinate(0,2), true));
          assertEquals(turn1.getTurnState(), turn1.specialMoveState);
-         assertFalse(turn1.endPhase());
+         assertThrows(IllegalStateException.class, turn1::endPhase);
          assertFalse(turn1.firstSelection(turn1.getCurrentPlayer().getBuilders().get(0),new Coordinate(2,2), true));
          assertThrows(IllegalArgumentException.class, () -> turn1.selectCoordinate(new Coordinate(0,2)));
          assertThrows(IllegalArgumentException.class, () -> turn1.selectCoordinate(new Coordinate(4,5)));
          assertThrows(IllegalArgumentException.class, () -> turn1.selectCoordinate(new Coordinate(1,1), true));
          assertTrue(turn1.selectCoordinate(new Coordinate(1,1)));
          assertEquals(turn1.getTurnState(), turn1.buildState);
-         assertFalse(turn1.endPhase());
+         assertThrows(IllegalStateException.class, turn1::endPhase);
          assertTrue(turn1.selectCoordinate(new Coordinate(0,1)));
          assertEquals(turn1.getTurnState(), turn1.endTurnState);
          assertTrue(turn1.endPhase());
