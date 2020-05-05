@@ -1,77 +1,68 @@
 package controller;
 
 import model.Game;
-import model.gods.God;
-//import network.RemoteView;
 import network.RemoteView;
-import utils.Coordinate;
+import utils.CoordinateMessage;
 import utils.Message;
-
-import java.util.List;
+import utils.MessageType;
 import java.util.Set;
 
 public class GameController {
 
 
     private Game model;
-    private Set<God> gods;
-    private List<RemoteView> remoteviews;
-    private Integer NumberOfPlayers;
+    private Controller controller;
 
-    public GameController(List<RemoteView> remoteviews){
-        this.remoteviews = remoteviews;
-        this.NumberOfPlayers = remoteviews.size();
-    }
-
-    public void startGame(){
-        //model.setGameState(model.godSelectionState, );
-        // Maybe Send GodList?
+    public GameController(Game model, Controller controller){
+       this.model = model;
+       this.controller = controller;
     }
 
 
 
-    // TODO Handle removal of the player
 
 
-    public void submitGodList(Set<String> GodList){
+
+    public void submitGodList(RemoteView remoteview, Set<String> GodList){
         try {
             if (!model.submitGodList(GodList)){
-                //TODO handle (the method was called in a wrong state)
+                stateError(remoteview);
             }
         }
         catch(IllegalArgumentException exception){
-            // TODO the list of Gods is incorrect
+            exceptionError(remoteview, exception);
         }
 
     }
 
-    public void Reset() {
-        if (!model.quitGame()) {
-            //TODO handle (the method was called in a wrong state)
-        }
-    }
-
-    public void PickGod(String PlayerName, String GodName){
+    public void placeBuilder(RemoteView remoteview, CoordinateMessage choice) {
         try {
-            if (!model.pickGod(PlayerName, GodName)){
-                //TODO handle (the method was called in a wrong state)
+            if (!model.selectCoordinate(remoteview.getNickname(), choice.getCoordinate())){
+                stateError(remoteview);
             }
         }
         catch(IllegalArgumentException exception){
-            // TODO the selected God is not correct
+            exceptionError(remoteview, exception);
         }
     }
 
-    public void SelectCoordinate(Coordinate coordinate){
-
+    public void pickGod(RemoteView remoteview, String godName){
+        try {
+            if (!model.pickGod(remoteview.getNickname(), godName)){
+                stateError(remoteview);
+            }
+        }
+        catch(IllegalArgumentException exception){
+            exceptionError(remoteview, exception);
+        }
     }
 
-    public void quitGame(){
-
+    public void stateError(RemoteView remoteview){
+        Game.State state = model.getStateIdentifier();
+        controller.sendMessage(remoteview, new Message(state, MessageType.STATE_ERROR));
     }
 
-
-    public void processMessage(Message message){
-
+    public void exceptionError(RemoteView remoteview, Exception exception){
+        controller.sendMessage(remoteview, new Message(exception.getMessage(), MessageType.ILLEGAL_ERROR));
     }
 }

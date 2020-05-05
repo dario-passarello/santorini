@@ -3,7 +3,7 @@ package utils;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Coordinate {
+public class Coordinate implements Serializable {
     //IMMUTABILE
     private final Integer x;
     private final Integer y;

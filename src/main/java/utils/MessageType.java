@@ -23,12 +23,17 @@ public enum MessageType {
     //Game Messages
     GOD_LIST,
     GOD_CHOICE,
-    COORDINATE_PLACEMENT,
+    BUILDER_PLACEMENT,
 
     //Turn Messages
-    STARTING_POWER,
-    COORDINATE_MOVE_CHOICE,
-    COORDINATE_BUILD_CHOICE,
+    FIRST_ACTION,
+    COORDINATE,
+    END_PHASE,
+
+
+    //Error Messages
+    STATE_ERROR,
+    ILLEGAL_ERROR,
 
 
 

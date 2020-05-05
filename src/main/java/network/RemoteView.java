@@ -1,16 +1,16 @@
 package network;
 
-import controller.GameController;
+import controller.Controller;
 import utils.Message;
 
 public class RemoteView {
 
-    private Connection connection;
-    private GameController controller;
-    private String Nickname;
 
-    public RemoteView(Connection connection){
-        this.connection = connection;
+    private Controller controller;
+    private String username;
+
+    public RemoteView(String username){
+        this.username = username;
     }
 
     /**
@@ -18,7 +18,7 @@ public class RemoteView {
      * @param message
      */
     public void handleMessage(Message message){
-        controller.processMessage(message);
+        controller.processMessage(this, message);
     }
 
     /**
@@ -26,6 +26,10 @@ public class RemoteView {
      * @param message
      */
     public void sendMessage(Message message){
-        connection.send(message);
+
+    }
+
+    public String getNickname(){
+        return this.username;
     }
 }

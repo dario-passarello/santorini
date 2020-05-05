@@ -28,7 +28,7 @@ public class AdditionalMoveState implements TurnState {
         Builder activeBuilder; //The builder that could be moved because made the first move, at the start of the turn
         boolean canMoveAgain;
         if(!Board.checkValidCoordinate(c)) {
-            throw new IllegalArgumentException(ErrorMessage.PLAYER_NUMBER_ERROR);
+            throw new IllegalArgumentException(ErrorMessage.COORDINATE_NOT_VALID);
         }
         if(specialPower) {
             throw new IllegalArgumentException(ErrorMessage.NO_SPECIAL_POWER);
@@ -67,7 +67,7 @@ public class AdditionalMoveState implements TurnState {
 
     public boolean endPhase() {
         if(!optional)
-            return false; //The state is not optional, could not be skipped
+            throw new IllegalStateException(ErrorMessage.NOT_OPTIONAL_STATE);
         Builder activeBuilder = turn.getActiveBuilder();
         turn.setTurnState(turn.buildState);
         turn.notifyObservers(obs -> {

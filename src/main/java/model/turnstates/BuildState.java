@@ -64,7 +64,7 @@ public class BuildState implements TurnState {
 
     public boolean endPhase() {
         if(!optional)
-            return false; //The state is not optional, could not be skipped
+            throw new IllegalStateException(ErrorMessage.NOT_OPTIONAL_STATE); //The state is not optional, could not be skipped
         turn.setTurnState(turn.endTurnState);
         turn.notifyObservers(TurnObserver::receiveUpdateDone);
         return true;
