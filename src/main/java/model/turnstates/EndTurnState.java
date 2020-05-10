@@ -1,9 +1,7 @@
 package model.turnstates;
 
-import model.Builder;
 import model.Game;
 import model.Turn;
-import model.turnstates.TurnState;
 import utils.Coordinate;
 
 public class EndTurnState implements TurnState {
@@ -15,7 +13,7 @@ public class EndTurnState implements TurnState {
         this.game = game;
     }
 
-    public boolean firstSelection(Builder b, Coordinate c, boolean specialPower) {
+    public boolean firstSelection(int builderID, Coordinate c, boolean specialPower) {
         return false;
     }
 
@@ -24,6 +22,7 @@ public class EndTurnState implements TurnState {
     }
 
     public boolean endPhase() {
+        turn.getCurrentPlayer().getGod().resetBehaviors();
         game.nextTurn(false);
         return true;
     }

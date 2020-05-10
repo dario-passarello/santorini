@@ -4,7 +4,6 @@ import model.*;
 import utils.Coordinate;
 
 import java.util.Set;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -56,7 +55,7 @@ public class PlaceBuilderState implements GameState {
         return true;
     }
 
-    public boolean quitGame() {
+    public boolean quitGame(String playerName) {
         game.setGameState(game.endGameState, null);
         game.notifyObservers(GameObserver::receiveUpdateDone);
         return true;

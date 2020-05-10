@@ -37,7 +37,7 @@ public class GameTest {
         assertTrue("Action submit god list should be allowed",mortalGame.submitGodList(Set.of()));
         assertTrue("Action submit god list should be allowed",godGame.submitGodList(new HashSet<>(gods)));
         assertSame("The state should be PlaceBuilders in mortal only games",mortalGame.placeBuilderState,mortalGame.getGameState());
-        assertTrue("Action quit game should be allowed",mortalGame.quitGame());
+        assertTrue("Action quit game should be allowed",mortalGame.quitGame(players.get(0)));
         assertSame("State should be End Game", mortalGame.endGameState, mortalGame.getGameState());
 
         //GodPickState checks
@@ -81,7 +81,9 @@ public class GameTest {
         assertFalse("Action submit god should not be allowed",godGame.submitGodList(Set.of()));
         assertFalse("Action pick god should not be allowed", godGame.pickGod("Player_0","Zeus"));
         assertFalse("Action select coordinate should not be allowed", godGame.selectCoordinate("Player_0",new Coordinate(0,0)));
-        assertTrue("Action quit game should be allowed",godGame.quitGame());
+        assertTrue("Action quit game should be allowed",godGame.quitGame(players.get(0)));
+        if(num > 2)
+            assertTrue("Action quit game should be allowed",godGame.quitGame(players.get(1)));
         assertSame("State should be End Game", godGame.endGameState, godGame.getGameState());
 
     }
@@ -102,16 +104,16 @@ public class GameTest {
         assertEquals(turn.getStateID(), Turn.State.MOVE);
         assertFalse("Action select coordinate should not be allowed",turn.selectCoordinate(new Coordinate(1,0)));
         assertFalse("Action end phase should not be allowed",turn.getTurnState().endPhase());
-        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,3).getOccupant().orElseThrow(), new Coordinate(2,1)));
-        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().orElseThrow(), new Coordinate(5,2)));
-        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().orElseThrow(), new Coordinate(0,2), true));
-        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().orElseThrow(), new Coordinate(4,4)));
-        assertTrue("Action first selection should be allowed",turn.firstSelection(board.squareAt(0,1).getOccupant().orElseThrow(), new Coordinate(0,2)));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,3).getOccupant().orElseThrow().getId(), new Coordinate(2,1)));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().orElseThrow().getId(), new Coordinate(5,2)));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().orElseThrow().getId(), new Coordinate(0,2), true));
+        assertThrows(IllegalArgumentException.class, () -> turn.firstSelection(board.squareAt(0,1).getOccupant().orElseThrow().getId(), new Coordinate(4,4)));
+        assertTrue("Action first selection should be allowed",turn.firstSelection(board.squareAt(0,1).getOccupant().orElseThrow().getId(), new Coordinate(0,2)));
 
         //BuildState checks
         assertSame("The turn state should be build",turn.buildState,turn.getTurnState());
         assertEquals(turn.getStateID(), Turn.State.BUILD);
-        assertFalse("Action first selection should not be allowed",turn.firstSelection(board.squareAt(0,2).getOccupant().orElseThrow(), new Coordinate(0,2), false));
+        assertFalse("Action first selection should not be allowed",turn.firstSelection(board.squareAt(0,2).getOccupant().orElseThrow().getId(), new Coordinate(0,2), false));
         assertThrows(IllegalArgumentException.class, () -> turn.selectCoordinate(new Coordinate(0,5), false));
         assertThrows(IllegalArgumentException.class, () -> turn.selectCoordinate(new Coordinate(0,1), true));
         assertThrows(IllegalArgumentException.class, () -> turn.selectCoordinate(new Coordinate(4,4), false));
@@ -120,7 +122,7 @@ public class GameTest {
         //EndTurnState checks
         assertSame("The turn state should be end turn", turn.endTurnState,turn.getTurnState());
         assertEquals(turn.getStateID(), Turn.State.END_TURN);
-        assertFalse("Action first selection should not be allowed",turn.firstSelection(board.squareAt(0,2).getOccupant().orElseThrow(), new Coordinate(0,2), false));
+        assertFalse("Action first selection should not be allowed",turn.firstSelection(board.squareAt(0,2).getOccupant().orElseThrow().getId(), new Coordinate(0,2), false));
         assertFalse("Action select coordinate should not be allowed",turn.selectCoordinate(new Coordinate(1,2)));
         assertTrue("Action end phase should be allowed",turn.endPhase());
 
@@ -133,22 +135,22 @@ public class GameTest {
     public void youShouldQuitAtAnytime(int num){
         List<String> players = IntStream.range(1,num + 1).mapToObj(n -> "Player_" + n).collect(Collectors.toList());
         Game game = new Game(players, num);
-        assertTrue(game.quitGame());
+        assertTrue(game.quitGame(players.get(0)));
         assertEquals(game.getGameState(), game.endGameState);
 
         game.setGameState(game.godPickState, null);
-        assertTrue(game.quitGame());
+        assertTrue(game.quitGame(players.get(0)));
         assertEquals(game.getGameState(), game.endGameState);
 
         game.setGameState(game.placeBuilderState, null);
-        assertTrue(game.quitGame());
+        assertTrue(game.quitGame(players.get(0)));
         assertEquals(game.getGameState(), game.endGameState);
 
         game.setGameState(game.turnState, null);
-        assertTrue(game.quitGame());
+        assertTrue(game.quitGame(players.get(0)));
         assertEquals(game.getGameState(), game.endGameState);
 
-        assertFalse(game.quitGame());
+        assertFalse(game.quitGame(players.get(1)));
     }
 
     @ParameterizedTest
@@ -180,7 +182,7 @@ public class GameTest {
             assertFalse(game.submitGodList(new HashSet<>(gods)));
             assertFalse(game.pickGod("Player_1", "Zeus"));
             assertFalse(game.selectCoordinate("Player_1", new Coordinate(3,4)));
-            assertFalse(game.quitGame());
+            assertFalse(game.quitGame(players.get(0)));
             assertEquals(game.getStateIdentifier(),Game.State.END_GAME);
         } else {
             assertThrows(IllegalArgumentException.class, () -> game.removePlayer(removedPlayer));
@@ -200,23 +202,23 @@ public class GameTest {
 
          //Prometheus turn
          final Turn turn1 = game.getCurrentTurn();
-         assertTrue(turn1.firstSelection(turn1.getCurrentPlayer().getBuilders().get(0),new Coordinate(0,2), true));
+         assertTrue(turn1.firstSelection(0,new Coordinate(0,2), true));
          assertEquals(turn1.getTurnState(), turn1.specialMoveState);
-         assertFalse(turn1.endPhase());
-         assertFalse(turn1.firstSelection(turn1.getCurrentPlayer().getBuilders().get(0),new Coordinate(2,2), true));
+         assertThrows(IllegalStateException.class, turn1::endPhase);
+         assertFalse(turn1.firstSelection(0,new Coordinate(2,2), true));
          assertThrows(IllegalArgumentException.class, () -> turn1.selectCoordinate(new Coordinate(0,2)));
          assertThrows(IllegalArgumentException.class, () -> turn1.selectCoordinate(new Coordinate(4,5)));
          assertThrows(IllegalArgumentException.class, () -> turn1.selectCoordinate(new Coordinate(1,1), true));
          assertTrue(turn1.selectCoordinate(new Coordinate(1,1)));
          assertEquals(turn1.getTurnState(), turn1.buildState);
-         assertFalse(turn1.endPhase());
+         assertThrows(IllegalStateException.class, turn1::endPhase);
          assertTrue(turn1.selectCoordinate(new Coordinate(0,1)));
          assertEquals(turn1.getTurnState(), turn1.endTurnState);
          assertTrue(turn1.endPhase());
 
          //Triton turn
          final Turn turn2 = game.getCurrentTurn();
-         assertTrue(turn2.firstSelection(turn2.getCurrentPlayer().getBuilders().get(0),new Coordinate(4,4)));
+         assertTrue(turn2.firstSelection(0,new Coordinate(4,4)));
          assertEquals(turn2.getTurnState(), turn2.additionalMoveState);
          assertEquals(turn2.getStateID(), Turn.State.ADDITIONAL_MOVE);
          assertTrue(turn2.selectCoordinate(new Coordinate(3,4)));
@@ -230,7 +232,7 @@ public class GameTest {
 
          //Atlas turn
          final Turn turn3 = game.getCurrentTurn();
-         assertTrue(turn3.firstSelection(turn3.getCurrentPlayer().getBuilders().get(0),new Coordinate(1,2)));
+         assertTrue(turn3.firstSelection(0,new Coordinate(1,2)));
          assertEquals(turn3.getTurnState(), turn3.buildState);
          assertTrue(turn3.selectCoordinate(new Coordinate(0,1), true));
          assertTrue(game.getBoard().squareAt(0,1).isDomed() && game.getBoard().squareAt(0,1).getBuildLevel() == 0);
@@ -239,7 +241,7 @@ public class GameTest {
 
          //Demeter turn
          final Turn turn4 = game.getCurrentTurn();
-         assertTrue(turn4.firstSelection(turn4.getCurrentPlayer().getBuilders().get(0), new Coordinate(4,2)));
+         assertTrue(turn4.firstSelection(0, new Coordinate(4,2)));
          assertEquals(turn4.getTurnState(), turn4.buildState);
          assertTrue(turn4.selectCoordinate(new Coordinate(4,3)));
          assertEquals(turn4.getTurnState(), turn4.additionalBuildState);

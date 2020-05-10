@@ -17,7 +17,7 @@ public class AdditionalMoveState implements TurnState {
         this.optional = optional;
     }
 
-    public boolean firstSelection(Builder b, Coordinate c, boolean specialPower) {
+    public boolean firstSelection(int builderID, Coordinate c, boolean specialPower) {
         return false;
     }
 

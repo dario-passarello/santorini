@@ -12,6 +12,9 @@ public class Builder implements Serializable {
 
     private Square square;
     private Player owner;
+
+
+
     private int id;
 
     public Builder(Square square, Player owner, int id) {
@@ -42,6 +45,10 @@ public class Builder implements Serializable {
      */
     public Player getOwner() {
         return owner;
+    }
+
+    public int getId() {
+        return id;
     }
 
     /**
@@ -123,6 +130,12 @@ public class Builder implements Serializable {
         this.square = null;
     }
 
+    /**
+     * Two builder are equals if and only if their id is equal,
+     * and their owner is equal
+     * @param o The other object to compare
+     * @return true if two builder are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

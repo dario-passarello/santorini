@@ -1,9 +1,7 @@
 package network;
 
-public class Client implements Runnable{
-    public void run() {
+public class Client {
+    public static void main(String args[]) {
 
     }
-
-
 }

@@ -16,12 +16,16 @@ public class MoveState implements TurnState {
         this.game = game;
     }
 
-    public boolean firstSelection(Builder builder, Coordinate coordinate, boolean specialPower) {
+    public boolean firstSelection(int builderID, Coordinate coordinate, boolean specialPower) {
         List<Square> squaresAllowed; //Squares where the player could go
         Square currentSquare;   //The square were the active builder is located
         Square actionSquare;    //The square selected from the player
         God playerGod;
+        Builder builder;
         boolean canMoveAgain;
+        if(0 < builderID && builderID < Player.BUILDERS_PER_PLAYER)
+            throw new IllegalArgumentException();
+        builder = turn.getCurrentPlayer().getBuilders().get(builderID);
         if(!builder.getOwner().equals(turn.getCurrentPlayer()))
             throw new IllegalArgumentException(ErrorMessage.WRONG_BUILD_OWNER);
         if(!Board.checkValidCoordinate(coordinate)) {
@@ -59,6 +63,8 @@ public class MoveState implements TurnState {
                     obs.receiveAllowedSquares(builder, builder.getWalkableCoordinates());
                 });
             } else {
+                if(builder.getBuildableCoordinates().isEmpty())
+                    game.removePlayer(turn.getCurrentPlayer()); //Check special Apollo edge case (Switch to another stuck builder)
                 turn.setTurnState(turn.buildState);
                 turn.notifyObservers(obs -> {
                     obs.receiveBuildersPositions(game.getAllBuilders());

@@ -72,7 +72,7 @@ public class GodPickState implements GameState {
         return false;
     }
 
-    public boolean quitGame() {
+    public boolean quitGame(String playerName) {
         game.setGameState(game.endGameState, null);
         game.notifyObservers(GameObserver::receiveUpdateDone);
         return true;

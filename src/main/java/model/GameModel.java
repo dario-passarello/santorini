@@ -33,9 +33,10 @@ public interface GameModel {
 
     /**
      *  Quits the game
+     *  @param playerName Name of the player
      *  @return true if this function call is legit for the current GameState
      */
-    boolean quitGame();
+    boolean quitGame(String playerName);
 
 
     /**

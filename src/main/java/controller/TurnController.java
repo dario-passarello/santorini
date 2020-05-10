@@ -1,82 +1,81 @@
 package controller;
 
-
-
 import model.Game;
 import model.Turn;
-import network.RemoteView;
-import utils.CoordinateMessage;
-import utils.Message;
-import utils.MessageType;
+import network.messages.toclient.ExceptionMessage;
+import network.messages.toclient.StateErrorMessage;
+import utils.Coordinate;
+import view.RemoteView;
 
-import java.util.List;
+public class TurnController extends StateMachineController{
 
-public class TurnController {
+    TurnController(Game model, Controller controller){
+        super(model,controller);
+    }
 
-    private Game model;
-    private Controller controller;
-
-
-    //TODO Catch IllegalStateException somewhere
-
-    public void firstMove(RemoteView remoteView, CoordinateMessage choice){
-        if(!correctTurnPlayer(remoteView)) return;
-        try {
-            if (!model.getCurrentTurn().firstSelection(choice.getBuilder(), choice.getCoordinate(), choice.getSpecialPower())) {
-                stateError(remoteView);
+    public void firstMove(RemoteView caller, int builderID, Coordinate coordinate, boolean specialPower){
+        boolean callerCorrect = checkTurnCorrectness(caller);
+        if(callerCorrect) {
+            try {
+                boolean allowedAction = game.getCurrentTurn().firstSelection(builderID, coordinate, specialPower);
+                if (!allowedAction){
+                    sendStateError(caller);
+                }
+            }
+            catch(IllegalArgumentException exception){
+                sendExceptionError(caller, exception);
             }
         }
-        catch(IllegalArgumentException exception){
-            exceptionError(remoteView, exception);
-           // Testing only - System.out.println("- " +exception.getMessage());
-        }
-
     }
 
-
-    public void selectCoordinate(RemoteView remoteview, CoordinateMessage choice){
-        if(!correctTurnPlayer(remoteview)) return;
-        try {
-            if (!model.getCurrentTurn().selectCoordinate(choice.getCoordinate(), choice.getSpecialPower())) {
-                stateError(remoteview);
+    public void selectCoordinate(RemoteView caller, Coordinate coordinate, boolean specialPower){
+        boolean callerCorrect = checkTurnCorrectness(caller);
+        if(callerCorrect) {
+            try {
+                boolean allowedAction = game.getCurrentTurn().selectCoordinate(coordinate, specialPower);
+                if (!allowedAction){
+                    sendStateError(caller);
+                }
+            }
+            catch(IllegalArgumentException exception){
+                sendExceptionError(caller, exception);
             }
         }
-        catch(IllegalArgumentException exception){
-            exceptionError(remoteview, exception);
-            // Testing only - System.out.println("- " +exception.getMessage());
-        }
-
     }
 
-    public void endPhase(RemoteView remoteview){
-        if(!correctTurnPlayer(remoteview)) return;
-        try {
-            if (!model.getCurrentTurn().endPhase()) {
-                stateError(remoteview);
+    public void endPhase(RemoteView caller){
+        boolean callerCorrect = checkTurnCorrectness(caller);
+        if(callerCorrect) {
+            try {
+                boolean allowedAction = game.getCurrentTurn().endPhase();
+                if (!allowedAction){
+                    sendStateError(caller);
+                }
+            }
+            catch(IllegalStateException exception){
+                sendExceptionError(caller, exception);
             }
         }
-        catch(IllegalStateException exception){
-            exceptionError(remoteview, exception);
-            // Testing only - System.out.println("- " +exception.getMessage());
+    }
+
+    @Override
+    protected void sendStateError(RemoteView remoteview) {
+        Turn.State state = game.getCurrentTurn().getStateID();
+        controller.sendMessage(remoteview, new StateErrorMessage<>(state));
+    }
+
+    private boolean checkTurnCorrectness(RemoteView caller){
+        if(game.getGameState() != game.turnState) {
+            controller.sendMessage(caller, new StateErrorMessage<>(game.getGameState().getStateIdentifier()));
+            return false;
         }
+        String callerUsername = caller.getPlayerName();
+        String effectiveUsername = game.getCurrentTurn().getCurrentPlayer().getName();
+        if(!callerUsername.equals(effectiveUsername)){
+            controller.sendMessage(caller, new ExceptionMessage(new IllegalCallerException()));
+            return false;
+        }
+        return true;
     }
 
-    public void stateError(RemoteView remoteview){
-        Turn.State state = model.getCurrentTurn().getStateID();
-        controller.sendMessage(remoteview, new Message(state, MessageType.STATE_ERROR));
-    }
-
-    public void exceptionError(RemoteView remoteview, Exception exception){
-        controller.sendMessage(remoteview, new Message(exception.getMessage(), MessageType.ILLEGAL_ERROR));
-    }
-
-    public boolean correctTurnPlayer(RemoteView remoteView){
-        return (remoteView.getNickname().equals(model.getCurrentTurn().getCurrentPlayer().getName()));
-    }
-
-    public TurnController(Game model, Controller controller){
-        this.model = model;
-        this.controller = controller;
-
-    }
 }

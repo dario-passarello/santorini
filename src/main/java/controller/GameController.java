@@ -1,68 +1,74 @@
 package controller;
 
 import model.Game;
-import network.RemoteView;
+import network.messages.toclient.StateErrorMessage;
 import utils.CoordinateMessage;
-import utils.Message;
-import utils.MessageType;
+import view.RemoteView;
+
 import java.util.Set;
 
-public class GameController {
+public class GameController extends StateMachineController{
 
 
-    private Game model;
-    private Controller controller;
-
-    public GameController(Game model, Controller controller){
-       this.model = model;
-       this.controller = controller;
+    GameController(Game model, Controller controller){
+        super(model,controller);
     }
 
-
-
-
-
-
-    public void submitGodList(RemoteView remoteview, Set<String> GodList){
+    public synchronized void submitGodList(RemoteView caller, Set<String> godList){
+        if(!caller.getPlayerName().equals(game.getFirstPlayer().getName())) { //The first player should choose the gods in game
+            sendExceptionError(caller, new IllegalCallerException("Not the first player!"));
+        }
         try {
-            if (!model.submitGodList(GodList)){
-                stateError(remoteview);
+            boolean stateAllowed = game.submitGodList(godList);
+            if (!stateAllowed){
+                sendStateError(caller);
             }
         }
         catch(IllegalArgumentException exception){
-            exceptionError(remoteview, exception);
+            sendExceptionError(caller, exception);
         }
 
     }
 
-    public void placeBuilder(RemoteView remoteview, CoordinateMessage choice) {
+    public synchronized void placeBuilder(RemoteView caller, CoordinateMessage choice) {
         try {
-            if (!model.selectCoordinate(remoteview.getNickname(), choice.getCoordinate())){
-                stateError(remoteview);
+            boolean stateAllowed = game.selectCoordinate(caller.getPlayerName(), choice.getCoordinate());
+            if (!stateAllowed){
+                sendStateError(caller);
             }
         }
         catch(IllegalArgumentException exception){
-            exceptionError(remoteview, exception);
+            sendExceptionError(caller, exception);
         }
     }
 
-    public void pickGod(RemoteView remoteview, String godName){
+    public synchronized void pickGod(RemoteView caller, String godName) {
         try {
-            if (!model.pickGod(remoteview.getNickname(), godName)){
-                stateError(remoteview);
+            boolean stateAllowed = game.pickGod(caller.getPlayerName(), godName);
+            if (!stateAllowed){
+                sendStateError(caller);
             }
         }
         catch(IllegalArgumentException exception){
-            exceptionError(remoteview, exception);
+            sendExceptionError(caller, exception);
         }
     }
 
-    public void stateError(RemoteView remoteview){
-        Game.State state = model.getStateIdentifier();
-        controller.sendMessage(remoteview, new Message(state, MessageType.STATE_ERROR));
+    public synchronized void quitGame(RemoteView caller) {
+        try {
+            boolean stateAllowed = game.quitGame(caller.getPlayerName());
+            if(!stateAllowed) {
+                sendStateError(caller);
+            }
+        }
+        catch (IllegalArgumentException exception) {
+            sendExceptionError(caller, exception);
+        }
     }
 
-    public void exceptionError(RemoteView remoteview, Exception exception){
-        controller.sendMessage(remoteview, new Message(exception.getMessage(), MessageType.ILLEGAL_ERROR));
+    @Override
+    protected void sendStateError(RemoteView remoteview){
+        Game.State state = game.getStateIdentifier();
+        controller.sendMessage(remoteview, new StateErrorMessage<>(state));
     }
 }

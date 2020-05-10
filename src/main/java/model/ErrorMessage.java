@@ -14,4 +14,5 @@ public class ErrorMessage {
     public static final String GOD_NOT_EXISTS = "Invalid God Name";
     public static final String NOT_OPTIONAL_STATE = "The state is not optional, it can't be skipped";
     public static final String GOD_NOT_ASSIGNED = "Player has no god assigned";
+    public static final String UNVALID_GOD_ID = "Builder ID is not valid";
 }

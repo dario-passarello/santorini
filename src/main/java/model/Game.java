@@ -206,23 +206,23 @@ public class Game implements Observable<GameObserver>, GameModel {
     //STATE MACHINE METHODS
 
     @Override
-    public boolean submitGodList(Set<String> godList) {
+    public boolean submitGodList(Set<String> godList) throws IllegalArgumentException {
         return currentGameState.submitGodList(godList);
     }
 
     @Override
-    public boolean pickGod(String playerName, String godName) {
+    public boolean pickGod(String playerName, String godName) throws IllegalArgumentException{
         return currentGameState.pickGod(playerName, godName);
     }
 
     @Override
-    public boolean selectCoordinate(String playerName, Coordinate coordinate) {
+    public boolean selectCoordinate(String playerName, Coordinate coordinate) throws IllegalArgumentException {
         return currentGameState.selectCoordinate(playerName, coordinate);
     }
 
     @Override
-    public boolean quitGame() {
-        return currentGameState.quitGame();
+    public boolean quitGame(String playerName) {
+        return currentGameState.quitGame(playerName);
     }
 
     @Override
@@ -235,6 +235,10 @@ public class Game implements Observable<GameObserver>, GameModel {
     @Override
     public void registerObserver(GameObserver m) {
         observers.add(m);
+    }
+
+    public void registerAllTurnObserver(TurnObserver obs) {
+        turnRotation.forEach(turn -> registerAllTurnObserver(obs));
     }
 
     @Override

@@ -24,7 +24,7 @@ public class EndGameState implements GameState {
         return false;
     }
 
-    public boolean quitGame() {
+    public boolean quitGame(String playerName) {
         return false;
     }
 

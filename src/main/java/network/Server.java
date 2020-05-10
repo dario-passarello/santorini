@@ -1,8 +1,7 @@
 package network;
 
-public class Server implements Runnable{
-
-    public void run() {
+public class Server {
+    public static void main(String args[]) {
 
     }
 }

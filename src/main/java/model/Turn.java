@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class Turn implements Observable<TurnObserver> {
 
-    public enum State {
+    public enum State implements StateIdentifier {
         MOVE,
         ADDITIONAL_MOVE,
         BUILD,
@@ -83,19 +83,19 @@ public class Turn implements Observable<TurnObserver> {
         this.activeBuilder = activeBuilder;
     }
 
-    public boolean firstSelection(Builder  b, Coordinate c, boolean specialPower) {
-        return currentState.firstSelection(b,c,specialPower);
+    public boolean firstSelection(int builderID, Coordinate c, boolean specialPower) throws IllegalArgumentException {
+        return currentState.firstSelection(builderID,c,specialPower);
     }
 
-    public boolean firstSelection(Builder b, Coordinate c) {
-        return firstSelection(b,c, false);
+    public boolean firstSelection(int builderID, Coordinate c) throws IllegalArgumentException {
+        return firstSelection(builderID, c, false);
     }
 
     /**
      * Input a coordinate of the board
      * @param c A coordinate object representing the coordinate of a board
      */
-    public boolean selectCoordinate(Coordinate c, boolean specialPower) {
+    public boolean selectCoordinate(Coordinate c, boolean specialPower) throws IllegalArgumentException {
         return currentState.selectCoordinate(c,specialPower);
     }
 
@@ -103,14 +103,14 @@ public class Turn implements Observable<TurnObserver> {
      * Input a coordinate of the board
      * @param c A coordinate object representing the coordinate of a board
      */
-    public boolean selectCoordinate(Coordinate c) {
-        return currentState.selectCoordinate(c);
+    public boolean selectCoordinate(Coordinate c) throws IllegalArgumentException {
+        return currentState.selectCoordinate(c, false);
     }
 
     /**
      *  End the current additional turn phase and go to the next one
      */
-    public boolean endPhase() {
+    public boolean endPhase() throws IllegalStateException {
         return currentState.endPhase();
     }
 

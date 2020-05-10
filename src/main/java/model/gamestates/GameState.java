@@ -9,13 +9,13 @@ import java.util.Set;
  *  Interface for the States of the GameState machine
  */
 public interface GameState {
-    boolean submitGodList(Set<String> godList);
+    boolean submitGodList(Set<String> godList) throws IllegalArgumentException;
 
-    boolean pickGod(String playerName, String godName);
+    boolean pickGod(String playerName, String godName) throws IllegalArgumentException;
 
-    boolean selectCoordinate(String playerName, Coordinate coordinate);
+    boolean selectCoordinate(String playerName, Coordinate coordinate) throws IllegalArgumentException;
 
-    boolean quitGame();
+    boolean quitGame(String playerName) throws IllegalArgumentException;
 
     Game.State getStateIdentifier();
 

@@ -91,6 +91,11 @@ public class Player implements Serializable {
         return new ArrayList<>(builders);
     }
 
+    /**
+     * Two players objects are equal if and only if they have the same name
+     * @param o The other player object to compare
+     * @return true if this and o are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
