@@ -70,7 +70,7 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     }
 
     @Override
-    public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles) {
+    public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower) {
 
     }
 
@@ -84,10 +84,6 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
 
     }
 
-    @Override
-    public void receiveSpecialPowerInfo(Map<Builder, List<Coordinate>> allowedPositions) {
-
-    }
 
     @Override
     public void receiveUpdateDone() {

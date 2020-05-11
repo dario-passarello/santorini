@@ -46,13 +46,13 @@ public class AdditionalMoveState implements TurnState {
             turn.setTurnState(turn.additionalMoveState);
             turn.notifyObservers(obs -> {
                 obs.receiveBuildersPositions(game.getAllBuilders());
-                obs.receiveAllowedSquares(activeBuilder, activeBuilder.getWalkableCoordinates());
+                obs.receiveAllowedSquares(activeBuilder, activeBuilder.getWalkableCoordinates(), false);
                 obs.receiveUpdateDone();
             });
         } else {
             turn.notifyObservers(obs -> {
                 obs.receiveBuildersPositions(game.getAllBuilders());
-                obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableCoordinates());
+                obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableCoordinates(), false);
                 obs.receiveUpdateDone();
             });
             turn.setTurnState(turn.buildState);
@@ -71,7 +71,7 @@ public class AdditionalMoveState implements TurnState {
         Builder activeBuilder = turn.getActiveBuilder();
         turn.setTurnState(turn.buildState);
         turn.notifyObservers(obs -> {
-            obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableCoordinates());
+            obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableCoordinates(), false);
             obs.receiveUpdateDone();
         });
         return true;

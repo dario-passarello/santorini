@@ -23,10 +23,10 @@ public interface TurnObserver extends Observer {
      * Send for a builder the tile where it could be moved or build
      * @param builder The builder for which the allowed Squares are provided
      * @param allowedTiles The squares where the builder could make his action
+     * @param specialPower
      */
-    void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles);
+    void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower);
     void receiveBoard(Board board);
     void receiveBuildersPositions(List<Builder> builders);
-    void receiveSpecialPowerInfo(Map<Builder, List<Coordinate>> allowedPositions);
     void receiveUpdateDone();
 }

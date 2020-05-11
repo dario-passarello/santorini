@@ -43,7 +43,7 @@ public abstract class ClientView implements View, MessageTarget{
     }
 
     @Override
-    public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles) {
+    public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower) {
 
     }
 
@@ -57,10 +57,6 @@ public abstract class ClientView implements View, MessageTarget{
 
     }
 
-    @Override
-    public void receiveSpecialPowerInfo(Map<Builder, List<Coordinate>> allowedPositions) {
-
-    }
 
     @Override
     public void receiveUpdateDone() {

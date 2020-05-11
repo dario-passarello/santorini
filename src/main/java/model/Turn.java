@@ -130,10 +130,10 @@ public class Turn implements Observable<TurnObserver> {
                         .map(Builder::new)
                         .collect(Collectors.toList()));
                 currentPlayer.getBuilders() //For each builder send his walkable neighbours
-                        .forEach(builder -> obs.receiveAllowedSquares(builder, builder.getWalkableCoordinates()));
+                        .forEach(builder -> obs.receiveAllowedSquares(builder, builder.getWalkableCoordinates(), false));
                 if(currentPlayer.getGod().hasSpecialBuildPower()) { //If has special power send his buildable neighbour for special power
-                    obs.receiveSpecialPowerInfo(currentPlayer.getBuilders().stream()
-                            .collect(Collectors.toMap(Function.identity(), Builder::getBuildableCoordinates)));
+                    currentPlayer.getBuilders()
+                            .forEach(builder -> obs.receiveAllowedSquares(builder, builder.getBuildableCoordinates(), true));
                 }
                 obs.receiveUpdateDone(); //Send the update done signal for the composite update
             });
