@@ -44,9 +44,10 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     }
 
     @Override
-    public void receivePlayerElimination(Player playerName) {
+    public void receivePlayerOutcome(Player playerName, boolean winner) {
 
     }
+
 
     @Override
     public void receivePlayerList(List<Player> map) {

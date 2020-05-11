@@ -186,6 +186,11 @@ public class Game implements Observable<GameObserver>, GameModel {
         if(getPlayersInGame().size() == 1) { //If Only two players remain
             setWinner(getPlayersInGame().get(0));
             setGameState(endGameState, null);
+            notifyObservers(obs -> {
+                obs.receivePlayerOutcome(new Player(player), false);
+                obs.receivePlayerOutcome(new Player(getPlayersInGame().get(0)), true);
+                obs.receiveUpdateDone();
+            });
         }
         else {
             Turn removeTurn = currentTurn;
@@ -197,7 +202,7 @@ public class Game implements Observable<GameObserver>, GameModel {
             }
             turnRotation.remove(removeTurn); //Remove player from turn rotation
             notifyObservers(obs -> {
-                obs.receivePlayerElimination(new Player(player));
+                obs.receivePlayerOutcome(new Player(player), false);
                 obs.receiveUpdateDone();
             });
         }

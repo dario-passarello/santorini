@@ -20,7 +20,6 @@ public class ClientHandler implements Runnable, MessageTarget{
 
     private RemoteView remoteView;
     private final Socket clientSocket;
-    private final Queue<Message<ClientView>> messageQueue;
     private final ObjectInputStream inputStream;
     private final ObjectOutputStream outputStream;
     private String name;
@@ -29,7 +28,6 @@ public class ClientHandler implements Runnable, MessageTarget{
 
     public ClientHandler(Socket socket) throws IOException {
         clientSocket = socket;
-        messageQueue = new LinkedList<>();
         inputStream = new ObjectInputStream(socket.getInputStream());
         outputStream = new ObjectOutputStream(socket.getOutputStream());
     }

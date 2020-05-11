@@ -13,7 +13,7 @@ public class TurnController extends StateMachineController{
         super(model,controller);
     }
 
-    public void firstMove(RemoteView caller, int builderID, Coordinate coordinate, boolean specialPower){
+    public synchronized void firstMove(RemoteView caller, int builderID, Coordinate coordinate, boolean specialPower){
         boolean callerCorrect = checkTurnCorrectness(caller);
         if(callerCorrect) {
             try {
@@ -28,7 +28,7 @@ public class TurnController extends StateMachineController{
         }
     }
 
-    public void selectCoordinate(RemoteView caller, Coordinate coordinate, boolean specialPower){
+    public synchronized void selectCoordinate(RemoteView caller, Coordinate coordinate, boolean specialPower){
         boolean callerCorrect = checkTurnCorrectness(caller);
         if(callerCorrect) {
             try {
@@ -43,7 +43,7 @@ public class TurnController extends StateMachineController{
         }
     }
 
-    public void endPhase(RemoteView caller){
+    public synchronized void endPhase(RemoteView caller){
         boolean callerCorrect = checkTurnCorrectness(caller);
         if(callerCorrect) {
             try {

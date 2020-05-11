@@ -21,15 +21,16 @@ public interface GameObserver extends Observer {
      * Notifies all the observer of the elimination of a player from the game (due to gameplay or to connection
      * reasons)
      * @param playerName The name of the player removed from the game
+     * @param winner true if the player wins, else false
      */
-    void receivePlayerElimination(Player playerName);
+    void receivePlayerOutcome(Player playerName, boolean winner);
 
     /**
-     * Notifies all player of the updated player list status, containing also informations about Gods e Builder positions
-     * @param map A map with keys all player names and values the name of the god pick from other players,
+     * Notifies all player of the updated player list status, containing also information about Gods e Builder positions
+     * @param list A map with keys all player names and values the name of the god pick from other players,
      *            if the player has not picked a god the value will be null
      */
-    void receivePlayerList(List<Player> map);
+    void receivePlayerList(List<Player> list);
 
     /**
      *  Notifies all player of the list of all gods

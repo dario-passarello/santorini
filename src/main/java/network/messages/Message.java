@@ -1,11 +1,9 @@
 package network.messages;
 
-import network.ClientHandler;
-
 import java.io.Serializable;
 
 @FunctionalInterface
-public interface Message<T extends MessageTarget> extends Serializable {
+public interface Message<Target extends MessageTarget> extends Serializable {
 
-    void execute(T target);
+    void execute(Target target);
 }

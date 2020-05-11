@@ -35,7 +35,7 @@ public class Lobby implements Runnable {
         throw new IllegalArgumentException("Matches could be only with 2 or 3 players!");
     }
 
-
+    //TODO Initialize on Server
     @Override
     public void run() {
         handleLobby();
@@ -61,6 +61,7 @@ public class Lobby implements Runnable {
                     //Register observers in the model
                     game.registerObserver(handler.getRemoteViewInstance(controller));
                     game.registerAllTurnObserver(handler.getRemoteViewInstance(controller));
+                    //TODO Save controller on remote
                     handler.getRemoteViewInstance().setPlayerName(handler.getName().orElseThrow());
                     handler.sendMessage(new MatchFoundMessage(handler.getRemoteViewInstance().getPlayerName(),usernames)); //Notify that the match was created
                 }
