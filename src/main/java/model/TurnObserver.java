@@ -26,7 +26,22 @@ public interface TurnObserver extends Observer {
      * @param specialPower
      */
     void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower);
+
+    /**
+     * Send a Board update to the observer
+     * @param board The new Board object
+     */
     void receiveBoard(Board board);
+
+    /**
+     * Send to observer a list with all builder objects in game
+     * @param builders The list of builders
+     */
     void receiveBuildersPositions(List<Builder> builders);
+
+
+    /**
+     * Notifies all observer that the update is done, and they could safely display the content
+     */
     void receiveUpdateDone();
 }

@@ -30,7 +30,7 @@ public class Controller {
 
 
     void sendMessage(RemoteView view, Message<ClientView> message){
-
+        view.sendMessage(message);
     }
 
 }
