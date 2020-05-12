@@ -6,6 +6,7 @@ import model.Turn;
 import model.gamestates.GameState;
 import model.gods.GodFactory;
 import model.turnstates.TurnState;
+import network.ClientHandler;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;

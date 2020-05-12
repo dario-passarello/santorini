@@ -25,7 +25,9 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     }
 
     public void sendMessage(Message<? extends MessageTarget>message) {
-
+        if(client != null) {
+            client.sendMessage(message);
+        }
     }
 
     public Controller getController() {
