@@ -17,6 +17,7 @@ public class GameController extends StateMachineController{
     public synchronized void submitGodList(RemoteView caller, Set<String> godList){
         if(!caller.getPlayerName().equals(game.getFirstPlayer().getName())) { //The first player should choose the gods in game
             sendExceptionError(caller, new IllegalCallerException("Not the first player!"));
+            return;
         }
         try {
             boolean stateAllowed = game.submitGodList(godList);
