@@ -243,7 +243,7 @@ public class Game implements Observable<GameObserver>, GameModel {
     }
 
     public void registerAllTurnObserver(TurnObserver obs) {
-        turnRotation.forEach(turn -> registerAllTurnObserver(obs));
+        turnRotation.forEach(turn -> turn.registerObserver(obs));
     }
 
     @Override

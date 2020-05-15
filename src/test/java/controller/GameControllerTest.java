@@ -5,22 +5,13 @@ import model.Player;
 import model.gamestates.GameState;
 import model.gods.God;
 import model.gods.GodFactory;
-import network.ClientHandler;
-import network.Server;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import utils.Coordinate;
-import utils.CoordinateMessage;
 import view.RemoteView;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -427,29 +418,29 @@ public class GameControllerTest {
 
 
             //Check calling the method with an illegal username
-            gamecontroller.placeBuilder(client1, new CoordinateMessage(correctCoordinate));
+            gamecontroller.placeBuilder(client1, correctCoordinate);
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal usename is not handled correctly\n",
                     game.getGameState().getStateIdentifier(), ending.get(0));
 
         /* Resetting */   game.setGameState(start, game.getFirstPlayer());
 
             //Check calling the method with a coordinate that it's not on the board
-            gamecontroller.placeBuilder(client1, new CoordinateMessage(notEvenInTheBoard));
+            gamecontroller.placeBuilder(client1, notEvenInTheBoard);
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal coordinate is not handled correctly\n",
                     game.getGameState().getStateIdentifier(), ending.get(1));
 
         /* Resetting */   game.setGameState(start, game.getFirstPlayer());
 
             //Check calling the method on an occupied square
-            gamecontroller.placeBuilder(client1, new CoordinateMessage(occupiedCoordinate));
+            gamecontroller.placeBuilder(client1, occupiedCoordinate);
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: Problem when calling the method on an occupied square\n",
                     game.getGameState().getStateIdentifier(), ending.get(2));
 
         /* Resetting */   game.setGameState(start, game.getFirstPlayer());
 
             //Check Regular Call
-            gamecontroller.placeBuilder(client1, new CoordinateMessage(correctCoordinate));
-            gamecontroller.placeBuilder(client2, new CoordinateMessage(correctCoordinate2));
+            gamecontroller.placeBuilder(client1, correctCoordinate);
+            gamecontroller.placeBuilder(client2, correctCoordinate2);
             Assert.assertEquals(game.getStateIdentifier()+": Calling a method with the correct parameter caused an error\n",
                     game.getGameState().getStateIdentifier(), ending.get(3));
     }

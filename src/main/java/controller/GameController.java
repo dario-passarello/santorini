@@ -2,7 +2,7 @@ package controller;
 
 import model.Game;
 import network.messages.toclient.StateErrorMessage;
-import utils.CoordinateMessage;
+import utils.Coordinate;
 import view.RemoteView;
 
 import java.util.Set;
@@ -31,9 +31,9 @@ public class GameController extends StateMachineController{
 
     }
 
-    public synchronized void placeBuilder(RemoteView caller, CoordinateMessage choice) {
+    public synchronized void placeBuilder(RemoteView caller, Coordinate choice) {
         try {
-            boolean stateAllowed = game.selectCoordinate(caller.getPlayerName(), choice.getCoordinate());
+            boolean stateAllowed = game.selectCoordinate(caller.getPlayerName(), choice);
             if (!stateAllowed){
                 sendStateError(caller);
             }

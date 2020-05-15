@@ -1,23 +1,17 @@
 package controller;
 
-import model.Builder;
 import model.Game;
 import model.Turn;
-import model.gamestates.GameState;
 import model.gods.GodFactory;
 import model.turnstates.TurnState;
-import network.ClientHandler;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import utils.Coordinate;
-import utils.CoordinateMessage;
 import view.RemoteView;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
 

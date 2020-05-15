@@ -20,16 +20,16 @@ public class ClientHandler implements Runnable, MessageTarget{
 
     private RemoteView remoteView;
     private final Socket clientSocket;
-    private final ObjectInputStream inputStream;
-    private final ObjectOutputStream outputStream;
     private String name;
     private int playerNumber;
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
 
 
     public ClientHandler(Socket socket) throws IOException {
         clientSocket = socket;
-        inputStream = new ObjectInputStream(socket.getInputStream());
         outputStream = new ObjectOutputStream(socket.getOutputStream());
+        inputStream = new ObjectInputStream(socket.getInputStream());
     }
 
     @Override
@@ -56,6 +56,7 @@ public class ClientHandler implements Runnable, MessageTarget{
             exception.printStackTrace();
         }
         catch(IOException e) {
+            e.printStackTrace();
             if(this.remoteView != null) {
                 new QuitGameMessage().execute(this.remoteView);
             }

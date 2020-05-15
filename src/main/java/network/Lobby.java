@@ -45,7 +45,7 @@ public class Lobby implements Runnable {
         try{
             while(true) {
                 while(waitingQueue.size() < this.numberOfPlayers){
-                    waitingQueue.wait();
+                    wait();
                 }
                 List<ClientHandler> playerClients = new ArrayList<>();
                 for(int i = 0; i < numberOfPlayers; i++){
@@ -65,6 +65,7 @@ public class Lobby implements Runnable {
                     handler.getRemoteViewInstance().setPlayerName(handler.getName().orElseThrow());
                     handler.sendMessage(new MatchFoundMessage(handler.getRemoteViewInstance().getPlayerName(),usernames)); //Notify that the match was created
                 }
+                notifyAll();
             }
         }
         catch (InterruptedException ex) {
@@ -80,7 +81,7 @@ public class Lobby implements Runnable {
             return names.size() == new HashSet<>(names).size();
         };
         Random random = new Random();
-        while (noDuplicates.test(clientHandlers)) {
+        while (!noDuplicates.test(clientHandlers)) {
             for(int i = 0; i < numberOfPlayers - 1; i++){
                 for(int j = i + 1; j < numberOfPlayers; j++){
                     String firstName = clientHandlers.get(i).getName().orElseThrow(IllegalAccessError::new);
@@ -96,11 +97,10 @@ public class Lobby implements Runnable {
     //Called in clientHandler thread context
     public synchronized void findGame(ClientHandler client) {
         waitingQueue.add(client);
-        waitingQueue.notifyAll();
+        notifyAll();
         try{
             while(waitingQueue.contains(client))
-                waitingQueue.wait();
-
+                wait();
         }
         catch (InterruptedException e){
             e.printStackTrace();
