@@ -1,13 +1,12 @@
 package network.messages.toclient;
 
-import network.ClientHandler;
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 
-public class InQueueMessage implements Message<ClientView> {
+public class InQueueMessage implements Message<ViewManager> {
 
     @Override
-    public void execute(ClientView target) {
+    public void execute(ViewManager target) {
         //TODO Define a InQueueMemeToView
     }
 }

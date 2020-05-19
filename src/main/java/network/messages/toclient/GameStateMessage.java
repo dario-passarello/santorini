@@ -1,14 +1,11 @@
 package network.messages.toclient;
 
 import model.Game;
-import model.GameObserver;
 import model.Player;
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 
-import java.util.function.Consumer;
-
-public class GameStateMessage implements Message<ClientView> {
+public class GameStateMessage implements Message<ViewManager> {
 
     private final Game.State state;
     private final Player activePlayerName;
@@ -19,7 +16,7 @@ public class GameStateMessage implements Message<ClientView> {
     }
 
     @Override
-    public void execute(ClientView target) {
+    public void execute(ViewManager target) {
         target.receiveGameState(state, activePlayerName);
     }
 }

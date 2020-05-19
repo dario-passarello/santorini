@@ -2,9 +2,9 @@ package network.messages.toclient;
 
 import model.StateIdentifier;
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 
-public class StateErrorMessage<T extends StateIdentifier> implements Message<ClientView> {
+public class StateErrorMessage<T extends StateIdentifier> implements Message<ViewManager> {
 
     private final T currentState;
 
@@ -13,7 +13,7 @@ public class StateErrorMessage<T extends StateIdentifier> implements Message<Cli
     }
 
     @Override
-    public void execute(ClientView target) {
+    public void execute(ViewManager target) {
         //TODO
     }
 }

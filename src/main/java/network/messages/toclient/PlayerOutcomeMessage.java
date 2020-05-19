@@ -2,9 +2,9 @@ package network.messages.toclient;
 
 import model.Player;
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 
-public class PlayerOutcomeMessage implements Message<ClientView> {
+public class PlayerOutcomeMessage implements Message<ViewManager> {
 
     private final Player player;
     private final boolean winner;
@@ -17,7 +17,7 @@ public class PlayerOutcomeMessage implements Message<ClientView> {
 
 
     @Override
-    public void execute(ClientView target) {
+    public void execute(ViewManager target) {
         target.receivePlayerOutcome(player, winner);
     }
 }

@@ -5,16 +5,13 @@ import network.messages.Message;
 import network.messages.MessageTarget;
 import network.messages.toserver.LoginDataMessage;
 import network.messages.toserver.QuitGameMessage;
-import view.ClientView;
 import view.RemoteView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.Optional;
-import java.util.Queue;
 
 public class ClientHandler implements Runnable, MessageTarget{
 

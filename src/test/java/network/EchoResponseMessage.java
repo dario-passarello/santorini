@@ -1,9 +1,9 @@
 package network;
 
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 
-public class EchoResponseMessage implements Message<ClientView> {
+public class EchoResponseMessage implements Message<ViewManager> {
 
     private final String payload;
 
@@ -12,7 +12,7 @@ public class EchoResponseMessage implements Message<ClientView> {
     }
 
     @Override
-    public void execute(ClientView target) {
+    public void execute(ViewManager target) {
         //DO NOTHING
     }
 

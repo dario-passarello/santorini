@@ -3,7 +3,7 @@ package controller;
 import model.Game;
 
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 import view.RemoteView;
 
 public class Controller {
@@ -29,7 +29,7 @@ public class Controller {
 
 
 
-    void sendMessage(RemoteView view, Message<ClientView> message){
+    void sendMessage(RemoteView view, Message<ViewManager> message){
         view.sendMessage(message);
     }
 

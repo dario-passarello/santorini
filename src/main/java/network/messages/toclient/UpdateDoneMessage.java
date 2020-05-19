@@ -1,12 +1,12 @@
 package network.messages.toclient;
 
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 
-public class UpdateDoneMessage implements Message<ClientView> {
+public class UpdateDoneMessage implements Message<ViewManager> {
 
     @Override
-    public void execute(ClientView target) {
+    public void execute(ViewManager target) {
         target.receiveUpdateDone();
     }
 }

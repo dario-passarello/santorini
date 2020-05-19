@@ -1,9 +1,9 @@
 package network.messages.toclient;
 
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 
-public class ExceptionMessage implements Message<ClientView> {
+public class ExceptionMessage implements Message<ViewManager> {
     private Exception exception;
 
     public ExceptionMessage(Exception exception) {
@@ -11,6 +11,6 @@ public class ExceptionMessage implements Message<ClientView> {
     }
 
     @Override
-    public void execute(ClientView target) {
+    public void execute(ViewManager target) {
     }
 }

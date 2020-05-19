@@ -2,11 +2,11 @@ package network.messages.toclient;
 
 import model.Builder;
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 
 import java.util.List;
 
-public class BuilderPositionMessage implements Message<ClientView> {
+public class BuilderPositionMessage implements Message<ViewManager> {
     private final List<Builder> builders;
 
     public BuilderPositionMessage(List<Builder> builders) {
@@ -14,7 +14,7 @@ public class BuilderPositionMessage implements Message<ClientView> {
     }
 
     @Override
-    public void execute(ClientView target) {
+    public void execute(ViewManager target) {
         target.receiveBuildersPositions(builders);
     }
 }

@@ -88,7 +88,6 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
         client.sendMessage(new BuilderPositionMessage(builders));
     }
 
-
     @Override
     public void receiveUpdateDone() {
         client.sendMessage(new UpdateDoneMessage());

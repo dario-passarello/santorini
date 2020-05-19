@@ -1,7 +1,7 @@
 package network;
 
 import network.messages.Message;
-import view.ClientView;
+import view.ViewManager;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,7 +14,7 @@ import java.util.Queue;
 
 public class ClientDriver implements Runnable{
 
-    private Queue<Message<? extends ClientView>> messagesReceived;
+    private Queue<Message<? extends ViewManager>> messagesReceived;
     private final Socket socketToServer;
     private ObjectInputStream inStream;
     private ObjectOutputStream outStream;
@@ -40,7 +40,7 @@ public class ClientDriver implements Runnable{
     private void listen(){
         try{
             while (true){
-                Message<? extends ClientView> mess = (Message<? extends ClientView>) inStream.readObject();
+                Message<? extends ViewManager> mess = (Message<? extends ViewManager>) inStream.readObject();
                 synchronized (this) {
                     messagesReceived.offer(mess);
                     notifyAll();
@@ -62,12 +62,12 @@ public class ClientDriver implements Runnable{
         }
     }
 
-    public synchronized List<Message<? extends ClientView>> receiveMessage() {
+    public synchronized List<Message<? extends ViewManager>> receiveMessage() {
         try {
             while (messagesReceived.isEmpty()) {
                 wait();
             }
-            List<Message<? extends ClientView>> mess = new ArrayList<>();
+            List<Message<? extends ViewManager>> mess = new ArrayList<>();
             while(!messagesReceived.isEmpty()) {
                 mess.add(messagesReceived.poll());
             }
