@@ -2,9 +2,9 @@ package network.messages.toclient;
 
 import model.Player;
 import network.messages.Message;
-import view.ViewManager;
+import view.screens.Screen;
 
-public class ActivePlayerMessage implements Message<ViewManager> {
+public class ActivePlayerMessage implements Message<Screen> {
     private final Player activePlayer;
 
     public ActivePlayerMessage(Player activePlayer) {
@@ -12,7 +12,7 @@ public class ActivePlayerMessage implements Message<ViewManager> {
     }
 
     @Override
-    public void execute(ViewManager target) {
+    public void execute(Screen target) {
         target.receiveActivePlayer(activePlayer);
     }
 }

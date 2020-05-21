@@ -2,12 +2,12 @@ package network.messages.toclient;
 
 import model.Player;
 import network.messages.Message;
-import view.ViewManager;
+import view.screens.Screen;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerListMessage implements Message<ViewManager> {
+public class PlayerListMessage implements Message<Screen> {
     private final List<Player> playerList;
 
 
@@ -16,7 +16,7 @@ public class PlayerListMessage implements Message<ViewManager> {
     }
 
     @Override
-    public void execute(ViewManager target) {
+    public void execute(Screen target) {
         target.receivePlayerList(new ArrayList<>(playerList));
     }
 }

@@ -3,6 +3,7 @@ package controller;
 import model.Game;
 
 import network.messages.Message;
+import network.messages.MessageTarget;
 import view.ViewManager;
 import view.RemoteView;
 
@@ -29,7 +30,7 @@ public class Controller {
 
 
 
-    void sendMessage(RemoteView view, Message<ViewManager> message){
+    void sendMessage(RemoteView view, Message<? extends MessageTarget> message){
         view.sendMessage(message);
     }
 

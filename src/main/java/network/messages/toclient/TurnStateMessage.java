@@ -2,9 +2,9 @@ package network.messages.toclient;
 
 import model.Turn;
 import network.messages.Message;
-import view.ViewManager;
+import view.screens.Screen;
 
-public class TurnStateMessage implements Message<ViewManager> {
+public class TurnStateMessage implements Message<Screen> {
     private final Turn.State turnState;
 
     public TurnStateMessage(Turn.State turnState) {
@@ -12,7 +12,7 @@ public class TurnStateMessage implements Message<ViewManager> {
     }
 
     @Override
-    public void execute(ViewManager target) {
+    public void execute(Screen target) {
         target.receiveStateChange(turnState);
     }
 }

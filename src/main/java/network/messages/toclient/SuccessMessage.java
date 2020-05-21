@@ -1,11 +1,11 @@
 package network.messages.toclient;
 
 import network.messages.Message;
-import view.ViewManager;
+import view.screens.Screen;
 
-public class SuccessMessage implements Message<ViewManager> {
+public class SuccessMessage implements Message<Screen> {
     @Override
-    public void execute(ViewManager target) {
+    public void execute(Screen target) {
 
     }
 }

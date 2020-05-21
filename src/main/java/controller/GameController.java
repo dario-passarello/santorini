@@ -70,6 +70,6 @@ public class GameController extends StateMachineController{
     @Override
     protected void sendStateError(RemoteView remoteview){
         Game.State state = game.getStateIdentifier();
-        controller.sendMessage(remoteview, new StateErrorMessage<>(state));
+        controller.sendMessage(remoteview, new StateErrorMessage<Game.State>(state));
     }
 }

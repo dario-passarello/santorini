@@ -3,11 +3,11 @@ package network.messages.toclient;
 import model.Builder;
 import network.messages.Message;
 import utils.Coordinate;
-import view.ViewManager;
+import view.screens.Screen;
 
 import java.util.List;
 
-public class AllowedSquaresMessage implements Message<ViewManager> {
+public class AllowedSquaresMessage implements Message<Screen> {
     private final Builder builder;
     private final List<Coordinate> allowedSquares;
     private final boolean specialPower;
@@ -20,7 +20,7 @@ public class AllowedSquaresMessage implements Message<ViewManager> {
 
 
     @Override
-    public void execute(ViewManager target) {
+    public void execute(Screen target) {
         target.receiveAllowedSquares(builder, allowedSquares, specialPower);
     }
 }

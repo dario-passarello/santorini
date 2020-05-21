@@ -3,9 +3,9 @@ package network.messages.toclient;
 import model.Game;
 import model.Player;
 import network.messages.Message;
-import view.ViewManager;
+import view.screens.Screen;
 
-public class GameStateMessage implements Message<ViewManager> {
+public class GameStateMessage implements Message<Screen> {
 
     private final Game.State state;
     private final Player activePlayerName;
@@ -16,7 +16,7 @@ public class GameStateMessage implements Message<ViewManager> {
     }
 
     @Override
-    public void execute(ViewManager target) {
+    public void execute(Screen target) {
         target.receiveGameState(state, activePlayerName);
     }
 }

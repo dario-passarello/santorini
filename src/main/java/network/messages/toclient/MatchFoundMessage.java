@@ -1,11 +1,11 @@
 package network.messages.toclient;
 
 import network.messages.Message;
-import view.ViewManager;
+import view.screens.Screen;
 
 import java.util.List;
 
-public class MatchFoundMessage implements Message<ViewManager> {
+public class MatchFoundMessage implements Message<Screen> {
     String assignedUsername;
     List<String> players;
     public MatchFoundMessage(String assignedUsername, List<String> players){
@@ -13,7 +13,7 @@ public class MatchFoundMessage implements Message<ViewManager> {
         this.players = players;
     }
     @Override
-    public void execute(ViewManager target) {
+    public void execute(Screen target) {
         //TODO
     }
 }

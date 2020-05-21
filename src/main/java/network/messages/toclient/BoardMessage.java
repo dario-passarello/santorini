@@ -2,9 +2,9 @@ package network.messages.toclient;
 
 import model.Board;
 import network.messages.Message;
-import view.ViewManager;
+import view.screens.Screen;
 
-public class BoardMessage implements Message<ViewManager> {
+public class BoardMessage implements Message<Screen> {
     private final Board board;
 
     public BoardMessage(Board board) {
@@ -12,7 +12,7 @@ public class BoardMessage implements Message<ViewManager> {
     }
 
     @Override
-    public void execute(ViewManager target) {
+    public void execute(Screen target) {
         target.receiveBoard(board);
     }
 }

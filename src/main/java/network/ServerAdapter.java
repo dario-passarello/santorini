@@ -2,6 +2,7 @@ package network;
 
 import network.messages.Message;
 import network.messages.MessageTarget;
+import view.screens.Screen;
 import view.ViewManager;
 
 import java.io.IOException;
@@ -18,18 +19,12 @@ public class ServerAdapter implements Runnable{
     private ObjectInputStream inStream;
     private final AtomicBoolean stopped;
 
-    public ServerAdapter(ViewManager view, String serverIp, int port) {
+    public ServerAdapter(ViewManager view, String serverIp, int port) throws IOException {
         stopped = new AtomicBoolean(false);
         this.view = view;
-        try{
-            socketToServer = new Socket(serverIp,port);
-            outStream = new ObjectOutputStream(socketToServer.getOutputStream());
-            inStream = new ObjectInputStream(socketToServer.getInputStream());
-        } catch (IOException e){
-            e.printStackTrace();
-            //TODO Notify connection failed
-        }
-
+        socketToServer = new Socket(serverIp,port);
+        outStream = new ObjectOutputStream(socketToServer.getOutputStream());
+        inStream = new ObjectInputStream(socketToServer.getInputStream());
     }
 
     @Override
@@ -45,8 +40,8 @@ public class ServerAdapter implements Runnable{
     private void listen() {
         try{
             while (!stopped.get()){
-                Message<ViewManager> mess = (Message<ViewManager>) inStream.readObject();
-                mess.execute(view);
+                Message<Screen> mess = (Message<Screen>) inStream.readObject();
+                view.receiveMessage(mess);
             }
         }
         catch (IOException | ClassNotFoundException | ClassCastException e) {
