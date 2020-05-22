@@ -3,6 +3,7 @@ package view.screens;
 import model.Game;
 import model.Player;
 import model.gods.God;
+import network.messages.toserver.SubmitGodListMessage;
 import view.*;
 
 import java.util.*;
@@ -52,6 +53,10 @@ public abstract class GodSelectionScreen extends Screen {
         } else {
             return new ArrayList<>(chosenGods);
         }
+    }
+
+    protected final boolean readyToSubmit() {
+        return chosenGods.stream().mapToInt(this::godWeight).sum() != getNumberOfPlayers();
     }
 
     //Logic Fields
@@ -104,10 +109,10 @@ public abstract class GodSelectionScreen extends Screen {
         if(!isActiveScreen()){
             throw new ActivityNotAllowedException(ClientErrorMessages.ACTIVITY_NOT_ALLOWED);
         }
-        if(chosenGods.stream().mapToInt(this::godWeight).sum() != getNumberOfPlayers()){
+        if(!readyToSubmit()){
             throw new IllegalActionException(ClientErrorMessages.DATA_INCOMPLETE);
         }
-
+        view.sendMessage(new SubmitGodListMessage(new ArrayList<>(chosenGods)));
     }
 
     //Server Listeners

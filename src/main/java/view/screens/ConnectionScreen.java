@@ -25,7 +25,11 @@ public abstract class ConnectionScreen extends Screen {
 
     public ConnectionScreen(ViewManager view) {
         super(view);
+    }
 
+    //Getter
+    public final boolean readyToConnect(){
+        return port > 0 && port < 65535 && username != null && (numberOfPlayers == 2 || numberOfPlayers == 3);
     }
 
     //Logic fields setter
@@ -34,9 +38,9 @@ public abstract class ConnectionScreen extends Screen {
      * @param ip An ip address
      * @throws IllegalArgumentException if the ip string is empty
      */
-    protected final void setIP(String ip){
+    protected final void setIP(String ip) throws IllegalValueException{
         if(ip.isEmpty()) {
-            throw new IllegalArgumentException(ClientErrorMessages.EMPTY_ADDRESS);
+            throw new IllegalValueException(ClientErrorMessages.EMPTY_ADDRESS);
         }
         this.ip = ip;
     }
@@ -44,11 +48,11 @@ public abstract class ConnectionScreen extends Screen {
     /**
      * Sets the screen port address
      * @param port an integer between 0 and 65535, represent the port number of the remote server
-     * @throws IllegalArgumentException if the port number is not valid
+     * @throws IllegalValueException if the port number is not valid
      */
-    protected final void setPort(int port){
+    protected final void setPort(int port) throws IllegalValueException{
         if(port < 0 || port > 65535) {
-            throw new IllegalArgumentException(ClientErrorMessages.INVALID_PORT);
+            throw new IllegalValueException(ClientErrorMessages.INVALID_PORT);
         }
         this.port = port;
     }
@@ -88,17 +92,18 @@ public abstract class ConnectionScreen extends Screen {
      *   This function waits until the match is found. Loading screen should be shown before calling this function
      */
     protected final void connect() throws IllegalActionException, IOException {
-        if(port < 0 || port > 65535 || username == null || (numberOfPlayers != 2 && numberOfPlayers != 3)) {
+        if(!readyToConnect()) {
             throw new IllegalActionException(ClientErrorMessages.DATA_INCOMPLETE);
         }
+        Screen nextScreen;
         screenBuilder = new GodSelectionScreenBuilder(view.getScreenFactory());
         view.openConnection(ip,port);
         view.sendMessage(new LoginDataMessage(username,numberOfPlayers));
         view.setNumberOfPlayers(numberOfPlayers);
-        screenBuilder.buildScreen();
+        nextScreen = screenBuilder.buildScreen();
         view.setThisPlayerName(username);
         view.setPlayersNames(players);
-        view.changeActiveScreen(view.getScreenFactory().getGodSelectionScreen(activePlayerName));
+        view.changeActiveScreen(nextScreen);
     }
 
     @Override
