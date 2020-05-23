@@ -1,0 +1,2 @@
+Opponent's Turn: 
+If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn.

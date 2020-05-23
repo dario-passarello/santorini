@@ -1,0 +1,2 @@
+Your Turn: 
+If your Workers does not move up, it may build both before and after moving.
