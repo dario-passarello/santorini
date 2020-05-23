@@ -5,6 +5,10 @@ import model.Player;
 import java.util.List;
 
 public interface ScreenFactory {
+    /**
+     *  This method is always called when the run() method of the ViewManager is called
+     */
+    void initialize();
 
     Screen getMenuScreen();
     Screen getCreditsScreen();
