@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class GUISelectionGod extends GodSelectionScreen {
+public class GUIGodSelection extends GodSelectionScreen {
 
     @FXML GridPane keyboard;
     @FXML GridPane godGraphics;
@@ -34,7 +34,7 @@ public class GUISelectionGod extends GodSelectionScreen {
     private ImageView token;
 
 
-    public GUISelectionGod(ViewManager view, String activePlayer) {
+    public GUIGodSelection(ViewManager view, String activePlayer) {
         super(view, activePlayer);
     }
 
@@ -183,14 +183,6 @@ public class GUISelectionGod extends GodSelectionScreen {
         return god;
     }
 
-    public Integer godToNumber(String god){
-        int count = 0;
-        Scanner scan = new Scanner(getClass().getResourceAsStream("assets/numGod.txt"));
-        while(scan.nextLine() != god){
-            count++;
-        }
-        return count;
-    }
 
     @Override
     public void onScreenOpen() {
