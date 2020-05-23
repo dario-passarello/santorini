@@ -18,7 +18,7 @@ public class GUIScreenFactory implements ScreenFactory {
 
     @Override
     public void initialize() {
-
+        App.launch();
     }
 
     @Override
