@@ -1,6 +1,7 @@
 package view.GUI;
 
 import model.Player;
+import view.View;
 import view.screens.Screen;
 import view.screens.ScreenFactory;
 import view.ViewManager;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class GUIScreenFactory implements ScreenFactory {
 
-    private ViewManager viewManager;
+    private final ViewManager viewManager;
 
     public GUIScreenFactory(ViewManager viewManager){
         this.viewManager = viewManager;
@@ -37,7 +38,7 @@ public class GUIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getGodPickScreen(String activePlayer, List<String> godsAvailable) {
-        return null;
+        return new GUIPickGod(viewManager,activePlayer,godsAvailable); //Example
     }
 
     @Override

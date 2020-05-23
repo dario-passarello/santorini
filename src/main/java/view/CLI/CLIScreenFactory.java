@@ -15,6 +15,7 @@ public class CLIScreenFactory implements ScreenFactory {
         this.viewManager = viewManager;
     }
 
+
     @Override
     public Screen getMenuScreen() {
         return null;

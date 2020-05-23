@@ -10,14 +10,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Defines a common interface for all Client-Side Views
- * Client side Views are the targets of all message sent from
- * the server using the @link{MessageToView} interface
+ * Handles the view screens, and calls server adapters methods in order to communicate
+ * with the server
  */
-public class ViewManager{
+public class ViewManager implements Runnable{
 
     private ServerAdapter serverAdapter;
-    private final ScreenFactory screenFactory;
+    private ScreenFactory screenFactory;
     private Screen activeScreen;
 
     //Game persistent info
@@ -25,11 +24,28 @@ public class ViewManager{
     private List<String> playersNames;
     private int numberOfPlayers;
 
-    public ViewManager(ScreenFactory screenFactory) {
+    @Override
+    public void run(){
+        activeScreen = screenFactory.getMenuScreen();
+        activeScreen.onScreenOpen();
+    }
+
+    /**
+     * Sets up the factory for instantiating all view screens.
+     * NOTE: This method should be called before run()
+     * @param screenFactory A ScreenFactory implementation
+     */
+    public void setScreenFactory(ScreenFactory screenFactory){
         this.screenFactory = screenFactory;
     }
 
-
+    /**
+     * Open a connection with the server if it is not already open
+     * @param ip The server hostname
+     * @param port The port address of the server
+     * @throws IOException The connection fails to open
+     * @throws IllegalStateException The connection is already open
+     */
     public void openConnection(String ip, int port) throws IOException {
         if(serverAdapter != null) {
             throw new IllegalStateException(ClientErrorMessages.CONNECTION_ALREADY_OPEN);
@@ -39,6 +55,10 @@ public class ViewManager{
         adapterThread.start();
     }
 
+    /**
+     * Close the connection to the server
+     * @throws IllegalStateException The connection is not open
+     */
     public void closeConnection() {
         if(serverAdapter == null) {
             throw new IllegalStateException(ClientErrorMessages.CONNECTION_CLOSED);
@@ -47,6 +67,11 @@ public class ViewManager{
         serverAdapter = null;
     }
 
+    /**
+     * Sends a message to the server
+     * @param messageToServer The Message to the server with a vaild charater
+     * @throws IllegalStateException The connection is not open
+     */
     public void sendMessage(Message<? extends MessageTarget> messageToServer){
         if(serverAdapter == null) {
             throw new IllegalStateException(ClientErrorMessages.CONNECTION_CLOSED);
@@ -54,16 +79,30 @@ public class ViewManager{
         serverAdapter.sendMessage(messageToServer);
     }
 
+    /**
+     * Receive a message to forward to the screen
+     * NOTE: This method is called from the context of the Server Adapter Listener Thread
+     * @param messageToScreen The message to a Screen
+     */
     public void receiveMessage(Message<Screen> messageToScreen){
         messageToScreen.execute(activeScreen);
     }
 
+    /**
+     * Change the screen seen by the users. Doing these calls the
+     * onScreenClose() method for the old active screen, and then calls
+     * the onScreenOpen() method for the new active screen
+     * @param nextActiveScreen The new screen to display
+     */
     public void changeActiveScreen(Screen nextActiveScreen){
         activeScreen.onScreenClose();
         activeScreen = nextActiveScreen;
         activeScreen.onScreenOpen();
     }
 
+    /**
+     * @return The current screen factory
+     */
     public ScreenFactory getScreenFactory() {
         return screenFactory;
     }
