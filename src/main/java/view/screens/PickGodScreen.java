@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * In this screen all god chosen in the GodSelectionPhase should be displayed.
+ * Every player, in the inverse rotation, will pick the god. Once a god is picked from one
+ * player, the other players could not pick that god. The last player should not pick a god
+ * because he will get the last god remaining.
+ */
 public abstract class PickGodScreen extends Screen{
 
     private String activePlayerName;
@@ -28,18 +34,36 @@ public abstract class PickGodScreen extends Screen{
     }
 
     //Getters
+
+    /**
+     * @return The player name of the player that has to pick the god
+     */
     protected synchronized final String getActivePlayerName() {
         return activePlayerName;
     }
 
+    /**
+     * @return List of the god identifiers available in this game
+     */
     protected final List<String> getAllGodToChoose() {
         return new ArrayList<>(godsToChoose);
     }
 
+    /**
+     * @return List of the god identifiers not picked from the other players
+     */
     protected synchronized final List<String> getGodsRemaining(){
         return new ArrayList<>(godsRemaining);
     }
     //Logic buttons
+    /**
+     * The command method to pick a god, this method will check if the choice is
+     * valid and then send a {@link PickGodMessage} to the controller containing the
+     * identifier of the picked God
+     * @param godName the identifier of the god picked from the player
+     * @throws ActivityNotAllowedException If it's up to this player to pick the god in this turn
+     * @throws IllegalValueException If the  {@param godName} is not an identifier of a god available for being picked
+     *          from the player*/
     protected synchronized void pickGod(String godName) throws IllegalValueException {
         if(!activeScreen){
             throw new ActivityNotAllowedException();

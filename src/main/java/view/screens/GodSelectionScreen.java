@@ -55,6 +55,14 @@ public abstract class GodSelectionScreen extends Screen {
         }
     }
 
+    /**
+     * @param god The god to search in the set of chosen gods
+     * @return true if the god is in the chosen list
+     */
+    protected final boolean isGodChosen(String god) {
+        return chosenGods.contains(god);
+    }
+
     protected final boolean readyToSubmit() {
         return chosenGods.stream().mapToInt(this::godWeight).sum() != getNumberOfPlayers();
     }
