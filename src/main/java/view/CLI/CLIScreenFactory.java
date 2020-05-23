@@ -17,6 +17,11 @@ public class CLIScreenFactory implements ScreenFactory {
 
 
     @Override
+    public void initialize() {
+
+    }
+
+    @Override
     public Screen getMenuScreen() {
         return null;
     }
