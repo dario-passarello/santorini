@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class GUIGodSelection extends GodSelectionScreen {
+public class GUIGodSelection extends GodSelectionScreen implements GUIController {
 
     @FXML GridPane keyboard;
     @FXML GridPane godGraphics;
@@ -34,14 +34,14 @@ public class GUIGodSelection extends GodSelectionScreen {
     private ImageView token;
 
 
-    public GUIGodSelection(ViewManager view, String activePlayer) {
+    public GUIGodSelection(ViewManager view, String activePlayer)  {
         super(view, activePlayer);
     }
 
 
     public void initialize(){
 
-        Integer numGod = 0;
+        int numGod = 0;
         bigCover.setPreserveRatio(true);
         bigCover.setFitHeight(235);
         description.setStyle("-fx-font-size: 12");
@@ -50,7 +50,7 @@ public class GUIGodSelection extends GodSelectionScreen {
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 5; j++) {
                 //Creating buttons
-                button = new Button(numGod.toString());
+                button = new Button(Integer.toString(numGod));
                 button.setMaxSize(200,200);
                 button.setOpacity(0);
                 keyboard.add(button, j, i, 1, 1);
@@ -107,7 +107,7 @@ public class GUIGodSelection extends GodSelectionScreen {
 
     public void displayDefault(){
         URL url = getClass().getResource("assets/placeholder.png");
-        bigCover.setImage(new Image(String.valueOf(url)));
+        bigCover.setImage(new Image(url.toExternalForm()));
         description.setText("Select a god");
     }
 
@@ -190,5 +190,10 @@ public class GUIGodSelection extends GodSelectionScreen {
 
     @Override
     public void onScreenClose() {
+    }
+
+    @Override
+    public String getSceneName() {
+        return "godSelection";
     }
 }

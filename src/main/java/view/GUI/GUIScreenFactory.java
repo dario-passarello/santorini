@@ -1,5 +1,6 @@
 package view.GUI;
 
+import javafx.application.Application;
 import model.Player;
 import view.View;
 import view.screens.Screen;
@@ -17,8 +18,11 @@ public class GUIScreenFactory implements ScreenFactory {
     }
 
     @Override
-    public void initialize() {
-        App.launch();
+    public Screen initialize() {
+        Screen firstScreen = getGodSelectionScreen("dario");
+        GUI.setLaunchController((GUIController) firstScreen);
+        Application.launch(GUI.class);
+        return firstScreen;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class GUIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getGodSelectionScreen(String activePlayer) {
-        return null;
+        return new GUIGodSelection(viewManager,activePlayer);
     }
 
     @Override

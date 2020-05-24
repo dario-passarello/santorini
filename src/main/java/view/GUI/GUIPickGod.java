@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class GUIPickGod extends PickGodScreen {
+public class GUIPickGod extends PickGodScreen implements GUIController {
 
     @FXML HBox godGraphics;
     @FXML HBox token;
@@ -93,5 +93,10 @@ public class GUIPickGod extends PickGodScreen {
     public void receivePlayerList(List<Player> list){
         super.receivePlayerList(list);
         super.getGodsRemaining();
+    }
+
+    @Override
+    public String getSceneName() {
+        return "pickGod";
     }
 }

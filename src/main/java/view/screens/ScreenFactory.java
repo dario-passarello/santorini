@@ -8,7 +8,7 @@ public interface ScreenFactory {
     /**
      *  This method is always called when the run() method of the ViewManager is called
      */
-    void initialize();
+    Screen initialize();
 
     Screen getMenuScreen();
     Screen getCreditsScreen();
