@@ -43,7 +43,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
         int numGod = 0;
         bigCover.setPreserveRatio(true);
-        bigCover.setFitHeight(235);
+        bigCover.setFitHeight(470);
         description.setStyle("-fx-font-size: 12");
         displayDefault();
 
@@ -51,7 +51,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
             for(int j = 0; j < 5; j++) {
                 //Creating buttons
                 button = new Button(Integer.toString(numGod));
-                button.setMaxSize(200,200);
+                button.setMaxSize(400,400);
                 button.setOpacity(0);
                 keyboard.add(button, j, i, 1, 1);
 
@@ -61,7 +61,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                 img = new Image(String.valueOf(url));
                 godImage.setImage(img);
                 godImage.setPreserveRatio(true);
-                godImage.setFitHeight(100);
+                godImage.setFitHeight(200);
                 godGraphics.add(godImage, j, i, 1, 1);
 
                 //Creating ImageViews for token
@@ -135,7 +135,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                 URL url = getClass().getResource("/assets/token.png");
                 selectedGod.setImage(new Image(String.valueOf(url)));
                 selectedGod.setPreserveRatio(true);
-                selectedGod.setFitHeight(100);
+                selectedGod.setFitHeight(200);
                 selectedGod.setOpacity(0.5);
                 if(readyToSubmit()) enableSubmit();
             } catch (IllegalValueException | IllegalActionException e) {
