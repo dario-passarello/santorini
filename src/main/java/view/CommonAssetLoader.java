@@ -4,6 +4,7 @@ import model.gods.Mortal;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class CommonAssetLoader {
     public static final Map<String,String> godsDescriptions = loadFromFile();
@@ -14,7 +15,7 @@ public class CommonAssetLoader {
     }
 
     private static Map<String,String> loadFromFile(){
-        //TODO
+
         return new HashMap<>();
     }
 

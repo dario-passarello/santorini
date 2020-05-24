@@ -57,7 +57,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
                 //Creating god images
                 godImage = new ImageView();
-                URL url = getClass().getResource("gods/"+numGod+".png");
+                URL url = getClass().getResource("/gods/"+numGod+".png");
                 img = new Image(String.valueOf(url));
                 godImage.setImage(img);
                 godImage.setPreserveRatio(true);
@@ -70,7 +70,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
 
                 //Setting listeners
-                Integer finalNumGod = numGod;
+                int finalNumGod = numGod;
                 button.setOnMouseEntered((event) -> {
                     try {
                         showGod(new Image(String.valueOf(url)), finalNumGod);
@@ -90,7 +90,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                             e.printStackTrace();
                         }
                     });
-                } else{
+                } else {
                     buttonGraphic.setOpacity(0);
                     wait.setText("Another player is choosing the gods!");
                 }
@@ -100,13 +100,13 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
         }
     }
 
-    public void showGod(Image img, Integer numGod) throws FileNotFoundException {
+    public void showGod(Image img, int numGod) throws FileNotFoundException {
         displayHoveredGod(img);
         showDescription(numGod);
     }
 
     public void displayDefault(){
-        URL url = getClass().getResource("assets/placeholder.png");
+        URL url = getClass().getResource("/assets/placeholder.png");
         bigCover.setImage(new Image(url.toExternalForm()));
         description.setText("Select a god");
     }
@@ -115,8 +115,8 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
         bigCover.setImage(img);
     }
 
-    public void showDescription(Integer numGod) {
-        Scanner scan = new Scanner(getClass().getResourceAsStream("descriptions/d"+numGod+".txt"));
+    public void showDescription(int numGod) {
+        Scanner scan = new Scanner(getClass().getResourceAsStream("/descriptions/d"+numGod+".txt"));
         String description = "";
         while(scan.hasNextLine()){
             description = description.concat(scan.nextLine()+"\n");
@@ -125,13 +125,14 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
         this.description.setText(description);
     }
 
-    public void takeClickedGod(Integer numGod){
+    
+    public void takeClickedGod(int numGod){
         ImageView selectedGod = (ImageView) getNodeFromGridPane(selected, numGod%5, numGod/5);
         assert selectedGod != null;
         if(!isGodChosen(numberToGod(numGod))) {
             try{
                 addGod(numberToGod(numGod));
-                URL url = getClass().getResource("assets/token.png");
+                URL url = getClass().getResource("/assets/token.png");
                 selectedGod.setImage(new Image(String.valueOf(url)));
                 selectedGod.setPreserveRatio(true);
                 selectedGod.setFitHeight(100);
@@ -172,7 +173,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
     public String numberToGod(Integer i){
         int count = 0;
-        Scanner scan = new Scanner(getClass().getResourceAsStream("assets/numGod.txt"));
+        Scanner scan = new Scanner(getClass().getResourceAsStream("/assets/numGod.txt"));
         String god;
         while(count < i){
             scan.nextLine();
@@ -186,6 +187,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
     @Override
     public void onScreenOpen() {
+        GUI.setSceneController(this);
     }
 
     @Override
