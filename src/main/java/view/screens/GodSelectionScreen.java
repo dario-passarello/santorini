@@ -58,7 +58,7 @@ public abstract class GodSelectionScreen extends Screen {
     }
 
     protected final boolean readyToSubmit() {
-        return chosenGods.stream().mapToInt(this::godWeight).sum() != getNumberOfPlayers();
+        return chosenGods.stream().mapToInt(this::godWeight).sum() == getNumberOfPlayers();
     }
 
     //Logic Fields
