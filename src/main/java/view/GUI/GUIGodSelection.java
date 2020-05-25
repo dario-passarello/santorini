@@ -37,7 +37,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
         int numGod = 0;
         bigCover.setPreserveRatio(true);
         bigCover.setFitHeight(470);
-        description.setStyle("-fx-font-size: 12");
+        description.setStyle("-fx-font-size: 15pt");
         displayDefault();
 
         for(int i = 0; i < 3; i++){
@@ -74,9 +74,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                     submit.setOnMouseClicked((event) -> {
                         try {
                             submitGodList();
-                        } catch (IllegalActionException e) {
-                            e.printStackTrace();
-                        }
+                        } catch (IllegalActionException e) {}
                     });
                 } else {
                     buttonGraphic.setOpacity(0);
@@ -119,17 +117,13 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                 selectedGod.setFitHeight(200);
                 selectedGod.setOpacity(0.5);
                 if(readyToSubmit()) enableSubmit();
-            } catch (IllegalValueException | IllegalActionException e) {
-                e.printStackTrace();
-            }
+            } catch (IllegalValueException | IllegalActionException e) {}
         } else {
             try {
                 removeGod(getGodNameFromID(numGod));
                 selectedGod.setImage(null);
                 disableSubmit();
-            } catch (IllegalValueException | IllegalActionException e) {
-                e.printStackTrace();
-            }
+            } catch (IllegalValueException | IllegalActionException e) {}
         }
     }
 
