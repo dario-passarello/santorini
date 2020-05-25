@@ -1,2 +1,0 @@
-Your Build:
-Your Worker may build one additional block (not dome) on top of your first block.

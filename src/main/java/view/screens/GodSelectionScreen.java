@@ -29,12 +29,6 @@ public abstract class GodSelectionScreen extends Screen {
 
     //Getters
 
-    /**
-     * @return all gods string identifier
-     */
-    protected final List<String> getAllGods(){
-        return new ArrayList<>(CommonAssetLoader.godsDescriptions.keySet());
-    }
 
     /**
      * @return A list with the gods chosen from the player, if the players

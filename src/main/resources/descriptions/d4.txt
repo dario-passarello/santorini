@@ -1,2 +1,0 @@
-Your Build:
-Your Worker may build a dome at any level.

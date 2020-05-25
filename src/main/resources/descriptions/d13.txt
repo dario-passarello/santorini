@@ -1,2 +1,0 @@
-Your Move:
-Each time your Worker moves into a perimeter space, it may immediately move again.
