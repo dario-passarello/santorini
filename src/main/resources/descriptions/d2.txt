@@ -1,2 +1,0 @@
-Your Move:
-Your Worker may move one additional time, but not back to its initial space.

@@ -1,0 +1,79 @@
+{
+  "gods": [
+    {
+      "id" : 0,
+      "name": "Mortal",
+      "description": "A simple, and a normal mortal player. No special powers, that's it!"
+    },
+    {
+      "id" : 1,
+      "name": "Apollo",
+      "description": "Your Move:\nYour Worker may move into an opponent Worker's space by forcing their Worker to the space yours just vacated."
+    },
+    {
+      "id" : 2,
+      "name" : "Artemis",
+      "description" : "Your Move:\nYour Worker may move one additional time, but not back to its initial space."
+    },
+    {
+      "id": 3,
+      "name": "Athena",
+      "description": "Opponent's Turn: \nIf one of your Workers moved up on your last turn, opponent Workers cannot move up this turn."
+    },
+    {
+      "id": 4,
+      "name" : "Atlas",
+      "description" : "Your Build:\nYour Worker may build a dome at any level."
+    },
+    {
+      "id" : 5,
+      "name" : "Demeter",
+      "description" : "Your Build:\nYour Worker may build one additional time, but not on the same space."
+    },
+    {
+      "id" : 6,
+      "name" : "Hephaestus",
+      "description" : "Your Build:\nYour Worker may build one additional block (not dome) on top of your first block."
+    },
+    {
+      "id" : 7,
+      "name" : "Minotaur",
+      "description" : "Your Move: \nYour Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level."
+    },
+    {
+      "id" : 8,
+      "name" : "Pan",
+      "description" : "Win Condition: \nYou also win if your Worker moves down two or more levels."
+    },
+    {
+      "id" : 9,
+      "name" : "Prometheus",
+      "description" : "Your Turn: \nIf your Workers does not move up, it may build both before and after moving."
+    },
+    {
+      "id" : 10,
+      "name" : "Chronus",
+      "description" : "Win Condition:\nYou also win when there are at least five Complete Towers on the board."
+    },
+    {
+      "id" : 11,
+      "name" : "Hera",
+      "description" : "Opponent's Turn:\nAn opponent cannot win by moving into a perimeter space."
+    },
+    {
+      "id" : 12,
+      "name" : "Hestia",
+      "description" : "Your Build:\nYour Worker may build one additional time, but this cannot be on a perimeter space."
+    },
+    {
+      "id" : 13,
+      "name" : "Triton",
+      "description" : "Your Move:\nEach time your Worker moves into a perimeter space, it may immediately move again."
+    },
+    {
+      "id" : 14,
+      "name" : "Zeus",
+      "description" : "Your Build:\nYour Worker may build a block under itself."
+    }
+  ]
+}

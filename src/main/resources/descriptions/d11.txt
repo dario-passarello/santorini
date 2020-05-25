@@ -1,2 +1,0 @@
-Opponent's Turn:
-An opponent cannot win by moving into a perimeter space.

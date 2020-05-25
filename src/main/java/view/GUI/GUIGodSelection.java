@@ -8,14 +8,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import view.CommonAssetLoader;
 import view.IllegalActionException;
 import view.IllegalValueException;
 import view.ViewManager;
 import view.screens.GodSelectionScreen;
 
-import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Scanner;
 
 public class GUIGodSelection extends GodSelectionScreen implements GUIController {
 
@@ -28,11 +27,6 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
     @FXML Button submit;
     @FXML Label wait;
 
-    private Button button;
-    private ImageView godImage;
-    private Image img;
-    private ImageView token;
-
 
     public GUIGodSelection(ViewManager view, String activePlayer)  {
         super(view, activePlayer);
@@ -40,7 +34,6 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
 
     public void initialize(){
-
         int numGod = 0;
         bigCover.setPreserveRatio(true);
         bigCover.setFitHeight(470);
@@ -50,34 +43,29 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 5; j++) {
                 //Creating buttons
-                button = new Button(Integer.toString(numGod));
+                Button button = new Button(Integer.toString(numGod));
                 button.setMaxSize(400,400);
                 button.setOpacity(0);
                 keyboard.add(button, j, i, 1, 1);
 
                 //Creating god images
-                godImage = new ImageView();
+                ImageView godImage = new ImageView();
                 URL url = getClass().getResource("/gods/"+numGod+".png");
-                img = new Image(String.valueOf(url));
+                Image img = CommonAssetLoader.getGodAssetsBundle(numGod).loadGodCardImage();
                 godImage.setImage(img);
                 godImage.setPreserveRatio(true);
                 godImage.setFitHeight(200);
                 godGraphics.add(godImage, j, i, 1, 1);
 
                 //Creating ImageViews for token
-                token = new ImageView();
+                ImageView token = new ImageView();
                 selected.add(token, j, i, 1, 1);
 
 
                 //Setting listeners
                 int finalNumGod = numGod;
-                button.setOnMouseEntered((event) -> {
-                    try {
-                        showGod(new Image(String.valueOf(url)), finalNumGod);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                });
+                Image bigGodImage = CommonAssetLoader.getGodAssetsBundle(finalNumGod).loadGodCardImage();
+                button.setOnMouseEntered((event) -> showGod(bigGodImage, finalNumGod));
                 button.setOnMouseExited((event -> displayDefault()));
 
                 //Players distinction
@@ -94,13 +82,12 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                     buttonGraphic.setOpacity(0);
                     wait.setText("Another player is choosing the gods!");
                 }
-
                 numGod++;
             }
         }
     }
 
-    public void showGod(Image img, int numGod) throws FileNotFoundException {
+    public void showGod(Image img, int numGod) {
         displayHoveredGod(img);
         showDescription(numGod);
     }
@@ -115,23 +102,17 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
         bigCover.setImage(img);
     }
 
-    public void showDescription(int numGod) {
-        Scanner scan = new Scanner(getClass().getResourceAsStream("/descriptions/d"+numGod+".txt"));
-        String description = "";
-        while(scan.hasNextLine()){
-            description = description.concat(scan.nextLine()+"\n");
-        }
-        scan.close();
-        this.description.setText(description);
+    public void showDescription(int godID) {
+        this.description.setText(CommonAssetLoader.getGodAssetsBundle(godID).getDescription());
     }
 
     
     public void takeClickedGod(int numGod){
         ImageView selectedGod = (ImageView) getNodeFromGridPane(selected, numGod%5, numGod/5);
         assert selectedGod != null;
-        if(!isGodChosen(numberToGod(numGod))) {
+        if(!isGodChosen(getGodNameFromID(numGod))) {
             try{
-                addGod(numberToGod(numGod));
+                addGod(getGodNameFromID(numGod));
                 URL url = getClass().getResource("/assets/token.png");
                 selectedGod.setImage(new Image(String.valueOf(url)));
                 selectedGod.setPreserveRatio(true);
@@ -143,7 +124,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
             }
         } else {
             try {
-                removeGod(numberToGod(numGod));
+                removeGod(getGodNameFromID(numGod));
                 selectedGod.setImage(null);
                 disableSubmit();
             } catch (IllegalValueException | IllegalActionException e) {
@@ -171,17 +152,8 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
         return null;
     }
 
-    public String numberToGod(Integer i){
-        int count = 0;
-        Scanner scan = new Scanner(getClass().getResourceAsStream("/assets/numGod.txt"));
-        String god;
-        while(count < i){
-            scan.nextLine();
-            count++;
-        }
-        god = scan.nextLine();
-        scan.close();
-        return god;
+    public String getGodNameFromID(Integer id){
+        return CommonAssetLoader.getGodAssetsBundle(id).getName();
     }
 
 
