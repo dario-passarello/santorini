@@ -3,8 +3,10 @@ package view.GUI;
 import controller.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import view.screens.MenuScreen;
@@ -18,7 +20,14 @@ public class GUI extends Application {
     private static Stage stage;
     private static GUIController launchScene;
 
-
+    static Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
+    }
 
 
     @Override

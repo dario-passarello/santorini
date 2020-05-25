@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class CommonAssetLoader {
+public class AssetLoader {
 
     public static final String JSON_FILE_PATH = "/gods/gods.json";
     private static final Map<String,GodAssetsBundle> godAssetsIndexForName =
@@ -49,7 +49,7 @@ public class CommonAssetLoader {
     private static <T> Map<T,GodAssetsBundle> loadAssetsFromFile(Function<GodAssetsBundle,T> keyMapper) {
         Gson gson = new Gson();
         StringBuilder jsonBuilder = new StringBuilder();
-        Scanner jsonScanner = new Scanner(CommonAssetLoader.class.getResourceAsStream(JSON_FILE_PATH));
+        Scanner jsonScanner = new Scanner(AssetLoader.class.getResourceAsStream(JSON_FILE_PATH));
         while(jsonScanner.hasNext()){
             jsonBuilder.append(jsonScanner.nextLine());
         }
@@ -60,4 +60,7 @@ public class CommonAssetLoader {
     }
 
 
+    public static String getGodNameFromID(Integer id){
+        return getGodAssetsBundle(id).getName();
+    }
 }

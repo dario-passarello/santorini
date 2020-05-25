@@ -38,10 +38,10 @@ public abstract class GodSelectionScreen extends Screen {
      *
      */
     protected final List<String> getChosenGodList(){
-        if(chosenGods.contains(CommonAssetLoader.MORTAL_NAME)){
+        if(chosenGods.contains(AssetLoader.MORTAL_NAME)){
             ArrayList<String> mortals = new ArrayList<>();
             for(int i = 0; i < getNumberOfPlayers(); i++){
-                mortals.add(CommonAssetLoader.MORTAL_NAME);
+                mortals.add(AssetLoader.MORTAL_NAME);
             }
             return mortals;
         } else {
@@ -75,7 +75,7 @@ public abstract class GodSelectionScreen extends Screen {
         if(!isActiveScreen()){
             throw new ActivityNotAllowedException(ClientErrorMessages.ACTIVITY_NOT_ALLOWED);
         }
-        if(!CommonAssetLoader.isAGod(name)) {
+        if(!AssetLoader.isAGod(name)) {
             throw new IllegalValueException(ClientErrorMessages.INVALID_GOD);
         }
         int weight = godWeight(name) + chosenGods.stream().mapToInt(this::godWeight).sum();
@@ -160,7 +160,7 @@ public abstract class GodSelectionScreen extends Screen {
     }
 
     private int godWeight(String god) {
-        return god.equals(CommonAssetLoader.MORTAL_NAME) ? getNumberOfPlayers() : 1;
+        return god.equals(AssetLoader.MORTAL_NAME) ? getNumberOfPlayers() : 1;
     }
 
 

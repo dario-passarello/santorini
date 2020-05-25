@@ -39,7 +39,7 @@ public class GodAssetsBundle {
     }
 
     public Image loadGodCardImage(){
-        return new Image(CommonAssetLoader.class.getResourceAsStream(getGodCardsPath()));
+        return new Image(AssetLoader.class.getResourceAsStream(getGodCardsPath()));
     }
 
 }
