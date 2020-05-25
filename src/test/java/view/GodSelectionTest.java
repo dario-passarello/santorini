@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GodSelectionTest {
-    //@Test
+    @Test
     public void test(){
         //Server server = new Server();
         //new Thread(server).start();
