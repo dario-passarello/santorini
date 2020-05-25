@@ -1,14 +1,13 @@
 package view.GUI;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import view.CommonAssetLoader;
+import view.AssetLoader;
 import view.IllegalActionException;
 import view.IllegalValueException;
 import view.ViewManager;
@@ -51,7 +50,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                 //Creating god images
                 ImageView godImage = new ImageView();
                 URL url = getClass().getResource("/gods/"+numGod+".png");
-                Image img = CommonAssetLoader.getGodAssetsBundle(numGod).loadGodCardImage();
+                Image img = AssetLoader.getGodAssetsBundle(numGod).loadGodCardImage();
                 godImage.setImage(img);
                 godImage.setPreserveRatio(true);
                 godImage.setFitHeight(200);
@@ -64,7 +63,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
                 //Setting listeners
                 int finalNumGod = numGod;
-                Image bigGodImage = CommonAssetLoader.getGodAssetsBundle(finalNumGod).loadGodCardImage();
+                Image bigGodImage = AssetLoader.getGodAssetsBundle(finalNumGod).loadGodCardImage();
                 button.setOnMouseEntered((event) -> showGod(bigGodImage, finalNumGod));
                 button.setOnMouseExited((event -> displayDefault()));
 
@@ -101,16 +100,16 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
     }
 
     public void showDescription(int godID) {
-        this.description.setText(CommonAssetLoader.getGodAssetsBundle(godID).getDescription());
+        this.description.setText(AssetLoader.getGodAssetsBundle(godID).getDescription());
     }
 
     
     public void takeClickedGod(int numGod){
-        ImageView selectedGod = (ImageView) getNodeFromGridPane(selected, numGod%5, numGod/5);
+        ImageView selectedGod = (ImageView) GUI.getNodeFromGridPane(selected, numGod%5, numGod/5);
         assert selectedGod != null;
-        if(!isGodChosen(getGodNameFromID(numGod))) {
+        if(!isGodChosen(AssetLoader.getGodNameFromID(numGod))) {
             try{
-                addGod(getGodNameFromID(numGod));
+                addGod(AssetLoader.getGodNameFromID(numGod));
                 URL url = getClass().getResource("/assets/token.png");
                 selectedGod.setImage(new Image(String.valueOf(url)));
                 selectedGod.setPreserveRatio(true);
@@ -120,7 +119,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
             } catch (IllegalValueException | IllegalActionException e) {}
         } else {
             try {
-                removeGod(getGodNameFromID(numGod));
+                removeGod(AssetLoader.getGodNameFromID(numGod));
                 selectedGod.setImage(null);
                 disableSubmit();
             } catch (IllegalValueException | IllegalActionException e) {}
@@ -135,19 +134,6 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
     public void enableSubmit(){
         submit.setDisable(false);
         buttonGraphic.setOpacity(1);
-    }
-
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                return node;
-            }
-        }
-        return null;
-    }
-
-    public String getGodNameFromID(Integer id){
-        return CommonAssetLoader.getGodAssetsBundle(id).getName();
     }
 
 
