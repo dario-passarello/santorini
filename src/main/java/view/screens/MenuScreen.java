@@ -7,5 +7,15 @@ public abstract class MenuScreen extends Screen{
         super(view);
     }
 
+    public final void quitGame(){
+
+    }
+
+    /**
+     *  Logic button for opening the connection screen
+     */
+    public final void goToConnectionScreen(){
+        view.changeActiveScreen(view.getScreenFactory().getConnectionScreen());
+    }
 
 }
