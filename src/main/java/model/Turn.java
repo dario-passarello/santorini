@@ -7,7 +7,6 @@ import utils.Observable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Turn implements Observable<TurnObserver> {
@@ -72,7 +71,7 @@ public class Turn implements Observable<TurnObserver> {
      */
     public void setTurnState(TurnState state) {
         this.currentState = state;
-        notifyObservers((TurnObserver obs) -> obs.receiveStateChange(currentState.getStateID()));
+        notifyObservers((TurnObserver obs) -> obs.receiveTurnState(currentState.getStateID(), new Player(currentPlayer)));
     }
 
     public Builder getActiveBuilder() {
@@ -124,7 +123,6 @@ public class Turn implements Observable<TurnObserver> {
         } else {
             this.setTurnState(this.moveState);
             this.notifyObservers((TurnObserver obs) -> { //Start composite update of observers
-                obs.receiveActivePlayer(new Player(currentPlayer)); //Send current player
                 obs.receiveBoard(new Board(game.getBoard())); //Send a copy of the board
                 obs.receiveBuildersPositions(currentPlayer.getBuilders().stream() //Send a copy
                         .map(Builder::new)

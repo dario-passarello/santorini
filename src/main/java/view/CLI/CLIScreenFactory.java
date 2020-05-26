@@ -17,8 +17,7 @@ public class CLIScreenFactory implements ScreenFactory {
 
 
     @Override
-    public Screen initialize() {
-        return null;
+    public void initialize(Screen firstScreen) {
     }
 
     @Override

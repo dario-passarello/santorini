@@ -10,7 +10,6 @@ import network.messages.toclient.*;
 import utils.Coordinate;
 
 import java.util.List;
-import java.util.Map;
 
 public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
 
@@ -64,8 +63,8 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     }
 
     @Override
-    public void receiveStateChange(Turn.State state) {
-        client.sendMessage(new TurnStateMessage(state));
+    public void receiveTurnState(Turn.State state, Player player) {
+        client.sendMessage(new TurnStateMessage(state, player));
     }
 
     @Override
