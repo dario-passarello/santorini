@@ -53,6 +53,9 @@ public class GUI extends Application {
     public static Scene getCurrentScene(){
         return currentScene;
     }
+    public static Stage getStage() {
+        return stage;
+    }
 
     private Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/"+ fxml + ".fxml"));

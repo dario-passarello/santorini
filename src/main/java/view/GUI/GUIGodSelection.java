@@ -1,12 +1,15 @@
 package view.GUI;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import view.AssetLoader;
 import view.IllegalActionException;
 import view.IllegalValueException;
@@ -16,7 +19,7 @@ import view.screens.GodSelectionScreen;
 import java.net.URL;
 
 public class GUIGodSelection extends GodSelectionScreen implements GUIController {
-
+    @FXML StackPane rootPane;
     @FXML GridPane keyboard;
     @FXML GridPane godGraphics;
     @FXML GridPane selected;
@@ -33,6 +36,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
 
     public void initialize(){
+       Stage stage = GUI.getStage();
         int numGod = 0;
         bigCover.setPreserveRatio(true);
         bigCover.setFitHeight(470);
@@ -53,7 +57,11 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                 Image img = AssetLoader.getGodAssetsBundle(numGod).loadGodCardImage();
                 godImage.setImage(img);
                 godImage.setPreserveRatio(true);
-                godImage.setFitHeight(200);
+                //godImage.setFitHeight(200);
+
+                godImage.fitHeightProperty().bind(godGraphics.heightProperty().divide(4));
+                godImage.fitWidthProperty().bind(godGraphics.widthProperty().divide(4));
+
                 godGraphics.add(godImage, j, i, 1, 1);
 
                 //Creating ImageViews for token
@@ -82,6 +90,18 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                 numGod++;
             }
         }
+
+        //rootPane.prefHeightProperty().bind(stage.heightProperty().divide(10));
+        //rootPane.prefWidthProperty().bind(stage.widthProperty().divide(10));
+
+        keyboard.prefWidthProperty().bind(rootPane.widthProperty().divide(2));
+        keyboard.prefHeightProperty().bind(rootPane.heightProperty().divide(2));
+
+        godGraphics.prefWidthProperty().bind(rootPane.widthProperty().divide(2));
+        godGraphics.prefHeightProperty().bind(rootPane.heightProperty().divide(2));
+
+        selected.prefWidthProperty().bind(rootPane.widthProperty().divide(2));
+        selected.prefHeightProperty().bind(rootPane.heightProperty().divide(2));
     }
 
     public void showGod(Image img, int numGod) {
