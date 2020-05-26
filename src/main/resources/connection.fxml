@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="246.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@assets/cover.png" />
+               </image>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </ImageView>
+            <VBox maxHeight="246.0" prefHeight="246.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <Label text="IP" />
+                  <TextField fx:id="ip" />
+                  <Label text="Port" />
+                  <TextField fx:id="port">
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin></TextField>
+                  <Label text="Nickname" />
+                  <TextField fx:id="nickname" promptText="insert your nickname here" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <Label text="Number of players" />
+                        <ChoiceBox fx:id="choiceBox" prefWidth="50.0" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets bottom="10.0" />
+                     </opaqueInsets>
+                  </HBox>
+                  <Button alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#startButtonPushed" text="Start">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
+      </HBox>
+   </center>
+</BorderPane>
