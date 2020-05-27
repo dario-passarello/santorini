@@ -14,13 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionTest {
-    @Test
+    //@Test
     public void test(){
 
         ViewManager manager = new ViewManager();
-        manager.setPlayersNames(List.of("Baluardo","Marcantonio","Edoardo"));
-        manager.setNumberOfPlayers(3);
-        manager.setThisPlayerName("Baluardo");
         Screen firstScreen = new GUIConnection(manager);
         GUI.setLaunchController((GUIController) firstScreen);
         Application.launch(GUI.class);

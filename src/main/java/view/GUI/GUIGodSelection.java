@@ -58,7 +58,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
                 //Creating god images
                 ImageView godImage = new ImageView();
-                URL url = getClass().getResource("/gods/"+numGod+".png");
+                //URL url = getClass().getResource("/gods/"+numGod+".png");
                 Image img = AssetLoader.getGodAssetsBundle(numGod).loadGodCardImage();
                 godImage.setImage(img);
                 godImage.setPreserveRatio(true);
@@ -86,7 +86,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                     });
                 } else {
                     buttonGraphic.setOpacity(0);
-                    wait.setStyle("-fx-text-fill: darkred;-fx-font: bold; -fx-font-family: 'Arial Black' ;-fx-font-size: 15pt");
+                    wait.setStyle("-fx-text-fill: darkred;-fx-font: bold; -fx-font-family: 'Arial Black' ;-fx-font-size: 15");
                     wait.setText("Another player is choosing the gods!");
                 }
                 numGod++;
@@ -126,13 +126,13 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                 selectedGod.setFitHeight(200);
                 selectedGod.setOpacity(0.5);
                 if(readyToSubmit()) enableSubmit();
-            } catch (IllegalValueException | IllegalActionException e) {}
+            } catch (IllegalValueException | IllegalActionException ignored) {}
         } else {
             try {
                 removeGod(AssetLoader.getGodNameFromID(numGod));
                 selectedGod.setImage(null);
                 disableSubmit();
-            } catch (IllegalValueException | IllegalActionException e) {}
+            } catch (IllegalValueException | IllegalActionException ignored) {}
         }
     }
 

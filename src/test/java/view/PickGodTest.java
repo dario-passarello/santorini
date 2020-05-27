@@ -10,7 +10,7 @@ import view.screens.Screen;
 import java.util.List;
 
 public class PickGodTest {
-    @Test
+    //@Test
     public void test(){
 
         ViewManager manager = new ViewManager();

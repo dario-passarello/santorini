@@ -23,7 +23,7 @@ public class GodSelectionTest {
         manager.setPlayersNames(List.of("Baluardo","Marcantonio","Edoardo"));
         manager.setNumberOfPlayers(3);
         manager.setThisPlayerName("Baluardo");
-        Screen firstScreen = new GUIGodSelection(manager,"Marcantonio");
+        Screen firstScreen = new GUIGodSelection(manager,"Baluardo");
         GUI.setLaunchController((GUIController) firstScreen);
         Application.launch(GUI.class);
         manager.changeActiveScreen(firstScreen);
