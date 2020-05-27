@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -25,6 +27,8 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
     @FXML private TextField nickname;
     @FXML private ChoiceBox<Integer> choiceBox;
     @FXML private Text warning;
+    @FXML private HBox loginFields;
+    @FXML private VBox loading;
 
     public GUIConnection(ViewManager view) {
         super(view);
@@ -55,6 +59,9 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
         setNumberOfPlayers(choiceBox.getValue());
         if(readyToConnect()){
             try {
+                loginFields.setDisable(true);
+                loginFields.setVisible(false);
+                loading.setVisible(true);
                 connect();
             } catch (IllegalActionException | IOException e){};
         }
