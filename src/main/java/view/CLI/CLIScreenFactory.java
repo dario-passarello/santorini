@@ -18,7 +18,7 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen initialize() {
-        return null;
+        return getConnectionScreen();
     }
 
     @Override
@@ -33,12 +33,12 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getConnectionScreen() {
-        return null;
+        return new CLIConnectionScreen(viewManager);
     }
 
     @Override
     public Screen getGodSelectionScreen(String activePlayer) {
-        return null;
+        return new CLIGodSelectionScreen(viewManager, activePlayer);
     }
 
     @Override
