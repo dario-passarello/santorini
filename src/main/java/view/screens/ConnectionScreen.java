@@ -50,15 +50,11 @@ public abstract class ConnectionScreen extends Screen {
      * @param port an integer between 0 and 65535, represent the port number of the remote server
      * @throws IllegalValueException if the port number is not valid
      */
-    protected final void setPort(String port) throws IllegalValueException{
-        int d = -1;
-        try {
-            d = Integer.parseInt(port);
-        } catch (NumberFormatException nfe) {}
-        if(d < 0 || d > 65535) {
+    protected final void setPort(int port) throws IllegalValueException{
+        if(port < 0 || port > 65535) {
             throw new IllegalValueException(ClientErrorMessages.INVALID_PORT);
         }
-        this.port = d;
+        this.port = port;
     }
 
 
@@ -104,10 +100,7 @@ public abstract class ConnectionScreen extends Screen {
         view.openConnection(ip,port);
         view.sendMessage(new LoginDataMessage(username,numberOfPlayers));
         view.setNumberOfPlayers(numberOfPlayers);
-        view.setThisPlayerName(username);
-        view.setPlayersNames(players);
         nextScreen = screenBuilder.buildScreen();
-
         view.changeActiveScreen(nextScreen);
     }
 
@@ -116,6 +109,8 @@ public abstract class ConnectionScreen extends Screen {
     public void receiveMatchFound(String playerName, List<String> players) {
         username = playerName; //Set server assigned username
         this.players = players;
+        view.setThisPlayerName(username);
+        view.setPlayersNames(players);
         screenBuilder.setStateReceived();
     }
 

@@ -5,7 +5,6 @@ import network.Client;
 import network.Server;
 import org.junit.jupiter.api.Test;
 import view.GUI.GUI;
-import view.GUI.GUIConnection;
 import view.GUI.GUIController;
 import view.GUI.GUIGodSelection;
 import view.screens.Screen;

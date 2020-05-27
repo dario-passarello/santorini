@@ -5,7 +5,12 @@ import view.GUI.GUIScreenFactory;
 import view.ViewManager;
 import view.screens.ScreenFactory;
 
+import java.util.logging.Logger;
+
 public class Client {
+
+    public static final Logger logger = Logger.getLogger(Client.class.getName());
+
     public static void main(String[] args) {
         ScreenFactory factory;
         ViewManager viewManager = new ViewManager();

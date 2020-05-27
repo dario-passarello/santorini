@@ -78,6 +78,6 @@ public class AdditionalMoveState implements TurnState {
     }
 
     public Turn.State getStateID() {
-        return optional ? Turn.State.ADDITIONAL_MOVE : Turn.State.SPECIAL_MOVE;
+        return Turn.State.ADDITIONAL_MOVE;
     }
 }
