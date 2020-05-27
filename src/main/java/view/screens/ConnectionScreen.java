@@ -104,10 +104,7 @@ public abstract class ConnectionScreen extends Screen {
         view.openConnection(ip,port);
         view.sendMessage(new LoginDataMessage(username,numberOfPlayers));
         view.setNumberOfPlayers(numberOfPlayers);
-        view.setThisPlayerName(username);
-        view.setPlayersNames(players);
         nextScreen = screenBuilder.buildScreen();
-
         view.changeActiveScreen(nextScreen);
     }
 
@@ -116,6 +113,8 @@ public abstract class ConnectionScreen extends Screen {
     public void receiveMatchFound(String playerName, List<String> players) {
         username = playerName; //Set server assigned username
         this.players = players;
+        view.setThisPlayerName(username);
+        view.setPlayersNames(players);
         screenBuilder.setStateReceived();
     }
 
