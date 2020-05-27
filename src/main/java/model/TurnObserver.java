@@ -4,14 +4,14 @@ import utils.Coordinate;
 import utils.Observer;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TurnObserver extends Observer {
     /**
      * Send to observer the state of the turn
      * @param state The Turn.State representing the actual turn state
-     * @param player
      */
-    void receiveTurnState(Turn.State state, Player player);
+    void receiveStateChange(Turn.State state);
 
     /**
      * Send to observer the player that is playing the current turn

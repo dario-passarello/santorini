@@ -76,14 +76,6 @@ public class Board {
                 .collect(Collectors.toList());
     }
 
-    public List<Coordinate> getFreeCoordinates() {
-        return IntStream.range(0,BOARD_SIZE*BOARD_SIZE)
-                .mapToObj(i -> matrix[i / BOARD_SIZE][i % BOARD_SIZE])
-                .filter(sq -> !sq.getOccupant().isPresent())
-                .map(Square::getCoordinate)
-                .collect(Collectors.toList());
-    }
-
     /**
      * Check if a coordinate has components between 0 and BOARD_SIZE
      * @param coord A coordinate to check

@@ -26,8 +26,7 @@ public class ViewManager implements Runnable{
 
     @Override
     public void run(){
-        activeScreen = screenFactory.getMenuScreen();
-        screenFactory.initialize(activeScreen);
+        activeScreen = screenFactory.initialize();
         activeScreen.onScreenOpen();
     }
 

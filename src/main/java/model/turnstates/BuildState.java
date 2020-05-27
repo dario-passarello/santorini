@@ -69,6 +69,6 @@ public class BuildState implements TurnState {
     }
 
     public Turn.State getStateID() {
-        return optional ? Turn.State.ADDITIONAL_BUILD : Turn.State.BUILD;
+        return Turn.State.BUILD;
     }
 }
