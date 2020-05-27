@@ -45,6 +45,7 @@ public class CLIScreenFactory implements ScreenFactory {
         return null;
     }
 
+
     @Override
     public Screen getBoardScreen(String activePlayer, List<Player> players) {
         return null;

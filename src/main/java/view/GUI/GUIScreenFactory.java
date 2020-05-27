@@ -49,12 +49,6 @@ public class GUIScreenFactory implements ScreenFactory {
     }
 
     @Override
-    public Screen getBuilderPlacementScreen(String activePlayer, List<Player> players) {
-        return null;
-    }
-
-
-    @Override
     public Screen getBoardScreen(String activePlayer, List<Player> players) {
         return null;
     }
