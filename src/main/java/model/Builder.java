@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class Builder implements Serializable {
 
     private Square square;
-    private Player owner;
+    private final Player owner;
 
 
 

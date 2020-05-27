@@ -26,7 +26,7 @@ public interface GameObserver extends Observer {
     void receivePlayerOutcome(Player playerName, boolean winner);
 
     /**
-     * Notifies all player of the updated player list status, containing also information about Gods e Builder positions
+     * Notifies all players of the updated player list status, containing also information about Gods and Builder positions
      * @param list A map with keys all player names and values the name of the god pick from other players,
      *            if the player has not picked a god the value will be null
      */

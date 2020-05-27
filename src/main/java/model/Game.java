@@ -62,6 +62,10 @@ public class Game implements Observable<GameObserver>, GameModel {
         this.board = new Board(this);
         this.godList = new ArrayList<>();
         this.observers = new ArrayList<>();
+
+    }
+
+    public void start(){
         this.setGameState(this.godSelectionState, getFirstPlayer());
     }
 

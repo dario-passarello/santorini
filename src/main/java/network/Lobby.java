@@ -65,6 +65,7 @@ public class Lobby implements Runnable {
                     handler.getRemoteViewInstance().setPlayerName(handler.getName().orElseThrow());
                     handler.sendMessage(new MatchFoundMessage(handler.getRemoteViewInstance().getPlayerName(),usernames)); //Notify that the match was created
                 }
+                game.start();
                 notifyAll();
             }
         }

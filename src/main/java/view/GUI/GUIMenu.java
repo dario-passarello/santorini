@@ -13,7 +13,7 @@ public class GUIMenu extends MenuScreen implements GUIController{
     }
 
     public void startGame(){
-        //TODO
+        super.goToConnectionScreen();
     }
 
     public void credits(){
@@ -21,7 +21,7 @@ public class GUIMenu extends MenuScreen implements GUIController{
     }
 
     public void quit(){
-        //TODO
+        super.quitGame();
     }
 
     @Override

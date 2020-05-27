@@ -22,6 +22,8 @@ public class GameTest {
         List<String> gods = List.of("Zeus","Apollo","Chronus").subList(0,num);
         Game mortalGame = new Game(players,num);
         Game godGame = new Game(players,num);
+        mortalGame.start();
+        godGame.start();
         assertEquals("Wrong number of players returned", num, mortalGame.getNumberOfPlayers());
         assertEquals("Player name lists don't match",players,mortalGame.getPlayers().stream().map(Player::getName).collect(Collectors.toList()));
         assertEquals("First player is not the first playing",players.get(0),mortalGame.getCurrentTurn().getCurrentPlayer().getName());
@@ -95,6 +97,7 @@ public class GameTest {
         List<String> gods = List.of("Zeus","Apollo","Chronus").subList(0,num);
         List<Coordinate> builderPosition = List.of(new Coordinate(0,1), new Coordinate(1,4), new Coordinate(4,3), new Coordinate(0,3), new Coordinate(1,2), new Coordinate(3,2)).subList(0,num*2);
         Game game = setupGameAtTurnPhase(players, gods, builderPosition);
+        game.start();
         Board board = game.getBoard();
         final Turn turn = game.getCurrentTurn();
         assertEquals(turn.getGame(), game);
@@ -135,6 +138,7 @@ public class GameTest {
     public void youShouldQuitAtAnytime(int num){
         List<String> players = IntStream.range(1,num + 1).mapToObj(n -> "Player_" + n).collect(Collectors.toList());
         Game game = new Game(players, num);
+        game.start();
         assertTrue(game.quitGame(players.get(0)));
         assertEquals(game.getGameState(), game.endGameState);
 
@@ -253,6 +257,7 @@ public class GameTest {
 
     public static Game setupGameAtTurnPhase(List<String> players, List<String> gods, List<Coordinate> builderPositions) throws DuplicateNameException {
         Game game = new Game(players, players.size());
+        game.start();
         Collections.reverse(players);
         game.submitGodList(new HashSet<>(gods));
         try {
