@@ -11,6 +11,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static network.Server.logger;
+
 public class ServerAdapter implements Runnable{
 
     private final ViewManager view;
@@ -40,8 +42,10 @@ public class ServerAdapter implements Runnable{
     private void listen() {
         try{
             while (!stopped.get()){
-                Message<Screen> mess = (Message<Screen>) inStream.readObject();
-                view.receiveMessage(mess);
+                Message<Screen> messageReceived = (Message<Screen>) inStream.readObject();
+                Client.logger.info("Message:" + messageReceived.getClass().getName() +
+                        "\nContents:" + messageReceived.getMessageJSON());
+                view.receiveMessage(messageReceived);
             }
         }
         catch (IOException | ClassNotFoundException | ClassCastException e) {

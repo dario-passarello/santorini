@@ -79,7 +79,7 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
 
     @Override
     public void onScreenOpen() {
-
+        GUI.setSceneController(this);
     }
 
     @Override
