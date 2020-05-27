@@ -13,17 +13,15 @@ import view.screens.Screen;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GodSelectionTest {
-    //@Test
+public class ConnectionTest {
+    @Test
     public void test(){
-        //Server server = new Server();
-        //new Thread(server).start();
 
         ViewManager manager = new ViewManager();
         manager.setPlayersNames(List.of("Baluardo","Marcantonio","Edoardo"));
         manager.setNumberOfPlayers(3);
         manager.setThisPlayerName("Baluardo");
-        Screen firstScreen = new GUIGodSelection(manager,"Marcantonio");
+        Screen firstScreen = new GUIConnection(manager);
         GUI.setLaunchController((GUIController) firstScreen);
         Application.launch(GUI.class);
         manager.changeActiveScreen(firstScreen);
