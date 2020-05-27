@@ -15,7 +15,9 @@ public interface ScreenFactory {
     Screen getCreditsScreen();
     Screen getConnectionScreen();
     Screen getGodSelectionScreen(String activePlayer);
+
     Screen getGodPickScreen(String activePlayer, List<String> godsAvailable);
+    Screen getBuilderPlacementScreen(String activePlayer, List<Player> players);
     Screen getBoardScreen(String activePlayer, List<Player> players);
     Screen getWinnerScreen(String winner);
 

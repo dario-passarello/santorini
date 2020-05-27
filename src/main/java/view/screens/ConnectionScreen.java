@@ -100,9 +100,10 @@ public abstract class ConnectionScreen extends Screen {
         view.openConnection(ip,port);
         view.sendMessage(new LoginDataMessage(username,numberOfPlayers));
         view.setNumberOfPlayers(numberOfPlayers);
-        nextScreen = screenBuilder.buildScreen();
         view.setThisPlayerName(username);
         view.setPlayersNames(players);
+        nextScreen = screenBuilder.buildScreen();
+
         view.changeActiveScreen(nextScreen);
     }
 

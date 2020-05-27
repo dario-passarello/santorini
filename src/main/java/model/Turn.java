@@ -13,8 +13,10 @@ public class Turn implements Observable<TurnObserver> {
 
     public enum State implements StateIdentifier {
         MOVE,
+        SPECIAL_MOVE,
         ADDITIONAL_MOVE,
         BUILD,
+        ADDITIONAL_BUILD,
         END_TURN;
     }
 
