@@ -3,17 +3,12 @@ package network;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Server implements Runnable{
-
-    public final static Logger logger = Logger.getLogger(Server.class.getName());
 
     public final static int SERVER_SOCKET_PORT = 12345;
 
     public static void main(String[] args) {
-        logger.setLevel(Level.INFO);
         ServerSocket serverSocket;
         try {
             serverSocket = new ServerSocket(SERVER_SOCKET_PORT);
@@ -30,7 +25,6 @@ public class Server implements Runnable{
             try {
                 Socket client = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(client);
-                logger.info(client.getInetAddress() + " connected to the server");
                 Thread thread = new Thread(clientHandler, "server_handler_" + client.getInetAddress());
                 thread.start();
             } catch (IOException e) {

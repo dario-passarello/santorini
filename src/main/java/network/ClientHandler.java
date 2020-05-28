@@ -13,8 +13,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Optional;
 
-import static network.Server.logger;
-
 public class ClientHandler implements Runnable, MessageTarget{
 
     private RemoteView remoteView;
@@ -43,16 +41,12 @@ public class ClientHandler implements Runnable, MessageTarget{
         try {
             received = inputStream.readObject();
             ((LoginDataMessage) received).execute(this); //Set Login data (Username, Queue)
-            logger.info(clientSocket.getInetAddress() + " logged as " + name);
             Lobby waitingLobby = Lobby.getLobbyInstance(playerNumber);
             waitingLobby.findGame(this); //wait for players
             while(true) {
                 received = inputStream.readObject();
                 if(received instanceof QuitGameMessage) break;
-                Message<RemoteView> messageReceived = (Message<RemoteView>) received;
-                logger.info("Message:" + messageReceived.getClass().getName() +
-                        "\nContents:" + messageReceived.getMessageJSON());
-                messageReceived.execute(this.remoteView);
+                ((Message<RemoteView>) received).execute(this.remoteView);
             }
         }
         catch(ClassNotFoundException | ClassCastException exception ) {
@@ -112,7 +106,6 @@ public class ClientHandler implements Runnable, MessageTarget{
             outputStream.writeObject(message);
         }
         catch (IOException e) {
-            //FIXME This is generating infite calls when erroneus state in the controller
             if(this.remoteView != null) {
                 new QuitGameMessage().execute(this.remoteView);
             }

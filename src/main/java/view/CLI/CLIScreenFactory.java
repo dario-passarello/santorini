@@ -17,8 +17,7 @@ public class CLIScreenFactory implements ScreenFactory {
 
 
     @Override
-    public Screen initialize() {
-        return getConnectionScreen();
+    public void initialize(Screen firstScreen) {
     }
 
     @Override
@@ -33,18 +32,19 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getConnectionScreen() {
-        return new CLIConnectionScreen(viewManager);
+        return null;
     }
 
     @Override
     public Screen getGodSelectionScreen(String activePlayer) {
-        return new CLIGodSelectionScreen(viewManager, activePlayer);
+        return null;
     }
 
     @Override
     public Screen getGodPickScreen(String activePlayer, List<String> godsAvailable) {
         return null;
     }
+
 
     @Override
     public Screen getBoardScreen(String activePlayer, List<Player> players) {

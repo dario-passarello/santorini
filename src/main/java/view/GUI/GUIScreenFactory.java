@@ -2,7 +2,6 @@ package view.GUI;
 
 import javafx.application.Application;
 import model.Player;
-import view.View;
 import view.screens.Screen;
 import view.screens.ScreenFactory;
 import view.ViewManager;
@@ -18,16 +17,15 @@ public class GUIScreenFactory implements ScreenFactory {
     }
 
     @Override
-    public Screen initialize() {
-        Screen firstScreen = getGodSelectionScreen("dario");
+    public void initialize(Screen firstScreen) {
         GUI.setLaunchController((GUIController) firstScreen);
         Application.launch(GUI.class);
-        return firstScreen;
+
     }
 
     @Override
     public Screen getMenuScreen() {
-        return null;
+        return new GUIMenu(viewManager);
     }
 
     @Override
@@ -37,7 +35,7 @@ public class GUIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getConnectionScreen() {
-        return null;
+        return new GUIConnection(viewManager);
     }
 
     @Override

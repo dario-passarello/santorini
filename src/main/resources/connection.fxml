@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
@@ -9,49 +11,71 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-image: url(assets/blueBackground.png); -fx-background-position: center; -fx-background-size: 100% 100% 100% 100%; -fx-background-repeat: no-repeat" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <StackPane>
          <children>
-            <ImageView fitHeight="246.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@assets/cover.png" />
-               </image>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </ImageView>
-            <VBox maxHeight="246.0" prefHeight="246.0" prefWidth="200.0" spacing="5.0">
+            <HBox fx:id="loginFields" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="IP" />
-                  <TextField fx:id="ip" />
-                  <Label text="Port" />
-                  <TextField fx:id="port">
-                     <VBox.margin>
-                        <Insets bottom="30.0" />
-                     </VBox.margin></TextField>
-                  <Label text="Nickname" />
-                  <TextField fx:id="nickname" promptText="insert your nickname here" />
-                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                  <ImageView fitHeight="650.0" fitWidth="650.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/cover.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <StackPane>
                      <children>
-                        <Label text="Number of players" />
-                        <ChoiceBox fx:id="choiceBox" prefWidth="50.0" />
+                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="300.0" spacing="5.0">
+                           <children>
+                              <Label text="IP" />
+                              <TextField fx:id="ip" promptText="insert IP" />
+                              <Label text="Port" />
+                              <TextField fx:id="port" promptText="insert port">
+                                 <VBox.margin>
+                                    <Insets bottom="30.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Label text="Nickname" />
+                              <TextField fx:id="nickname" promptText="insert your nickname here" />
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                                 <children>
+                                    <Label text="Number of players" />
+                                    <ChoiceBox fx:id="choiceBox" prefWidth="50.0" />
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets bottom="10.0" />
+                                 </opaqueInsets>
+                              </HBox>
+                              <Button alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#startButtonPushed" text="Start">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Button>
+                              <Text fx:id="warning" strokeType="OUTSIDE" strokeWidth="0.0" />
+                           </children>
+                        </VBox>
                      </children>
-                     <opaqueInsets>
-                        <Insets bottom="10.0" />
-                     </opaqueInsets>
-                  </HBox>
-                  <Button alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#startButtonPushed" text="Start">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Button>
+                  </StackPane>
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </BorderPane.margin>
+            </HBox>
+            <VBox fx:id="loading" alignment="CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="20.0" visible="false">
+               <children>
+                  <Label text="Loading the game">
+                     <font>
+                        <Font name="System Bold Italic" size="36.0" />
+                     </font></Label>
+                  <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/loading.gif" />
+                     </image></ImageView>
                </children>
             </VBox>
          </children>
-         <BorderPane.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </BorderPane.margin>
-      </HBox>
+      </StackPane>
    </center>
 </BorderPane>
