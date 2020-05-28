@@ -168,39 +168,9 @@ public abstract class BoardScreen extends Screen {
         activeScreen = activePlayerName.equals(getThisPlayerName()); //evaluate if this is an active screen
     }
 
-
-    //Getters
-
     private Optional<Builder> getBoardOccupant(Coordinate coordinate){
         return allBuilders.stream().filter(b -> b.getSquare().getCoordinate().equals(coordinate)).findAny();
     }
-
-    private List<Player> getPlayers(){
-        return players;
-    }
-
-    private String getActivePlayer(){
-        return activePlayer;
-    }
-
-    private Board getBoard(){
-        return board;
-    }
-
-    private List<Builder> getAllBuilders(){
-        return allBuilders;
-    }
-
-    private Builder getSelectedBuilder(){
-        return selectedBuilder;
-    }
-
-    private List<Coordinate> getHighlightedCoordinates(){
-        return highlightedCoordinates;
-    }
-
-
-
 
     private void sendTurnActionMessage(Message<RemoteView> message){
         activeScreen = false;
