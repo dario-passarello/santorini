@@ -50,11 +50,9 @@ public abstract class ConnectionScreen extends Screen {
      * @param port an integer between 0 and 65535, represent the port number of the remote server
      * @throws IllegalValueException if the port number is not valid
      */
-    protected final void setPort(String port) throws IllegalValueException{
+    protected final void setPort(String port) throws IllegalValueException, NumberFormatException{
         int d = -1;
-        try {
-            d = Integer.parseInt(port);
-        } catch (NumberFormatException nfe) {}
+        d = Integer.parseInt(port);
         if(d < 0 || d > 65535) {
             throw new IllegalValueException(ClientErrorMessages.INVALID_PORT);
         }
