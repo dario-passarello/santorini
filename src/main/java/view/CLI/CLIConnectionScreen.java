@@ -8,7 +8,10 @@ import view.screens.ConnectionScreen;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class CLIConnectionScreen extends ConnectionScreen {
+public class CLIConnectionScreen extends ConnectionScreen implements InputProcessor {
+
+    private InputExecutor expectedInput;
+
 
     public CLIConnectionScreen(ViewManager view){
         super(view);
@@ -21,26 +24,38 @@ public class CLIConnectionScreen extends ConnectionScreen {
 
         //TEMPORARY VISUAL
 
-        Scanner scanner = new Scanner(System.in);
+ //      expectedInput = new Username();
+ //      System.out.print("Enter a username:          ");
+
+        setting();
 
 
+
+
+    }
+
+    @Override
+    public void onScreenClose() {
+
+    }
+
+
+    private void print(String s){
+        System.out.print(s);
+    }
+
+    @Override
+    public void processInput(String input) {
+        expectedInput.execute(input);
+    }
+
+    //TESTING ONLY
+    private void setting(){
         try {
-            print("Select a username:  ");
-            String username = scanner.next();
-            setUsername(username);
-
-            print("Type an ip Address:  ");
-            String ip = scanner.next();
-            setIP(ip);
-
-            print("Type a port:   ");
-            int port = scanner.nextInt();
-            setPort(port);
-
-            print("Select the number of players in the match:  ");
-            int number = scanner.nextInt();
-            setNumberOfPlayers(number);
-
+            setUsername("Mario");
+            setIP("127.0.0.1");
+            setPort(12345);
+            setNumberOfPlayers(2);
             connect();
         }
         catch(IllegalValueException e){
@@ -51,21 +66,72 @@ public class CLIConnectionScreen extends ConnectionScreen {
             e.printStackTrace();
         }
 
-
     }
 
-    @Override
-    public void onScreenClose() {
+    //      +-------------------+
+    //      +   INNER CLASSES   +
+    //      +-------------------+
 
+
+    class Username implements InputExecutor{
+        @Override
+        public void execute(String s) {
+            try {
+                setUsername(s);
+                expectedInput = new Ip();
+                System.out.print("Enter an IP Address:        ");
+            }
+            catch(IllegalValueException exception){
+                System.out.print(exception.getMessage() + ": Please Enter a new one:   ");
+            }
+        }
     }
 
-    private void askUsername(Scanner scanner) throws IllegalValueException {
-        print("Select a username:  ");
-        String username = scanner.next();
-        setUsername(username);
+    class Ip implements  InputExecutor{
+        @Override
+        public void execute(String s) {
+            try {
+                setIP(s);
+                expectedInput = new Port();
+                System.out.print("Enter a port number:        ");
+            }
+            catch(IllegalValueException exception){
+                System.out.print(exception.getMessage() + ": Please Enter an IP Address:  ");
+            }
+        }
     }
 
-    private void print(String s){
-        System.out.print(s);
+    class Port implements InputExecutor{
+        @Override
+        public void execute(String s) {
+            try {
+                setPort(Integer.parseInt(s));
+                expectedInput = new NumberofPlayers();
+                System.out.print( "Enter the type of Lobby you want to Join: \n" +
+                                    "(2) - 2 Player Matches\n" +
+                                    "(3) - 3 Player Matches\n" +
+                                    "            ");
+            }
+            catch(IllegalValueException exception){
+                System.out.print(exception.getMessage() + ": Please Enter an IP Address:  ");
+            }
+
+        }
+    }
+
+    class NumberofPlayers implements InputExecutor{
+        @Override
+        public void execute(String s) {
+            try {
+                setNumberOfPlayers(Integer.parseInt(s));
+                    connect();
+            }
+            catch(IllegalActionException actionexception){
+
+            }
+            catch(IOException ioexception){
+
+            }
+        }
     }
 }

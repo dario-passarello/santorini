@@ -1,15 +1,18 @@
 package view.CLI;
 
 import model.Player;
+import network.Client;
 import view.screens.Screen;
 import view.screens.ScreenFactory;
 import view.ViewManager;
 
 import java.util.List;
+import java.util.logging.Level;
 
 public class CLIScreenFactory implements ScreenFactory {
 
     private final ViewManager viewManager;
+    private InputListener cliListener;
 
     public CLIScreenFactory(ViewManager viewManager){
         this.viewManager = viewManager;
@@ -18,7 +21,17 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen initialize() {
-        return getConnectionScreen();
+        Client.logger.setLevel(Level.SEVERE);
+
+        Screen startingScreen = getConnectionScreen();
+
+        // Set the thread that reads from STDIN
+        cliListener = new InputListener();
+        cliListener.setScreen((InputProcessor) startingScreen);
+        Thread inputReader = new Thread(cliListener);
+        inputReader.start();
+
+        return startingScreen;
     }
 
     @Override
@@ -38,7 +51,9 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getGodSelectionScreen(String activePlayer) {
-        return new CLIGodSelectionScreen(viewManager, activePlayer);
+        Screen godselectionscreen = new CLIGodSelectionScreen(viewManager, activePlayer);
+        cliListener.setScreen((InputProcessor) godselectionscreen);
+        return godselectionscreen;
     }
 
     @Override
@@ -55,6 +70,8 @@ public class CLIScreenFactory implements ScreenFactory {
     public Screen getWinnerScreen(String winner) {
         return null;
     }
+
+
 
 
 }
