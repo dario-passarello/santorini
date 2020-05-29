@@ -3,9 +3,11 @@ package view.CLI;
 import view.*;
 import view.screens.GodSelectionScreen;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+//TODO Adjust text order
+//TODO Add Sentence when a god is Selected
+//TODO Increase readibility of Sentences
+
+//TODO IMPORTANT: Send confirmation message when all the Gods are Selected
 
 public class CLIGodSelectionScreen extends GodSelectionScreen implements InputProcessor {
 
@@ -65,6 +67,13 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
 
         expectedInput.execute(input);
     }
+
+
+
+
+    //      +-------------------+
+    //      +   INNER CLASSES   +
+    //      +-------------------+
 
     class GodSelection implements InputExecutor{
 

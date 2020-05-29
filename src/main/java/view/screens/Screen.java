@@ -74,7 +74,7 @@ public abstract class Screen implements View, MessageTarget {
     }
 
     @Override
-    public synchronized void receiveStateChange(Turn.State state) {
+    public synchronized void receiveTurnState(Turn.State state, Player player) {
 
     }
 

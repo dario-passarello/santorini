@@ -19,24 +19,25 @@ public class CLIScreenFactory implements ScreenFactory {
     }
 
 
+
+
     @Override
-    public Screen initialize() {
+    public void initialize(Screen firstScreen) {
         Client.logger.setLevel(Level.SEVERE);
 
-        Screen startingScreen = getConnectionScreen();
+
 
         // Set the thread that reads from STDIN
         cliListener = new InputListener();
-        cliListener.setScreen((InputProcessor) startingScreen);
+        cliListener.setScreen((InputProcessor) firstScreen);
         Thread inputReader = new Thread(cliListener);
         inputReader.start();
 
-        return startingScreen;
     }
 
     @Override
     public Screen getMenuScreen() {
-        return null;
+        return new CLIMenuScreen(viewManager);
     }
 
     @Override
@@ -46,7 +47,9 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getConnectionScreen() {
-        return new CLIConnectionScreen(viewManager);
+        Screen connectionscreen = new CLIConnectionScreen(viewManager);
+        cliListener.setScreen((InputProcessor) connectionscreen);
+        return connectionscreen;
     }
 
     @Override

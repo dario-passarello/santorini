@@ -140,7 +140,7 @@ public abstract class GodSelectionScreen extends Screen {
 
     @ServerListener
     @Override
-    public synchronized void receiveUpdateDone() {
+    public synchronized void receiveUpdateDone(){
         ScreenBuilder nextScreen;
         if(nextState == Game.State.END_GAME){
             nextScreen = new ScreenBuilder(view.getScreenFactory()) {

@@ -8,10 +8,13 @@ import view.screens.ConnectionScreen;
 import java.io.IOException;
 import java.util.Scanner;
 
+
+//TODO Block input responses while waiting for a match to be found (easy)
+
+
 public class CLIConnectionScreen extends ConnectionScreen implements InputProcessor {
 
     private InputExecutor expectedInput;
-
 
     public CLIConnectionScreen(ViewManager view){
         super(view);
@@ -20,18 +23,12 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
     @Override
     public void onScreenOpen() {
-
-
         //TEMPORARY VISUAL
 
  //      expectedInput = new Username();
  //      System.out.print("Enter a username:          ");
 
         setting();
-
-
-
-
     }
 
     @Override
@@ -54,7 +51,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
         try {
             setUsername("Mario");
             setIP("127.0.0.1");
-            setPort(12345);
+            setPort("12345");
             setNumberOfPlayers(2);
             connect();
         }
@@ -105,7 +102,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
         @Override
         public void execute(String s) {
             try {
-                setPort(Integer.parseInt(s));
+                setPort(s);
                 expectedInput = new NumberofPlayers();
                 System.out.print( "Enter the type of Lobby you want to Join: \n" +
                                     "(2) - 2 Player Matches\n" +
@@ -113,7 +110,10 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
                                     "            ");
             }
             catch(IllegalValueException exception){
-                System.out.print(exception.getMessage() + ": Please Enter an IP Address:  ");
+                System.out.print(exception.getMessage() + ": Please enter a valid input:  ");
+            }
+            catch(NumberFormatException exception){
+
             }
 
         }
@@ -130,6 +130,9 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
             }
             catch(IOException ioexception){
+
+            }
+            catch(NumberFormatException exception){
 
             }
         }

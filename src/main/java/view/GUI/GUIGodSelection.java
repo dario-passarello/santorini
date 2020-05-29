@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import view.AssetLoader;
@@ -36,11 +37,15 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
 
     public void initialize(){
-       Stage stage = GUI.getStage();
+        GUI.getStage().setMaxWidth(1280);
+        GUI.getStage().setMinWidth(1280);
+        GUI.getStage().setMaxHeight(720);
+        GUI.getStage().setMinHeight(720);
+
         int numGod = 0;
         bigCover.setPreserveRatio(true);
         bigCover.setFitHeight(470);
-        description.setStyle("-fx-font-size: 15pt");
+        description.setStyle("-fx-text-fill: darkblue;-fx-font-family: 'Arial Black';-fx-font-size: 15pt");
         displayDefault();
 
         for(int i = 0; i < 3; i++){
@@ -53,15 +58,11 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
                 //Creating god images
                 ImageView godImage = new ImageView();
-                URL url = getClass().getResource("/gods/"+numGod+".png");
+                //URL url = getClass().getResource("/gods/"+numGod+".png");
                 Image img = AssetLoader.getGodAssetsBundle(numGod).loadGodCardImage();
                 godImage.setImage(img);
                 godImage.setPreserveRatio(true);
-                //godImage.setFitHeight(200);
-
-                godImage.fitHeightProperty().bind(godGraphics.heightProperty().divide(4));
-                godImage.fitWidthProperty().bind(godGraphics.widthProperty().divide(4));
-
+                godImage.setFitHeight(200);
                 godGraphics.add(godImage, j, i, 1, 1);
 
                 //Creating ImageViews for token
@@ -85,23 +86,12 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                     });
                 } else {
                     buttonGraphic.setOpacity(0);
+                    wait.setStyle("-fx-text-fill: darkred;-fx-font: bold; -fx-font-family: 'Arial Black' ;-fx-font-size: 15");
                     wait.setText("Another player is choosing the gods!");
                 }
                 numGod++;
             }
         }
-
-        //rootPane.prefHeightProperty().bind(stage.heightProperty().divide(10));
-        //rootPane.prefWidthProperty().bind(stage.widthProperty().divide(10));
-
-        keyboard.prefWidthProperty().bind(rootPane.widthProperty().divide(2));
-        keyboard.prefHeightProperty().bind(rootPane.heightProperty().divide(2));
-
-        godGraphics.prefWidthProperty().bind(rootPane.widthProperty().divide(2));
-        godGraphics.prefHeightProperty().bind(rootPane.heightProperty().divide(2));
-
-        selected.prefWidthProperty().bind(rootPane.widthProperty().divide(2));
-        selected.prefHeightProperty().bind(rootPane.heightProperty().divide(2));
     }
 
     public void showGod(Image img, int numGod) {
@@ -136,13 +126,13 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                 selectedGod.setFitHeight(200);
                 selectedGod.setOpacity(0.5);
                 if(readyToSubmit()) enableSubmit();
-            } catch (IllegalValueException | IllegalActionException e) {}
+            } catch (IllegalValueException | IllegalActionException ignored) {}
         } else {
             try {
                 removeGod(AssetLoader.getGodNameFromID(numGod));
                 selectedGod.setImage(null);
                 disableSubmit();
-            } catch (IllegalValueException | IllegalActionException e) {}
+            } catch (IllegalValueException | IllegalActionException ignored) {}
         }
     }
 

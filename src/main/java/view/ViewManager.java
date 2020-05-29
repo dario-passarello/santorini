@@ -26,7 +26,8 @@ public class ViewManager implements Runnable{
 
     @Override
     public void run(){
-        activeScreen = screenFactory.initialize();
+        activeScreen = screenFactory.getMenuScreen();
+        screenFactory.initialize(activeScreen);
         activeScreen.onScreenOpen();
     }
 
@@ -130,4 +131,6 @@ public class ViewManager implements Runnable{
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
+
+
 }
