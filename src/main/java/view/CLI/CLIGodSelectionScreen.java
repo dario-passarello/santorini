@@ -35,10 +35,11 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
             while(true){
                 god = AssetLoader.getGodAssetsBundle(i);
                 String first = "(" + i + ")" + " - " + god.getName();
+                System.out.printf("%-20s", first);
                 i++;
                 god = AssetLoader.getGodAssetsBundle(i);
                 String second = "(" + i + ")" + " - " + god.getName();
-                System.out.printf("%-20s %-20s\n", first, second);
+                System.out.printf("%-20s\n", second);
                 i++;
 
             }
