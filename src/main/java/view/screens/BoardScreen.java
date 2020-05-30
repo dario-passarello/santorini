@@ -175,28 +175,28 @@ public abstract class BoardScreen extends Screen {
         return allBuilders.stream().filter(b -> b.getSquare().getCoordinate().equals(coordinate)).findAny();
     }
 
-    protected List<Player> getPlayers(){
+    protected final List<Player> getPlayers(){
         return players;
     }
 
-    protected String getActivePlayer(){
+    protected final String getActivePlayer(){
         return activePlayer;
     }
 
-    protected Board getBoard(){
+    protected final Board getBoard(){
         return board;
     }
 
-    protected List<Builder> getAllBuilders(){
+    protected final List<Builder> getAllBuilders(){
         return allBuilders;
     }
 
-    protected Builder getSelectedBuilder(){
+    protected final Builder getSelectedBuilder(){
         return selectedBuilder;
     }
 
     protected List<Coordinate> getHighlightedCoordinates(){
-        return highlightedCoordinates;
+        return new ArrayList<>(highlightedCoordinates);
     }
 
 

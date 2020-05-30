@@ -68,8 +68,8 @@ public abstract class PickGodScreen extends Screen{
         if(!activeScreen){
             throw new ActivityNotAllowedException();
         }
-        if(godsRemaining.contains(godName)){
-            throw new IllegalValueException(ClientErrorMessages.INVALID_GOD);
+        if(!godsRemaining.contains(godName)){
+            throw new IllegalValueException(ClientErrorMessages.INVALID_GOD + ": " + godName);
         }
         godsRemaining.clear();
         view.sendMessage(new PickGodMessage(godName));
