@@ -101,7 +101,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
                 dome.setPreserveRatio(true);
                 dome.setFitHeight(SQUARE_SIZE);
                 dome.setVisible(false);
-                domes.add(domes, j, i, 1, 1);
+                domes.add(dome, j, i, 1, 1);
 
                 //builders layer
                 builder = new ImageView();
