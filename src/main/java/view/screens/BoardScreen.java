@@ -66,7 +66,7 @@ public abstract class BoardScreen extends Screen {
         }
     }
 
-    private void processBuilderPlacement(Coordinate square) throws IllegalActionException{
+    protected void processBuilderPlacement(Coordinate square) throws IllegalActionException{
         if(!board.getFreeCoordinates().contains(square)){
             throw new IllegalActionException("Square already occupied");
         }
@@ -176,7 +176,7 @@ public abstract class BoardScreen extends Screen {
     }
 
     protected List<Player> getPlayers(){
-        return players;
+        return List.copyOf(players);
     }
 
     protected String getActivePlayer(){
@@ -188,7 +188,7 @@ public abstract class BoardScreen extends Screen {
     }
 
     protected List<Builder> getAllBuilders(){
-        return allBuilders;
+        return List.copyOf(allBuilders);
     }
 
     protected Builder getSelectedBuilder(){
@@ -196,7 +196,7 @@ public abstract class BoardScreen extends Screen {
     }
 
     protected List<Coordinate> getHighlightedCoordinates(){
-        return highlightedCoordinates;
+        return List.copyOf(highlightedCoordinates);
     }
 
 

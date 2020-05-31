@@ -30,6 +30,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
     @FXML GridPane builders;
     @FXML VBox gods;
 
+    public static final float SQUARE_SIZE = 50;
+
+
     public GUIBoard(ViewManager view, String activePlayer, List<Player> players) {
         super(view, activePlayer, players);
     }
@@ -66,7 +69,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
 
         Button button;
-        ImageView mark;
+        ImageView mark, building, dome, builder;
         //Creating layers of the board
         for(int i = 0; i < Board.BOARD_SIZE; i++) {
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
@@ -80,35 +83,44 @@ public class GUIBoard extends BoardScreen implements GUIController {
                 //highlight layer
                 mark = new ImageView();
                 mark.setImage(new Image(String.valueOf(getClass().getResource("/assets/highlight.gif"))));
+                mark.setPreserveRatio(true);
+                mark.setFitHeight(SQUARE_SIZE);
                 mark.setVisible(false);
                 highlight.add(mark, j, i, 1, 1);
 
                 //buildings layer
-                //TODO
+                building = new ImageView();
+                building.setPreserveRatio(true);
+                building.setFitHeight(SQUARE_SIZE);
+                buildings.add(building, j, i, 1, 1);
 
                 //domes layer
-                //TODO
+                dome = new ImageView();
+                dome.setImage(new Image(String.valueOf(getClass().getResource("/assets/dome.png"))));
+                dome.setPreserveRatio(true);
+                dome.setFitHeight(SQUARE_SIZE);
+                dome.setVisible(false);
+                domes.add(domes, j, i, 1, 1);
 
                 //builders layer
-                //TODO
+                builder = new ImageView();
+                builder.setPreserveRatio(true);
+                builder.setFitHeight(SQUARE_SIZE/2);
+                builders.add(builder, j, i, 1, 1);
 
-            }
-        }
-
-        //Setting listeners
-        for(int i = 0; i < Board.BOARD_SIZE; i++){
-            for(int j = 0; j < Board.BOARD_SIZE; j++){
-                int finalJ = j;
+                //Setting board listeners
                 int finalI = i;
-                GUI.getNodeFromGridPane(keyboard, j, i).setOnMouseClicked((event) -> {
+                int finalJ = j;
+                button.setOnMouseClicked((event) -> {
                     try {
-                        //processBuilderPlacement(new Coordinate(finalI, finalJ));
                         selectSquare(new Coordinate(finalI, finalJ));
                     } catch (IllegalActionException | IllegalValueException ignored) {}
                 });
+
             }
         }
     }
+
 /*
     public void drawBuilder(){
         if(getThisPlayerName().equals(getPlayers().get(0).getName())){
@@ -125,11 +137,58 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
 
 
+
     @Override
     public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower){
         super.receiveAllowedSquares(builder, allowedTiles, specialPower);
-        highlight(allowedTiles);
+        highlight(getHighlightedCoordinates());
     }
+
+    @Override
+    public void receiveBoard(Board board) {
+        super.receiveBoard(board);
+
+        Board b = getBoard();
+        for(int i = 0; i < Board.BOARD_SIZE; i++){
+            for(int j = 0; j < Board.BOARD_SIZE; j++){
+                int level = b.squareAt(i,j).getBuildLevel();
+                boolean dome = b.squareAt(i,j).isDomed();
+
+                if(level == 0){
+                    ((ImageView) GUI.getNodeFromGridPane(buildings, j, i)).setImage(null);
+                } else {
+                    ((ImageView) GUI.getNodeFromGridPane(buildings, j, i)).setImage(new Image(String.valueOf(getClass().getResource("/assets/build_"+level+".png"))));
+                }
+
+                GUI.getNodeFromGridPane(domes, j, i).setVisible(dome);
+            }
+        }
+
+    }
+
+    /*
+    @Override
+    public void receiveBuildersPositions(List<Builder> builders){
+
+        List<Builder> oldBuilders, newBuilders;
+        oldBuilders = getAllBuilders();
+        super.receiveBuildersPositions(builders);
+        newBuilders = getAllBuilders();
+
+        for(Builder newB : newBuilders){
+            for(Builder oldB : oldBuilders){
+                if(newB.equals(oldB)) break;
+                if(newB.getOwner().equals(oldB.getOwner()) && newB.getId() == oldB.getId()){
+                    Coordinate oldC = oldB.getSquare().getCoordinate();
+                    Coordinate newC = newB.getSquare().getCoordinate();
+                    ((ImageView) GUI.getNodeFromGridPane(this.builders, oldC.getY(), oldC.getX())).setImage(null);
+                    ((ImageView) GUI.getNodeFromGridPane(this.builders, newC.getY(), newC.getX())).setImage(null TODO load builder image);
+                }
+            }
+        }
+    }
+
+     */
 
 
 

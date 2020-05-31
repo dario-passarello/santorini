@@ -40,7 +40,7 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
         GUI.getStage().setMaxHeight(720);
         GUI.getStage().setMinHeight(720);
 
-        playerTurn.setText("It's " + getActivePlayerName() + "'s turn!");
+        updateNameLabel();
 
         for(String god : getAllGodToChoose()){
             //Creating god images
@@ -93,6 +93,13 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
         return count;
     }
 
+    public void updateNameLabel(){
+        if(getThisPlayerName().equals(getActivePlayerName())){
+            playerTurn.setText("It's your turn!");
+        } else {
+            playerTurn.setText("It's " + getActivePlayerName() + "'s turn!");
+        }
+    }
 
 
     @Override
@@ -110,7 +117,7 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
     public void receiveUpdateDone() {
         super.receiveUpdateDone();
 
-        playerTurn.setText("It's " + getActivePlayerName() + "'s turn!");
+        updateNameLabel();
 
         for(int i = 0; i < getNumberOfPlayers(); i++){
             if(!getGodsRemaining().contains(getAllGodToChoose().get(i))){               //disable unavailable gods
