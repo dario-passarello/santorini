@@ -154,7 +154,7 @@ public class GameTest {
         assertTrue(game.quitGame(players.get(0)));
         assertEquals(game.getGameState(), game.endGameState);
 
-        assertFalse(game.quitGame(players.get(1)));
+        assertTrue(game.quitGame(players.get(1)));
     }
 
     @ParameterizedTest
@@ -186,7 +186,7 @@ public class GameTest {
             assertFalse(game.submitGodList(new HashSet<>(gods)));
             assertFalse(game.pickGod("Player_1", "Zeus"));
             assertFalse(game.selectCoordinate("Player_1", new Coordinate(3,4)));
-            assertFalse(game.quitGame(players.get(0)));
+            assertTrue(game.quitGame(players.get(0)));
             assertEquals(game.getStateIdentifier(),Game.State.END_GAME);
         } else {
             assertThrows(IllegalArgumentException.class, () -> game.removePlayer(removedPlayer, true));

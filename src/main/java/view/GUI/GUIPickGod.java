@@ -87,7 +87,7 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
     }
 
 
-    public void updateNameLabel(){
+    private void updateNameLabel(){
         if(getThisPlayerName().equals(getActivePlayerName())){
             playerTurn.setText("It's your turn!");
         } else {
@@ -109,7 +109,7 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
     public void receiveUpdateDone() {
         super.receiveUpdateDone();
 
-        updateNameLabel();
+        Platform.runLater(this::updateNameLabel);
 
         for(int i = 0; i < getNumberOfPlayers(); i++){
             if(!getGodsRemaining().contains(getAllGodToChoose().get(i))){               //disable unavailable gods

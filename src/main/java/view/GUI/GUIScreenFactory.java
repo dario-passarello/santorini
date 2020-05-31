@@ -50,7 +50,7 @@ public class GUIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getBoardScreen(String activePlayer, List<Player> players) {
-        return null;
+        return new GUIBoard(viewManager,activePlayer,players);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class GUIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getConnectionErrorScreen() {
-        return null;
+        return new GUIConnectionError(viewManager);
     }
 
 

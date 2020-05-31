@@ -13,7 +13,7 @@ public class Square implements Serializable {
     private transient final Board board;
     private final Coordinate coordinate;
     private boolean domed;
-    private Integer buildLevel;
+    private int buildLevel;
     private transient Builder occupant;
 
     public Square(Board board, Coordinate coordinate) {
