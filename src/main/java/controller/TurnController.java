@@ -2,6 +2,7 @@ package controller;
 
 import model.Game;
 import model.Turn;
+import network.Server;
 import network.messages.toclient.ExceptionMessage;
 import network.messages.toclient.StateErrorMessage;
 import utils.Coordinate;
@@ -19,11 +20,11 @@ public class TurnController extends StateMachineController{
             try {
                 boolean allowedAction = game.getCurrentTurn().firstSelection(builderID, coordinate, specialPower);
                 if (!allowedAction){
-                    sendStateError(caller);
+                    handleStateError(caller);
                 }
             }
             catch(IllegalArgumentException exception){
-                sendExceptionError(caller, exception);
+                handleExceptionError(caller, exception);
             }
         }
     }
@@ -34,11 +35,11 @@ public class TurnController extends StateMachineController{
             try {
                 boolean allowedAction = game.getCurrentTurn().selectCoordinate(coordinate, specialPower);
                 if (!allowedAction){
-                    sendStateError(caller);
+                    handleStateError(caller);
                 }
             }
             catch(IllegalArgumentException exception){
-                sendExceptionError(caller, exception);
+                handleExceptionError(caller, exception);
             }
         }
     }
@@ -49,19 +50,20 @@ public class TurnController extends StateMachineController{
             try {
                 boolean allowedAction = game.getCurrentTurn().endPhase();
                 if (!allowedAction){
-                    sendStateError(caller);
+                    handleStateError(caller);
                 }
             }
             catch(IllegalStateException exception){
-                sendExceptionError(caller, exception);
+                handleExceptionError(caller, exception);
             }
         }
     }
 
     @Override
-    protected void sendStateError(RemoteView remoteview) {
-        Turn.State state = game.getCurrentTurn().getStateID();
-        controller.sendMessage(remoteview, new StateErrorMessage<>(state));
+    protected void handleStateError(RemoteView remoteview) {
+        Server.logger.warning("TURN STATE ERROR: Current state is" + game.getStateIdentifier());
+        //Turn.State state = game.getCurrentTurn().getStateID();
+        //controller.sendMessage(remoteview, new StateErrorMessage<>(state));
     }
 
     private boolean checkTurnCorrectness(RemoteView caller){

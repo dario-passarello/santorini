@@ -40,7 +40,7 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
         GUI.getStage().setMaxHeight(720);
         GUI.getStage().setMinHeight(720);
 
-        playerTurn.setText("It's " + getActivePlayerName() + "'s turn!");
+        updateNameLabel();
 
         for(String god : getAllGodToChoose()){
             //Creating god images
@@ -76,7 +76,9 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
                 button.setOnMouseClicked((event) -> {
                     try {
                         pickGod(god);
-                    } catch (IllegalValueException ignored) {}
+                    } catch (IllegalValueException ignored) {
+                        //ignored.printStackTrace();
+                    }
                 });
             }
         }
@@ -84,21 +86,18 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
 
     }
 
-    public Integer godToNumber(String god){
-        int count = 0;
-        Scanner scan = new Scanner(getClass().getResourceAsStream("assets/numGod.txt"));
-        while(!scan.nextLine().equals(god)){
-            count++;
+
+    public void updateNameLabel(){
+        if(getThisPlayerName().equals(getActivePlayerName())){
+            playerTurn.setText("It's your turn!");
+        } else {
+            playerTurn.setText("It's " + getActivePlayerName() + "'s turn!");
         }
-        return count;
     }
-
-
 
     @Override
     public void onScreenOpen() {
         Platform.runLater(() -> GUI.setSceneController(this));
-
     }
 
     @Override
@@ -110,7 +109,7 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
     public void receiveUpdateDone() {
         super.receiveUpdateDone();
 
-        playerTurn.setText("It's " + getActivePlayerName() + "'s turn!");
+        updateNameLabel();
 
         for(int i = 0; i < getNumberOfPlayers(); i++){
             if(!getGodsRemaining().contains(getAllGodToChoose().get(i))){               //disable unavailable gods

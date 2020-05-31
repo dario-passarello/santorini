@@ -54,7 +54,12 @@ public class GUIScreenFactory implements ScreenFactory {
     }
 
     @Override
-    public Screen getWinnerScreen(String winner) {
+    public Screen getWinnerScreen(List<Player> players) {
+        return null;
+    }
+
+    @Override
+    public Screen getConnectionErrorScreen() {
         return null;
     }
 

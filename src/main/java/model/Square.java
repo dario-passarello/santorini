@@ -3,10 +3,11 @@ package model;
 import utils.Coordinate;
 
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Square {
+public class Square implements Serializable {
     final static int MAX_HEIGHT = 3;
 
     private transient final Board board;

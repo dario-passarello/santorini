@@ -3,7 +3,6 @@ package model;
 import model.gods.God;
 import utils.Observer;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This interface defines the methods implemented from all views to states change in the Game model
@@ -16,14 +15,6 @@ public interface GameObserver extends Observer {
      *                         an action
      */
     void receiveGameState(Game.State state, Player activePlayerName);
-
-    /**
-     * Notifies all the observer of the elimination of a player from the game (due to gameplay or to connection
-     * reasons)
-     * @param playerName The name of the player removed from the game
-     * @param winner true if the player wins, else false
-     */
-    void receivePlayerOutcome(Player playerName, boolean winner);
 
     /**
      * Notifies all players of the updated player list status, containing also information about Gods and Builder positions
@@ -48,5 +39,7 @@ public interface GameObserver extends Observer {
      * Notifies all observer that the update is done, and they could safely display the content
      */
     void receiveUpdateDone();
+
+    void receiveDisconnect();
 
 }

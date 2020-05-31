@@ -64,7 +64,7 @@ public class MoveState implements TurnState {
                 });
             } else {
                 if(builder.getBuildableCoordinates().isEmpty())
-                    game.removePlayer(turn.getCurrentPlayer()); //Check special Apollo edge case (Switch to another stuck builder)
+                    game.removePlayer(turn.getCurrentPlayer(), false); //Check special Apollo edge case (Switch to another stuck builder)
                 turn.setTurnState(turn.buildState);
                 turn.notifyObservers(obs -> {
                     obs.receiveBuildersPositions(game.getAllBuilders());
