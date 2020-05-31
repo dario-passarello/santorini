@@ -11,8 +11,8 @@ import java.util.List;
 
 public abstract class Screen implements View, MessageTarget {
 
-    protected final ViewManager view;
-    protected boolean activeScreen;
+    protected transient final ViewManager view;
+    protected transient boolean activeScreen;
 
     public Screen(ViewManager view){
         this.view = view;
@@ -59,11 +59,6 @@ public abstract class Screen implements View, MessageTarget {
     }
 
     @Override
-    public synchronized void receivePlayerOutcome(Player playerName, boolean winner) {
-
-    }
-
-    @Override
     public synchronized void receivePlayerList(List<Player> list) {
 
     }
@@ -101,5 +96,11 @@ public abstract class Screen implements View, MessageTarget {
     @Override
     public synchronized void receiveUpdateDone() {
 
+    }
+
+    @Override
+    public final void receiveDisconnect() {
+        view.closeConnection();
+        view.changeActiveScreen(view.getScreenFactory().getConnectionErrorScreen());
     }
 }

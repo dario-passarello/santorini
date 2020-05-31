@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Player implements Serializable {
@@ -17,12 +16,12 @@ public class Player implements Serializable {
     private final String name;
     private God god;
     private transient final List<Builder> builders;
-    private boolean spectator;
+    private Outcome status;
 
     public Player(Game game, String name) {
         this.game = game;
         this.name = name;
-        this.spectator = false;
+        this.status = Outcome.IN_GAME;
         this.builders = new ArrayList<>();
     }
 
@@ -33,7 +32,7 @@ public class Player implements Serializable {
         if(god != null) {
             this.god = new God(player.god);
         }
-        this.spectator = player.spectator;
+        this.status = player.status;
     }
 
     /**
@@ -54,9 +53,11 @@ public class Player implements Serializable {
         return b;
     }
 
-    public void setAsSpectator() {
-        spectator = true;
-        builders.forEach(Builder::removeBuilder);
+    public void setStatus(Outcome status) {
+        this.status = status;
+        if(!status.isAlive()){
+            builders.forEach(Builder::removeBuilder);
+        }
     }
 
     /**
@@ -80,8 +81,8 @@ public class Player implements Serializable {
         return builders.stream().allMatch(builder -> builder.getBuildableNeighborhood().isEmpty());
     }
 
-    public boolean isSpectator() {
-        return spectator;
+    public Outcome getStatus() {
+        return status;
     }
 
     /**

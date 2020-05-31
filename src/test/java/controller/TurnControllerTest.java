@@ -50,7 +50,7 @@ public class TurnControllerTest {
             TurnState start = game.getCurrentTurn().moveState;
 
             List<Turn.State> end = nextStatesmove(
-                    Turn.State.ADDITIONAL_MOVE,
+                    Turn.State.SPECIAL_MOVE,
                     Turn.State.BUILD,
                     Turn.State.MOVE,
                     Turn.State.MOVE,

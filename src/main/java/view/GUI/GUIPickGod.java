@@ -76,7 +76,9 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
                 button.setOnMouseClicked((event) -> {
                     try {
                         pickGod(god);
-                    } catch (IllegalValueException ignored) {}
+                    } catch (IllegalValueException ignored) {
+                        //ignored.printStackTrace();
+                    }
                 });
             }
         }
@@ -84,14 +86,6 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
 
     }
 
-    public Integer godToNumber(String god){
-        int count = 0;
-        Scanner scan = new Scanner(getClass().getResourceAsStream("assets/numGod.txt"));
-        while(!scan.nextLine().equals(god)){
-            count++;
-        }
-        return count;
-    }
 
     public void updateNameLabel(){
         if(getThisPlayerName().equals(getActivePlayerName())){
@@ -101,11 +95,9 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
         }
     }
 
-
     @Override
     public void onScreenOpen() {
         Platform.runLater(() -> GUI.setSceneController(this));
-
     }
 
     @Override

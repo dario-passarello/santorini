@@ -175,12 +175,12 @@ public class GameTest {
         }
 
         //remove a player
-        assertThrows(NoSuchElementException.class, () -> game.removePlayer(new Player(game, "Fake_Player")));
+        assertThrows(NoSuchElementException.class, () -> game.removePlayer(new Player(game, "Fake_Player"), false));
         Player removedPlayer = game.getPlayers().get(0);
-        game.removePlayer(removedPlayer);
+        game.removePlayer(removedPlayer, true);
         if(num == 2){
             assertSame(game.endGameState,game.getGameState());
-            assertTrue(removedPlayer.isSpectator());
+            assertFalse(removedPlayer.getStatus().isAlive());
             assertEquals(game.getWinner().orElse(null), game.getPlayers().get(1));
             //endGame checks
             assertFalse(game.submitGodList(new HashSet<>(gods)));
@@ -189,7 +189,7 @@ public class GameTest {
             assertFalse(game.quitGame(players.get(0)));
             assertEquals(game.getStateIdentifier(),Game.State.END_GAME);
         } else {
-            assertThrows(IllegalArgumentException.class, () -> game.removePlayer(removedPlayer));
+            assertThrows(IllegalArgumentException.class, () -> game.removePlayer(removedPlayer, true));
             assertSame(game.turnState,game.getGameState());
         }
 

@@ -26,7 +26,9 @@ public class TurnState implements GameState {
     }
 
     public boolean quitGame(String playerName) {
-        game.removePlayer(game.getPlayers().stream().filter(p -> p.getName() == playerName).findAny().orElseThrow(IllegalArgumentException::new));
+        game.removePlayer(game.getPlayers().stream()
+                .filter(p -> p.getName().equals(playerName))
+                .findAny().orElseThrow(IllegalArgumentException::new), true);
         game.notifyObservers(GameObserver::receiveUpdateDone);
         return true;
     }

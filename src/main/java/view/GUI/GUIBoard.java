@@ -1,5 +1,6 @@
 package view.GUI;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -196,7 +197,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
     @Override
     public void onScreenOpen() {
-        GUI.setSceneController(this);
+        Platform.runLater(() ->GUI.setSceneController(this));
     }
 
     @Override

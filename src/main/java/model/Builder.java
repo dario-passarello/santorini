@@ -12,9 +12,6 @@ public class Builder implements Serializable {
 
     private Square square;
     private final Player owner;
-
-
-
     private int id;
 
     public Builder(Square square, Player owner, int id) {
@@ -25,7 +22,7 @@ public class Builder implements Serializable {
     }
 
     public Builder(Builder builder) {
-        this(new Square(builder.square), null, builder.id);
+        this(new Square(builder.square), builder.getOwner(), builder.id);
     }
 
     /**

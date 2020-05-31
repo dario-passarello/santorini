@@ -1,5 +1,6 @@
 package view.GUI;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -22,13 +23,13 @@ import static java.lang.Integer.parseInt;
 public class GUIConnection extends ConnectionScreen implements GUIController{
 
     //ObservableList numbers = FXCollections.observableArrayList();
-    @FXML private TextField ip;
-    @FXML private TextField port;
-    @FXML private TextField nickname;
-    @FXML private ChoiceBox<Integer> choiceBox;
-    @FXML private Text warning;
-    @FXML private HBox loginFields;
-    @FXML private VBox loading;
+    @FXML private transient TextField ip;
+    @FXML private transient TextField port;
+    @FXML private transient TextField nickname;
+    @FXML private transient ChoiceBox<Integer> choiceBox;
+    @FXML private transient Text warning;
+    @FXML private transient HBox loginFields;
+    @FXML private transient VBox loading;
 
     public GUIConnection(ViewManager view) {
         super(view);
@@ -39,8 +40,12 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
         GUI.getStage().setMinWidth(1280);
         GUI.getStage().setMaxHeight(720);
         GUI.getStage().setMinHeight(720);
+        //Set initial values loaded from file
+        ip.setText(getFieldIp());
+        port.setText(String.valueOf(getFieldPort()));
+        nickname.setText(getFieldUsername());
         choiceBox.getItems().addAll(2,3);
-        choiceBox.setValue(2);
+        choiceBox.setValue(getFieldNumberOfPlayers());
         warning.setFont(Font.font ("Verdana", 12));
         warning.setFill(Color.RED);
     }
@@ -61,7 +66,7 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
             try {
                 loginFields.setDisable(true);
                 loginFields.setVisible(false);
-                loading.setVisible(true);
+                Platform.runLater(() -> loading.setVisible(true));
                 connect();
             } catch (IllegalActionException | IOException e){};
         }
@@ -69,7 +74,7 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
 
     @Override
     public void onScreenOpen() {
-        GUI.setSceneController(this);
+        Platform.runLater(() -> GUI.setSceneController(this));
     }
 
     @Override

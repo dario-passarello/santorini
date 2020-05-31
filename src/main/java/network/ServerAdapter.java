@@ -2,6 +2,9 @@ package network;
 
 import network.messages.Message;
 import network.messages.MessageTarget;
+import network.messages.toclient.DisconnectClientMessage;
+import network.messages.toclient.PingToClient;
+import network.messages.toserver.PingToServer;
 import view.screens.Screen;
 import view.ViewManager;
 
@@ -9,29 +12,42 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static network.Server.logger;
+public class ServerAdapter implements Runnable, MessageTarget {
 
-public class ServerAdapter implements Runnable{
+    private final int PING_INTERVAL_SEC = 10;
 
     private final ViewManager view;
-    private Socket socketToServer;
-    private ObjectOutputStream outStream;
-    private ObjectInputStream inStream;
-    private final AtomicBoolean stopped;
+    private final Socket socketToServer;
+    private final ObjectOutputStream outStream;
+    private final ObjectInputStream inStream;
+    private final AtomicBoolean running;
 
     public ServerAdapter(ViewManager view, String serverIp, int port) throws IOException {
-        stopped = new AtomicBoolean(false);
+        running = new AtomicBoolean(true);
         this.view = view;
         socketToServer = new Socket(serverIp,port);
         outStream = new ObjectOutputStream(socketToServer.getOutputStream());
         inStream = new ObjectInputStream(socketToServer.getInputStream());
     }
 
+    private void pingServer(){
+        while(running.get()){
+            sendMessage(new PingToServer());
+            try{
+                TimeUnit.SECONDS.sleep(PING_INTERVAL_SEC);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void run() {
         listen();
+        new Thread(this::pingServer).start();
         try {
             socketToServer.close();
         } catch (IOException e){
@@ -39,9 +55,10 @@ public class ServerAdapter implements Runnable{
         }
     }
 
+    @SuppressWarnings("Unchecked")
     private void listen() {
         try{
-            while (!stopped.get()){
+            while (running.get()){
                 Message<Screen> messageReceived = (Message<Screen>) inStream.readObject();
                 Client.logger.info("Message:" + messageReceived.getClass().getName() +
                         "\nContents:" + messageReceived.getMessageJSON());
@@ -49,8 +66,8 @@ public class ServerAdapter implements Runnable{
             }
         }
         catch (IOException | ClassNotFoundException | ClassCastException e) {
-            e.printStackTrace();
-
+            running.set(false);
+            view.receiveMessage(new DisconnectClientMessage());
         }
     }
 
@@ -58,12 +75,14 @@ public class ServerAdapter implements Runnable{
         try{
             outStream.writeObject(messageToServer);
         } catch(IOException e){
+            running.set(false); //Stop the listener
+            view.receiveMessage(new DisconnectClientMessage());
             e.printStackTrace();
         }
     }
 
     public void closeConnection(){
-        stopped.set(true);
+        running.set(false);
     }
 
 

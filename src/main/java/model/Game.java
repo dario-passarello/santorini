@@ -132,7 +132,7 @@ public class Game implements Observable<GameObserver>, GameModel {
     }
 
     public List<Player> getPlayersInGame() {
-        return players.stream().filter(p -> !p.isSpectator()).collect(Collectors.toList());
+        return players.stream().filter(p -> p.getStatus().isAlive()).collect(Collectors.toList());
     }
 
     public List<Builder> getAllBuilders() {
@@ -154,16 +154,16 @@ public class Game implements Observable<GameObserver>, GameModel {
     /**
      * Set the current turn state and send message to observers
      * @param gameState a game state
-     * @param playerNotified
+     * @param activePlayer Active Player
      */
-    public void setGameState(GameState gameState, Player playerNotified) {
+    public void setGameState(GameState gameState, Player activePlayer) {
         currentGameState = gameState;
-        notifyObservers((GameObserver g) -> g.receiveGameState(currentGameState.getStateIdentifier(), new Player(playerNotified)));
+        notifyObservers(g -> g.receiveGameState(currentGameState.getStateIdentifier(), new Player(activePlayer)));
     }
 
     public void setWinner(Player winner) {
         this.winner = winner;
-        setGameState(endGameState, null);
+        setGameState(endGameState, winner);
     }
 
     //MODIFIERS
@@ -179,37 +179,39 @@ public class Game implements Observable<GameObserver>, GameModel {
         currentTurn.newTurn(); //initializes the new turn
     }
 
-    public void removePlayer(Player player) {
+    public void removePlayer(String playerName, boolean disconnected) {
+        removePlayer(players.stream()
+                .filter(p -> p.getName().equals(playerName))
+                .findAny().orElseThrow(IllegalArgumentException::new),disconnected);
+    }
+
+    public void removePlayer(Player player, boolean disconnected) {
         if(!players.contains(player)) {
             throw new NoSuchElementException(ErrorMessage.PLAYER_NOT_FOUND);
         }
-        if(player.isSpectator()) {
+        if(!player.getStatus().isAlive()) {
             throw new IllegalArgumentException(ErrorMessage.PLAYER_ALREADY_REMOVED);
         }
-        player.setAsSpectator();
-        if(getPlayersInGame().size() == 1) { //If Only two players remain
-            setWinner(getPlayersInGame().get(0));
-            setGameState(endGameState, null);
-            notifyObservers(obs -> {
-                obs.receivePlayerOutcome(new Player(player), false);
-                obs.receivePlayerOutcome(new Player(getPlayersInGame().get(0)), true);
-                obs.receiveUpdateDone();
-            });
-        }
-        else {
-            Turn removeTurn = currentTurn;
-            if (turnRotation.stream() //If the player removed is playing in the current turn, advance to next turn
-                    .filter(t -> t.getCurrentPlayer().equals(player))
-                    .findFirst()
-                    .orElseThrow(UnknownError::new) == currentTurn) {
-                nextTurn(false);
+        player.setStatus(disconnected ? Outcome.DISCONNECTED : Outcome.LOSER);
+        if(currentGameState != turnState){
+            setGameState(endGameState, player);
+        } else {
+            if(getPlayersInGame().size() == 1) { //If Only two players remain
+                setWinner(getPlayersInGame().get(0));
+                setGameState(endGameState, player);
             }
-            turnRotation.remove(removeTurn); //Remove player from turn rotation
-            notifyObservers(obs -> {
-                obs.receivePlayerOutcome(new Player(player), false);
-                obs.receiveUpdateDone();
-            });
+            else {
+                Turn removeTurn = currentTurn;
+                if (turnRotation.stream() //If the player removed is playing in the current turn, advance to next turn
+                        .filter(t -> t.getCurrentPlayer().equals(player))
+                        .findFirst()
+                        .orElseThrow(UnknownError::new) == currentTurn) {
+                    nextTurn(false);
+                }
+                turnRotation.remove(removeTurn); //Remove player from turn rotation
+            }
         }
+        notifyObservers(GameObserver::receiveUpdateDone);
     }
 
     //STATE MACHINE METHODS

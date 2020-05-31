@@ -1,35 +1,90 @@
 package view.screens;
 
 
+import com.google.gson.Gson;
 import model.Game;
 import model.Player;
+import network.Client;
 import network.messages.toserver.LoginDataMessage;
 import view.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 public abstract class ConnectionScreen extends Screen {
 
     public static final int MAX_USERNAME_LENGTH = 30;
     public static final int MIN_USERNAME_LENGTH = 3;
+    private static final String CONF_ADDRESS = "configuration.json";
 
     private String ip;
     private String username;
     private int port;
     private int numberOfPlayers;
 
-    private GodSelectionScreenBuilder screenBuilder;
-    private List<String> players;
-    private String activePlayerName;
+    private transient GodSelectionScreenBuilder screenBuilder;
+    private transient List<String> players;
+    private transient String activePlayerName;
 
     public ConnectionScreen(ViewManager view) {
         super(view);
+        ip = "";
+        username = "";
+        port = 0;
+        numberOfPlayers = 2;
+        readConfigurationFromFile();
+    }
+
+    private void readConfigurationFromFile(){
+        File file = new File("CONF_ADDRESS");
+        if(file.exists()){
+            try{
+                Reader confReader = new FileReader(file);
+                Gson gson = new Gson();
+                ConnectionScreen configuration = gson.fromJson(confReader, ConnectionScreen.class);
+                ip = configuration.ip;
+                username = configuration.username;
+                port = configuration.port;
+                numberOfPlayers = configuration.numberOfPlayers;
+                Client.logger.info("configuration.json loaded!");
+            } catch (IOException e){
+                Client.logger.warning("Could not load configuration.json\n" +
+                        e.getClass().getName());
+            }
+        } else {
+            Client.logger.info("configuration.json not present, will be created on first connection!");
+        }
+    }
+
+    private void writeConfigurationToFile(){
+        try{
+            Gson gson = new Gson();
+            gson.toJson(this,new FileWriter(CONF_ADDRESS));
+        } catch (IOException e) {
+            Client.logger.warning("Could not create configuration.json\n" +
+                    e.getClass().getName());
+        }
     }
 
     //Getter
     public final boolean readyToConnect(){
         return port > 0 && port < 65535 && username != null && (numberOfPlayers == 2 || numberOfPlayers == 3);
+    }
+
+    protected final String getFieldIp() {
+        return ip;
+    }
+
+    protected String getFieldUsername() {
+        return username;
+    }
+
+    protected int getFieldPort() {
+        return port;
+    }
+
+    protected int getFieldNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
     //Logic fields setter
@@ -101,6 +156,7 @@ public abstract class ConnectionScreen extends Screen {
         }
         Screen nextScreen;
         screenBuilder = new GodSelectionScreenBuilder(view.getScreenFactory());
+        writeConfigurationToFile();
         view.openConnection(ip,port);
         view.sendMessage(new LoginDataMessage(username,numberOfPlayers));
         view.setNumberOfPlayers(numberOfPlayers);

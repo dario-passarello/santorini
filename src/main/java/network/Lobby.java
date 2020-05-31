@@ -41,6 +41,10 @@ public class Lobby implements Runnable {
         handleLobby();
     }
 
+    public synchronized void removeFromQueue(ClientHandler handler){
+        waitingQueue.remove(handler);
+    }
+
     private synchronized void handleLobby() {
         try{
             while(true) {

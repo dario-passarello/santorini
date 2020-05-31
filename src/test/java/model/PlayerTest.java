@@ -1,6 +1,5 @@
 package model;
 
-import model.gods.Apollo;
 import model.gods.God;
 import model.gods.Mortal;
 import org.junit.Assert;
@@ -40,7 +39,7 @@ public class PlayerTest {
         assertEquals("test",player.getName());
         assertSame(game,player.getGame());
         assertSame(god, player.getGod());
-        assertFalse(player.isSpectator());
+        assertEquals(player.getStatus(), Outcome.IN_GAME);
 
         Player copy = new Player(game,"test");
         assertEquals(copy, player);
@@ -68,11 +67,9 @@ public class PlayerTest {
         SquareTest.setSquareBuildLevel(board.squareAt(4,3), 1);
         assertTrue(player.checkBuildingLoseCondition());
 
-        player.setAsSpectator();
-        assertTrue(player.isSpectator());
+        player.setStatus(Outcome.LOSER);
+        assertEquals(player.getStatus(), Outcome.LOSER);
         assertFalse(board.squareAt(0,0).getOccupant().isPresent());
         assertFalse(board.squareAt(4,4).getOccupant().isPresent());
-
-
     }
 }
