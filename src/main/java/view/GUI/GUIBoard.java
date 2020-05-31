@@ -2,8 +2,10 @@ package view.GUI;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -49,19 +51,32 @@ public class GUIBoard extends BoardScreen implements GUIController {
             HBox hBox = new HBox();                             //HBox will contain the image of god + name of player
             hBox.setSpacing(10);
             StackPane stackPane = new StackPane();
+            stackPane.setMinHeight(200);
+
 
             ImageView godImage = new ImageView();
             Image img = AssetLoader.getGodAssetsBundle(p.getGod().getName()).loadGodFigureImage();
             godImage.setImage(img);
             godImage.setPreserveRatio(true);
-            godImage.setFitHeight(100);
+            godImage.setFitHeight(150);
+
+            Button description = new Button();
+            description.setPrefSize(200, 200);
+            description.setOpacity(0);
+            Tooltip tooltip = new Tooltip();
+            tooltip.setText(p.getGod().getName().toUpperCase() + ":\n" + AssetLoader.getGodAssetsBundle(p.getGod().getName()).getDescription());
+            description.setTooltip(tooltip);
+
+
 
             ImageView podium = new ImageView(String.valueOf(getClass().getResource("/assets/podium.png")));
             podium.setPreserveRatio(true);
             podium.setFitHeight(80);
 
-            stackPane.getChildren().add(podium);
-            stackPane.getChildren().add(godImage);
+
+            stackPane.getChildren().addAll(podium, godImage, description);
+            stackPane.setAlignment(podium, Pos.BOTTOM_CENTER);
+            stackPane.setAlignment(godImage, Pos.TOP_CENTER);
             Label name = new Label(p.getName());
             name.setStyle("-fx-font-family: 'Arial Black'; -fx-text-fill: #ffffff");
             hBox.getChildren().addAll(stackPane, name);
