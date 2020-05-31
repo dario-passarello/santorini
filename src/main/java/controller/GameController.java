@@ -1,6 +1,7 @@
 package controller;
 
 import model.Game;
+import network.Server;
 import network.messages.toclient.StateErrorMessage;
 import utils.Coordinate;
 import view.RemoteView;
@@ -16,17 +17,17 @@ public class GameController extends StateMachineController{
 
     public synchronized void submitGodList(RemoteView caller, Set<String> godList){
         if(!caller.getPlayerName().equals(game.getFirstPlayer().getName())) { //The first player should choose the gods in game
-            sendExceptionError(caller, new IllegalCallerException("Not the first player!"));
+            handleExceptionError(caller, new IllegalCallerException("Not the first player!"));
             return;
         }
         try {
             boolean stateAllowed = game.submitGodList(godList);
             if (!stateAllowed){
-                sendStateError(caller);
+                handleStateError(caller);
             }
         }
         catch(IllegalArgumentException exception){
-            sendExceptionError(caller, exception);
+            handleExceptionError(caller, exception);
         }
 
     }
@@ -35,11 +36,11 @@ public class GameController extends StateMachineController{
         try {
             boolean stateAllowed = game.selectCoordinate(caller.getPlayerName(), choice);
             if (!stateAllowed){
-                sendStateError(caller);
+                handleStateError(caller);
             }
         }
         catch(IllegalArgumentException exception){
-            sendExceptionError(caller, exception);
+            handleExceptionError(caller, exception);
         }
     }
 
@@ -47,29 +48,35 @@ public class GameController extends StateMachineController{
         try {
             boolean stateAllowed = game.pickGod(caller.getPlayerName(), godName);
             if (!stateAllowed){
-                sendStateError(caller);
+                handleStateError(caller);
             }
         }
         catch(IllegalArgumentException exception){
-            sendExceptionError(caller, exception);
+            handleExceptionError(caller, exception);
         }
     }
 
+    public synchronized void removePlayer(RemoteView caller){
+        game.removePlayer(caller.getPlayerName(),true);
+    }
+
+    @Deprecated
     public synchronized void quitGame(RemoteView caller) {
         try {
             boolean stateAllowed = game.quitGame(caller.getPlayerName());
             if(!stateAllowed) {
-                sendStateError(caller);
+                handleStateError(caller);
             }
         }
         catch (IllegalArgumentException exception) {
-            sendExceptionError(caller, exception);
+            handleExceptionError(caller, exception);
         }
     }
 
     @Override
-    protected void sendStateError(RemoteView remoteview){
-        Game.State state = game.getStateIdentifier();
-        controller.sendMessage(remoteview, new StateErrorMessage<Game.State>(state));
+    protected void handleStateError(RemoteView remoteview){
+        Server.logger.warning("GAME STATE ERROR: Current state is " + game.getStateIdentifier());
+        //Game.State state = game.getStateIdentifier();
+        //controller.sendMessage(remoteview, new StateErrorMessage<Game.State>(state));
     }
 }

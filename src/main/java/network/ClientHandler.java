@@ -3,8 +3,10 @@ package network;
 import controller.Controller;
 import network.messages.Message;
 import network.messages.MessageTarget;
+import network.messages.toclient.PingToClient;
 import network.messages.toserver.LoginDataMessage;
-import network.messages.toserver.QuitGameMessage;
+import network.messages.toserver.DisconnectServerMessage;
+import network.messages.toserver.PingToServer;
 import view.RemoteView;
 
 import java.io.IOException;
@@ -12,10 +14,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static network.Server.logger;
 
 public class ClientHandler implements Runnable, MessageTarget{
+
+    private final int PING_INTERVAL_SECONDS = 10;
 
     private RemoteView remoteView;
     private final Socket clientSocket;
@@ -23,9 +29,11 @@ public class ClientHandler implements Runnable, MessageTarget{
     private int playerNumber;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
+    private AtomicBoolean running;
 
 
     public ClientHandler(Socket socket) throws IOException {
+        running = new AtomicBoolean(true);
         clientSocket = socket;
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
@@ -34,42 +42,52 @@ public class ClientHandler implements Runnable, MessageTarget{
     @Override
     public void run() {
         handleConnection();
+        try{
+            clientSocket.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void pingClient(){
+        while(running.get()){
+            sendMessage(new PingToClient());
+            try{
+                TimeUnit.SECONDS.sleep(10);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @SuppressWarnings("unchecked cast")
     private void handleConnection() {
-
         Object received;
         try {
-            received = inputStream.readObject();
+            do{
+                received = inputStream.readObject();
+            } while (!(received instanceof LoginDataMessage));
             ((LoginDataMessage) received).execute(this); //Set Login data (Username, Queue)
             logger.info(clientSocket.getInetAddress() + " logged as " + name);
             Lobby waitingLobby = Lobby.getLobbyInstance(playerNumber);
+            new Thread(this::pingClient,"pinger_thread/" + clientSocket.getInetAddress()).start(); //STart
             waitingLobby.findGame(this); //wait for players
-            while(true) {
+            while(running.get()) {
                 received = inputStream.readObject();
-                if(received instanceof QuitGameMessage) break;
+                if(received instanceof DisconnectServerMessage) {
+                    running.set(false); //Stop the listener
+                    break;
+                }
+                if(received instanceof PingToServer) continue;
                 Message<RemoteView> messageReceived = (Message<RemoteView>) received;
                 logger.info("Message:" + messageReceived.getClass().getName() +
                         "\nContents:" + messageReceived.getMessageJSON());
-                messageReceived.execute(this.remoteView);
+                messageReceived.execute(this.remoteView); //Apply message content
             }
         }
-        catch(ClassNotFoundException | ClassCastException exception ) {
-            exception.printStackTrace();
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-            if(this.remoteView != null) {
-                new QuitGameMessage().execute(this.remoteView);
-            }
-            e.printStackTrace();
-        }
-        try{
-            clientSocket.close(); //Close the socket TODO verify socket closure responisbilty
-        }
-        catch (IOException e) {
-            e.printStackTrace(); //TODO Logging
+        catch(ClassNotFoundException | ClassCastException | IOException e) {
+            handleConnectionError(e);
         }
     }
 
@@ -107,17 +125,31 @@ public class ClientHandler implements Runnable, MessageTarget{
     }
 
     //Executed in the context of the caller
-    public void sendMessage(Message<? extends MessageTarget> message) {
+    public synchronized void sendMessage(Message<? extends MessageTarget> message) {
         try{
             outputStream.writeObject(message);
         }
         catch (IOException e) {
-            //FIXME This is generating infite calls when erroneus state in the controller
-            if(this.remoteView != null) {
-                new QuitGameMessage().execute(this.remoteView);
-            }
-            e.printStackTrace();
+            handleConnectionError(e);
         }
     }
 
+    private void handleConnectionError(Exception e) {
+        StringBuilder error = new StringBuilder();
+        error.append("Connection with ").append(clientSocket.getInetAddress()).append(" dropped");
+        running.set(false); //Stop running
+        if(playerNumber == 2 || playerNumber == 3){
+            Lobby.getLobbyInstance(playerNumber).removeFromQueue(this); //Remove from queue if present
+        }
+        if(this.remoteView != null) {
+            error.append("\nPlayer info: ").append(remoteView.getPlayerName());
+            new DisconnectServerMessage().execute(this.remoteView);
+        }
+        Server.logger.warning(error.toString());
+        e.printStackTrace();
+    }
+
+    public synchronized void closeConnection(){
+        running.set(false);
+    }
 }

@@ -47,12 +47,6 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     }
 
     @Override
-    public void receivePlayerOutcome(Player player, boolean winner) {
-        client.sendMessage(new PlayerOutcomeMessage(player,winner));
-    }
-
-
-    @Override
     public void receivePlayerList(List<Player> playerList) {
         client.sendMessage(new PlayerListMessage(playerList));
     }
@@ -90,5 +84,10 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     @Override
     public void receiveUpdateDone() {
         client.sendMessage(new UpdateDoneMessage());
+    }
+
+    @Override
+    public void receiveDisconnect() {
+        client.closeConnection();
     }
 }

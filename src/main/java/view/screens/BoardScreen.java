@@ -13,13 +13,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 public abstract class BoardScreen extends Screen {
 
     private String activePlayer;
     private List<Player> players;
     private Board board;
-    private List<Builder> allBuilders;
+    private List<Builder> currBuilders;
+    private List<Builder> oldBuilders;
     private Builder selectedBuilder;
     private List<Coordinate> highlightedCoordinates;
     private HashMap<Builder, List<Coordinate>> normalAllowedSquares;
@@ -63,6 +65,8 @@ public abstract class BoardScreen extends Screen {
             } else {
                 processCellSelection(square); //Action has to be done
             }
+        } else {
+            throw new IllegalStateException(); //END GAME
         }
     }
 
@@ -97,7 +101,6 @@ public abstract class BoardScreen extends Screen {
         } else {
             sendTurnActionMessage(new SelectCoordinateMessage(square,specialPowerSelected));
         }
-
     }
 
     /**
@@ -172,11 +175,11 @@ public abstract class BoardScreen extends Screen {
     //Getters
 
     private Optional<Builder> getBoardOccupant(Coordinate coordinate){
-        return allBuilders.stream().filter(b -> b.getSquare().getCoordinate().equals(coordinate)).findAny();
+        return currBuilders.stream().filter(b -> b.getSquare().getCoordinate().equals(coordinate)).findAny();
     }
 
     protected final List<Player> getPlayers(){
-        return players;
+        return new ArrayList<>(players);
     }
 
     protected final String getActivePlayer(){
@@ -187,19 +190,30 @@ public abstract class BoardScreen extends Screen {
         return board;
     }
 
-    protected final List<Builder> getAllBuilders(){
-        return allBuilders;
+    protected final List<Builder> getCurrBuilders(){
+        return new ArrayList<>(currBuilders);
+    }
+
+    protected final Builder getBuilder(String playerName, int id, boolean old){
+        Function<List<Builder>,Builder> findBuilder =
+                list -> list.stream()
+                        .filter(b -> b.getOwner().getName().equals(playerName))
+                        .filter(b -> b.getId() == id)
+                        .findAny().orElseThrow(IllegalArgumentException::new);
+        if(old) {
+            return findBuilder.apply(oldBuilders);
+        } else {
+            return findBuilder.apply(currBuilders);
+        }
     }
 
     protected final Builder getSelectedBuilder(){
         return selectedBuilder;
     }
 
-    protected List<Coordinate> getHighlightedCoordinates(){
+    protected final List<Coordinate> getHighlightedCoordinates(){
         return new ArrayList<>(highlightedCoordinates);
     }
-
-
 
 
     private void sendTurnActionMessage(Message<RemoteView> message){
@@ -215,45 +229,47 @@ public abstract class BoardScreen extends Screen {
     }
 
     @Override
-    public void receiveGameState(Game.State state, Player activePlayer) {
+    public synchronized void receiveGameState(Game.State state, Player activePlayer) {
         setActivePlayer(activePlayer.getName());
         currentGameState = state;
     }
 
     @Override
-    public void receivePlayerOutcome(Player playerName, boolean winner) {
-        super.receivePlayerOutcome(playerName, winner);
-    }
-
-    @Override
-    public void receivePlayerList(List<Player> list) {
+    public synchronized void receivePlayerList(List<Player> list) {
         this.players = new ArrayList<>(list);
     }
 
     @Override
-    public void receiveTurnState(Turn.State state, Player player) {
+    public synchronized void receiveTurnState(Turn.State state, Player player) {
         setActivePlayer(player.getName());
         turnState = state;
     }
 
     @Override
-    public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower) {
-        super.receiveAllowedSquares(builder, allowedTiles, specialPower);
+    public synchronized void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower) {
+        if(specialPower){
+            specialAllowedSquares.put(builder,new ArrayList<>(allowedTiles));
+        } else {
+            normalAllowedSquares.put(builder, new ArrayList<>(allowedTiles));
+        }
     }
 
     @Override
-    public void receiveBoard(Board board) {
+    public synchronized void receiveBoard(Board board) {
         this.board = board;
     }
 
     @Override
-    public void receiveBuildersPositions(List<Builder> builders) {
-        super.receiveBuildersPositions(builders);
+    public synchronized void receiveBuildersPositions(List<Builder> builders) {
+        oldBuilders = currBuilders;
+        currBuilders = new ArrayList<>(builders);
     }
 
     @Override
-    public void receiveUpdateDone() {
-        super.receiveUpdateDone();
+    public synchronized void receiveUpdateDone() {
+        if(currentGameState == Game.State.END_GAME){
+            view.changeActiveScreen(view.getScreenFactory().getWinnerScreen(players));
+        }
     }
 
 }

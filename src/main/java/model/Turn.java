@@ -121,7 +121,7 @@ public class Turn implements Observable<TurnObserver> {
 
     public void newTurn() {
         if(currentPlayer.checkMovingLoseCondition()) {
-            game.removePlayer(currentPlayer);
+            game.removePlayer(currentPlayer, false);
         } else {
             this.setTurnState(this.moveState);
             this.notifyObservers((TurnObserver obs) -> { //Start composite update of observers
