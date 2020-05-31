@@ -29,7 +29,7 @@ public class Player implements Serializable {
         this.game = null;
         this.builders = player.builders.stream().map(Builder::new).collect(Collectors.toList());
         this.name = player.name;
-        if(god != null) {
+        if(player.god != null) {
             this.god = new God(player.god);
         }
         this.status = player.status;

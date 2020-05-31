@@ -1,11 +1,13 @@
 package model;
 
 import utils.Coordinate;
+
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Board {
+public class Board implements Serializable {
     /**
      * Number of Squares per side of the board
      */

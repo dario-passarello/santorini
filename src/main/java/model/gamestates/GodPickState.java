@@ -39,13 +39,16 @@ public class GodPickState implements GameState {
                 .findAny()
                 .orElse(null);
         if(god == null) { //Check if the god is available (in the list and not already chosen)
-            throw new IllegalArgumentException("God Name Invalid");
+            throw new IllegalArgumentException("God unavailable or God name Invalid");
         }
         //Associate God and player in both directions
         god.setPlayer(nextPlayer);
         nextPlayer.setGod(god);
+        withoutGod = game.getPlayers().stream() //Update players without god after assigning a god
+                .filter(p -> p.getGod() == null)
+                .collect(Collectors.toList());
         //If all gods but one are picked, assign the last god
-        if(withoutGod.size() == 2){
+        if(withoutGod.size() == 1){
             God unpickedGod = game.getGodList().stream()
                     .filter(g -> g.getPlayer() == null)
                     .findAny()
@@ -53,15 +56,15 @@ public class GodPickState implements GameState {
             unpickedGod.setPlayer(withoutGod.get(0));
             withoutGod.get(0).setGod(unpickedGod);
             game.setGameState(game.placeBuilderState, new Player(game.getFirstPlayer()));
-            game.notifyObservers(obs -> {
-                obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+            game.notifyObservers(obs -> { //Advance to place builder state
+                obs.receivePlayerList(game.getPlayers().stream().map(p -> new Player(p)).collect(Collectors.toList()));
+                obs.receiveBoard(new Board(game.getBoard()));
                 obs.receiveUpdateDone();
             });
         } else {
             game.setGameState(game.godPickState, new Player(withoutGod.get(withoutGod.size() - 2)));
-            game.notifyObservers(obs -> {
+            game.notifyObservers(obs -> { //Advance to next pick
                 obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
-                obs.receiveBoard(new Board(game.getBoard()));
                 obs.receiveUpdateDone();
             });
         }

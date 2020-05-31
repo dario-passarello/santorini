@@ -109,7 +109,7 @@ public abstract class PickGodScreen extends Screen{
                     }
                 };
             } else if(nextState == Game.State.PLACE_BUILDER) {
-                nextScreen = new BoardScreenBuilder(view.getScreenFactory());
+                nextScreen = boardScreenBuilder;
             } else {
                 throw new ProtocolViolationException();
             }

@@ -66,7 +66,7 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
             try {
                 loginFields.setDisable(true);
                 loginFields.setVisible(false);
-                Platform.runLater(() -> loading.setVisible(true));
+                loading.setVisible(true);
                 connect();
             } catch (IllegalActionException | IOException e){};
         }

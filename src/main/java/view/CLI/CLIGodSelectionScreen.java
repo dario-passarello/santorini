@@ -3,6 +3,8 @@ package view.CLI;
 import view.*;
 import view.screens.GodSelectionScreen;
 
+import java.util.List;
+
 //TODO Adjust text order
 //TODO Add Sentence when a god is Selected
 //TODO Increase readibility of Sentences
@@ -48,12 +50,12 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
             // The end of File. Do nothing
         }
 
-        if(activeScreen) System.out.print(   "\n\nSelect The Gods you want to play with in this match\n" +
+        if(activeScreen) System.out.print(   "\nSelect The Gods you want to play with in this match\n" +
                             "Select the God by typing the corresponding Number: \n" +
                             "Once You selected a God, press Enter to confirm the Selection:     \n\n");
         else{
-            System.out.print("\n\nWaiting for the designated player to select the gods for this match... \n" +
-                                "You can check the information about the gods by simply entering their number:  \n\n");
+            System.out.print("\nWaiting for the designated player to select the gods for this match... \n" +
+                                "You can check the information about the gods by simply entering their number: \n");
         }
 
     }
@@ -86,20 +88,20 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
 
                 if(isGodChosen(inputGod)){
                     selectedGod = inputGod;
-                    System.out.println(AssetLoader.getGodAssetsBundle(id).getDescription() + "\n");
-                    System.out.println( "This GOD Has already been selected. Press D to deselect it or" +
+                    System.out.println("\n" + AssetLoader.getGodAssetsBundle(id).getDescription());
+                    System.out.println( "\nThis GOD Has already been selected. Press D to deselect it or" +
                                         "select another god");
                     expectedInput = new Deselection();
                 }
                 else {
                     if(!activeScreen){
-                        System.out.println(AssetLoader.getGodAssetsBundle(id).getDescription() + "\n");
+                        System.out.println("\n" + AssetLoader.getGodAssetsBundle(id).getDescription());
                         return;
                     }
                     selectedGod = AssetLoader.getGodNameFromID(id);
-                    System.out.println(AssetLoader.getGodAssetsBundle(id).getDescription() + "\n");
-                    System.out.println("Press Enter to confirm the selection or" +
-                                        "select another God");
+                    System.out.println("\n" + AssetLoader.getGodAssetsBundle(id).getDescription());
+                    System.out.println("\nPress Enter to confirm the selection or" +
+                                        "select another God:\t");
                     expectedInput = new ConfirmSelection();
                 }
 
@@ -120,11 +122,22 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
             try {
                 if (s.equals("") && selectedGod != null) {
                     addGod(selectedGod);
+
+                    System.out.println("\n " + selectedGod + " Has been Selected");
                     selectedGod = null;
+                    // If the Confirm adds the last god
+                    if(readyToSubmit()){
+                        List<String> selected = getChosenGodList();
+                        System.out.println("\nThese are the gods selected:");
+                        for(String god : selected){
+                            System.out.println("(" + AssetLoader.getGodAssetsBundle(god).getId() + ") - " + god);
+                        }
+                        System.out.println("\nPress Enter to confirm the selection or choose a number to delete\n" +
+                                "a god from the list:\t");
+                        expectedInput = new SubmitList();
+                        return;
+                    }
                     expectedInput = new GodSelection();
-                    System.out.print(   "\n\nSelect The Gods you want to play with in this match\n" +
-                            "Select the God by typing the corresponding Number: \n" +
-                            "Once You selected a God, press Enter to confirm the Selection:     \n\n");
                 }
                 else {
                     new GodSelection().execute(s);
@@ -147,8 +160,8 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
                 if (s.toUpperCase().equals("D")) {
                     removeGod(selectedGod);
                     expectedInput = new ConfirmSelection();
-                    System.out.println("Press Enter to confirm the selection or" +
-                            "select another God");
+                    System.out.println("\nPress Enter to confirm the selection or" +
+                            "select another God:\t");
                 }
                 else{
                     new GodSelection().execute(s);
@@ -160,6 +173,44 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
             catch(IllegalValueException exception){
 
             }
+        }
+    }
+
+    class SubmitList implements InputExecutor{
+
+        @Override
+        public void execute(String s) {
+                if (s.equals("")) {     // If the player presses enter, he confirms the god list
+                    try {
+                        submitGodList();
+                    } catch (IllegalActionException exception) {
+
+                    }
+                }
+                else{                   // If not, we check that he entered a number from the list to deselect
+                    try{
+                        int number = Integer.parseInt(s);
+                        if(getChosenGodList().contains(AssetLoader.getGodNameFromID(number))){
+                            removeGod(AssetLoader.getGodNameFromID(number));
+                            System.out.println("The god has been deselected. Pls choose another god: ");
+                            expectedInput = new GodSelection();
+                        }
+                        else{           // If it was neither of the two, the player will be notified accordingly
+                            System.out.println("\nThe number is not in the list. Pls select another number:\t");
+                        }
+                    }
+                    catch(NumberFormatException exception){
+                        System.out.println("\nThis is not a number. Pls Enter a valid input:\t");
+                    }
+                    catch(IllegalValueException exception){
+
+                    }
+                    catch(IllegalActionException exception){
+
+                    }
+                }
+
+
         }
     }
 }
