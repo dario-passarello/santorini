@@ -82,7 +82,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                     submit.setOnMouseClicked((event) -> {
                         try {
                             submitGodList();
-                        } catch (IllegalActionException e) {}
+                        } catch (IllegalActionException ignored) {}
                     });
                 } else {
                     buttonGraphic.setOpacity(0);
