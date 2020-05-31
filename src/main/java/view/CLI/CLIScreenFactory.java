@@ -61,7 +61,9 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getGodPickScreen(String activePlayer, List<String> godsAvailable) {
-        return null;
+        Screen pickgodscreen = new CLIPickGodScreen(viewManager, activePlayer, godsAvailable);
+        cliListener.setScreen((InputProcessor) pickgodscreen);
+        return pickgodscreen;
     }
 
     @Override
