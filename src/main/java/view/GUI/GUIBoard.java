@@ -16,10 +16,7 @@ import model.Board;
 import model.Builder;
 import model.Player;
 import utils.Coordinate;
-import view.AssetLoader;
-import view.IllegalActionException;
-import view.IllegalValueException;
-import view.ViewManager;
+import view.*;
 import view.screens.BoardScreen;
 
 import java.util.List;
@@ -34,6 +31,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
     @FXML VBox gods;
 
     public static final float SQUARE_SIZE = 50;
+    public List<String> color = List.of("blue", "red", "green");
 
 
     public GUIBoard(ViewManager view, String activePlayer, List<Player> players) {
@@ -67,8 +65,6 @@ public class GUIBoard extends BoardScreen implements GUIController {
             tooltip.setText(p.getGod().getName().toUpperCase() + ":\n" + AssetLoader.getGodAssetsBundle(p.getGod().getName()).getDescription());
             description.setTooltip(tooltip);
 
-
-
             ImageView podium = new ImageView(String.valueOf(getClass().getResource("/assets/podium.png")));
             podium.setPreserveRatio(true);
             podium.setFitHeight(80);
@@ -93,7 +89,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
                 //keyboard layer
                 button = new Button();
                 button.setPrefSize(300, 300);
-                button.setOpacity(0.3);
+                button.setOpacity(0);
                 keyboard.add(button, j, i, 1, 1);
 
                 //highlight layer
@@ -130,20 +126,14 @@ public class GUIBoard extends BoardScreen implements GUIController {
                 button.setOnMouseClicked((event) -> {
                     try {
                         selectSquare(new Coordinate(finalI, finalJ));
-                    } catch (IllegalActionException | IllegalValueException ignored) {}
+                    } catch (IllegalActionException | IllegalValueException | ActivityNotAllowedException ignored) {}
                 });
 
             }
         }
     }
 
-/*
-    public void drawBuilder(){
-        if(getThisPlayerName().equals(getPlayers().get(0).getName())){
-            //TODO
-        }
-    }
-*/
+
 
     public void highlight(List<Coordinate> allowedTiles){
         for(Coordinate c : allowedTiles){
@@ -182,14 +172,14 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
     }
 
-    /*
+
     @Override
     public void receiveBuildersPositions(List<Builder> builders){
 
         List<Builder> oldBuilders, newBuilders;
-        oldBuilders = getAllBuilders();
+        oldBuilders = getCurrBuilders();
         super.receiveBuildersPositions(builders);
-        newBuilders = getAllBuilders();
+        newBuilders = getCurrBuilders();
 
         for(Builder newB : newBuilders){
             for(Builder oldB : oldBuilders){
@@ -198,13 +188,14 @@ public class GUIBoard extends BoardScreen implements GUIController {
                     Coordinate oldC = oldB.getSquare().getCoordinate();
                     Coordinate newC = newB.getSquare().getCoordinate();
                     ((ImageView) GUI.getNodeFromGridPane(this.builders, oldC.getY(), oldC.getX())).setImage(null);
-                    ((ImageView) GUI.getNodeFromGridPane(this.builders, newC.getY(), newC.getX())).setImage(null TODO load builder image);
+                    Image img = new Image("/assets/"+ color.get(getPlayers().indexOf(newB.getOwner()))+"_pawn");
+                    ((ImageView) GUI.getNodeFromGridPane(this.builders, newC.getY(), newC.getX())).setImage(img);
                 }
             }
         }
     }
 
-     */
+
 
 
 
