@@ -2,6 +2,7 @@ package model;
 
 import utils.Coordinate;
 
+import java.util.List;
 import java.util.Set;
 
 public interface GameModel {

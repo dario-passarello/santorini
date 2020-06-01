@@ -48,6 +48,8 @@ public class PlaceBuilderState implements GameState {
         }
         game.notifyObservers(obs -> {
             obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+            obs.receiveBuildersPositions(game.getPlayers().stream()
+                    .flatMap(b -> b.getBuilders().stream()).collect(Collectors.toList()));
             obs.receiveBoard(new Board(game.getBoard()));
             obs.receiveUpdateDone();
         });

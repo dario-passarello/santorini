@@ -30,6 +30,12 @@ public interface GameObserver extends Observer {
     void receiveAvailableGodList(List<God> gods);
 
     /**
+     * Send to observer a list with all builder objects in game
+     * @param builders The list of builders
+     */
+    void receiveBuildersPositions(List<Builder> builders);
+
+    /**
      * Receive the current status of the board
      * @param board The board object
      */
