@@ -272,5 +272,4 @@ public abstract class BoardScreen extends Screen {
             view.changeActiveScreen(view.getScreenFactory().getWinnerScreen(players));
         }
     }
-
 }
