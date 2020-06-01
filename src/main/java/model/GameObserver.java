@@ -1,6 +1,7 @@
 package model;
 
 import model.gods.God;
+import utils.Coordinate;
 import utils.Observer;
 import java.util.List;
 
@@ -22,6 +23,12 @@ public interface GameObserver extends Observer {
      *            if the player has not picked a god the value will be null
      */
     void receivePlayerList(List<Player> list);
+
+    /**
+     * Send allowed squares for placing builders
+     * @param allowedTiles The squares where the builder could make his action
+     */
+    void receiveAllowedSquares(List<Coordinate> allowedTiles);
 
     /**
      *  Notifies all player of the list of all gods

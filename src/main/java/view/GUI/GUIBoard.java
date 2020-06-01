@@ -34,8 +34,8 @@ public class GUIBoard extends BoardScreen implements GUIController {
     public List<String> color = List.of("blue", "red", "green");
 
 
-    public GUIBoard(ViewManager view, String activePlayer, List<Player> players) {
-        super(view, activePlayer, players);
+    public GUIBoard(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighCoords) {
+        super(view, activePlayer, players, preHighCoords);
     }
 
     public void initialize(){

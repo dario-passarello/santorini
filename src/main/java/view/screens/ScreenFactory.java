@@ -1,6 +1,7 @@
 package view.screens;
 
 import model.Player;
+import utils.Coordinate;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface ScreenFactory {
     Screen getGodSelectionScreen(String activePlayer);
 
     Screen getGodPickScreen(String activePlayer, List<String> godsAvailable);
-    Screen getBoardScreen(String activePlayer, List<Player> players);
+    Screen getBoardScreen(String activePlayer, List<Player> players, List<Coordinate> preHighlightedCoordinates);
     Screen getWinnerScreen(List<Player> players);
     Screen getConnectionErrorScreen();
 

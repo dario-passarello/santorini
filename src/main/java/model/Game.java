@@ -141,6 +141,12 @@ public class Game implements Observable<GameObserver>, GameModel {
         return builderList;
     }
 
+    public List<Player> getPlayersTurnOrder() {
+        ArrayList<Player> p = new ArrayList<>();
+        turnRotation.forEach(t -> p.add(t.getCurrentPlayer()));
+        return p;
+    }
+
 
     //SETTERS
     /**

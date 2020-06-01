@@ -23,13 +23,14 @@ public class PlaceBuilderState implements GameState {
     }
 
     public boolean selectCoordinate(String playerName, Coordinate coordinate) {
-        Supplier<Player> nextPlayerCalculator = () -> game.getPlayers().stream()
+        Supplier<Player> nextPlayerCalculator = () -> game.getPlayersTurnOrder().stream()
                 .filter(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("All builders are placed"));
         Player nextPlayer = nextPlayerCalculator.get();
         if(!nextPlayer.getName().equals(playerName)) {
-            throw new IllegalArgumentException(ErrorMessage.WRONG_BUILD_OWNER);
+            throw new IllegalArgumentException(ErrorMessage.WRONG_BUILD_OWNER+ "\n"
+                    + "Actual: " + playerName + " Expected: " + nextPlayer);
         }
         if(!Board.checkValidCoordinate(coordinate)) {
             throw new IllegalArgumentException(ErrorMessage.COORDINATE_NOT_VALID);
@@ -50,6 +51,7 @@ public class PlaceBuilderState implements GameState {
             obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
             obs.receiveBuildersPositions(game.getPlayers().stream()
                     .flatMap(b -> b.getBuilders().stream()).collect(Collectors.toList()));
+            obs.receiveAllowedSquares(game.getBoard().getFreeCoordinates());
             obs.receiveBoard(new Board(game.getBoard()));
             obs.receiveUpdateDone();
         });

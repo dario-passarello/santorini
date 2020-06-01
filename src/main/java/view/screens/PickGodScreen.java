@@ -3,6 +3,7 @@ package view.screens;
 import model.Game;
 import model.Player;
 import network.messages.toserver.PickGodMessage;
+import utils.Coordinate;
 import view.*;
 
 import java.util.ArrayList;
@@ -95,6 +96,12 @@ public abstract class PickGodScreen extends Screen{
                 .filter(player -> player.getGod() != null)
                 .map(player -> player.getGod().getName())
                 .collect(Collectors.toList()));
+    }
+
+    @ServerListener
+    @Override
+    public synchronized void receiveAllowedSquares(List<Coordinate> coordinates) {
+        boardScreenBuilder.setPreHighlightedCoordinates(coordinates);
     }
 
     @ServerListener

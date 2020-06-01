@@ -10,6 +10,7 @@ import view.*;
 
 import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 
 public abstract class ConnectionScreen extends Screen {
 
@@ -36,23 +37,17 @@ public abstract class ConnectionScreen extends Screen {
     }
 
     private void readConfigurationFromFile(){
-        File file = new File("CONF_ADDRESS");
-        if(file.exists()){
-            try{
-                Reader confReader = new FileReader(file);
-                Gson gson = new Gson();
-                ConnectionScreen configuration = gson.fromJson(confReader, ConnectionScreen.class);
-                ip = configuration.ip;
-                username = configuration.username;
-                port = configuration.port;
-                numberOfPlayers = configuration.numberOfPlayers;
-                Client.logger.info("configuration.json loaded!");
-            } catch (IOException e){
-                Client.logger.warning("Could not load configuration.json\n" +
-                        e.getClass().getName());
-            }
-        } else {
-            Client.logger.info("configuration.json not present, will be created on first connection!");
+        try{
+            String confReader = new Scanner(AssetLoader.class.getResourceAsStream("/" + CONF_ADDRESS)).nextLine();
+            Gson gson = new Gson();
+            ConnectionScreen configuration = gson.fromJson(confReader, ConnectionScreen.class);
+            ip = configuration.ip;
+            username = configuration.username;
+            port = configuration.port;
+            numberOfPlayers = configuration.numberOfPlayers;
+            Client.logger.info("configuration.json loaded!");
+        } catch (Exception e){
+            Client.logger.warning("Could not load configuration.json\n" + e.getClass().getName());
         }
     }
 

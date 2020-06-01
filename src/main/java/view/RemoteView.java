@@ -52,6 +52,11 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     }
 
     @Override
+    public void receiveAllowedSquares(List<Coordinate> allowedTiles) {
+        client.sendMessage(new AllowedSquaresMessage(allowedTiles));
+    }
+
+    @Override
     public void receiveAvailableGodList(List<God> gods) {
         client.sendMessage(new AvailableGodsMessage(gods));
     }

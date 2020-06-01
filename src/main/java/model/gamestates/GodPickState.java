@@ -57,12 +57,13 @@ public class GodPickState implements GameState {
             withoutGod.get(0).setGod(unpickedGod);
             game.setGameState(game.placeBuilderState, new Player(game.getFirstPlayer()));
             game.notifyObservers(obs -> { //Advance to place builder state
-                obs.receivePlayerList(game.getPlayers().stream().map(p -> new Player(p)).collect(Collectors.toList()));
+                obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+                obs.receiveAllowedSquares(game.getBoard().getFreeCoordinates());
                 obs.receiveBoard(new Board(game.getBoard()));
                 obs.receiveUpdateDone();
             });
         } else {
-            game.setGameState(game.godPickState, new Player(withoutGod.get(withoutGod.size() - 2)));
+            game.setGameState(game.godPickState, new Player(withoutGod.get(withoutGod.size() - 1)));
             game.notifyObservers(obs -> { //Advance to next pick
                 obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
                 obs.receiveUpdateDone();

@@ -9,7 +9,6 @@ import network.messages.toserver.SelectCoordinateMessage;
 import utils.Coordinate;
 import view.*;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,12 +31,15 @@ public abstract class BoardScreen extends Screen {
     private boolean specialPowerSelected;
     private boolean endAvailable;
 
-    public BoardScreen(ViewManager view, String activePlayer, List<Player> players) {
+    public BoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighCoords) {
         super(view);
         this.activePlayer = activePlayer;
         this.players = new ArrayList<>(players);
         this.board = new Board();
         this.currentGameState = Game.State.PLACE_BUILDER;
+        this.currBuilders = new ArrayList<>();
+        this.oldBuilders = new ArrayList<>();
+        this.highlightedCoordinates = new ArrayList<>(preHighCoords);
         setActivePlayer(activePlayer);
     }
 
@@ -73,7 +75,7 @@ public abstract class BoardScreen extends Screen {
     }
 
     protected void processBuilderPlacement(Coordinate square) throws IllegalActionException{
-        if(!board.getFreeCoordinates().contains(square)){
+        if(!highlightedCoordinates.contains(square)){
             throw new IllegalActionException("Square already occupied");
         }
         //Builder accepted
@@ -245,6 +247,11 @@ public abstract class BoardScreen extends Screen {
     public synchronized void receiveTurnState(Turn.State state, Player player) {
         setActivePlayer(player.getName());
         turnState = state;
+    }
+
+    @Override
+    public synchronized void receiveAllowedSquares(List<Coordinate> coordinates){
+        highlightedCoordinates = new ArrayList<>(coordinates);
     }
 
     @Override

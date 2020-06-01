@@ -8,9 +8,9 @@ import view.screens.Screen;
 import java.util.List;
 
 public class AllowedSquaresMessage implements Message<Screen> {
-    private final Builder builder;
+    private  Builder builder;
     private final List<Coordinate> allowedSquares;
-    private final boolean specialPower;
+    private boolean specialPower;
 
     public AllowedSquaresMessage(Builder builder, List<Coordinate> allowedSquares, boolean specialPower) {
         this.builder = builder;
@@ -18,9 +18,18 @@ public class AllowedSquaresMessage implements Message<Screen> {
         this.specialPower = specialPower;
     }
 
+    public AllowedSquaresMessage(List<Coordinate> allowedSquares){
+        this.allowedSquares = allowedSquares;
+    }
+
 
     @Override
     public void execute(Screen target) {
-        target.receiveAllowedSquares(builder, allowedSquares, specialPower);
+        if(builder != null){
+            target.receiveAllowedSquares(builder, allowedSquares, specialPower);
+        } else {
+            target.receiveAllowedSquares(allowedSquares);
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 package view.CLI;
 
 import model.Player;
+import utils.Coordinate;
 import view.ViewManager;
 import view.screens.BoardScreen;
 
@@ -8,8 +9,8 @@ import java.util.List;
 
 public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
-    public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players) {
-        super(view, activePlayer, players);
+    public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighCoords) {
+        super(view, activePlayer, players, preHighCoords);
     }
 
     @Override
