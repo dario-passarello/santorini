@@ -110,7 +110,6 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
         super.receiveUpdateDone();
 
         Platform.runLater(this::updateNameLabel);
-
         for(int i = 0; i < getNumberOfPlayers(); i++){
             if(!getGodsRemaining().contains(getAllGodToChoose().get(i))){               //disable unavailable gods
                 token.getChildren().get(i).setVisible(true);

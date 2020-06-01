@@ -36,6 +36,7 @@ public abstract class BoardScreen extends Screen {
         this.activePlayer = activePlayer;
         this.players = new ArrayList<>(players);
         this.board = new Board();
+        this.currentGameState = Game.State.PLACE_BUILDER;
         setActivePlayer(activePlayer);
     }
 
