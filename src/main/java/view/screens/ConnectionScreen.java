@@ -59,7 +59,9 @@ public abstract class ConnectionScreen extends Screen {
     private void writeConfigurationToFile(){
         try{
             Gson gson = new Gson();
-            gson.toJson(this,new FileWriter(CONF_ADDRESS));
+            FileWriter fw = new FileWriter(CONF_ADDRESS);
+            gson.toJson(this,fw);
+            fw.close();
         } catch (IOException e) {
             Client.logger.warning("Could not create configuration.json\n" +
                     e.getClass().getName());

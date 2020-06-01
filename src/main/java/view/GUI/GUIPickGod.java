@@ -82,8 +82,6 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
                 });
             }
         }
-
-
     }
 
 
