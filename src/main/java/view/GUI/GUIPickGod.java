@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import model.Player;
+import view.ActivityNotAllowedException;
 import view.AssetLoader;
 import view.IllegalValueException;
 import view.ViewManager;
@@ -71,16 +72,12 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
             tokenImage.setVisible(false);
             token.getChildren().add(tokenImage);
 
-            //Players distinction
-            if(isActiveScreen()){
-                button.setOnMouseClicked((event) -> {
-                    try {
-                        pickGod(god);
-                    } catch (IllegalValueException ignored) {
-                        //ignored.printStackTrace();
-                    }
-                });
-            }
+            //Setting listeners
+            button.setOnMouseClicked((event) -> {
+                try {
+                    pickGod(god);
+                } catch (IllegalValueException | ActivityNotAllowedException ignored) {}
+            });
         }
     }
 
