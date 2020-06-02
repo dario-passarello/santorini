@@ -81,7 +81,7 @@ public abstract class PickGodScreen extends Screen{
     @Override
     public synchronized void receiveGameState(Game.State state, Player activePlayer) {
         nextState = state;
-        boardScreenBuilder.setActivePlayer(activePlayerName);
+        boardScreenBuilder.setActivePlayer(activePlayer.getName());
         activePlayerName = activePlayer.getName();
         if(state == Game.State.GOD_PICK)
             activeScreen = activePlayerName.equals(getThisPlayerName());
