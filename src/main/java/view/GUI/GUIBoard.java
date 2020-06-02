@@ -15,10 +15,12 @@ import javafx.scene.layout.VBox;
 import model.Board;
 import model.Builder;
 import model.Player;
+import model.Turn;
 import utils.Coordinate;
 import view.*;
 import view.screens.BoardScreen;
 
+import java.net.URL;
 import java.util.List;
 
 public class GUIBoard extends BoardScreen implements GUIController {
@@ -29,9 +31,10 @@ public class GUIBoard extends BoardScreen implements GUIController {
     @FXML GridPane domes;
     @FXML GridPane builders;
     @FXML VBox gods;
+    @FXML Label turnLabel;
 
     public static final float SQUARE_SIZE = 50;
-    public List<String> color = List.of("blue", "red", "green");
+    public List<String> color = List.of("green", "red", "blue");
 
 
     public GUIBoard(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighCoords) {
@@ -43,6 +46,8 @@ public class GUIBoard extends BoardScreen implements GUIController {
         GUI.getStage().setMinWidth(1280);
         GUI.getStage().setMaxHeight(720);
         GUI.getStage().setMinHeight(720);
+
+        updateTurnLabel();
 
         //Creating god images and player names
         for(Player p : getPlayers()){
@@ -135,9 +140,27 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
 
 
+    public void updateTurnLabel(){
+        if(getThisPlayerName().equals(getActivePlayer())){
+            turnLabel.setText("IT'S YOUR TURN!");
+        } else {
+            turnLabel.setText("IT'S " + getActivePlayer() +"'S TURN!");
+        }
+    }
+
+
     public void highlight(List<Coordinate> allowedTiles){
-        for(Coordinate c : allowedTiles){
-            GUI.getNodeFromGridPane(highlight, c.getY(), c.getX()).setVisible(true);
+        //Clear previous highlight
+        for(int i = 0; i < Board.BOARD_SIZE; i++){
+            for(int j = 0; j < Board.BOARD_SIZE; j++){
+                GUI.getNodeFromGridPane(highlight, j, i).setVisible(false);
+
+            }
+        }
+        if(isActiveScreen()) {
+            for (Coordinate c : allowedTiles) {
+                GUI.getNodeFromGridPane(highlight, c.getY(), c.getX()).setVisible(true);
+            }
         }
     }
 
@@ -181,18 +204,32 @@ public class GUIBoard extends BoardScreen implements GUIController {
         super.receiveBuildersPositions(builders);
         newBuilders = getCurrBuilders();
 
-        for(Builder newB : newBuilders){
-            for(Builder oldB : oldBuilders){
-                if(newB.equals(oldB)) break;
-                if(newB.getOwner().equals(oldB.getOwner()) && newB.getId() == oldB.getId()){
-                    Coordinate oldC = oldB.getSquare().getCoordinate();
-                    Coordinate newC = newB.getSquare().getCoordinate();
-                    ((ImageView) GUI.getNodeFromGridPane(this.builders, oldC.getY(), oldC.getX())).setImage(null);
-                    Image img = new Image("/assets/"+ color.get(getPlayers().indexOf(newB.getOwner()))+"_pawn");
-                    ((ImageView) GUI.getNodeFromGridPane(this.builders, newC.getY(), newC.getX())).setImage(img);
-                }
-            }
+        for(Builder oldB : oldBuilders){
+            Coordinate oldC = oldB.getSquare().getCoordinate();
+            ((ImageView) GUI.getNodeFromGridPane(this.builders, oldC.getY(), oldC.getX())).setImage(null);
         }
+
+        for(Builder newB : newBuilders){
+            Coordinate newC = newB.getSquare().getCoordinate();
+            URL url = getClass().getResource("/assets/"+ color.get(getPlayers().indexOf(newB.getOwner())) + "_pawn.png");
+            Image img = new Image(String.valueOf(url));
+            ((ImageView) GUI.getNodeFromGridPane(this.builders, newC.getY(), newC.getX())).setImage(img);
+        }
+
+        updateTurnLabel();
+    }
+
+    @Override
+    public  void receiveTurnState(Turn.State state, Player player) {
+        super.receiveTurnState(state, player);
+        updateTurnLabel();
+    }
+
+    @Override
+    public void receiveUpdateDone() {
+        super.receiveUpdateDone();
+        updateTurnLabel();
+        highlight(getHighlightedCoordinates());
     }
 
 
