@@ -55,7 +55,7 @@ public abstract class BoardScreen extends Screen {
      * @throws IllegalActionException The square selection is not valid (square is not a builder or highlighted)
      */
     protected synchronized final void selectSquare(Coordinate square) throws IllegalValueException, IllegalActionException {
-        if(!isActiveScreen()){
+        if(!isActiveScreen()){ ;
             throw new ActivityNotAllowedException();
         }
         if(!Board.checkValidCoordinate(square)){
