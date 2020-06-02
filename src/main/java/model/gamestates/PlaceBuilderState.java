@@ -30,7 +30,7 @@ public class PlaceBuilderState implements GameState {
         Player nextPlayer = nextPlayerCalculator.get();
         if(!nextPlayer.getName().equals(playerName)) {
             throw new IllegalArgumentException(ErrorMessage.WRONG_BUILD_OWNER+ "\n"
-                    + "Actual: " + playerName + " Expected: " + nextPlayer);
+                    + "Actual: " + playerName + " Expected: " + nextPlayer.getName());
         }
         if(!Board.checkValidCoordinate(coordinate)) {
             throw new IllegalArgumentException(ErrorMessage.COORDINATE_NOT_VALID);

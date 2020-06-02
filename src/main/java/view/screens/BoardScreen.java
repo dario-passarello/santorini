@@ -40,6 +40,8 @@ public abstract class BoardScreen extends Screen {
         this.currBuilders = new ArrayList<>();
         this.oldBuilders = new ArrayList<>();
         this.highlightedCoordinates = new ArrayList<>(preHighCoords);
+        this.normalAllowedSquares = new HashMap<>();
+        this.specialAllowedSquares = new HashMap<>();
         setActivePlayer(activePlayer);
     }
 
