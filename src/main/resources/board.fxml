@@ -125,6 +125,18 @@
                </children>
             </StackPane>
          </center>
+         <right>
+            <VBox alignment="CENTER" prefHeight="720.0" prefWidth="336.0" spacing="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="endPhase" disable="true" mnemonicParsing="false" onAction="#endPhase" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="End Phase" />
+                  <Button fx:id="toggleSpecialPower" disable="true" mnemonicParsing="false" onAction="#toggleSpecialPower" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Use Special Power" />
+                  <Button fx:id="resetPhase" disable="true" mnemonicParsing="false" onAction="#resetPhase" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Reset Selection" />
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </right>
       </BorderPane>
    </children>
 </StackPane>

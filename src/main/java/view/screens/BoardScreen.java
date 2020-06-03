@@ -161,6 +161,10 @@ public abstract class BoardScreen extends Screen {
         return isActiveScreen() && !specialAllowedSquares.isEmpty();
     }
 
+    protected synchronized final boolean resetPhaseAvailable(){
+        return currentGameState == Game.State.TURN && turnState == Turn.State.MOVE;
+    }
+
     /**
      * @return true if the special power has been activated
      */

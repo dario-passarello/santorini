@@ -32,6 +32,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
     @FXML GridPane builders;
     @FXML VBox gods;
     @FXML Label turnLabel;
+    @FXML Button endPhase;
+    @FXML Button toggleSpecialPower;
+    @FXML Button resetPhase;
 
     public static final float SQUARE_SIZE = 50;
     public List<String> color = List.of("green", "red", "blue");
@@ -154,7 +157,6 @@ public class GUIBoard extends BoardScreen implements GUIController {
         for(int i = 0; i < Board.BOARD_SIZE; i++){
             for(int j = 0; j < Board.BOARD_SIZE; j++){
                 GUI.getNodeFromGridPane(highlight, j, i).setVisible(false);
-
             }
         }
         if(isActiveScreen()) {
@@ -230,6 +232,33 @@ public class GUIBoard extends BoardScreen implements GUIController {
         super.receiveUpdateDone();
         updateTurnLabel();
         highlight(getHighlightedCoordinates());
+
+        //Update special power button
+        if(isActiveScreen() && specialPowerAvailable()){
+            toggleSpecialPower.setDisable(false);
+            toggleSpecialPower.setOpacity(1);
+        } else {
+            toggleSpecialPower.setDisable(true);
+            toggleSpecialPower.setOpacity(0.5);
+        }
+
+        //Update end phase button
+        if(isActiveScreen() && endPhaseAvailable()){
+            endPhase.setDisable(false);
+            endPhase.setOpacity(1);
+        } else {
+            endPhase.setDisable(true);
+            endPhase.setOpacity(0.5);
+        }
+
+        //Update reset phase
+        if(isActiveScreen() && resetPhaseAvailable()){
+            resetPhase.setDisable((false));
+            resetPhase.setOpacity(1);
+        } else {
+            resetPhase.setDisable(true);
+            resetPhase.setOpacity(0.5);
+        }
     }
 
 
