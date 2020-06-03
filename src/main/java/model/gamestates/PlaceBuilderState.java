@@ -4,6 +4,7 @@ import model.*;
 import utils.Coordinate;
 
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class PlaceBuilderState implements GameState {
                 .filter(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("All builders are placed"));
+        Consumer<GameObserver> updateAction;
         Player nextPlayer = nextPlayerCalculator.get();
         if(!nextPlayer.getName().equals(playerName)) {
             throw new IllegalArgumentException(ErrorMessage.WRONG_BUILD_OWNER+ "\n"
@@ -42,20 +44,27 @@ public class PlaceBuilderState implements GameState {
         if(game.getPlayers().stream().noneMatch(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)) {
             game.setGameState(game.turnState, new Player(game.getFirstPlayer()));
             game.nextTurn(true);
+            updateAction = obs -> {
+                obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+                obs.receiveBuildersPositions(game.getPlayers().stream()
+                        .flatMap(b -> b.getBuilders().stream()).collect(Collectors.toList()));
+            };
         }
         else {
             nextPlayer = nextPlayerCalculator.get();
             game.setGameState(game.placeBuilderState, new Player(nextPlayer));
+            updateAction = obs -> {
+                obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+                obs.receiveBuildersPositions(game.getPlayers().stream()
+                        .flatMap(b -> b.getBuilders().stream()).collect(Collectors.toList()));
+                obs.receiveAllowedSquares(game.getBoard().getFreeCoordinates());
+            };
         }
+        game.notifyObservers(updateAction);
         game.notifyObservers(obs -> {
-            obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
-            obs.receiveBuildersPositions(game.getPlayers().stream()
-                    .flatMap(b -> b.getBuilders().stream()).collect(Collectors.toList()));
-            obs.receiveAllowedSquares(game.getBoard().getFreeCoordinates());
             obs.receiveBoard(new Board(game.getBoard()));
             obs.receiveUpdateDone();
         });
-
         return true;
     }
 

@@ -23,7 +23,7 @@ public class MoveState implements TurnState {
         God playerGod;
         Builder builder;
         boolean canMoveAgain;
-        if(0 < builderID && builderID < Player.BUILDERS_PER_PLAYER)
+        if(0 > builderID || builderID > Player.BUILDERS_PER_PLAYER)
             throw new IllegalArgumentException();
         builder = turn.getCurrentPlayer().getBuilders().get(builderID);
         if(!builder.getOwner().equals(turn.getCurrentPlayer()))

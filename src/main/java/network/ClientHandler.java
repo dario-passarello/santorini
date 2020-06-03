@@ -128,6 +128,7 @@ public class ClientHandler implements Runnable, MessageTarget{
     public synchronized void sendMessage(Message<? extends MessageTarget> message) {
         try{
             outputStream.writeObject(message);
+            outputStream.reset();
         }
         catch (IOException e) {
             handleConnectionError(e);
