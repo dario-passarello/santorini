@@ -262,12 +262,12 @@ public abstract class BoardScreen extends Screen {
     @Override
     public synchronized void receiveTurnState(Turn.State state, Player player) {
         setActivePlayer(player.getName());
+        turnState = state;
         if(state == Turn.State.MOVE) {
+            selectedBuilder = null; //Reset selected builder at the start of the turn
             highlightedCoordinates.clear();
             highlightedCoordinates.addAll(getBuildersPositions(player.getName()));
         }
-
-        turnState = state;
     }
 
     @Override
@@ -304,9 +304,6 @@ public abstract class BoardScreen extends Screen {
     public synchronized void receiveUpdateDone() {
         if(currentGameState == Game.State.END_GAME){
             view.changeActiveScreen(view.getScreenFactory().getWinnerScreen(players));
-        }
-        if(turnState == Turn.State.END_TURN) {
-            view.sendMessage(new EndPhaseMessage());
         }
     }
 }
