@@ -25,11 +25,10 @@ public class Turn implements Observable<TurnObserver> {
     public final TurnState specialMoveState;
     public final TurnState buildState;
     public final TurnState additionalBuildState;
-    public final TurnState endTurnState;
 
-    private Game game;
+    private final Game game;
     private TurnState currentState;
-    private Player currentPlayer;
+    private final Player currentPlayer;
     private Builder activeBuilder;
 
     private List<TurnObserver> observers;
@@ -44,7 +43,6 @@ public class Turn implements Observable<TurnObserver> {
         specialMoveState = new AdditionalMoveState(this, this.game, false);
         buildState = new BuildState(this, this.game, false);
         additionalBuildState = new BuildState(this, this.game, true);
-        endTurnState = new EndTurnState(this, this.game);
     }
 
 
@@ -117,6 +115,11 @@ public class Turn implements Observable<TurnObserver> {
 
     public Turn.State getStateID(){
         return currentState.getStateID();
+    }
+
+    public void endTurn(){
+        getCurrentPlayer().getGod().resetBehaviors();
+        game.nextTurn(false);
     }
 
     public void newTurn() {
