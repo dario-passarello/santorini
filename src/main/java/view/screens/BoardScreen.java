@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public abstract class BoardScreen extends Screen {
 
@@ -23,7 +24,7 @@ public abstract class BoardScreen extends Screen {
     private List<Builder> currBuilders;
     private List<Builder> oldBuilders;
     private Builder selectedBuilder;
-    private List<Coordinate> highlightedCoordinates;
+    private final List<Coordinate> highlightedCoordinates;
     private HashMap<Builder, List<Coordinate>> normalAllowedSquares;
     private HashMap<Builder, List<Coordinate>> specialAllowedSquares;
     private Game.State currentGameState;
@@ -92,10 +93,11 @@ public abstract class BoardScreen extends Screen {
         }
         selectedBuilder = builder;
         //Set highlighted coordinates to display
+        highlightedCoordinates.clear();
         if(!specialPowerSelected)
-            highlightedCoordinates = normalAllowedSquares.get(selectedBuilder);
+            highlightedCoordinates.addAll(normalAllowedSquares.get(selectedBuilder));
         else
-            highlightedCoordinates = specialAllowedSquares.get(selectedBuilder);
+            highlightedCoordinates.addAll(specialAllowedSquares.get(selectedBuilder));
     }
 
     private void processCellSelection(Coordinate square) throws IllegalActionException{
@@ -117,13 +119,14 @@ public abstract class BoardScreen extends Screen {
         if(!isActiveScreen()){
             throw new ActivityNotAllowedException();
         }
+        highlightedCoordinates.clear();
         if(currentGameState != Game.State.TURN){
             throw new IllegalActionException("Command not allowed during current phase");
         }
         if(turnState == Turn.State.MOVE){
             selectedBuilder = null;
+            highlightedCoordinates.addAll(getBuildersPositions(activePlayer));
         }
-        highlightedCoordinates.clear();
     }
 
     /**
@@ -234,6 +237,13 @@ public abstract class BoardScreen extends Screen {
         specialPowerSelected = false;
     }
 
+    private List<Coordinate> getBuildersPositions(String playerName){
+        return currBuilders.stream()
+                .filter(b -> b.getOwner().getName().equals(playerName))
+                .map(b -> b.getSquare().getCoordinate())
+                .collect(Collectors.toList());
+    }
+
     @Override
     public synchronized void receiveGameState(Game.State state, Player activePlayer) {
         setActivePlayer(activePlayer.getName());
@@ -248,12 +258,18 @@ public abstract class BoardScreen extends Screen {
     @Override
     public synchronized void receiveTurnState(Turn.State state, Player player) {
         setActivePlayer(player.getName());
+        if(state == Turn.State.MOVE) {
+            highlightedCoordinates.clear();
+            highlightedCoordinates.addAll(getBuildersPositions(player.getName()));
+        }
+
         turnState = state;
     }
 
     @Override
     public synchronized void receiveAllowedSquares(List<Coordinate> coordinates){
-        highlightedCoordinates = new ArrayList<>(coordinates);
+        highlightedCoordinates.clear();
+        highlightedCoordinates.addAll(coordinates);
     }
 
     @Override
@@ -262,6 +278,10 @@ public abstract class BoardScreen extends Screen {
             specialAllowedSquares.put(builder,new ArrayList<>(allowedTiles));
         } else {
             normalAllowedSquares.put(builder, new ArrayList<>(allowedTiles));
+        }
+        if(turnState != Turn.State.MOVE && isActiveScreen()) {
+            highlightedCoordinates.clear();
+            highlightedCoordinates.addAll(normalAllowedSquares.get(selectedBuilder));
         }
     }
 
@@ -280,6 +300,9 @@ public abstract class BoardScreen extends Screen {
     public synchronized void receiveUpdateDone() {
         if(currentGameState == Game.State.END_GAME){
             view.changeActiveScreen(view.getScreenFactory().getWinnerScreen(players));
+        }
+        if(turnState == Turn.State.END_TURN) {
+            view.sendMessage(new EndPhaseMessage());
         }
     }
 }

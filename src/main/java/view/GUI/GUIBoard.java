@@ -76,8 +76,8 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
 
             stackPane.getChildren().addAll(podium, godImage, description);
-            stackPane.setAlignment(podium, Pos.BOTTOM_CENTER);
-            stackPane.setAlignment(godImage, Pos.TOP_CENTER);
+            StackPane.setAlignment(podium, Pos.BOTTOM_CENTER);
+            StackPane.setAlignment(godImage, Pos.TOP_CENTER);
             Label name = new Label(p.getName());
             name.setStyle("-fx-font-family: 'Arial Black'; -fx-text-fill: #ffffff");
             hBox.getChildren().addAll(stackPane, name);
@@ -131,11 +131,13 @@ public class GUIBoard extends BoardScreen implements GUIController {
                 button.setOnMouseClicked((event) -> {
                     try {
                         selectSquare(new Coordinate(finalI, finalJ));
+                        highlight(getHighlightedCoordinates());
                     } catch (IllegalActionException | IllegalValueException | ActivityNotAllowedException ignored) {}
                 });
 
             }
         }
+        highlight(getHighlightedCoordinates());
     }
 
 
@@ -154,7 +156,6 @@ public class GUIBoard extends BoardScreen implements GUIController {
         for(int i = 0; i < Board.BOARD_SIZE; i++){
             for(int j = 0; j < Board.BOARD_SIZE; j++){
                 GUI.getNodeFromGridPane(highlight, j, i).setVisible(false);
-
             }
         }
         if(isActiveScreen()) {
@@ -170,7 +171,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
     @Override
     public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower){
         super.receiveAllowedSquares(builder, allowedTiles, specialPower);
-        highlight(getHighlightedCoordinates());
+        //highlight(getHighlightedCoordinates());
     }
 
     @Override
@@ -195,10 +196,8 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
     }
 
-
     @Override
     public void receiveBuildersPositions(List<Builder> builders){
-
         List<Builder> oldBuilders, newBuilders;
         oldBuilders = getCurrBuilders();
         super.receiveBuildersPositions(builders);
@@ -216,27 +215,22 @@ public class GUIBoard extends BoardScreen implements GUIController {
             ((ImageView) GUI.getNodeFromGridPane(this.builders, newC.getY(), newC.getX())).setImage(img);
         }
 
-        updateTurnLabel();
+        Platform.runLater(this::updateTurnLabel);
     }
 
     @Override
-    public  void receiveTurnState(Turn.State state, Player player) {
+    public void receiveTurnState(Turn.State state, Player player) {
         super.receiveTurnState(state, player);
-        updateTurnLabel();
+        //Platform.runLater(this::updateTurnLabel);
     }
 
     @Override
     public void receiveUpdateDone() {
         super.receiveUpdateDone();
-        updateTurnLabel();
+        Platform.runLater(this::updateTurnLabel);
+
         highlight(getHighlightedCoordinates());
     }
-
-
-
-
-
-
 
     @Override
     public void onScreenOpen() {
