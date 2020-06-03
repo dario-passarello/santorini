@@ -123,7 +123,7 @@ public abstract class BoardScreen extends Screen {
         if(currentGameState != Game.State.TURN){
             throw new IllegalActionException("Command not allowed during current phase");
         }
-        if(turnState == Turn.State.MOVE){
+        if(turnState == Turn.State.MOVE && selectedBuilder != null){
             selectedBuilder = null;
             highlightedCoordinates.addAll(getBuildersPositions(activePlayer));
         }

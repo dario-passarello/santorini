@@ -169,6 +169,24 @@ public class GUIBoard extends BoardScreen implements GUIController {
     }
 
 
+    public void endPhaseListener() {
+        try {
+            super.endPhase();
+        } catch (IllegalActionException e){}
+    }
+
+    public void resetPhaseListener(){
+        try {
+            super.resetPhase();
+        } catch (IllegalActionException e){}
+    }
+
+    public void toggleSpecialPowerListener(){
+        try {
+            super.toggleSpecialPower();
+        } catch (IllegalActionException e){}
+    }
+
 
 
     @Override
@@ -253,7 +271,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
         }
 
         //Update reset phase
-        if(isActiveScreen() && resetPhaseAvailable()){
+        if(isActiveScreen() && getSelectedBuilder() != null && resetPhaseAvailable()){
             resetPhase.setDisable((false));
             resetPhase.setOpacity(1);
         } else {

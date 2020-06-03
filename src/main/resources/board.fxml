@@ -39,10 +39,10 @@
          <center>
             <StackPane maxHeight="225.0" maxWidth="225.0" prefHeight="225.0" prefWidth="225.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets left="10.0" />
+                  <Insets left="350.0" top="40.0" />
                </BorderPane.margin>
                <children>
-                  <GridPane fx:id="highlight" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
+                  <GridPane fx:id="buildings" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
                      <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -58,7 +58,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <GridPane fx:id="buildings" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
+                  <GridPane fx:id="highlight" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
                      <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -128,9 +128,9 @@
          <right>
             <VBox alignment="CENTER" prefHeight="720.0" prefWidth="336.0" spacing="30.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="endPhase" disable="true" mnemonicParsing="false" onAction="#endPhase" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="End Phase" />
-                  <Button fx:id="toggleSpecialPower" disable="true" mnemonicParsing="false" onAction="#toggleSpecialPower" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Use Special Power" />
-                  <Button fx:id="resetPhase" disable="true" mnemonicParsing="false" onAction="#resetPhase" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Reset Selection" />
+                  <Button fx:id="endPhase" disable="true" mnemonicParsing="false" onAction="#endPhaseListener" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="End Phase" />
+                  <Button fx:id="toggleSpecialPower" disable="true" mnemonicParsing="false" onAction="#toggleSpecialPowerListener" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Use Special Power" />
+                  <Button fx:id="resetPhase" disable="true" mnemonicParsing="false" onAction="#resetPhaseListener" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Reset Selection" />
                </children>
                <BorderPane.margin>
                   <Insets />
