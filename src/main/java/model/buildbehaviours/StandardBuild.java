@@ -8,8 +8,6 @@ import java.util.Set;
 
 public class StandardBuild implements BuildBehavior {
 
-
-
     public boolean build(Square dest) {
         dest.build();
         return false;
@@ -26,6 +24,10 @@ public class StandardBuild implements BuildBehavior {
         buildable.removeAll(removable);
 
         return buildable;
+    }
+
+    public void reset(){
+
     }
 
 }

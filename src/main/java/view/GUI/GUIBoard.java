@@ -181,12 +181,15 @@ public class GUIBoard extends BoardScreen implements GUIController {
     public void endPhaseListener() {
         try {
             super.endPhase();
+            updateButtons();
+            highlight(getHighlightedCoordinates());
         } catch (IllegalActionException ignored){}
     }
 
     public void resetPhaseListener(){
         try {
             super.resetPhase();
+            updateButtons();
             highlight(getHighlightedCoordinates());
         } catch (IllegalActionException ignored){}
     }
@@ -194,13 +197,15 @@ public class GUIBoard extends BoardScreen implements GUIController {
     public void toggleSpecialPowerListener(){
         try {
             super.toggleSpecialPower();
+            updateButtons();
+            highlight(getHighlightedCoordinates());
         } catch (IllegalActionException ignored){}
     }
 
 
     public void updateButtons(){
         //Update special power button
-        if(isActiveScreen() && specialPowerAvailable()){
+        if(specialPowerAvailable()){
             toggleSpecialPower.setDisable(false);
             toggleSpecialPower.setOpacity(1);
         } else {
@@ -209,7 +214,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
         }
 
         //Update end phase button
-        if(isActiveScreen() && endPhaseAvailable()){
+        if(endPhaseAvailable()){
             endPhase.setDisable(false);
             endPhase.setOpacity(1);
         } else {
@@ -218,8 +223,8 @@ public class GUIBoard extends BoardScreen implements GUIController {
         }
 
         //Update reset phase
-        if(isActiveScreen() && getSelectedBuilder() != null && resetPhaseAvailable()){
-            resetPhase.setDisable((false));
+        if(getSelectedBuilder() != null && resetPhaseAvailable()){
+            resetPhase.setDisable(false);
             resetPhase.setOpacity(1);
         } else {
             resetPhase.setDisable(true);

@@ -129,7 +129,7 @@ public class Turn implements Observable<TurnObserver> {
             this.setTurnState(this.moveState);
             this.notifyObservers((TurnObserver obs) -> { //Start composite update of observers
                 obs.receiveBoard(new Board(game.getBoard())); //Send a copy of the board
-                obs.receiveBuildersPositions(currentPlayer.getBuilders().stream() //Send a copy
+                obs.receiveBuildersPositions(game.getAllBuilders().stream() //Send a copy
                         .map(Builder::new)
                         .collect(Collectors.toList()));
                 currentPlayer.getBuilders() //For each builder send his walkable neighbours

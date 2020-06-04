@@ -11,18 +11,23 @@ public class DoubleNotSameBuild extends BuildDecorator {
     // Contains the Square the player has built on the first time
     // Null - if this is the first ordinary build of the turn
     private Square previous;
-    private boolean second;
 
 
+    public DoubleNotSameBuild(BuildBehavior buildBehavior){
+        this.wrappedBuildBehavior = buildBehavior;
+        this.previous = null;
+    }
 
     public boolean build(Square dest) {
-        if(!second){
-            second = true;
+        if(previous == null){
             previous = dest;
             wrappedBuildBehavior.build(dest);
             return true;
         }
-        else return wrappedBuildBehavior.build(dest);
+        else {
+            previous = null;
+            return wrappedBuildBehavior.build(dest);
+        }
     }
 
     /**
@@ -32,7 +37,7 @@ public class DoubleNotSameBuild extends BuildDecorator {
      * @return the set of square where the builder can build
      */
     public Set<Square> neighborhood(Square src) {
-        if(second == false){
+        if(previous == null){
             return this.wrappedBuildBehavior.neighborhood(src);
         }
         else{
@@ -42,11 +47,9 @@ public class DoubleNotSameBuild extends BuildDecorator {
         }
     }
 
-    public DoubleNotSameBuild(BuildBehavior buildBehavior){
-        this.wrappedBuildBehavior = buildBehavior;
-        this.second = false;
-        this.previous = null;
+    @Override
+    public void reset() {
+        previous = null;
+        wrappedBuildBehavior.reset();
     }
-
-
 }

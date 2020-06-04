@@ -52,4 +52,9 @@ public class StandardMove implements MoveBehavior {
         return false;
     }
 
+    @Override
+    public void reset() {
+
+    }
+
 }

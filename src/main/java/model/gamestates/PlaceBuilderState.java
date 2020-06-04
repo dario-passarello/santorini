@@ -29,6 +29,7 @@ public class PlaceBuilderState implements GameState {
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("All builders are placed"));
         Consumer<GameObserver> updateAction;
+        boolean nextTurn;
         Player nextPlayer = nextPlayerCalculator.get();
         if(!nextPlayer.getName().equals(playerName)) {
             throw new IllegalArgumentException(ErrorMessage.WRONG_BUILD_OWNER+ "\n"
@@ -41,14 +42,10 @@ public class PlaceBuilderState implements GameState {
             throw new IllegalArgumentException("Square " + coordinate.toString() +  " is not free"); //ADD MESSAGE
         }
         nextPlayer.addBuilder(game.getBoard().squareAt(coordinate));
-        if(game.getPlayers().stream().noneMatch(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)) {
+        nextTurn = game.getPlayers().stream().noneMatch(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER);
+        if(nextTurn) {
             game.setGameState(game.turnState, new Player(game.getFirstPlayer()));
-            game.nextTurn(true);
-            updateAction = obs -> {
-                obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
-                obs.receiveBuildersPositions(game.getPlayers().stream()
-                        .flatMap(b -> b.getBuilders().stream()).collect(Collectors.toList()));
-            };
+            updateAction = obs -> obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
         }
         else {
             nextPlayer = nextPlayerCalculator.get();
@@ -58,13 +55,13 @@ public class PlaceBuilderState implements GameState {
                 obs.receiveBuildersPositions(game.getPlayers().stream()
                         .flatMap(b -> b.getBuilders().stream()).collect(Collectors.toList()));
                 obs.receiveAllowedSquares(game.getBoard().getFreeCoordinates());
+                obs.receiveBoard(new Board(game.getBoard()));
+                obs.receiveUpdateDone();
             };
         }
+        if(nextTurn)
+            game.nextTurn(true);
         game.notifyObservers(updateAction);
-        game.notifyObservers(obs -> {
-            obs.receiveBoard(new Board(game.getBoard()));
-            obs.receiveUpdateDone();
-        });
         return true;
     }
 

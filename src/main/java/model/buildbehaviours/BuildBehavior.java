@@ -22,4 +22,6 @@ public interface BuildBehavior {
     Set<Square> neighborhood(Square src);
 
 
+    void reset();
+
 }

@@ -2,6 +2,8 @@ package view.screens;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.Game;
 import model.Player;
 import network.Client;
@@ -27,6 +29,10 @@ public abstract class ConnectionScreen extends Screen {
     private transient List<String> players;
     private transient String activePlayerName;
 
+    public ConnectionScreen(){
+        super(null);
+    }
+
     public ConnectionScreen(ViewManager view) {
         super(view);
         ip = "";
@@ -38,16 +44,17 @@ public abstract class ConnectionScreen extends Screen {
 
     private void readConfigurationFromFile(){
         try{
-            String confReader = new Scanner(AssetLoader.class.getResourceAsStream("/" + CONF_ADDRESS)).nextLine();
+            String confReader = new Scanner(new FileReader("configuration.json")).nextLine();
             Gson gson = new Gson();
-            ConnectionScreen configuration = gson.fromJson(confReader, ConnectionScreen.class);
-            ip = configuration.ip;
-            username = configuration.username;
-            port = configuration.port;
-            numberOfPlayers = configuration.numberOfPlayers;
+            JsonObject parsed = gson.fromJson(confReader, JsonObject.class);
+            ip = parsed.get("ip").getAsString();
+            username = parsed.get("username").getAsString();
+            port = parsed.get("port").getAsInt();
+            numberOfPlayers = parsed.get("numberOfPlayers").getAsInt();
             Client.logger.info("configuration.json loaded!");
         } catch (Exception e){
             Client.logger.warning("Could not load configuration.json\n" + e.getClass().getName());
+            e.printStackTrace();
         }
     }
 

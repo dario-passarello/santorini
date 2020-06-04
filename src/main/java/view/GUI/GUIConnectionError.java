@@ -17,7 +17,6 @@ public class GUIConnectionError extends ConnectionErrorScreen implements GUICont
     }
 
 
-    @Override
     public void onScreenOpen() {
         Platform.runLater(() ->GUI.setSceneController(this));
     }

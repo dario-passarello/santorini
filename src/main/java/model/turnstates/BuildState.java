@@ -52,15 +52,15 @@ public class BuildState implements TurnState {
                 endTurn = true;
             }
         }
-        /*
-        turn.notifyObservers(obs -> {
-            obs.receiveBoard(new Board(game.getBoard()));
-            obs.receiveUpdateDone();
-        });*/
         //Check the special winning condition (after the build)
         turn.getCurrentPlayer().getGod().checkSpecialWinCondition().ifPresent(game::setWinner);
         if(endTurn){
             turn.endTurn();
+        } else {
+            turn.notifyObservers(obs -> {
+                obs.receiveBoard(new Board(game.getBoard()));
+                obs.receiveUpdateDone();
+            });
         }
         return true;
     }

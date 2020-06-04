@@ -161,11 +161,13 @@ public abstract class BoardScreen extends Screen {
      * @return true if the special power could be activated from the player
      */
     protected synchronized final boolean specialPowerAvailable() {
-        return isActiveScreen() && !specialAllowedSquares.isEmpty();
+        return isActiveScreen() &&
+                ((turnState == Turn.State.MOVE &&!specialAllowedSquares.isEmpty()) ||
+                 (turnState == Turn.State.BUILD && getThisPlayer().getGod().hasSpecialBuildPower()));
     }
 
     protected synchronized final boolean resetPhaseAvailable(){
-        return currentGameState == Game.State.TURN && turnState == Turn.State.MOVE;
+        return isActiveScreen() && currentGameState == Game.State.TURN && turnState == Turn.State.MOVE;
     }
 
     /**
@@ -176,7 +178,8 @@ public abstract class BoardScreen extends Screen {
     }
 
     protected synchronized final boolean endPhaseAvailable() {
-        return turnState == Turn.State.ADDITIONAL_MOVE || turnState == Turn.State.ADDITIONAL_BUILD;
+        return isActiveScreen() &&
+                (turnState == Turn.State.ADDITIONAL_MOVE || turnState == Turn.State.ADDITIONAL_BUILD);
     }
 
     private void setActivePlayer(String activePlayerName){
@@ -248,6 +251,10 @@ public abstract class BoardScreen extends Screen {
                 .collect(Collectors.toList());
     }
 
+    private Player getThisPlayer(){
+        return players.stream().filter(player -> player.getName().equals(getThisPlayerName())).findFirst().get();
+    }
+
     @Override
     public synchronized void receiveGameState(Game.State state, Player activePlayer) {
         setActivePlayer(activePlayer.getName());
@@ -256,6 +263,7 @@ public abstract class BoardScreen extends Screen {
 
     @Override
     public synchronized void receivePlayerList(List<Player> list) {
+
         this.players = new ArrayList<>(list);
     }
 
