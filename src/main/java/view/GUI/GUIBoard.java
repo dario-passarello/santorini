@@ -2,7 +2,9 @@ package view.GUI;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -36,7 +38,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
     @FXML Button toggleSpecialPower;
     @FXML Button resetPhase;
 
-    public static final float SQUARE_SIZE = 50;
+    public static final float SQUARE_SIZE = 80;
     public List<String> color = List.of("green", "red", "blue");
 
 
@@ -108,6 +110,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
                 mark.setVisible(false);
                 highlight.add(mark, j, i, 1, 1);
 
+                GridPane.setHalignment(mark, HPos.CENTER);
+                GridPane.setValignment(mark, VPos.CENTER);
+
                 //buildings layer
                 building = new ImageView();
                 building.setPreserveRatio(true);
@@ -118,7 +123,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
                 dome = new ImageView();
                 dome.setImage(new Image(String.valueOf(getClass().getResource("/assets/dome.png"))));
                 dome.setPreserveRatio(true);
-                dome.setFitHeight(SQUARE_SIZE);
+                dome.setFitHeight(SQUARE_SIZE/2);
                 dome.setVisible(false);
                 domes.add(dome, j, i, 1, 1);
 
@@ -134,6 +139,8 @@ public class GUIBoard extends BoardScreen implements GUIController {
                 button.setOnMouseClicked((event) -> {
                     try {
                         selectSquare(new Coordinate(finalI, finalJ));
+                        updateButtons();
+                        updateBuilders();
                         highlight(getHighlightedCoordinates());
                     } catch (IllegalActionException | IllegalValueException | ActivityNotAllowedException ignored) {}
                 });
@@ -169,89 +176,29 @@ public class GUIBoard extends BoardScreen implements GUIController {
     }
 
 
+
+
     public void endPhaseListener() {
         try {
             super.endPhase();
-        } catch (IllegalActionException e){}
+        } catch (IllegalActionException ignored){}
     }
 
     public void resetPhaseListener(){
         try {
             super.resetPhase();
-        } catch (IllegalActionException e){}
+            highlight(getHighlightedCoordinates());
+        } catch (IllegalActionException ignored){}
     }
 
     public void toggleSpecialPowerListener(){
         try {
             super.toggleSpecialPower();
-        } catch (IllegalActionException e){}
+        } catch (IllegalActionException ignored){}
     }
 
 
-
-    @Override
-    public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower){
-        super.receiveAllowedSquares(builder, allowedTiles, specialPower);
-        //highlight(getHighlightedCoordinates());
-    }
-
-    @Override
-    public void receiveBoard(Board board) {
-        super.receiveBoard(board);
-
-        Board b = getBoard();
-        for(int i = 0; i < Board.BOARD_SIZE; i++){
-            for(int j = 0; j < Board.BOARD_SIZE; j++){
-                int level = b.squareAt(i,j).getBuildLevel();
-                boolean dome = b.squareAt(i,j).isDomed();
-
-                if(level == 0){
-                    ((ImageView) GUI.getNodeFromGridPane(buildings, j, i)).setImage(null);
-                } else {
-                    ((ImageView) GUI.getNodeFromGridPane(buildings, j, i)).setImage(new Image(String.valueOf(getClass().getResource("/assets/build_"+level+".png"))));
-                }
-
-                GUI.getNodeFromGridPane(domes, j, i).setVisible(dome);
-            }
-        }
-
-    }
-
-    @Override
-    public void receiveBuildersPositions(List<Builder> builders){
-        List<Builder> oldBuilders, newBuilders;
-        oldBuilders = getCurrBuilders();
-        super.receiveBuildersPositions(builders);
-        newBuilders = getCurrBuilders();
-
-        for(Builder oldB : oldBuilders){
-            Coordinate oldC = oldB.getSquare().getCoordinate();
-            ((ImageView) GUI.getNodeFromGridPane(this.builders, oldC.getY(), oldC.getX())).setImage(null);
-        }
-
-        for(Builder newB : newBuilders){
-            Coordinate newC = newB.getSquare().getCoordinate();
-            URL url = getClass().getResource("/assets/"+ color.get(getPlayers().indexOf(newB.getOwner())) + "_pawn.png");
-            Image img = new Image(String.valueOf(url));
-            ((ImageView) GUI.getNodeFromGridPane(this.builders, newC.getY(), newC.getX())).setImage(img);
-        }
-
-        Platform.runLater(this::updateTurnLabel);
-    }
-
-    @Override
-    public void receiveTurnState(Turn.State state, Player player) {
-        super.receiveTurnState(state, player);
-        //Platform.runLater(this::updateTurnLabel);
-    }
-
-    @Override
-    public void receiveUpdateDone() {
-        super.receiveUpdateDone();
-        Platform.runLater(this::updateTurnLabel);
-
-        highlight(getHighlightedCoordinates());
-
+    public void updateButtons(){
         //Update special power button
         if(isActiveScreen() && specialPowerAvailable()){
             toggleSpecialPower.setDisable(false);
@@ -278,7 +225,82 @@ public class GUIBoard extends BoardScreen implements GUIController {
             resetPhase.setDisable(true);
             resetPhase.setOpacity(0.5);
         }
+
     }
+
+    @Override
+    public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower){
+        super.receiveAllowedSquares(builder, allowedTiles, specialPower);
+    }
+
+    @Override
+    public void receiveBoard(Board board) {
+        super.receiveBoard(board);
+
+        Board b = getBoard();
+        for(int i = 0; i < Board.BOARD_SIZE; i++){
+            for(int j = 0; j < Board.BOARD_SIZE; j++){
+                int level = b.squareAt(i,j).getBuildLevel();
+                boolean dome = b.squareAt(i,j).isDomed();
+
+                if(level == 0){
+                    ((ImageView) GUI.getNodeFromGridPane(buildings, j, i)).setImage(null);
+                } else {
+                    ((ImageView) GUI.getNodeFromGridPane(buildings, j, i)).setImage(new Image(String.valueOf(getClass().getResource("/assets/build_"+level+".png"))));
+                }
+
+                GUI.getNodeFromGridPane(domes, j, i).setVisible(dome);
+            }
+        }
+
+    }
+
+    @Override
+    public void receiveBuildersPositions(List<Builder> builders){
+        super.receiveBuildersPositions(builders);
+        Platform.runLater(this::updateBuilders);
+        Platform.runLater(this::updateTurnLabel);
+    }
+
+
+
+    public void updateBuilders(){
+        //Clear board
+        for(int i = 0; i < Board.BOARD_SIZE; i++){
+            for(int j = 0; j < Board.BOARD_SIZE; j++){
+                ((ImageView) GUI.getNodeFromGridPane(this.builders, j, i)).setImage(null);
+            }
+        }
+
+        for(Builder b : getCurrBuilders()){
+            Coordinate newC = b.getSquare().getCoordinate();
+            URL url = getClass().getResource("/assets/"+ color.get(getPlayers().indexOf(b.getOwner())) + "_pawn.png");
+            Image img = new Image(String.valueOf(url));
+            ((ImageView) GUI.getNodeFromGridPane(this.builders, newC.getY(), newC.getX())).setImage(img);
+        }
+    }
+
+
+    @Override
+    public void receiveTurnState(Turn.State state, Player player) {
+        super.receiveTurnState(state, player);
+        //Platform.runLater(this::updateTurnLabel);
+    }
+
+    @Override
+    public void receiveUpdateDone() {
+        super.receiveUpdateDone();
+        Platform.runLater(this::updateTurnLabel);
+
+        highlight(getHighlightedCoordinates());
+        Platform.runLater(this::updateBuilders);
+    }
+
+
+
+
+
+
 
     @Override
     public void onScreenOpen() {
