@@ -68,7 +68,9 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getBoardScreen(String activePlayer, List<Player> players) {
-        return null;
+        Screen boardScreen = new CLIBoardScreen(viewManager, activePlayer, players);
+        cliListener.setScreen((InputProcessor) boardScreen);
+        return boardScreen;
     }
 
     @Override

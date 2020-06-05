@@ -9,8 +9,6 @@ import java.util.List;
 //TODO Add Sentence when a god is Selected
 //TODO Increase readibility of Sentences
 
-//TODO IMPORTANT: Send confirmation message when all the Gods are Selected
-
 public class CLIGodSelectionScreen extends GodSelectionScreen implements InputProcessor {
 
     public CLIGodSelectionScreen(ViewManager viewManager, String activePlayer){

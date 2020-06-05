@@ -16,7 +16,7 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
 
     @Override
     public void processInput(String input) {
-        expectedInput.execute(input);
+        if(activeScreen) expectedInput.execute(input);
     }
 
     @Override
