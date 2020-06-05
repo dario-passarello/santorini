@@ -25,11 +25,10 @@ public class Turn implements Observable<TurnObserver> {
     public final TurnState specialMoveState;
     public final TurnState buildState;
     public final TurnState additionalBuildState;
-    public final TurnState endTurnState;
 
-    private Game game;
+    private final Game game;
     private TurnState currentState;
-    private Player currentPlayer;
+    private final Player currentPlayer;
     private Builder activeBuilder;
 
     private List<TurnObserver> observers;
@@ -44,7 +43,6 @@ public class Turn implements Observable<TurnObserver> {
         specialMoveState = new AdditionalMoveState(this, this.game, false);
         buildState = new BuildState(this, this.game, false);
         additionalBuildState = new BuildState(this, this.game, true);
-        endTurnState = new EndTurnState(this, this.game);
     }
 
 
@@ -119,6 +117,11 @@ public class Turn implements Observable<TurnObserver> {
         return currentState.getStateID();
     }
 
+    public void endTurn(){
+        getCurrentPlayer().getGod().resetBehaviors();
+        game.nextTurn(false);
+    }
+
     public void newTurn() {
         if(currentPlayer.checkMovingLoseCondition()) {
             game.removePlayer(currentPlayer, false);
@@ -126,7 +129,7 @@ public class Turn implements Observable<TurnObserver> {
             this.setTurnState(this.moveState);
             this.notifyObservers((TurnObserver obs) -> { //Start composite update of observers
                 obs.receiveBoard(new Board(game.getBoard())); //Send a copy of the board
-                obs.receiveBuildersPositions(currentPlayer.getBuilders().stream() //Send a copy
+                obs.receiveBuildersPositions(game.getAllBuilders().stream() //Send a copy
                         .map(Builder::new)
                         .collect(Collectors.toList()));
                 currentPlayer.getBuilders() //For each builder send his walkable neighbours

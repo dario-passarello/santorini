@@ -64,6 +64,11 @@ public abstract class Screen implements View, MessageTarget {
     }
 
     @Override
+    public void receiveAllowedSquares(List<Coordinate> allowedTiles) {
+
+    }
+
+    @Override
     public synchronized void receiveAvailableGodList(List<God> gods) {
 
     }
@@ -97,6 +102,7 @@ public abstract class Screen implements View, MessageTarget {
     public synchronized void receiveUpdateDone() {
 
     }
+
 
     @Override
     public final void receiveDisconnect() {

@@ -26,6 +26,7 @@ public class BuildState implements TurnState {
         Builder activeBuilder = turn.getActiveBuilder();
         Square buildSquare;
         boolean canBuildAgain = false;
+        boolean endTurn = false;
         if(!Board.checkValidCoordinate(coordinate)) {
             throw new IllegalArgumentException(ErrorMessage.COORDINATE_NOT_VALID);
         }
@@ -40,7 +41,7 @@ public class BuildState implements TurnState {
         //If the action is valid and will be executed this point is reached
         if(specialPower) {
             activeBuilder.buildDome(buildSquare);
-            turn.setTurnState(turn.endTurnState);
+            endTurn = true;
         } else {
             canBuildAgain = activeBuilder.build(buildSquare);
             if(canBuildAgain) {
@@ -48,23 +49,26 @@ public class BuildState implements TurnState {
                 //Send the buildable square for the additional build phase
                 turn.notifyObservers(obs -> obs.receiveAllowedSquares(activeBuilder,activeBuilder.getBuildableCoordinates(), false));
             } else {
-                turn.setTurnState(turn.endTurnState);
+                endTurn = true;
             }
         }
-        turn.notifyObservers(obs -> {
-            obs.receiveBoard(new Board(game.getBoard()));
-            obs.receiveUpdateDone();
-        });
         //Check the special winning condition (after the build)
         turn.getCurrentPlayer().getGod().checkSpecialWinCondition().ifPresent(game::setWinner);
+        if(endTurn){
+            turn.endTurn();
+        } else {
+            turn.notifyObservers(obs -> {
+                obs.receiveBoard(new Board(game.getBoard()));
+                obs.receiveUpdateDone();
+            });
+        }
         return true;
     }
 
     public boolean endPhase() {
         if(!optional)
             throw new IllegalStateException(ErrorMessage.NOT_OPTIONAL_STATE); //The state is not optional, could not be skipped
-        turn.setTurnState(turn.endTurnState);
-        turn.notifyObservers(TurnObserver::receiveUpdateDone);
+        turn.endTurn();
         return true;
     }
 

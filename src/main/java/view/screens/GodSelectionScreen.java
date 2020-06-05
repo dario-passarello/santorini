@@ -4,6 +4,7 @@ import model.Game;
 import model.Player;
 import model.gods.God;
 import network.messages.toserver.SubmitGodListMessage;
+import utils.Coordinate;
 import view.*;
 
 import java.util.*;
@@ -124,12 +125,19 @@ public abstract class GodSelectionScreen extends Screen {
         nextState = state;
         pickGodSB.setActivePlayer(activePlayer.getName());
         boardSB.setActivePlayer(activePlayer.getName());
+
     }
 
     @ServerListener
     @Override
     public synchronized void receivePlayerList(List<Player> player) {
         boardSB.setPlayerList(player);
+    }
+
+    @ServerListener
+    @Override
+    public synchronized void receiveAllowedSquares(List<Coordinate> coordinates) {
+        boardSB.setPreHighlightedCoordinates(coordinates);
     }
 
     @ServerListener
@@ -145,12 +153,12 @@ public abstract class GodSelectionScreen extends Screen {
         if(nextState == Game.State.END_GAME){
             nextScreen = new ScreenBuilder(view.getScreenFactory()) {
                 public Screen buildScreen() {
-                    return screenFactory.getMenuScreen();
+                    return screenFactory.getConnectionErrorScreen();
                 }
             };
         } else if(nextState == Game.State.GOD_PICK) {
             nextScreen = pickGodSB;
-        } else if(nextState == Game.State.GOD_SELECTION) {
+        } else if(nextState == Game.State.PLACE_BUILDER) {
             nextScreen = boardSB;
         }
         else {

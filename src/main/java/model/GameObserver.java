@@ -1,6 +1,7 @@
 package model;
 
 import model.gods.God;
+import utils.Coordinate;
 import utils.Observer;
 import java.util.List;
 
@@ -24,10 +25,22 @@ public interface GameObserver extends Observer {
     void receivePlayerList(List<Player> list);
 
     /**
+     * Send allowed squares for placing builders
+     * @param allowedTiles The squares where the builder could make his action
+     */
+    void receiveAllowedSquares(List<Coordinate> allowedTiles);
+
+    /**
      *  Notifies all player of the list of all gods
      * @param gods A list of all gods available in this game
      */
     void receiveAvailableGodList(List<God> gods);
+
+    /**
+     * Send to observer a list with all builder objects in game
+     * @param builders The list of builders
+     */
+    void receiveBuildersPositions(List<Builder> builders);
 
     /**
      * Receive the current status of the board
@@ -39,6 +52,7 @@ public interface GameObserver extends Observer {
      * Notifies all observer that the update is done, and they could safely display the content
      */
     void receiveUpdateDone();
+
 
     void receiveDisconnect();
 

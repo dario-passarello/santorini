@@ -74,6 +74,7 @@ public class ServerAdapter implements Runnable, MessageTarget {
     public void sendMessage(Message<? extends MessageTarget> messageToServer){
         try{
             outStream.writeObject(messageToServer);
+            outStream.reset();
         } catch(IOException e){
             running.set(false); //Stop the listener
             view.receiveMessage(new DisconnectClientMessage());

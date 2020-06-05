@@ -2,6 +2,8 @@ package view.screens;
 
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.Game;
 import model.Player;
 import network.Client;
@@ -10,6 +12,7 @@ import view.*;
 
 import java.io.*;
 import java.util.List;
+import java.util.Scanner;
 
 public abstract class ConnectionScreen extends Screen {
 
@@ -26,6 +29,10 @@ public abstract class ConnectionScreen extends Screen {
     private transient List<String> players;
     private transient String activePlayerName;
 
+    public ConnectionScreen(){
+        super(null);
+    }
+
     public ConnectionScreen(ViewManager view) {
         super(view);
         ip = "";
@@ -36,30 +43,27 @@ public abstract class ConnectionScreen extends Screen {
     }
 
     private void readConfigurationFromFile(){
-        File file = new File("CONF_ADDRESS");
-        if(file.exists()){
-            try{
-                Reader confReader = new FileReader(file);
-                Gson gson = new Gson();
-                ConnectionScreen configuration = gson.fromJson(confReader, ConnectionScreen.class);
-                ip = configuration.ip;
-                username = configuration.username;
-                port = configuration.port;
-                numberOfPlayers = configuration.numberOfPlayers;
-                Client.logger.info("configuration.json loaded!");
-            } catch (IOException e){
-                Client.logger.warning("Could not load configuration.json\n" +
-                        e.getClass().getName());
-            }
-        } else {
-            Client.logger.info("configuration.json not present, will be created on first connection!");
+        try{
+            String confReader = new Scanner(new FileReader("configuration.json")).nextLine();
+            Gson gson = new Gson();
+            JsonObject parsed = gson.fromJson(confReader, JsonObject.class);
+            ip = parsed.get("ip").getAsString();
+            username = parsed.get("username").getAsString();
+            port = parsed.get("port").getAsInt();
+            numberOfPlayers = parsed.get("numberOfPlayers").getAsInt();
+            Client.logger.info("configuration.json loaded!");
+        } catch (Exception e){
+            Client.logger.warning("Could not load configuration.json\n" + e.getClass().getName());
+            e.printStackTrace();
         }
     }
 
     private void writeConfigurationToFile(){
         try{
             Gson gson = new Gson();
-            gson.toJson(this,new FileWriter(CONF_ADDRESS));
+            FileWriter fw = new FileWriter(CONF_ADDRESS);
+            gson.toJson(this,fw);
+            fw.close();
         } catch (IOException e) {
             Client.logger.warning("Could not create configuration.json\n" +
                     e.getClass().getName());

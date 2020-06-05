@@ -2,6 +2,7 @@ package view.GUI;
 
 import javafx.application.Application;
 import model.Player;
+import utils.Coordinate;
 import view.screens.Screen;
 import view.screens.ScreenFactory;
 import view.ViewManager;
@@ -49,13 +50,13 @@ public class GUIScreenFactory implements ScreenFactory {
     }
 
     @Override
-    public Screen getBoardScreen(String activePlayer, List<Player> players) {
-        return new GUIBoard(viewManager,activePlayer,players);
+    public Screen getBoardScreen(String activePlayer, List<Player> players, List<Coordinate> preHighlightedCoordinates) {
+        return new GUIBoard(viewManager,activePlayer,players,preHighlightedCoordinates);
     }
 
     @Override
     public Screen getWinnerScreen(List<Player> players) {
-        return null;
+        return new GUIWinner(viewManager, players);
     }
 
     @Override

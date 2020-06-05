@@ -10,18 +10,22 @@ import java.util.Set;
 public class DoubleSameBuild extends BuildDecorator {
 
     // Keeps track of the order of the builds
-    private boolean second;
     private Square previous;
 
+    public DoubleSameBuild(BuildBehavior buildBehavior){
+        this.wrappedBuildBehavior = buildBehavior;
+        previous = null;
+    }
 
     public boolean build(Square dest) {
-        if(!second){
-            second = true;
+        if(previous == null){
             previous = dest;
             wrappedBuildBehavior.build(dest);
             return true;
+        } else {
+            previous = null;
+            return wrappedBuildBehavior.build(dest);
         }
-        else return wrappedBuildBehavior.build(dest);
     }
 
     /**
@@ -31,7 +35,7 @@ public class DoubleSameBuild extends BuildDecorator {
      * @return the set of squares where the builder can build
      */
     public Set<Square> neighborhood(Square src) {
-        if(!second){
+        if(previous == null){
             return(this.wrappedBuildBehavior.neighborhood(src));
         }
         else{
@@ -42,14 +46,9 @@ public class DoubleSameBuild extends BuildDecorator {
         }
     }
 
-
-
-    public DoubleSameBuild(BuildBehavior buildBehavior){
-        this.wrappedBuildBehavior = buildBehavior;
-        second = false;
+    @Override
+    public void reset() {
         previous = null;
+        wrappedBuildBehavior.reset();
     }
-
-
-
 }

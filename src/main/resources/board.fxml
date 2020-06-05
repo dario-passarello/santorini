@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
@@ -10,6 +11,11 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-image: url(assets/water.jpg); -fx-background-position: center; -fx-background-size: 100% 100% 100% 100%; -fx-background-repeat: no-repeat" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <BorderPane prefHeight="720.0" prefWidth="1280.0" StackPane.alignment="CENTER_RIGHT">
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </BorderPane>
       <BorderPane prefHeight="720.0" prefWidth="1280.0">
          <center>
             <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0" BorderPane.alignment="CENTER">
@@ -18,31 +24,22 @@
                </image>
             </ImageView>
          </center>
+         <top>
+            <Label fx:id="turnLabel" textFill="WHITE" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Arial Bold Italic" size="30.0" />
+               </font>
+            </Label>
+         </top>
       </BorderPane>
       <BorderPane prefHeight="720.0" prefWidth="1280.0" StackPane.alignment="CENTER">
          <center>
             <StackPane maxHeight="225.0" maxWidth="225.0" prefHeight="225.0" prefWidth="225.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets left="10.0" />
+                  <Insets left="12.0" top="40.0" />
                </BorderPane.margin>
                <children>
-                  <GridPane fx:id="keyboard" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
-                    <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                  </GridPane>
-                  <GridPane fx:id="highlight" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
+                  <GridPane fx:id="buildings" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
                      <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -58,7 +55,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
-                  <GridPane fx:id="buildings" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
+                  <GridPane fx:id="highlight" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
                      <columnConstraints>
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -106,17 +103,40 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
                      </rowConstraints>
                   </GridPane>
+                  <GridPane fx:id="keyboard" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
                </children>
             </StackPane>
          </center>
-      </BorderPane>
-      <BorderPane prefHeight="720.0" prefWidth="1280.0" StackPane.alignment="CENTER_RIGHT">
+         <right>
+            <VBox alignment="CENTER" prefHeight="720.0" prefWidth="336.0" spacing="30.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="endPhase" disable="true" mnemonicParsing="false" onAction="#endPhaseListener" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="End Phase" />
+                  <Button fx:id="toggleSpecialPower" disable="true" mnemonicParsing="false" onAction="#toggleSpecialPowerListener" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Use Special Power" />
+                  <Button fx:id="resetPhase" disable="true" mnemonicParsing="false" onAction="#resetPhaseListener" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Reset Selection" />
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </VBox>
+         </right>
          <left>
             <VBox fx:id="gods" alignment="CENTER_LEFT" prefHeight="720.0" prefWidth="331.0" spacing="50.0" BorderPane.alignment="CENTER" />
          </left>
-         <padding>
-            <Insets left="20.0" />
-         </padding>
       </BorderPane>
    </children>
 </StackPane>

@@ -122,13 +122,6 @@ public class GameTest {
         assertThrows(IllegalArgumentException.class, () -> turn.selectCoordinate(new Coordinate(4,4), false));
         assertTrue("Action select coordinate should be allowed",turn.selectCoordinate(new Coordinate(0,1), false));
 
-        //EndTurnState checks
-        assertSame("The turn state should be end turn", turn.endTurnState,turn.getTurnState());
-        assertEquals(turn.getStateID(), Turn.State.END_TURN);
-        assertFalse("Action first selection should not be allowed",turn.firstSelection(board.squareAt(0,2).getOccupant().orElseThrow().getId(), new Coordinate(0,2), false));
-        assertFalse("Action select coordinate should not be allowed",turn.selectCoordinate(new Coordinate(1,2)));
-        assertTrue("Action end phase should be allowed",turn.endPhase());
-
         //turn rotation checks
         assertEquals("Player_2",game.getCurrentTurn().getCurrentPlayer().getName());
     }
@@ -217,8 +210,6 @@ public class GameTest {
          assertEquals(turn1.getTurnState(), turn1.buildState);
          assertThrows(IllegalStateException.class, turn1::endPhase);
          assertTrue(turn1.selectCoordinate(new Coordinate(0,1)));
-         assertEquals(turn1.getTurnState(), turn1.endTurnState);
-         assertTrue(turn1.endPhase());
 
          //Triton turn
          final Turn turn2 = game.getCurrentTurn();
@@ -240,8 +231,6 @@ public class GameTest {
          assertEquals(turn3.getTurnState(), turn3.buildState);
          assertTrue(turn3.selectCoordinate(new Coordinate(0,1), true));
          assertTrue(game.getBoard().squareAt(0,1).isDomed() && game.getBoard().squareAt(0,1).getBuildLevel() == 0);
-         assertEquals(turn3.getTurnState(), turn3.endTurnState);
-         assertTrue(turn3.endPhase());
 
          //Demeter turn
          final Turn turn4 = game.getCurrentTurn();

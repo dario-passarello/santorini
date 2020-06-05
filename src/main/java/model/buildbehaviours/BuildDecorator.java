@@ -12,4 +12,8 @@ public abstract class BuildDecorator implements BuildBehavior {
     public abstract Set<Square> neighborhood(Square src);
 
     public abstract boolean build(Square dest);
+
+    public void reset(){
+        wrappedBuildBehavior.reset();
+    }
 }

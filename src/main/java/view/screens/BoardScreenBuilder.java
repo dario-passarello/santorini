@@ -1,6 +1,7 @@
 package view.screens;
 
 import model.Player;
+import utils.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ public class BoardScreenBuilder extends ScreenBuilder {
 
     private String activePlayer;
     private List<Player> playerList;
+    private List<Coordinate> preHighlightedCoordinates;
 
     public BoardScreenBuilder(ScreenFactory factory) {
         super(factory);
@@ -23,16 +25,20 @@ public class BoardScreenBuilder extends ScreenBuilder {
         this.playerList = new ArrayList<>(playersList);
     }
 
+    public synchronized void setPreHighlightedCoordinates(List<Coordinate> preHighlightedCoordinates){
+        this.preHighlightedCoordinates = new ArrayList<>(preHighlightedCoordinates);
+    }
+
     @Override
     public Screen buildScreen() {
         try{
             synchronized (this){
-                while (activePlayer == null || playerList == null)
+                while (activePlayer == null || playerList == null || preHighlightedCoordinates == null)
                     wait();
             }
         } catch (InterruptedException e){
             e.printStackTrace();
         }
-        return screenFactory.getBoardScreen(activePlayer,playerList);
+        return screenFactory.getBoardScreen(activePlayer,playerList,preHighlightedCoordinates);
     }
 }

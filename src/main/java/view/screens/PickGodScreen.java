@@ -3,6 +3,7 @@ package view.screens;
 import model.Game;
 import model.Player;
 import network.messages.toserver.PickGodMessage;
+import utils.Coordinate;
 import view.*;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public abstract class PickGodScreen extends Screen{
     @Override
     public synchronized void receiveGameState(Game.State state, Player activePlayer) {
         nextState = state;
-        boardScreenBuilder.setActivePlayer(activePlayerName);
+        boardScreenBuilder.setActivePlayer(activePlayer.getName());
         activePlayerName = activePlayer.getName();
         if(state == Game.State.GOD_PICK)
             activeScreen = activePlayerName.equals(getThisPlayerName());
@@ -99,13 +100,19 @@ public abstract class PickGodScreen extends Screen{
 
     @ServerListener
     @Override
+    public synchronized void receiveAllowedSquares(List<Coordinate> coordinates) {
+        boardScreenBuilder.setPreHighlightedCoordinates(coordinates);
+    }
+
+    @ServerListener
+    @Override
     public synchronized void receiveUpdateDone() {
         if(nextState != Game.State.GOD_PICK){
             ScreenBuilder nextScreen;
             if(nextState == Game.State.END_GAME){
                 nextScreen = new ScreenBuilder(view.getScreenFactory()) {
                     public Screen buildScreen() {
-                        return screenFactory.getMenuScreen();
+                        return screenFactory.getConnectionErrorScreen();
                     }
                 };
             } else if(nextState == Game.State.PLACE_BUILDER) {

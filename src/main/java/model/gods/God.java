@@ -55,6 +55,8 @@ public class God implements Serializable {
     public void captureResetBehaviors() {
         resetMoveBehavior = moveBehavior;
         resetWinCondition = winCondition;
+        moveBehavior.reset();
+        buildBehavior.reset();
     }
 
     public Player getPlayer() {

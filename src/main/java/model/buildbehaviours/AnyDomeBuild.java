@@ -17,8 +17,6 @@ public class AnyDomeBuild extends BuildDecorator {
         return false;
     }
 
-
-
     public Set<Square> neighborhood(Square src) {
         return wrappedBuildBehavior.neighborhood(src);
     }

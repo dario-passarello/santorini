@@ -125,7 +125,7 @@ public class TurnControllerTest {
 
         }
 
-        @Test
+        /*@Test
         public void endPhaseTest(){
 
             TurnState start1 = game.getCurrentTurn().additionalBuildState;
@@ -138,7 +138,7 @@ public class TurnControllerTest {
             TurnControllerTest.this.endPhaseTest(start2, end2);
 
 
-        }
+        }*/
     }
 
     @Test

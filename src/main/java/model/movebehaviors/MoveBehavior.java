@@ -22,4 +22,6 @@ public interface MoveBehavior {
      *         (true = continue move phase, false = end move phase)
      */
     boolean move(Builder b, Square dest);
+
+    void reset();
 }
