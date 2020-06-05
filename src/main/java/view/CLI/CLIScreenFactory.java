@@ -2,6 +2,7 @@ package view.CLI;
 
 import model.Player;
 import network.Client;
+import utils.Coordinate;
 import view.screens.Screen;
 import view.screens.ScreenFactory;
 import view.ViewManager;
@@ -67,11 +68,13 @@ public class CLIScreenFactory implements ScreenFactory {
     }
 
     @Override
-    public Screen getBoardScreen(String activePlayer, List<Player> players) {
-        Screen boardScreen = new CLIBoardScreen(viewManager, activePlayer, players);
+    public Screen getBoardScreen(String activePlayer, List<Player> players, List<Coordinate> preHighlightedCoordinates) {
+        Screen boardScreen = new CLIBoardScreen(viewManager, activePlayer, players, preHighlightedCoordinates);
         cliListener.setScreen((InputProcessor) boardScreen);
         return boardScreen;
     }
+
+
 
     @Override
     public Screen getWinnerScreen(List<Player> players) {

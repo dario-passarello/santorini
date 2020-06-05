@@ -13,8 +13,8 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
     InputExecutor expectedInput;
 
-    public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players) {
-        super(view, activePlayer, players);
+    public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighlitedCoordinates) {
+        super(view, activePlayer, players, preHighlitedCoordinates);
     }
 
     @Override
