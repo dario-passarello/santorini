@@ -56,7 +56,9 @@ public class GameController extends StateMachineController{
         }
     }
 
-    public synchronized void removePlayer(RemoteView caller){
+    public synchronized void disconnectPlayer(RemoteView caller){
+        game.unregisterAllTurnObservers(caller);
+        game.unregisterObserver(caller);
         game.removePlayer(caller.getPlayerName(),true);
     }
 

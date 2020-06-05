@@ -125,6 +125,7 @@ public abstract class GodSelectionScreen extends Screen {
         nextState = state;
         pickGodSB.setActivePlayer(activePlayer.getName());
         boardSB.setActivePlayer(activePlayer.getName());
+
     }
 
     @ServerListener
@@ -152,7 +153,7 @@ public abstract class GodSelectionScreen extends Screen {
         if(nextState == Game.State.END_GAME){
             nextScreen = new ScreenBuilder(view.getScreenFactory()) {
                 public Screen buildScreen() {
-                    return screenFactory.getMenuScreen();
+                    return screenFactory.getConnectionErrorScreen();
                 }
             };
         } else if(nextState == Game.State.GOD_PICK) {

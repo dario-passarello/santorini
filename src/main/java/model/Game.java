@@ -169,6 +169,9 @@ public class Game implements Observable<GameObserver>, GameModel {
 
     public void setWinner(Player winner) {
         this.winner = winner;
+        winner.setStatus(Outcome.WINNER);
+        players.stream().filter(p -> !p.equals(winner)).forEach(p -> p.setStatus(Outcome.LOSER));
+        notifyObservers(obs -> obs.receivePlayerList(getPlayers()));
         setGameState(endGameState, winner);
     }
 
@@ -196,7 +199,11 @@ public class Game implements Observable<GameObserver>, GameModel {
             throw new NoSuchElementException(ErrorMessage.PLAYER_NOT_FOUND);
         }
         if(!player.getStatus().isAlive()) {
-            throw new IllegalArgumentException(ErrorMessage.PLAYER_ALREADY_REMOVED);
+            return;
+            //throw new IllegalArgumentException(ErrorMessage.PLAYER_ALREADY_REMOVED);
+        }
+        if(player.getStatus() == Outcome.IN_GAME){
+            player.getBuilders().forEach(Builder::removeBuilder);
         }
         player.setStatus(disconnected ? Outcome.DISCONNECTED : Outcome.LOSER);
         if(currentGameState != turnState){
@@ -207,14 +214,14 @@ public class Game implements Observable<GameObserver>, GameModel {
                 setGameState(endGameState, player);
             }
             else {
-                Turn removeTurn = currentTurn;
-                if (turnRotation.stream() //If the player removed is playing in the current turn, advance to next turn
+                Turn turnToRemove = turnRotation.stream()
                         .filter(t -> t.getCurrentPlayer().equals(player))
                         .findFirst()
-                        .orElseThrow(UnknownError::new) == currentTurn) {
+                        .orElseThrow(UnknownError::new);
+                if (turnToRemove == currentTurn) {//If the player removed is playing in the current turn, advance to next turn
                     nextTurn(false);
                 }
-                turnRotation.remove(removeTurn); //Remove player from turn rotation
+                turnRotation.remove(turnToRemove); //Remove player from turn rotation
             }
         }
         notifyObservers(GameObserver::receiveUpdateDone);
@@ -256,6 +263,10 @@ public class Game implements Observable<GameObserver>, GameModel {
 
     public void registerAllTurnObserver(TurnObserver obs) {
         turnRotation.forEach(turn -> turn.registerObserver(obs));
+    }
+
+    public void unregisterAllTurnObservers(TurnObserver obs) {
+        turnRotation.forEach(turn -> turn.unregisterObserver(obs));
     }
 
     @Override
