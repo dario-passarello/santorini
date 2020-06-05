@@ -103,6 +103,7 @@ public abstract class Screen implements View, MessageTarget {
 
     }
 
+
     @Override
     public final void receiveDisconnect() {
         view.closeConnection();

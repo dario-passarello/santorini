@@ -56,7 +56,7 @@ public class GUIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getWinnerScreen(List<Player> players) {
-        return null;
+        return new GUIWinner(viewManager, players);
     }
 
     @Override

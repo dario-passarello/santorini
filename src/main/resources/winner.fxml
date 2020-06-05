@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-image: url(assets/blueBackground.png); -fx-background-position: center; -fx-background-size: 100% 100% 100% 100%; -fx-background-repeat: no-repeat" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox alignment="CENTER" prefHeight="540.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="winnerLabel">
+               <font>
+                  <Font name="Arial Bold Italic" size="48.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="411.0" prefWidth="1280.0">
+               <children>
+                  <ImageView fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/firework.gif" />
+                     </image></ImageView>
+                  <StackPane prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fx:id="winnerGod" fitHeight="327.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_CENTER">
+                           <image>
+                              <Image url="@assets/podium.png" />
+                           </image></ImageView>
+                     </children>
+                  </StackPane>
+                  <ImageView fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@assets/firework.gif" />
+                     </image></ImageView>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#goToMenuScreenListener" prefHeight="50.0" prefWidth="200.0" text="Menu" BorderPane.alignment="BOTTOM_RIGHT">
+         <BorderPane.margin>
+            <Insets bottom="50.0" right="50.0" />
+         </BorderPane.margin></Button>
+   </bottom>
+</BorderPane>
