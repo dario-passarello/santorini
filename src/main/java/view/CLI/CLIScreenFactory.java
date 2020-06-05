@@ -3,6 +3,7 @@ package view.CLI;
 import model.Player;
 import network.Client;
 import utils.Coordinate;
+import view.GUI.GUIWinner;
 import view.screens.Screen;
 import view.screens.ScreenFactory;
 import view.ViewManager;
@@ -74,7 +75,7 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getWinnerScreen(List<Player> players) {
-        return null;
+        return null; //new CLIWinner(viewManager, winner);
     }
 
     @Override

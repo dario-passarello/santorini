@@ -53,6 +53,7 @@ public interface GameObserver extends Observer {
      */
     void receiveUpdateDone();
 
+
     void receiveDisconnect();
 
 }

@@ -1,6 +1,7 @@
 package view.screens;
 
 import model.*;
+import model.gods.God;
 import network.messages.Message;
 import network.messages.toserver.EndPhaseMessage;
 import network.messages.toserver.FirstActionMessage;
@@ -31,6 +32,7 @@ public abstract class BoardScreen extends Screen {
     private Turn.State turnState;
     private boolean specialPowerSelected;
     private boolean endAvailable;
+    private final WinnerScreenBuilder winnerSB;
 
     public BoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighCoords) {
         super(view);
@@ -44,6 +46,7 @@ public abstract class BoardScreen extends Screen {
         this.normalAllowedSquares = new HashMap<>();
         this.specialAllowedSquares = new HashMap<>();
         setActivePlayer(activePlayer);
+        winnerSB = new WinnerScreenBuilder(view.getScreenFactory());
     }
 
     /**
@@ -265,6 +268,7 @@ public abstract class BoardScreen extends Screen {
     public synchronized void receivePlayerList(List<Player> list) {
 
         this.players = new ArrayList<>(list);
+        winnerSB.setPlayers(list);
     }
 
     @Override
@@ -308,10 +312,11 @@ public abstract class BoardScreen extends Screen {
         currBuilders = new ArrayList<>(builders);
     }
 
+
     @Override
     public synchronized void receiveUpdateDone() {
         if(currentGameState == Game.State.END_GAME){
-            view.changeActiveScreen(view.getScreenFactory().getWinnerScreen(players));
+            view.changeActiveScreen(winnerSB.buildScreen());
         }
     }
 }

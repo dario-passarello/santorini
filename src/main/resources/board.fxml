@@ -12,9 +12,6 @@
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-image: url(assets/water.jpg); -fx-background-position: center; -fx-background-size: 100% 100% 100% 100%; -fx-background-repeat: no-repeat" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane prefHeight="720.0" prefWidth="1280.0" StackPane.alignment="CENTER_RIGHT">
-         <left>
-            <VBox fx:id="gods" alignment="CENTER_LEFT" prefHeight="720.0" prefWidth="331.0" spacing="50.0" BorderPane.alignment="CENTER" />
-         </left>
          <padding>
             <Insets left="20.0" />
          </padding>
@@ -39,7 +36,7 @@
          <center>
             <StackPane maxHeight="225.0" maxWidth="225.0" prefHeight="225.0" prefWidth="225.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets left="350.0" top="40.0" />
+                  <Insets left="12.0" top="40.0" />
                </BorderPane.margin>
                <children>
                   <GridPane fx:id="buildings" alignment="CENTER" hgap="4.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" vgap="4.0" StackPane.alignment="CENTER">
@@ -137,6 +134,9 @@
                </BorderPane.margin>
             </VBox>
          </right>
+         <left>
+            <VBox fx:id="gods" alignment="CENTER_LEFT" prefHeight="720.0" prefWidth="331.0" spacing="50.0" BorderPane.alignment="CENTER" />
+         </left>
       </BorderPane>
    </children>
 </StackPane>
