@@ -50,12 +50,12 @@ public class AdditionalMoveState implements TurnState {
                 obs.receiveUpdateDone();
             });
         } else {
+            turn.setTurnState(turn.buildState);
             turn.notifyObservers(obs -> {
                 obs.receiveBuildersPositions(game.getAllBuilders());
                 obs.receiveAllowedSquares(activeBuilder, activeBuilder.getBuildableCoordinates(), false);
                 obs.receiveUpdateDone();
             });
-            turn.setTurnState(turn.buildState);
         }
         turn.getCurrentPlayer().getGod()
                 .checkWinCondition(currentSquare,activeBuilder)
