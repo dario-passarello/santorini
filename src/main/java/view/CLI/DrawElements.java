@@ -1,16 +1,19 @@
 package view.CLI;
 
+import model.Board;
+import model.Builder;
 import model.Square;
 import utils.Coordinate;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 public class DrawElements {
 
     private static PrintWriter out = new PrintWriter(System.out, true);
     public static final String FLUSH = "\033[H\033[2J";
-    private static final String ESC = (char) 27 + "[";
-    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ESC = (char) 27 + "[";
+    public static final String RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[38;5;88m";
     public static final String REDBG = "\u001B[48;5;88m";
     public static final String GREEN = "\u001B[38;5;157m";
@@ -30,9 +33,8 @@ public class DrawElements {
     public static void main(String[] args){
 
         System.out.println(FLUSH);
-        drawBoard();
+        drawBoard(GREENBG, WHITE);
         saveCursor();
-        drawBuilder(new Coordinate(1, 3 ));
         restoreCursor();
 
 
@@ -43,49 +45,50 @@ public class DrawElements {
 
 
 
-    public static void drawBoard(){
+    public static void drawBoard(String background, String mainColor){
 
 
         out.println("        a         b         c         d         e     ");
-        out.println("   ╔═════════╦═════════╦═════════╦═════════╦═════════╗");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println(" 1 ║         ║         ║         ║         ║         ║");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println("   ╠═════════╬═════════╬═════════╬═════════╬═════════╣");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println(" 2 ║         ║         ║         ║         ║         ║");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println("   ╠═════════╬═════════╬═════════╬═════════╬═════════╣");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println(" 3 ║         ║         ║         ║         ║         ║");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println("   ╠═════════╬═════════╬═════════╬═════════╬═════════╣");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println(" 4 ║         ║         ║         ║         ║         ║");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println("   ╠═════════╬═════════╬═════════╬═════════╬═════════╣");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println(" 5 ║         ║         ║         ║         ║         ║");
-        out.println("   ║         ║         ║         ║         ║         ║");
-        out.println("   ╚═════════╩═════════╩═════════╩═════════╩═════════╝");
+        out.println("   " + background + mainColor + "╔═════════╦═════════╦═════════╦═════════╦═════════╗" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println(" 1 " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println(" 2 " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println(" 3 " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println(" 4 " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println(" 5 " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + RESET);
+        out.println("   " + background + mainColor + "╚═════════╩═════════╩═════════╩═════════╩═════════╝" + RESET);
 
-        out.print(ANSI_RESET);
         out.flush();
 
 
     }
 
-    public static void drawBuilder(Coordinate coordinate){
-        selectCell(coordinate.getX(), coordinate.getY());
+    public static void drawBuilder(Coordinate coordinate, String backGround){
+        selectCell(coordinate.getX() + 1, coordinate.getY() + 1);
         moveDown(1);
         moveRight(4);
-        out.print("X");
+        out.print(BLUE_6 + backGround + "X");
+        out.print(RESET);
+        out.flush();
 
     }
 
     public static void drawSquare(Square square, boolean neighborhood){
-        int line = square.getCoordinate().getX();
-        int column = square.getCoordinate().getY();
+        int line = square.getCoordinate().getX() + 1;
+        int column = square.getCoordinate().getY() + 1;
         String background;
         String color;
 
@@ -102,6 +105,24 @@ public class DrawElements {
             }
         }
 
+
+
+    }
+
+    public static void refreshBoard(Board board, List<Builder> builders){
+        out.println(FLUSH);
+        drawBoard(GREENBG, WHITE);
+        for(int i = 0; i <5; i++){
+            for(int j = 0; j < 5; j++){
+                drawSquare(board.squareAt(i, j), false);
+            }
+        }
+        for(Builder builder : builders){
+            String background;
+            if(builder.getSquare().getBuildLevel() != 0) background = WHITEBG;
+            else background = GREENBG;
+            drawBuilder(builder.getSquare().getCoordinate(), background);
+        }
     }
 
     public static void saveCursor(){
@@ -150,7 +171,7 @@ public class DrawElements {
         out.print("         "); moveDown(1); moveLeft(9);
         out.print("         "); moveDown(1); moveLeft(9);
         out.print("         ");
-        out.print(ANSI_RESET);
+        out.print(RESET);
 
         out.flush();
 
@@ -163,7 +184,7 @@ public class DrawElements {
         out.print("  ▗▄▄▄▖  ");    moveDown(1); moveLeft(9);
         out.print("  ▐███▌  ");    moveDown(1); moveLeft(9);
         out.print("  ▝▀▀▀▘  ");
-        out.print(ANSI_RESET);
+        out.print(RESET);
     }
 
 
@@ -176,7 +197,7 @@ public class DrawElements {
                         BLUE_3 + "  +#++:++#++ +#++:++#++: +#+ +:+ +#+     +#+    +#+    +:+ +#++:++#:      +#+     +#+ +:+ +#+     +#+        \n" +
                         BLUE_4 + "        +#+ +#+     +#+ +#+  +#+#+#     +#+    +#+    +#+ +#+    +#+     +#+     +#+  +#+#+#     +#+         \n" +
                         BLUE_5 + "#+#    #+# #+#     #+# #+#   #+#+#     #+#    #+#    #+# #+#    #+#     #+#     #+#   #+#+#     #+#          \n" +
-                        BLUE_6 + "########  ###     ### ###    ####     ###     ########  ###    ### ########### ###    #### ########### " + ANSI_RESET);
+                        BLUE_6 + "########  ###     ### ###    ####     ###     ########  ###    ### ########### ###    #### ########### " + RESET);
     }
 
     public static void DrawTitle(String mainColor, String shadeColor){
@@ -187,7 +208,7 @@ public class DrawElements {
                         mainColor + "███████" + shadeColor + "╗" + mainColor + "███████" + shadeColor + "║" + mainColor + "██" + shadeColor + "╔" + mainColor + "██" + shadeColor + "╗" + mainColor + " ██" + shadeColor + "║" + mainColor + "   ██" + shadeColor + "║" + mainColor + "   ██" + shadeColor + "║" + mainColor + "   ██" + shadeColor + "║" + mainColor + "██████" + shadeColor + "╔╝" + mainColor + "██" + shadeColor + "║" + mainColor + "██" + shadeColor + "╔" + mainColor + "██" + shadeColor + "╗" + mainColor + " ██" + shadeColor + "║" + mainColor + "██" + shadeColor + "║" + "\n\t" +
                         shadeColor + "╚════" + mainColor + "██" + shadeColor + "║" + mainColor + "██" + shadeColor + "╔══" + mainColor + "██" + shadeColor + "║" + mainColor + "██" + shadeColor + "║╚" + mainColor + "██" + shadeColor + "╗" + mainColor + "██" + shadeColor + "║" + mainColor + "   ██" + shadeColor + "║" + mainColor + "   ██" + shadeColor + "║" + mainColor + "   ██" + shadeColor + "║" + mainColor + "██" + shadeColor + "╔══" + mainColor + "██" + shadeColor + "╗" + mainColor + "██" + shadeColor + "║" + mainColor + "██" + shadeColor + "║╚" + mainColor + "██" + shadeColor + "╗" + mainColor + "██" + shadeColor + "║" + mainColor + "██" + shadeColor + "║" + "\n\t" +
                         mainColor + "███████" + shadeColor + "║" + mainColor + "██" + shadeColor + "║" + mainColor + "  ██" + shadeColor + "║" + mainColor + "██" + shadeColor + "║ ╚" + mainColor + "████" + shadeColor + "║" + mainColor + "   ██" + shadeColor + "║   ╚" + mainColor + "██████" + shadeColor + "╔╝" + mainColor + "██" + shadeColor + "║" + mainColor + "  ██" + shadeColor + "║" + mainColor + "██" + shadeColor + "║" + mainColor + "██" + shadeColor + "║ ╚" + mainColor + "████" + shadeColor + "║" + mainColor + "██" + shadeColor + "║" + "\n\t" +
-                        shadeColor + "╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝" + ANSI_RESET);
+                        shadeColor + "╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝" + RESET);
     }
 
     public static void drawStartGameBox(){

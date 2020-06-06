@@ -234,6 +234,14 @@ public abstract class BoardScreen extends Screen {
         return new ArrayList<>(highlightedCoordinates);
     }
 
+    protected final Game.State getGameState(){
+        return this.currentGameState;
+    }
+
+    protected final Turn.State getTurnState(){
+        return this.turnState;
+    }
+
 
     private void sendTurnActionMessage(Message<RemoteView> message){
         activeScreen = false;
