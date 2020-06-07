@@ -38,7 +38,8 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getMenuScreen() {
-        return new CLIMenuScreen(viewManager);
+        Screen menuScreen = new CLIMenuScreen(viewManager);
+        return menuScreen;
     }
 
     @Override

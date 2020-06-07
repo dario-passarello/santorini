@@ -23,17 +23,18 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
     @Override
     public void onScreenOpen() {
-        //TEMPORARY VISUAL
 
- //      expectedInput = new Username();
- //      System.out.print("Enter a username:          ");
+        DrawElements.drawTitle(Colors.WHITE_231, Colors.BLUE_27);
+        System.out.println("\n\n");
 
-        setting();
+         expectedInput = new Username();
+         expectedInput.message();
+
     }
 
     @Override
     public void onScreenClose() {
-
+        System.out.print(Colors.RESET);
     }
 
 
@@ -71,12 +72,17 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
 
     class Username implements InputExecutor{
+
+        @Override
+        public void message(){
+            System.out.print(Colors.RESET + "Enter a username: " + Colors.GREEN_47);
+        }
         @Override
         public void execute(String s) {
             try {
                 setUsername(s);
                 expectedInput = new Ip();
-                System.out.print("Enter an IP Address:        ");
+                expectedInput.message();
             }
             catch(IllegalValueException exception){
                 System.out.print(exception.getMessage() + ": Please Enter a new one:   ");
@@ -86,31 +92,38 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
     class Ip implements  InputExecutor{
         @Override
+        public void message(){
+            System.out.print(Colors.RESET + "Enter an IP Address: " + Colors.GREEN_47);
+        }
+
+        @Override
         public void execute(String s) {
             try {
                 setIP(s);
                 expectedInput = new Port();
-                System.out.print("Enter a port number:        ");
+                expectedInput.message();
             }
             catch(IllegalValueException exception){
-                System.out.print(exception.getMessage() + ": Please Enter an IP Address:  ");
+                System.out.print(Colors.RESET + exception.getMessage() + ": Please Enter an IP Address:  " + Colors.GREEN_47);
             }
         }
     }
 
     class Port implements InputExecutor{
         @Override
+        public void message(){
+            System.out.print(Colors.RESET + "Enter a port number: " + Colors.GREEN_47);
+        }
+        @Override
         public void execute(String s) {
             try {
                 setPort(s);
                 expectedInput = new NumberofPlayers();
-                System.out.print( "Enter the type of Lobby you want to Join: \n" +
-                                    "(2) - 2 Player Matches\n" +
-                                    "(3) - 3 Player Matches\n" +
-                                    "            ");
+                expectedInput.message();
+
             }
             catch(IllegalValueException exception){
-                System.out.print(exception.getMessage() + ": Please enter a valid input:  ");
+                System.out.print(Colors.RESET + exception.getMessage() + ": Please enter a valid input:  " + Colors.GREEN_47);
             }
             catch(NumberFormatException exception){
 
@@ -120,6 +133,15 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
     }
 
     class NumberofPlayers implements InputExecutor{
+        @Override
+        public void message(){
+            System.out.print(Colors.RESET + "Enter the type of Lobby you want to Join: \n" +
+                    "      (2) - 2 Player Matches\n" +
+                    "      (3) - 3 Player Matches" + Colors.GREEN_47);
+            DrawElements.moveUp(2);
+            DrawElements.moveRight(14);
+            DrawElements.out.flush();
+        }
         @Override
         public void execute(String s) {
             try {
