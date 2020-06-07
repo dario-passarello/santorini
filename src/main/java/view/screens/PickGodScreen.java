@@ -37,6 +37,13 @@ public abstract class PickGodScreen extends Screen{
     //Getters
 
     /**
+     *
+     * @return
+     */
+    protected synchronized final Game.State getNextState() {
+        return this.nextState;
+    }
+    /**
      * @return The player name of the player that has to pick the god
      */
     protected synchronized final String getActivePlayerName() {
