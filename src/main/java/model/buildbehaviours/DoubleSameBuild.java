@@ -40,7 +40,7 @@ public class DoubleSameBuild extends BuildDecorator {
         }
         else{
             HashSet<Square> buildable = new HashSet<>();
-            if((previous.getBuildLevel() < 3) || (previous.getBuildLevel() == 3 && !previous.isDomed()))
+            if(previous.getBuildLevel() < 3)
                 buildable.add(previous);
             return buildable;
         }

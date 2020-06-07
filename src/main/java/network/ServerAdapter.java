@@ -60,7 +60,7 @@ public class ServerAdapter implements Runnable, MessageTarget {
         try{
             while (running.get()){
                 Message<Screen> messageReceived = (Message<Screen>) inStream.readObject();
-                Client.logger.info("Message:" + messageReceived.getClass().getName() +
+                Client.logger.log(messageReceived.getLoggerLever(), "Message:" + messageReceived.getClass().getName() +
                         "\nContents:" + messageReceived.getMessageJSON());
                 view.receiveMessage(messageReceived);
             }

@@ -309,6 +309,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
         highlight(getHighlightedCoordinates());
         Platform.runLater(this::updateBuilders);
+        Platform.runLater(this::updateButtons);
     }
 
 

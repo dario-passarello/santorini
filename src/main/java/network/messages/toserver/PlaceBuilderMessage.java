@@ -6,14 +6,14 @@ import view.RemoteView;
 
 public class PlaceBuilderMessage implements Message<RemoteView> {
 
-    private final Coordinate choiche;
+    private final Coordinate choice;
 
     public PlaceBuilderMessage(Coordinate choice){
-        this.choiche = choice;
+        this.choice = choice;
     }
 
     @Override
     public void execute(RemoteView target) {
-        target.getController().game().placeBuilder(target,choiche);
+        target.getController().game().placeBuilder(target, choice);
     }
 }

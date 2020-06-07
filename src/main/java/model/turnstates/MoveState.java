@@ -53,6 +53,7 @@ public class MoveState implements TurnState {
             turn.notifyObservers(obs -> {
                 obs.receiveBoard(new Board(game.getBoard()));
                 obs.receiveAllowedSquares(builder, builder.getWalkableCoordinates(), false);
+                obs.receiveUpdateDone();
             });
         } else {
             canMoveAgain = builder.move(actionSquare);
@@ -61,6 +62,7 @@ public class MoveState implements TurnState {
                 turn.notifyObservers(obs -> {
                     obs.receiveBuildersPositions(game.getAllBuilders());
                     obs.receiveAllowedSquares(builder, builder.getWalkableCoordinates(), false);
+                    obs.receiveUpdateDone();
                 });
             } else {
                 if(builder.getBuildableCoordinates().isEmpty())
@@ -69,6 +71,7 @@ public class MoveState implements TurnState {
                 turn.notifyObservers(obs -> {
                     obs.receiveBuildersPositions(game.getAllBuilders());
                     obs.receiveAllowedSquares(builder, builder.getBuildableCoordinates(), false);
+                    obs.receiveUpdateDone();
                 });
             }
             playerGod.checkWinCondition(currentSquare, builder).ifPresent(game::setWinner);

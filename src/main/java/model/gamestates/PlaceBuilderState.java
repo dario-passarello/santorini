@@ -45,7 +45,12 @@ public class PlaceBuilderState implements GameState {
         nextTurn = game.getPlayers().stream().noneMatch(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER);
         if(nextTurn) {
             game.setGameState(game.turnState, new Player(game.getFirstPlayer()));
-            updateAction = obs -> obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+            updateAction = obs -> {
+                obs.receivePlayerList(game.getPlayers().stream().map(Player::new).collect(Collectors.toList()));
+                obs.receiveBuildersPositions(game.getPlayers().stream()
+                        .flatMap(b -> b.getBuilders().stream()).collect(Collectors.toList()));
+                obs.receiveUpdateDone();
+            };
         }
         else {
             nextPlayer = nextPlayerCalculator.get();
