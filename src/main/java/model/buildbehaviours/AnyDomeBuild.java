@@ -14,7 +14,7 @@ public class AnyDomeBuild extends BuildDecorator {
      * @return true if the player can build an additional time
      */
     public boolean build(Square dest) {
-        return false;
+        return wrappedBuildBehavior.build(dest);
     }
 
     public Set<Square> neighborhood(Square src) {

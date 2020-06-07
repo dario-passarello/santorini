@@ -134,7 +134,7 @@ public class Turn implements Observable<TurnObserver> {
                         .collect(Collectors.toList()));
                 currentPlayer.getBuilders() //For each builder send his walkable neighbours
                         .forEach(builder -> obs.receiveAllowedSquares(builder, builder.getWalkableCoordinates(), false));
-                if(currentPlayer.getGod().hasSpecialBuildPower()) { //If has special power send his buildable neighbour for special power
+                if(currentPlayer.getGod().hasSpecialStartPower()) { //If has special power send his buildable neighbour for special power
                     currentPlayer.getBuilders()
                             .forEach(builder -> obs.receiveAllowedSquares(builder, builder.getBuildableCoordinates(), true));
                 }

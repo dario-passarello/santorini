@@ -1,7 +1,6 @@
 package view.screens;
 
 import model.*;
-import model.gods.God;
 import network.messages.Message;
 import network.messages.toserver.EndPhaseMessage;
 import network.messages.toserver.FirstActionMessage;
@@ -20,18 +19,18 @@ import java.util.stream.Collectors;
 public abstract class BoardScreen extends Screen {
 
     private String activePlayer;
+    private Player activePlayerReference;
     private List<Player> players;
     private Board board;
     private List<Builder> currBuilders;
     private List<Builder> oldBuilders;
     private Builder selectedBuilder;
     private final List<Coordinate> highlightedCoordinates;
-    private HashMap<Builder, List<Coordinate>> normalAllowedSquares;
-    private HashMap<Builder, List<Coordinate>> specialAllowedSquares;
+    private final HashMap<Builder, List<Coordinate>> normalAllowedSquares;
+    private final HashMap<Builder, List<Coordinate>> specialAllowedSquares;
     private Game.State currentGameState;
     private Turn.State turnState;
     private boolean specialPowerSelected;
-    private boolean endAvailable;
     private final WinnerScreenBuilder winnerSB;
 
     public BoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighCoords) {
@@ -45,7 +44,8 @@ public abstract class BoardScreen extends Screen {
         this.highlightedCoordinates = new ArrayList<>(preHighCoords);
         this.normalAllowedSquares = new HashMap<>();
         this.specialAllowedSquares = new HashMap<>();
-        setActivePlayer(activePlayer);
+        setActivePlayer(players.stream()
+                .filter(player -> player.getName().equals(activePlayer)).findFirst().orElseThrow());
         winnerSB = new WinnerScreenBuilder(view.getScreenFactory());
     }
 
@@ -61,7 +61,7 @@ public abstract class BoardScreen extends Screen {
      * @throws IllegalActionException The square selection is not valid (square is not a builder or highlighted)
      */
     protected synchronized final void selectSquare(Coordinate square) throws IllegalValueException, IllegalActionException {
-        if(!isActiveScreen()){ ;
+        if(!isActiveScreen()){
             throw new ActivityNotAllowedException();
         }
         if(!Board.checkValidCoordinate(square)){
@@ -165,8 +165,8 @@ public abstract class BoardScreen extends Screen {
      */
     protected synchronized final boolean specialPowerAvailable() {
         return isActiveScreen() &&
-                ((turnState == Turn.State.MOVE &&!specialAllowedSquares.isEmpty()) ||
-                 (turnState == Turn.State.BUILD && getThisPlayer().getGod().hasSpecialBuildPower()));
+                ((turnState == Turn.State.MOVE && !specialAllowedSquares.isEmpty()) ||
+                 (turnState == Turn.State.BUILD && activePlayerReference.getGod().hasSpecialBuildPower()));
     }
 
     protected synchronized final boolean resetPhaseAvailable(){
@@ -185,9 +185,10 @@ public abstract class BoardScreen extends Screen {
                 (turnState == Turn.State.ADDITIONAL_MOVE || turnState == Turn.State.ADDITIONAL_BUILD);
     }
 
-    private void setActivePlayer(String activePlayerName){
-        this.activePlayer = activePlayerName;
-        activeScreen = activePlayerName.equals(getThisPlayerName()); //evaluate if this is an active screen
+    private void setActivePlayer(Player activePlayer){
+        this.activePlayerReference = activePlayer;
+        this.activePlayer = activePlayer.getName();
+        activeScreen = activePlayer.getName().equals(getThisPlayerName()); //evaluate if this is an active screen
     }
 
 
@@ -234,17 +235,18 @@ public abstract class BoardScreen extends Screen {
         return new ArrayList<>(highlightedCoordinates);
     }
 
-
     private void sendTurnActionMessage(Message<RemoteView> message){
-        activeScreen = false;
+        activeScreen = false;           //Set as inactive screen (until the next server message)
+        resetStatusVariables();
+        view.sendMessage(message);  //Communicate to the server
+    }
+
+    private void resetStatusVariables() {
+        //Clear all temporary status variables
+        specialPowerSelected = false;
         highlightedCoordinates.clear();
         normalAllowedSquares.clear();
         specialAllowedSquares.clear();
-        view.sendMessage(message);
-    }
-
-    private void turnReset(){
-        specialPowerSelected = false;
     }
 
     private List<Coordinate> getBuildersPositions(String playerName){
@@ -254,30 +256,25 @@ public abstract class BoardScreen extends Screen {
                 .collect(Collectors.toList());
     }
 
-    private Player getThisPlayer(){
-        return players.stream().filter(player -> player.getName().equals(getThisPlayerName())).findFirst().get();
-    }
-
     @Override
     public synchronized void receiveGameState(Game.State state, Player activePlayer) {
-        setActivePlayer(activePlayer.getName());
+        setActivePlayer(activePlayer);
         currentGameState = state;
     }
 
     @Override
     public synchronized void receivePlayerList(List<Player> list) {
-
         this.players = new ArrayList<>(list);
         winnerSB.setPlayers(list);
     }
 
     @Override
     public synchronized void receiveTurnState(Turn.State state, Player player) {
-        setActivePlayer(player.getName());
+        setActivePlayer(player);
         turnState = state;
         if(state == Turn.State.MOVE) {
             selectedBuilder = null; //Reset selected builder at the start of the turn
-            highlightedCoordinates.clear();
+            resetStatusVariables();
             highlightedCoordinates.addAll(getBuildersPositions(player.getName()));
         }
     }
