@@ -1,5 +1,6 @@
 package view.GUI;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -149,7 +150,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
 
     @Override
     public void onScreenOpen() {
-        GUI.setSceneController(this);
+        Platform.runLater(() -> GUI.setSceneController(this));
     }
 
     @Override
