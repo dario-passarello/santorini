@@ -12,6 +12,7 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
 
     //TODO Find a way to know who selected the gods
     // Added Next State Getter
+    // Remove only the god picked
     private InputExecutor expectedInput;
 
     private final String player1Color = Colors.BLUE_21;

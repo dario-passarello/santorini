@@ -11,7 +11,7 @@ public class Colors {
     public static final String BLUE_21 = "\u001B[38;5;21m";
     public static final String BLUE_20 = "\u001B[38;5;20m";
     public static final String BLUE_153 = "\u001B[38;5;153m";
-    public static final String YELLOW_226 = "\u001B[36;5;226m";
+    public static final String YELLOW_226 = "\u001B[38;5;226m";
     public static final String YELLOW_227 = "\u001B[38;5;227m";
     public static final String YELLOW_229 = "\u001B[38;5;229m";
     public static final String RED_196 = "\u001B[38;5;196m";

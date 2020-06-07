@@ -70,9 +70,6 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 //Selection message
                 System.out.print("Select the square where you want to place the " + buildnumber + " Builder (ex. B1):  ");
 
-                for(Player player : getPlayers()){
-                    System.out.println(" - " + player.getName());
-                }
             }
             else{
                 System.out.print("Waiting for other players to perform their action....  \n");
@@ -101,7 +98,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             catch(NumberFormatException exception){
 
             } catch (IllegalValueException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + "Pls try again:\t");
             } catch (IllegalActionException e) {
                 e.printStackTrace();
             }
@@ -139,7 +136,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                         selectSquare(selectedCoordinate);
                         DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers());
                         for(Coordinate coordinate : getHighlightedCoordinates()) {
-                            DrawElements.drawSquare(getBoard().squareAt(coordinate), true);
+                            DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
                             System.out.print(DrawElements.ESC + "25H");
                         }
                         // Change to MOVE PHASE
@@ -238,7 +235,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         public void message() {
             if(activeScreen) {
                 for(Coordinate coordinate : getHighlightedCoordinates()) {
-                    DrawElements.drawSquare(getBoard().squareAt(coordinate), true);
+                    DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
                     System.out.print(DrawElements.ESC + "25H");
                 }
                 System.out.print("BUILD PHASE: Choose Where you want to build your next block (ex: A1) ");
@@ -260,7 +257,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             } catch (IllegalValueException e) {
                 e.printStackTrace();
             } catch (IllegalActionException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + "Pls try again ");
             }
         }
     }

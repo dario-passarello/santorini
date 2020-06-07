@@ -7,6 +7,7 @@ import model.Square;
 import utils.Coordinate;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DrawElements {
@@ -92,7 +93,7 @@ public class DrawElements {
             case 1: color = player1Color; break;
             case 2: color = player2Color; break;
             case 3: color = player3Color; break;
-            default: color = player1Color;
+            default: color = Colors.RESET;
         }
         selectCell(coordinate.getX() + 1, coordinate.getY() + 1);
         moveDown(1);
@@ -103,7 +104,33 @@ public class DrawElements {
 
     }
 
-    public static void drawSquare(Square square, boolean neighborhood){
+    public static void refreshBuilders(List<Builder> builders, List<Player> players, boolean neighborhood){
+        for(Builder builder : builders){
+            // Find the correct background of the builder
+            String background;
+            if(builder.getSquare().getBuildLevel() != 0) background = Colors.WHITEBG_231;
+            else{
+                if(neighborhood) background = Colors.REDBG;
+                else{
+                    background = getCorrectAlternateColor(
+                            builder.getSquare().getCoordinate().getX(),
+                            builder.getSquare().getCoordinate().getY());
+                }
+            }
+            // Find who does the builder belong to
+            int i = 1;
+            for(Player player : players){
+                if(!player.getName().equals(builder.getOwner().getName())){
+                    i++;
+                }
+                else break;
+            }
+            // Draw the Builder
+            drawBuilder(builder.getSquare().getCoordinate(), background, i);
+        }
+    }
+
+    public static void drawSquare(Square square, List<Builder> builders, List<Player> players, boolean neighborhood){
         int line = square.getCoordinate().getX() + 1;
         int column = square.getCoordinate().getY() + 1;
         String background;
@@ -113,14 +140,25 @@ public class DrawElements {
         if(neighborhood) background = Colors.REDBG;
         else background = getCorrectAlternateColor(line, column);
 
+        // Check if it is required to print a block or just to paint the background
         if(square.getBuildLevel() == 0) printBackground(line, column, background, levelColor, 0 );
         else{
             if(neighborhood) printBlock(line, column, background, Colors.WHITE_231, levelColor, square.getBuildLevel());
             else{
-                if(square.isDomed()) printBlock(line, column, Colors.WHITEBG_231, Colors.BLUE_21, levelColor, square.getBuildLevel());
+                if(square.isDomed()){
+                    printBlock(line, column, Colors.WHITEBG_231, Colors.BLUE_21, levelColor, square.getBuildLevel());
+                }
                 else printBackground(line, column, Colors.WHITEBG_231, levelColor, square.getBuildLevel());
             }
         }
+
+        // Find if there are any builders in the square to draw. If so, print them correctly
+        List<Builder> toRefresh = new ArrayList<>();
+        for(Builder builder : builders){
+            if(builder.getSquare().getCoordinate().equals(square.getCoordinate()))
+                toRefresh.add(builder);
+        }
+        refreshBuilders(toRefresh, players, neighborhood);
 
 
 
@@ -131,7 +169,7 @@ public class DrawElements {
         drawBoard(firstBackgroundColor, borderColor);
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
-                drawSquare(board.squareAt(i, j), false);
+                drawSquare(board.squareAt(i, j), builders, players, false);
             }
         }
 
@@ -146,7 +184,10 @@ public class DrawElements {
             // Find who does the builder belong to
             int i = 1;
             for(Player player : players){
-                if(!player.equals(builder.getOwner())) i++;
+                if(!player.getName().equals(builder.getOwner().getName())){
+                    i++;
+                }
+                else break;
             }
             // Draw the Builder
             drawBuilder(builder.getSquare().getCoordinate(), background, i);
