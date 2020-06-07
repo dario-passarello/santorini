@@ -42,7 +42,7 @@ public class GUIWinner extends WinnerScreen implements GUIController {
         Image img = AssetLoader.getGodAssetsBundle(winner.getGod().getName()).loadGodFigureImage();
         winnerGod.setImage(img);
         winnerGod.setPreserveRatio(true);
-        winnerGod.setFitHeight(300);
+        winnerGod.setFitHeight(400);
     }
 
     public void goToMenuScreenListener(){

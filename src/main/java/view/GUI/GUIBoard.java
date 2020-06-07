@@ -39,6 +39,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
     @FXML Button resetPhase;
 
     public static final float SQUARE_SIZE = 80;
+    public static final float GOD_SIZE = 120;
     public List<String> color = List.of("green", "red", "blue");
 
 
@@ -54,22 +55,24 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
         updateTurnLabel();
 
+        int colorNum = 0;
         //Creating god images and player names
         for(Player p : getPlayers()){
             HBox hBox = new HBox();                             //HBox will contain the image of god + name of player
             hBox.setSpacing(10);
             StackPane stackPane = new StackPane();
-            stackPane.setMinHeight(200);
+            stackPane.setMinHeight(GOD_SIZE);
+            stackPane.setMaxHeight(GOD_SIZE*3/2);
 
 
             ImageView godImage = new ImageView();
             Image img = AssetLoader.getGodAssetsBundle(p.getGod().getName()).loadGodFigureImage();
             godImage.setImage(img);
             godImage.setPreserveRatio(true);
-            godImage.setFitHeight(150);
+            godImage.setFitHeight(GOD_SIZE);
 
             Button description = new Button();
-            description.setPrefSize(200, 200);
+            description.setPrefSize(GOD_SIZE*4/3, GOD_SIZE*4/3);
             description.setOpacity(0);
             Tooltip tooltip = new Tooltip();
             tooltip.setText(p.getGod().getName().toUpperCase() + ":\n" + AssetLoader.getGodAssetsBundle(p.getGod().getName()).getDescription());
@@ -77,15 +80,22 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
             ImageView podium = new ImageView(String.valueOf(getClass().getResource("/assets/podium.png")));
             podium.setPreserveRatio(true);
-            podium.setFitHeight(80);
-
+            podium.setFitHeight(GOD_SIZE/2);
 
             stackPane.getChildren().addAll(podium, godImage, description);
             StackPane.setAlignment(podium, Pos.BOTTOM_CENTER);
             StackPane.setAlignment(godImage, Pos.TOP_CENTER);
+
+            VBox nameColor = new VBox();
             Label name = new Label(p.getName());
             name.setStyle("-fx-font-family: 'Arial Black'; -fx-text-fill: #ffffff");
-            hBox.getChildren().addAll(stackPane, name);
+            ImageView colorRectangle = new ImageView(String.valueOf(getClass().getResource("/assets/"+color.get(colorNum)+"_rectangle.png")));
+            colorRectangle.setPreserveRatio(true);
+            colorRectangle.setFitHeight(50);
+            colorNum++;
+
+            nameColor.getChildren().addAll(name, colorRectangle);
+            hBox.getChildren().addAll(stackPane, nameColor);
             gods.getChildren().add(hBox);
         }
 

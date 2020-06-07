@@ -26,11 +26,11 @@
                      </image></ImageView>
                   <StackPane prefHeight="150.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="winnerGod" fitHeight="327.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER" />
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_CENTER">
+                        <ImageView fitHeight="200.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="BOTTOM_CENTER">
                            <image>
                               <Image url="@assets/podium.png" />
                            </image></ImageView>
+                        <ImageView fx:id="winnerGod" fitHeight="350.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER" />
                      </children>
                   </StackPane>
                   <ImageView fitHeight="300.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
