@@ -31,12 +31,30 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
 
         System.out.println(DrawElements.FLUSH);
-        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers());
+        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
 
+        System.out.println(Colors.YELLOW_227 + "BUILDER PLACEMENT" + Colors.RESET);
         System.out.println("You can place two builders on the board");
-        if(activeScreen) System.out.println("Choose where you want to place the first builder (ex. B1)");
+        if(activeScreen) System.out.print("Choose where you want to place the first builder (ex. B1) ");
+
 
         expectedInput = new PlaceBuilder();
+    }
+
+    private String playerColor(){
+        int i = 1;
+        for(Player player : getPlayers()){
+            if(!player.getName().equals(getActivePlayer())) i++;
+            else break;
+        }
+        String color;
+        switch(i){
+            case 1: color = DrawElements.player1Color; break;
+            case 2: color = DrawElements.player2Color; break;
+            case 3: color = DrawElements.player3Color; break;
+            default: color = Colors.RESET;
+        }
+        return color;
     }
 
     @Override
@@ -62,13 +80,14 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 String buildnumber;
                 int i = 0;
                 for(Builder builder : getCurrBuilders()){
-                    if(builder.getOwner().equals(getActivePlayer())) i++;
+                    if(builder.getOwner().getName().equals(getActivePlayer())) i++;
                 }
                 if(i == 0) buildnumber = "first";
                 else buildnumber = "second";
 
                 //Selection message
-                System.out.print("Select the square where you want to place the " + buildnumber + " Builder (ex. B1):  ");
+                System.out.println(Colors.YELLOW_227 + "BUILDER PLACEMENT" + Colors.RESET);
+                System.out.print("Select the square where you want to place the " + buildnumber + " Builder (ex. A3):  ");
 
             }
             else{
@@ -84,7 +103,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 // Check if the player has placed all the Builders
                 int i = 0;
                 for(Builder builder : getCurrBuilders()){
-                    if(builder.getOwner().equals(getThisPlayerName())) i++;
+                    if(builder.getOwner().getName().equals(getThisPlayerName())) i++;
                 }
 
                 if(i == 0) System.out.print("It is not your turn to place the builders. Pls wait for you turn ");
@@ -118,23 +137,30 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         @Override
         public void message() {
             if(activeScreen){
-                System.out.print("Select the Builder you want to move (ex. B3) ");
-                if(specialPowerAvailable()) System.out.print("\nor type S to activate the special power:  ");
+                System.out.println(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET);
+                System.out.print("Select the" + playerColor() + " Builder" + Colors.RESET + " you want to move (ex. A3) ");
+                if(specialPowerAvailable()) System.out.print("\nor type S to activate the special power: ");
             }
-            else System.out.print("MOVE SELECTION PHASE: Pls wait for the other players to make their move");
+            else{
+                System.out.println(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET);
+                System.out.print("Pls wait for the other players to make their move ");
+            }
         }
         @Override
         public void execute(String s) {
             try{
                 if(s.toUpperCase().equals("S")){
+                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    toggleSpecialPower();
                     expectedInput = new SpecialPower();
+                    expectedInput.message();
                 }
                 else{
                         Coordinate selectedCoordinate = getCoordinate(s);
                         //Check that the coordinate is really occupied by a builder
                         //and Highlight the neighborhoods
                         selectSquare(selectedCoordinate);
-                        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers());
+                        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
                         for(Coordinate coordinate : getHighlightedCoordinates()) {
                             DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
                             System.out.print(DrawElements.ESC + "25H");
@@ -148,10 +174,10 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
              catch (IllegalValueException e) {
                 e.printStackTrace();
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input  ");
+                System.out.print(e.getMessage() + "Pls insert a valid input ");
             }
             catch (IllegalArgumentException e){
-                System.out.print("This is an invalid input. Pls try again:\t");
+                System.out.print("This is an invalid input. Pls try again: ");
             }
         }
     }
@@ -164,8 +190,13 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         @Override
         public void message() {
             if(activeScreen) {
-                System.out.print("Choose Where to move the builder (ex. A1) \n" +
-                        "or press R to return to the Builder Selection:  ");
+                System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
+                System.out.print("Select the square where you want to move the builder\n" +
+                        "or type R to undo the builder selection ");
+            }
+            else{
+                System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
+                System.out.print("Pls wait for the other players to make their move ");
             }
         }
 
@@ -179,8 +210,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 try{
                     if(resetPhaseAvailable()) resetPhase();
                     expectedInput = new StartingSelection();
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers());
+                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
                     expectedInput.message();
+                    return;
                 }
                 catch (IllegalActionException e) {
                     e.getMessage();
@@ -188,7 +220,6 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             }
             try{
                 Coordinate selectedCoordinate = getCoordinate(s);
-                expectedInput = new BuildPhase();
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
@@ -200,36 +231,79 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         }
     }
 
+    /**
+     * SPECIAL POWER: It is the state where you where to use Prometheus' power
+     */
     class SpecialPower implements InputExecutor{
 
-        @Override
-        public void message() {
-
-        }
-
-        @Override
-        public void execute(String s) {
-
-        }
-    }
-
-    class AdditionalMove implements InputExecutor{
 
         @Override
         public void message() {
+            if(activeScreen) {
+                System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
+                System.out.print("You have activated the power of your GOD\n" +
+                        "Select the " + playerColor() + "builder" + Colors.RESET + " you want to use it on\n" +
+                        "(or type R to undo the activation)");
+            }
+            if(!activeScreen){
 
+            }
         }
 
         @Override
-        public void execute(String s) {
+        public void execute(String s){
+            if(!activeScreen){
+                System.out.print("It is not your turn. Pls wait...");
+                return;
+            }
+            try{
+            if(s.toUpperCase().equals("R")){
+                    toggleSpecialPower();
+                    expectedInput = new StartingSelection();
+                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    expectedInput.message();
+                    return;
+            }
+                Coordinate selectedCoordinate = getCoordinate(s);
+                selectSquare(selectedCoordinate);
+                DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
 
+                expectedInput = new BuildPhase(true);
+                expectedInput.message();
+            }
+            catch(IllegalArgumentException e){
+            } catch (IllegalValueException e) {
+                e.printStackTrace();
+            } catch (IllegalActionException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     /**
-     * BUILD PHASE: This is where you can build your blocks
+     * ADDITIONAL STATE: It can either represent an Additional Move or an Additional Build
      */
-    class BuildPhase implements InputExecutor{
+    class AdditionalState implements InputExecutor{
+
+        private boolean build;
+        private String phaseAction;
+        private boolean forced;
+
+        public AdditionalState(boolean build){
+            this.build = build;
+
+            if(build){
+                this.phaseAction = "build";
+            }
+            else{
+                this.phaseAction = "move";
+            }
+        }
+
+        public AdditionalState(boolean build, boolean forced){
+            super();
+            this.forced = forced;
+        }
 
         @Override
         public void message() {
@@ -238,19 +312,145 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
                     System.out.print(DrawElements.ESC + "25H");
                 }
-                System.out.print("BUILD PHASE: Choose Where you want to build your next block (ex: A1) ");
+                if(forced){
+                    System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
+                    System.out.print("Select the square where you want to move the builder ");
+                    return;
+                }
+                System.out.println(Colors.YELLOW_227 + "ADDITIONAL " + phaseAction.toUpperCase() + Colors.RESET);
+                System.out.print("You can " + phaseAction + " an additional time. Select the Square where you want to " +
+                        phaseAction + "\nor type E to end our turn ");
+            }
+            else{
+                if(forced){
+                    System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
+                    System.out.println("Select the square where you want to move the builder ");
+                    return;
+                }
+                System.out.println(Colors.YELLOW_227 + "ADDITIONAL " + phaseAction.toUpperCase() + Colors.RESET);
+                System.out.print("Pls wait for the other players to make their move ");
             }
         }
 
         @Override
         public void execute(String s) {
             if(!activeScreen){
-                System.out.print("It is not your turn. Pls wait...");
+                System.out.print("It is not your turn. Pls wait... ");
                 return;
+            }
+            if(s.toUpperCase().equals("E")){
+                try{
+                    if(endPhaseAvailable()) endPhase();
+                }
+                catch (IllegalActionException e) {
+                    e.getMessage();
+                }
             }
             try{
                 Coordinate selectedCoordinate = getCoordinate(s);
-                expectedInput = new StartingSelection();
+                selectSquare(selectedCoordinate);
+            }
+            catch(IllegalArgumentException e){
+            } catch (IllegalValueException e) {
+                e.printStackTrace();
+            } catch (IllegalActionException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * BUILD PHASE: This is where you can build your blocks
+     */
+    class BuildPhase implements InputExecutor{
+
+        private boolean fromSpecial;
+
+        public BuildPhase(boolean fromSpecial){
+            this.fromSpecial = fromSpecial;
+        }
+
+        public BuildPhase(){ };
+
+        @Override
+        public void message() {
+            if(activeScreen) {
+                for(Coordinate coordinate : getHighlightedCoordinates()) {
+                    DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
+                    System.out.print(DrawElements.ESC + "25H");
+                }
+                if(fromSpecial){
+                    System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
+                    System.out.println("Select the Square where you want to build on: ");
+                    System.out.print("(or type R to undo the builder selection) ");
+                    return;
+                }
+                System.out.println(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET);
+                System.out.print("Select the Square where you want to build on: ");
+                if(specialPowerAvailable()) System.out.print("\nOr press S to use your GOD power ");
+            }
+            else{
+                System.out.println(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET);
+                System.out.print("Pls wait for the other players to make their move ");
+            }
+        }
+
+        @Override
+        public void execute(String s) {
+            if(!activeScreen){
+                System.out.print("It is not your turn. Pls wait... ");
+                return;
+            }
+            try{
+            if(fromSpecial && s.toUpperCase().equals("R")){
+                if(resetPhaseAvailable()) resetPhase();
+                expectedInput = new SpecialPower();
+                DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                expectedInput.message();
+                return;
+            }
+            if(s.toUpperCase().equals("S") && specialPowerAvailable()){
+                DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                toggleSpecialPower();
+                expectedInput = new SpecialBuild();
+                expectedInput.message();
+            }
+                Coordinate selectedCoordinate = getCoordinate(s);
+                selectSquare(selectedCoordinate);
+            }
+            catch(IllegalArgumentException e){
+            } catch (IllegalValueException e) {
+                System.out.print(e.getMessage() + "Pls try again ");
+            } catch (IllegalActionException e) {
+                System.out.print(e.getMessage() + "Pls try again ");
+            }
+        }
+    }
+
+    class SpecialBuild implements InputExecutor{
+
+        @Override
+        public void message() {
+            for(Coordinate coordinate : getHighlightedCoordinates()) {
+                DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
+                System.out.print(DrawElements.ESC + "25H");
+            }
+            System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
+            System.out.println("You can now build a Dome anywhere instead of a block. Choose a square");
+            System.out.print("(or type R to undo the god power activation) ");
+            return;
+        }
+        @Override
+        public void execute(String s) {
+            try{
+            if(s.toUpperCase().equals("R")){
+                DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                toggleSpecialPower();
+                expectedInput = new BuildPhase();
+                expectedInput.message();
+                return;
+            }
+                Coordinate selectedCoordinate = getCoordinate(s);
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
@@ -262,18 +462,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         }
     }
 
-    class AdditionalBuildPhase implements InputExecutor{
 
-        @Override
-        public void message() {
-
-        }
-
-        @Override
-        public void execute(String s) {
-
-        }
-    }
 
 
 
@@ -282,32 +471,35 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         super.receiveUpdateDone();
 
         if((getGameState() == Game.State.PLACE_BUILDER)) {
-            DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers());
+            DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
             expectedInput.message();
         }
 
         if(getTurnState() != null) {
             switch (getTurnState()) {
                 case MOVE:
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers());
+                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
                     expectedInput = new StartingSelection();
                     expectedInput.message();
                     break;
                 case ADDITIONAL_MOVE:
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers());
-                    expectedInput = new AdditionalMove();
+                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    expectedInput = new AdditionalState(false);
                     expectedInput.message();
                     break;
                 case SPECIAL_MOVE:
-                    expectedInput = new SpecialPower();
+                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    expectedInput = new AdditionalState(false, true);
                     expectedInput.message();
+                    break;
                 case BUILD:
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers());
+                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
                     expectedInput = new BuildPhase();
                     expectedInput.message();
                     break;
                 case ADDITIONAL_BUILD:
-                    expectedInput = new AdditionalBuildPhase();
+                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    expectedInput = new AdditionalState(true);
                     expectedInput.message();
                     break;
                 default:

@@ -1,5 +1,6 @@
 package view.CLI;
 
+import javafx.scene.paint.Color;
 import model.Board;
 import model.Builder;
 import model.Player;
@@ -16,9 +17,9 @@ public class DrawElements {
     private static final String firstBackgroundColor = Colors.GREENBG_83;
     private static final String secondBackgroundColor = Colors.GREENBG_41;
     private static final String borderColor = Colors.GREY_250;
-    private static final String player1Color = Colors.BLUE_21;
-    private static final String player2Color = Colors.YELLOW_226;
-    private static final String player3Color = Colors.RED_196;
+    public static final String player1Color = Colors.BLUE_21;
+    public static final String player2Color = Colors.YELLOW_226;
+    public static final String player3Color = Colors.RED_196;
     private static final String levelColor = Colors.BLUE_20;
     public static final String FLUSH = "\033[H\033[2J";
     public static final String ESC = (char) 27 + "[";
@@ -141,7 +142,12 @@ public class DrawElements {
         else background = getCorrectAlternateColor(line, column);
 
         // Check if it is required to print a block or just to paint the background
-        if(square.getBuildLevel() == 0) printBackground(line, column, background, levelColor, 0 );
+        if(square.getBuildLevel() == 0){
+            if(square.isDomed())
+                printBlock(line, column, getCorrectAlternateColor(line, column), Colors.BLUE_21, levelColor, 0 );
+            else
+                printBackground(line, column, background, levelColor, 0 );
+        }
         else{
             if(neighborhood) printBlock(line, column, background, Colors.WHITE_231, levelColor, square.getBuildLevel());
             else{
@@ -164,7 +170,7 @@ public class DrawElements {
 
     }
 
-    public static void refreshBoard(Board board, List<Builder> builders, List<Player> players){
+    public static void refreshBoard(Board board, List<Builder> builders, List<Player> players, String activePlayer, String client){
         out.println(FLUSH);
         drawBoard(firstBackgroundColor, borderColor);
         for(int i = 0; i < 5; i++){
@@ -193,9 +199,80 @@ public class DrawElements {
             drawBuilder(builder.getSquare().getCoordinate(), background, i);
         }
 
+        drawGameInfo(players, activePlayer, client);
+
         out.print(DrawElements.ESC + "25H");
         out.flush();
     }
+
+    /**
+     * This Method draws the little box near the board that show the info about the players
+     * @param players The list of players in the game
+     * @param activeplayer The player who is holding the turn
+     * @param client The player who is playing
+     */
+    public static void drawGameInfo(List<Player> players, String activeplayer, String client){
+
+        selectCell(1,1);
+        moveUp(1);
+        moveRight(55);
+        out.flush();
+        out.print("╔══════════════════════════════════════╗");
+        out.flush();
+        moveDown(1);
+        moveLeft(40);
+        out.flush();
+        for(Player player : players){
+            // Find the number of spaces between the player name and the god name
+            int numspacesPlayer = 20 - player.getName().length();
+            String playerSpaces = "";
+            for(int j = 0; j < numspacesPlayer; j++){
+                playerSpaces = playerSpaces.concat(" ");
+            }
+            // Find the number of spaces between the god name and the end of the box
+            int numspacesGod = 11 - player.getGod().getName().length();
+            String godSpaces = "";
+            for(int j = 0; j < numspacesGod; j++){
+                godSpaces = godSpaces.concat(" ");
+            }
+
+            String color;
+            if(player.getName().equals(client)) color = Colors.GREEN_47;
+            else color = Colors.RESET;
+
+            String towrite = "║ " + getPlayerColor(players, player) + "██ " + Colors.RESET + color + player.getName() +
+                    Colors.RESET + playerSpaces + " - " + player.getGod().getName() + godSpaces + "║";
+            out.print(towrite);
+            moveDown(1);
+            moveLeft(40);
+            out.flush();
+        }
+        out.print("╚══════════════════════════════════════╝");
+        moveDown(2);
+        moveLeft(40);
+        out.print("  CURRENT TURN: " + Colors.YELLOW_227 + activeplayer + Colors.RESET);
+
+    }
+
+
+    public static String getPlayerColor(List<Player> players, Player currentplayer){
+        int i = 1;
+        for(Player player : players){
+            if(!player.getName().equals(currentplayer.getName())) i++;
+            else break;
+        }
+        String color;
+        switch(i){
+            case 1: color = DrawElements.player1Color; break;
+            case 2: color = DrawElements.player2Color; break;
+            case 3: color = DrawElements.player3Color; break;
+            default: color = Colors.RESET;
+        }
+        return color;
+
+    }
+
+
 
     public static void saveCursor(){
         out.println(ESC + "s");
@@ -255,7 +332,9 @@ public class DrawElements {
     }
 
     private static void printBlock(int line, int column, String background, String color, String levelColor,  int level){
-        String levelToString = Integer.toString(level);
+        String levelToString;
+        if(level == 0) levelToString = " ";
+        else levelToString = Integer.toString(level);
         selectCell(line, column);
         out.print(background);
         out.print(color);
