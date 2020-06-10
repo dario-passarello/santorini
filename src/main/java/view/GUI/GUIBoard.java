@@ -37,6 +37,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
     @FXML Button endPhase;
     @FXML Button toggleSpecialPower;
     @FXML Button resetPhase;
+    @FXML ImageView endPhaseGraphic;
+    @FXML ImageView toggleSpecialPowerGraphic;
+    @FXML ImageView resetPhaseGraphic;
 
     public static final float SQUARE_SIZE = 80;
     public static final float GOD_SIZE = 120;
@@ -217,28 +220,28 @@ public class GUIBoard extends BoardScreen implements GUIController {
         //Update special power button
         if(specialPowerAvailable()){
             toggleSpecialPower.setDisable(false);
-            toggleSpecialPower.setOpacity(1);
+            toggleSpecialPowerGraphic.setOpacity(1);
         } else {
             toggleSpecialPower.setDisable(true);
-            toggleSpecialPower.setOpacity(0.5);
+            toggleSpecialPowerGraphic.setOpacity(0.5);
         }
 
         //Update end phase button
         if(endPhaseAvailable()){
             endPhase.setDisable(false);
-            endPhase.setOpacity(1);
+            endPhaseGraphic.setOpacity(1);
         } else {
             endPhase.setDisable(true);
-            endPhase.setOpacity(0.5);
+            endPhaseGraphic.setOpacity(0.5);
         }
 
         //Update reset phase
         if(getSelectedBuilder() != null && resetPhaseAvailable()){
             resetPhase.setDisable(false);
-            resetPhase.setOpacity(1);
+            resetPhaseGraphic.setOpacity(1);
         } else {
             resetPhase.setDisable(true);
-            resetPhase.setOpacity(0.5);
+            resetPhaseGraphic.setOpacity(0.5);
         }
 
     }

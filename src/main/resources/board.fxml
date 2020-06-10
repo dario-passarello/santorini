@@ -11,11 +11,6 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-image: url(assets/water.jpg); -fx-background-position: center; -fx-background-size: 100% 100% 100% 100%; -fx-background-repeat: no-repeat" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <BorderPane prefHeight="720.0" prefWidth="1280.0" StackPane.alignment="CENTER_RIGHT">
-         <padding>
-            <Insets left="20.0" />
-         </padding>
-      </BorderPane>
       <BorderPane prefHeight="720.0" prefWidth="1280.0">
          <center>
             <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" scaleX="2.0" scaleY="2.0" BorderPane.alignment="CENTER">
@@ -123,16 +118,61 @@
             </StackPane>
          </center>
          <right>
-            <VBox alignment="CENTER" prefHeight="720.0" prefWidth="336.0" spacing="30.0" BorderPane.alignment="CENTER">
+            <StackPane>
                <children>
-                  <Button fx:id="endPhase" disable="true" mnemonicParsing="false" onAction="#endPhaseListener" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="End Phase" />
-                  <Button fx:id="toggleSpecialPower" disable="true" mnemonicParsing="false" onAction="#toggleSpecialPowerListener" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Use Special Power" />
-                  <Button fx:id="resetPhase" disable="true" mnemonicParsing="false" onAction="#resetPhaseListener" opacity="0.5" prefHeight="100.0" prefWidth="300.0" text="Reset Selection" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
+                     <children>
+                        <ImageView fx:id="endPhaseGraphic" fitHeight="217.0" fitWidth="296.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assets/endPhase.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="toggleSpecialPowerGraphic" fitHeight="120.0" fitWidth="301.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assets/specialPower.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="resetPhaseGraphic" fitHeight="123.0" fitWidth="304.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@assets/reset.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="95.0">
+                     <children>
+                        <Label text="End Phase" textFill="WHITE">
+                           <font>
+                              <Font name="Arial Bold Italic" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label text="Special Power" textFill="WHITE">
+                           <font>
+                              <Font name="Arial Bold Italic" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label text="Reset" textFill="WHITE">
+                           <font>
+                              <Font name="Arial Bold Italic" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <StackPane.margin>
+                        <Insets left="30.0" />
+                     </StackPane.margin>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="720.0" prefWidth="336.0" spacing="30.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="endPhase" disable="true" mnemonicParsing="false" onAction="#endPhaseListener" opacity="0.0" prefHeight="100.0" prefWidth="300.0" text="End Phase" />
+                        <Button fx:id="toggleSpecialPower" disable="true" mnemonicParsing="false" onAction="#toggleSpecialPowerListener" opacity="0.0" prefHeight="100.0" prefWidth="300.0" text="Use Special Power" />
+                        <Button fx:id="resetPhase" disable="true" mnemonicParsing="false" onAction="#resetPhaseListener" opacity="0.0" prefHeight="100.0" prefWidth="300.0" text="Reset Selection" />
+                     </children>
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                  </VBox>
                </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-            </VBox>
+            </StackPane>
          </right>
          <left>
             <VBox fx:id="gods" alignment="CENTER_LEFT" prefHeight="720.0" prefWidth="331.0" spacing="50.0" BorderPane.alignment="CENTER" />
