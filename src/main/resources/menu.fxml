@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -9,15 +12,30 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-image: url(assets/blueBackground.png); -fx-background-position: center; -fx-background-size: 100% 100% 100% 100%; -fx-background-repeat: no-repeat" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@assets/Front%20page%20passa.jpg" />
+         </image></ImageView>
       <BorderPane prefHeight="720.0" prefWidth="1280.0" StackPane.alignment="CENTER">
          <center>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="80.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#startGame" prefHeight="100.0" prefWidth="500.0" text="Start Game" />
-                  <Button mnemonicParsing="false" onAction="#credits" prefHeight="100.0" prefWidth="500.0" text="Credits" />
-                  <Button mnemonicParsing="false" onAction="#quit" prefHeight="100.0" prefWidth="500.0" text="Quit" />
+                  <Button mnemonicParsing="false" onAction="#startGame" prefHeight="100.0" prefWidth="400.0" text="Start Game">
+                     <font>
+                        <Font name="Arial Bold Italic" size="30.0" />
+                     </font></Button>
+                  <Button mnemonicParsing="false" onAction="#credits" prefHeight="100.0" prefWidth="400.0" text="Credits">
+                     <font>
+                        <Font name="Arial Bold Italic" size="30.0" />
+                     </font></Button>
+                  <Button mnemonicParsing="false" onAction="#quit" prefHeight="100.0" prefWidth="400.0" text="Quit">
+                     <font>
+                        <Font name="Arial Bold Italic" size="30.0" />
+                     </font></Button>
                </children>
+               <BorderPane.margin>
+                  <Insets top="160.0" />
+               </BorderPane.margin>
             </VBox>
          </center>
       </BorderPane>
