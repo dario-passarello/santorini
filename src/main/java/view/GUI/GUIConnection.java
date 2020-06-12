@@ -52,23 +52,39 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
 
     public void startButtonPushed(){
         warning.setText("");                            //clear warnings
+        boolean flag = true;
         try {
             setIP(ip.getText());
-        }catch (IllegalValueException e) { warning.setText(warning.getText() + "- You should use a valid IP\n");}
+        }catch (IllegalValueException e) {
+            warning.setText(warning.getText() + "- You should use a valid IP\n");
+            flag = false;
+        }
         try {
             setPort(port.getText());
-        }catch (IllegalValueException e2) { warning.setText(warning.getText() + "- You should use a valid port\n");}
+        }catch (IllegalValueException e2) { warning.setText(warning.getText() + "- You should use a valid port\n");
+            flag = false;
+        }
         try {
             setUsername(nickname.getText());
-        }catch (IllegalValueException e) { warning.setText(warning.getText() + "- Your nickname should have from 3 up to 30 characters\n");}
+        }catch (IllegalValueException e) { warning.setText(warning.getText() + "- Your nickname should have from 3 up to 30 characters\n");
+            flag = false;
+        }
         setNumberOfPlayers(choiceBox.getValue());
-        if(readyToConnect()){
-            try {
-                loginFields.setDisable(true);
-                loginFields.setVisible(false);
-                loading.setVisible(true);
-                connect();
-            } catch (IllegalActionException | IOException e){};
+        if(readyToConnect() && flag){
+            loginFields.setDisable(true);
+            loginFields.setVisible(false);
+            loading.setVisible(true);
+            Thread t = new Thread(() ->{
+                try {
+                    connect();
+                } catch (IllegalActionException | IOException e) {
+                    loginFields.setDisable(false);
+                    loginFields.setVisible(true);
+                    loading.setVisible(false);
+                    warning.setText(warning.getText() + "- Wrong IP or port, try again");
+                }
+            });
+            t.start();
         }
     }
 
