@@ -46,7 +46,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
     public void processInput(String input) {
 
         // If you make a mistake you can restart by typing "Redo"
-        if(input.toUpperCase().equals("RESTART")){
+        if(input.toUpperCase().equals("RESTART") && !(expectedInput instanceof Connecting)){
             System.out.println(DrawElements.FLUSH);
             onScreenOpen();
         }
