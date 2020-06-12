@@ -1,12 +1,10 @@
 package view.CLI;
 
-import model.gods.God;
 import view.*;
 import view.screens.GodSelectionScreen;
 
 import java.util.List;
 
-//TODO Allow mortal selection ONLY when there are no god selected
 
 public class CLIGodSelectionScreen extends GodSelectionScreen implements InputProcessor {
 
@@ -41,6 +39,9 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
         expectedInput.execute(input);
     }
 
+    /**
+     * This method draws the box with the set of gods inside
+     */
     private void printMainScreen(){
         System.out.println(Colors.BLUE_27 + "\n\n            GOD SELECTION PHASE" + Colors.RESET);
 
@@ -70,6 +71,9 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
         }
     }
 
+    /**
+     * This method refreshes the screen, drawing the board again
+     */
     private void refreshMainScreen(){
         DrawElements.out.println(DrawElements.FLUSH);
         printMainScreen();
@@ -78,6 +82,11 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
         }
     }
 
+    /**
+     * This method highlights a god in the box as selected
+     * @param i The number of the god
+     * @param confirm The boolean that specifies if the god is only to highlight or to mark as selected
+     */
     private void selectGod(int i, boolean confirm){
 
         // Get the cursor to the starting of the table
@@ -134,6 +143,9 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
     //      +   INNER CLASSES   +
     //      +-------------------+
 
+    /**
+     * This is the class starting phase of the God Selection, where you select the god and navigate through their descriptions
+     */
     class GodSelection implements InputExecutor{
 
         @Override
@@ -187,6 +199,9 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
         }
     }
 
+    /**
+     * This class represents the phase where the player either confirms the selection or returns to the choosing screen
+     */
     class ConfirmSelection implements InputExecutor{
 
         @Override
@@ -200,6 +215,10 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
         public void execute(String s) {
             try {
                 if (s.equals("") && selectedGod != null) {  // If the use pressed Enter
+                    // Check that the selected god is not a Mortal with a non-empty list of gods selected
+                    if(selectedGod.equals("Mortal") && getChosenGodList().size() > 0){
+                        throw new IllegalActionException("You can select the mortal only when there are no gods selected");
+                    }
                     addGod(selectedGod);
                     int id = AssetLoader.getGodAssetsBundle(selectedGod).getId();
                     System.out.println("\n " + Colors.BLUE_153 + selectedGod + Colors.RESET + " Has been Selected");
@@ -226,7 +245,7 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
                 }
             }
             catch(IllegalActionException exception){
-
+                System.out.print(exception.getMessage() + ". Pls try again");
             }
             catch(IllegalValueException exception){
 
@@ -234,6 +253,10 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
         }
     }
 
+    /**
+     * This class represents the moment where the god selected is already been chosen and it gives the player
+     * the possiblity to undo the selection
+     */
     class Deselection implements  InputExecutor{
 
         @Override
@@ -256,14 +279,18 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
                 }
             }
             catch(IllegalActionException exception){
-
+                System.out.print(exception.getMessage() + ". Pls try again  ");
             }
             catch(IllegalValueException exception){
-
+                System.out.print(exception.getMessage() + ". Pls try again  ");
             }
         }
     }
 
+    /**
+     * This class represents the moment where the player submit the list of gods selected or chooses to remove one
+     * and continue the selection
+     */
     class SubmitList implements InputExecutor{
 
         @Override
@@ -297,10 +324,10 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
                         System.out.println("\nThis is not a number. Pls Enter a valid input:\t");
                     }
                     catch(IllegalValueException exception){
-
+                        System.out.print(exception.getMessage() + ". Pls try again  ");
                     }
                     catch(IllegalActionException exception){
-
+                        System.out.print(exception.getMessage() + ". Pls try again  ");
                     }
                 }
 

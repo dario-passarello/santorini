@@ -44,7 +44,13 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
     @Override
     public void processInput(String input) {
-        expectedInput.execute(input);
+
+        // If you make a mistake you can restart by typing "Redo"
+        if(input.toUpperCase().equals("RESTART")){
+            System.out.println(DrawElements.FLUSH);
+            onScreenOpen();
+        }
+        else expectedInput.execute(input);
     }
 
     //TESTING ONLY
@@ -85,7 +91,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
                 expectedInput.message();
             }
             catch(IllegalValueException exception){
-                System.out.print(exception.getMessage() + ": Please Enter a new one:   ");
+                System.out.print(Colors.RESET + exception.getMessage() + ": Please Enter a new one:   " + Colors.GREEN_47);
             }
         }
     }
@@ -126,7 +132,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
                 System.out.print(Colors.RESET + exception.getMessage() + ": Please enter a valid input:  " + Colors.GREEN_47);
             }
             catch(NumberFormatException exception){
-
+                System.out.print(Colors.RESET + "The input is not as not a number. Pls enter a valid input:  " + Colors.GREEN_47);
             }
 
         }
@@ -146,17 +152,35 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
         public void execute(String s) {
             try {
                 setNumberOfPlayers(Integer.parseInt(s));
+                    DrawElements.moveDown(4);
+                    System.out.print("\n");
+                    expectedInput = new Connecting();
+                    expectedInput.message();
+
                     connect();
             }
-            catch(IllegalActionException actionexception){
-
+            catch(IllegalActionException exception){
+                System.out.print(exception.getMessage() + " ");
             }
-            catch(IOException ioexception){
-
+            catch(IOException exception){
+                System.out.print("Connection Error. Pls try again or type REDO to start again:  ");
             }
             catch(NumberFormatException exception){
-
+                System.out.print(Colors.RESET + "The input is not as not a number. Pls enter a valid input:  " + Colors.GREEN_47);
             }
+        }
+    }
+
+    class Connecting implements InputExecutor{
+
+        @Override
+        public void message() {
+            System.out.print("\n TRYING TO FIND A GAME.   PLS WAIT....");
+        }
+
+        @Override
+        public void execute(String s) {
+
         }
     }
 }

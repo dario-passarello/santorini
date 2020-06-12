@@ -11,8 +11,7 @@ import java.util.List;
 public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
 
     //TODO Find a way to know who selected the gods
-    // Added Next State Getter
-    // Remove only the god picked
+
     private InputExecutor expectedInput;
 
     private final String player1Color = Colors.BLUE_21;
@@ -49,6 +48,9 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
 
     }
 
+    /**
+     * This method draws the box that contains the gods, along with their description
+     */
     private void MainScreen(){
         String taken;
 
@@ -75,9 +77,11 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
     @Override
     public synchronized void receiveUpdateDone(){
         super.receiveUpdateDone();
+        // If we are still in the godPick state, update everyone's screen
         if(getNextState() == Game.State.GOD_PICK){
             System.out.println(DrawElements.FLUSH);
             MainScreen();
+            expectedInput.message();
         }
     }
 
@@ -87,6 +91,11 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
     //      +-------------------+
 
 
+    /**
+     * This class represent the god Picking phase
+     * It is the only inner class of the class since the GodPick consists of
+     * a single input from the user
+     */
     class GodPIckChoice implements InputExecutor{
 
         @Override
@@ -102,6 +111,7 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
         @Override
         public void execute(String s) {
             try{
+                // Parse the input and sends the corresponding god to the super screen
                 int selected = Integer.parseInt(s);
                 if(selected != 0 && selected <= getGodsRemaining().size()){
                     pickGod(getGodsRemaining().get(selected-1));
@@ -114,7 +124,7 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
                 System.out.print("\nThis is not a number. Please enter a number: ");
             }
             catch(IllegalValueException exception){
-
+                System.out.print(exception.getMessage() + ". Pls try again");
             }
         }
     }

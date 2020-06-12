@@ -1,5 +1,6 @@
 package view.CLI;
 
+
 public interface InputProcessor {
 
 

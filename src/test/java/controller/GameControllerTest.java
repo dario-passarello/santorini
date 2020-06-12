@@ -22,8 +22,6 @@ public class GameControllerTest {
 
 
     private Game game = new Game(Arrays.asList("Tester1", "Tester2"), 2);
-    // private Socket socket1 = new Socket(InetAddress.getLoopbackAddress(), 12345);
-    // private Socket socket2 = new Socket(InetAddress.getLoopbackAddress(), 12345);
     private Controller controller = new Controller(game);
     private RemoteView client1 = new RemoteView(null, controller,"Tester1");
     private RemoteView client2 = new RemoteView(null, controller,"Tester2");
@@ -338,27 +336,27 @@ public class GameControllerTest {
             //Check Mortal Creation
             gamecontroller.submitGodList(client1, empty);
             Assert.assertEquals(game.getStateIdentifier()+": Problem in Creating a Mortal game",
-                    game.getGameState().getStateIdentifier(), ending.get(0));
+                    ending.get(0), game.getGameState().getStateIdentifier());
 
         /* Resetting */ game.setGameState(start, game.getFirstPlayer());
 
             //Check CorrectGodList Creation
             gamecontroller.submitGodList(client1, correct);
             Assert.assertEquals(game.getStateIdentifier()+": Problem in using the List of God to create a game",
-                    game.getGameState().getStateIdentifier(), ending.get(1));
+                    ending.get(1), game.getGameState().getStateIdentifier());
 
         /* Resetting */ game.setGameState(start, game.getFirstPlayer());
 
             //Check Malformed GodList
             gamecontroller.submitGodList(client1, wrong);
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The malformed GodList is not handled corectly",
-                    game.getGameState().getStateIdentifier(), ending.get(2));
+                    ending.get(2), game.getGameState().getStateIdentifier());
 
         /* Resetting */ game.setGameState(start, game.getFirstPlayer());
 
             //Check Wrong username caller
             gamecontroller.submitGodList(client2, correct);
-            Assert.assertEquals(game.getGameState().getStateIdentifier(), ending.get(3));
+            Assert.assertEquals(ending.get(3), game.getGameState().getStateIdentifier());
 
 
 
@@ -378,7 +376,7 @@ public class GameControllerTest {
             //Check Regular Call
             gamecontroller.pickGod(client2, "Atlas");
             Assert.assertEquals(game.getStateIdentifier()+": Problem with the call of the method with correct inputs\n",
-                    game.getGameState().getStateIdentifier(), ending.get(0));
+                    ending.get(0), game.getGameState().getStateIdentifier());
 
         /* Resetting */ game.setGameState(start, game.getFirstPlayer());
                         for(Player player : game.getPlayers()) player.setGod(null);
@@ -386,7 +384,7 @@ public class GameControllerTest {
             //Check IllegalName
             gamecontroller.pickGod(client1, "Demeter");
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal name is not handled correctly\n",
-                    game.getGameState().getStateIdentifier(), ending.get(1));
+                    ending.get(1), game.getGameState().getStateIdentifier());
 
         /* Resetting */ game.setGameState(start, game.getFirstPlayer());
                         for(Player player : game.getPlayers()) player.setGod(null);
@@ -394,7 +392,7 @@ public class GameControllerTest {
             //Check IllegalGod
             gamecontroller.pickGod(client2, "Athena");
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal god is not handled correctly",
-                    game.getGameState().getStateIdentifier(), ending.get(2));
+                    ending.get(2), game.getGameState().getStateIdentifier());
     }
 
     public void placeBuilderTest(GameState start, List<Game.State> ending){
@@ -420,21 +418,21 @@ public class GameControllerTest {
             //Check calling the method with an illegal username
             gamecontroller.placeBuilder(client1, correctCoordinate);
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal usename is not handled correctly\n",
-                    game.getGameState().getStateIdentifier(), ending.get(0));
+                    ending.get(0), game.getGameState().getStateIdentifier());
 
         /* Resetting */   game.setGameState(start, game.getFirstPlayer());
 
             //Check calling the method with a coordinate that it's not on the board
             gamecontroller.placeBuilder(client1, notEvenInTheBoard);
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal coordinate is not handled correctly\n",
-                    game.getGameState().getStateIdentifier(), ending.get(1));
+                    ending.get(1), game.getGameState().getStateIdentifier());
 
         /* Resetting */   game.setGameState(start, game.getFirstPlayer());
 
             //Check calling the method on an occupied square
             gamecontroller.placeBuilder(client1, occupiedCoordinate);
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: Problem when calling the method on an occupied square\n",
-                    game.getGameState().getStateIdentifier(), ending.get(2));
+                    ending.get(2), game.getGameState().getStateIdentifier());
 
         /* Resetting */   game.setGameState(start, game.getFirstPlayer());
 
@@ -442,7 +440,7 @@ public class GameControllerTest {
             gamecontroller.placeBuilder(client1, correctCoordinate);
             gamecontroller.placeBuilder(client2, correctCoordinate2);
             Assert.assertEquals(game.getStateIdentifier()+": Calling a method with the correct parameter caused an error\n",
-                    game.getGameState().getStateIdentifier(), ending.get(3));
+                    ending.get(3), game.getGameState().getStateIdentifier());
     }
 
     public void quitGameTest(GameState start, List<Game.State> ending){
@@ -453,14 +451,14 @@ public class GameControllerTest {
         //Check when the method is called with a name name that is not in the game
         gamecontroller.quitGame(new RemoteView(null, controller, falseplayer));
         Assert.assertEquals(game.getStateIdentifier()+": Wrong handle: the illegal username is not handled correctly\n",
-                game.getGameState().getStateIdentifier(), ending.get(1));
+                ending.get(1), game.getGameState().getStateIdentifier());
 
         /* Resetting */ game.setGameState(start, game.getFirstPlayer());
 
             //Check when the method is called with a client that is in the game
             gamecontroller.quitGame(client1);
             Assert.assertEquals(game.getStateIdentifier()+": Calling the method with a client in game caused an error\n",
-                    game.getGameState().getStateIdentifier(), ending.get(0));
+                    ending.get(0), game.getGameState().getStateIdentifier());
             if(start == game.turnState) { // Resetting the game after checking the method was called correctly
                 game = new Game(Arrays.asList("Tester1", "Tester2"), 2);
                 game.setGameState(game.turnState, game.getFirstPlayer());

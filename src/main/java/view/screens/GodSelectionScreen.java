@@ -99,10 +99,10 @@ public abstract class GodSelectionScreen extends Screen {
             throw new ActivityNotAllowedException(ClientErrorMessages.ACTIVITY_NOT_ALLOWED);
         }
         if(chosenGods.isEmpty()){
-            throw new IllegalActionException(ClientErrorMessages.GOD_NOT_CHOSEN);
+            throw new IllegalActionException(ClientErrorMessages.GOD_LIST_EMPTY);
         }
         if(!chosenGods.contains(name)) {
-            throw new IllegalValueException(ClientErrorMessages.GOD_NOT_CHOSEN);
+            throw new IllegalValueException(ClientErrorMessages.GOD_NOT_PRESENT);
         }
         chosenGods.remove(name);
     }

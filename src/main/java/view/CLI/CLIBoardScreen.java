@@ -12,16 +12,16 @@ import java.util.List;
 
 public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
-    private InputExecutor expectedInput;
+    private InputExecutor currentPhase;
     private boolean additionalPhase = false;
 
-    public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighlitedCoordinates) {
-        super(view, activePlayer, players, preHighlitedCoordinates);
+    public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighlightedCoordinates) {
+        super(view, activePlayer, players, preHighlightedCoordinates);
     }
 
     @Override
     public void processInput(String input) {
-        expectedInput.execute(input);
+        currentPhase.execute(input);
     }
 
 
@@ -33,12 +33,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         System.out.println(DrawElements.FLUSH);
         DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
 
-        System.out.println(Colors.YELLOW_227 + "BUILDER PLACEMENT" + Colors.RESET);
-        System.out.println("You can place two builders on the board");
-        if(activeScreen) System.out.print("Choose where you want to place the first builder (ex. B1) ");
 
-
-        expectedInput = new PlaceBuilder();
+        currentPhase = new PlaceBuilder();
+        currentPhase.message();
     }
 
     private String playerColor(){
@@ -87,7 +84,8 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
                 //Selection message
                 System.out.println(Colors.YELLOW_227 + "BUILDER PLACEMENT" + Colors.RESET);
-                System.out.print("Select the square where you want to place the " + buildnumber + " Builder (ex. A3):  ");
+                System.out.println("You can place two" + playerColor() + " builders" + Colors.RESET + " on the board");
+                System.out.print("Place the " + buildnumber + " Builder (ex. A3):\t");
 
             }
             else{
@@ -111,15 +109,14 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 return;
             }
             try{
+                // Gets the coordinate selected and calls the super screen method
                 Coordinate selectedCoordinate = getCoordinate(s);
                 selectSquare(selectedCoordinate);
             }
-            catch(NumberFormatException exception){
-
-            } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + "Pls try again:\t");
+            catch (IllegalValueException e) {
+                System.out.print(e.getMessage() + ". Pls try again:\t");
             } catch (IllegalActionException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + ". Pls try again:\t");
             }
             catch(IllegalArgumentException e){
                 System.out.print("This is an invalid input. Pls try again:\t");
@@ -139,7 +136,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             if(activeScreen){
                 System.out.println(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET);
                 System.out.print("Select the" + playerColor() + " Builder" + Colors.RESET + " you want to move (ex. A3) ");
-                if(specialPowerAvailable()) System.out.print("\nor type S to activate the special power: ");
+                if(specialPowerAvailable()) System.out.print("\nor type S to activate the special power:\t");
             }
             else{
                 System.out.println(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET);
@@ -149,11 +146,12 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         @Override
         public void execute(String s) {
             try{
+                // Refreshes the board and writes the phase message
                 if(s.toUpperCase().equals("S")){
                     DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
                     toggleSpecialPower();
-                    expectedInput = new SpecialPower();
-                    expectedInput.message();
+                    currentPhase = new SpecialPower();
+                    currentPhase.message();
                 }
                 else{
                         Coordinate selectedCoordinate = getCoordinate(s);
@@ -166,13 +164,13 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                             System.out.print(DrawElements.ESC + "25H");
                         }
                         // Change to MOVE PHASE
-                        expectedInput = new MovePhase();
-                        expectedInput.message();
+                        currentPhase = new MovePhase();
+                        currentPhase.message();
 
                     }
                 }
              catch (IllegalValueException e) {
-                e.printStackTrace();
+                 System.out.print(e.getMessage() + "Pls insert a valid input ");
             } catch (IllegalActionException e) {
                 System.out.print(e.getMessage() + "Pls insert a valid input ");
             }
@@ -192,7 +190,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             if(activeScreen) {
                 System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
                 System.out.print("Select the square where you want to move the builder\n" +
-                        "or type R to undo the builder selection ");
+                        "or type R to undo the builder selection\t");
             }
             else{
                 System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
@@ -208,31 +206,34 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             }
             if(s.toUpperCase().equals("R")){
                 try{
+                    // Undo the selection and goes back to the Starting Selection
                     if(resetPhaseAvailable()) resetPhase();
-                    expectedInput = new StartingSelection();
+                    currentPhase = new StartingSelection();
                     DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-                    expectedInput.message();
+                    currentPhase.message();
                     return;
                 }
                 catch (IllegalActionException e) {
-                    e.getMessage();
+                    System.out.print(e.getMessage() + " ");
                 }
             }
             try{
+                // Gets the coordinate selected and calls the super screen method
                 Coordinate selectedCoordinate = getCoordinate(s);
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
+                System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + "Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + "Pls insert a valid input ");
             }
         }
     }
 
     /**
-     * SPECIAL POWER: It is the state where you where to use Prometheus' power
+     * SPECIAL POWER: It is the state where you can use Prometheus' power
      */
     class SpecialPower implements InputExecutor{
 
@@ -243,10 +244,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
                 System.out.print("You have activated the power of your GOD\n" +
                         "Select the " + playerColor() + "builder" + Colors.RESET + " you want to use it on\n" +
-                        "(or type R to undo the activation)");
-            }
-            if(!activeScreen){
-
+                        "(or type R to undo the activation)\t");
             }
         }
 
@@ -258,30 +256,33 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             }
             try{
             if(s.toUpperCase().equals("R")){
+                    // Undo the activation and goes back to the Starting Selection
                     toggleSpecialPower();
-                    expectedInput = new StartingSelection();
+                    currentPhase = new StartingSelection();
                     DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-                    expectedInput.message();
+                    currentPhase.message();
                     return;
             }
+                // Gets the coordinate selected and calls the super screen method
                 Coordinate selectedCoordinate = getCoordinate(s);
                 selectSquare(selectedCoordinate);
                 DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
 
-                expectedInput = new BuildPhase(true);
-                expectedInput.message();
+                currentPhase = new BuildPhase(true);
+                currentPhase.message();
             }
             catch(IllegalArgumentException e){
+                System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + "Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + "Pls insert a valid input ");
             }
         }
     }
 
     /**
-     * ADDITIONAL STATE: It can either represent an Additional Move or an Additional Build
+     * ADDITIONAL STATE: It can either represent an Additional Move or an Additional Build or a Forced Move
      */
     class AdditionalState implements InputExecutor{
 
@@ -314,17 +315,17 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 }
                 if(forced){
                     System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
-                    System.out.print("Select the square where you want to move the builder ");
+                    System.out.print("Select the square where you want to move the builder\t");
                     return;
                 }
                 System.out.println(Colors.YELLOW_227 + "ADDITIONAL " + phaseAction.toUpperCase() + Colors.RESET);
                 System.out.print("You can " + phaseAction + " an additional time. Select the Square where you want to " +
-                        phaseAction + "\nor type E to end our turn ");
+                        phaseAction + "\nor type E to end this phase\t");
             }
             else{
                 if(forced){
                     System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
-                    System.out.println("Select the square where you want to move the builder ");
+                    System.out.print("Pls wait for the other players to make their move ");
                     return;
                 }
                 System.out.println(Colors.YELLOW_227 + "ADDITIONAL " + phaseAction.toUpperCase() + Colors.RESET);
@@ -343,7 +344,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     if(endPhaseAvailable()) endPhase();
                 }
                 catch (IllegalActionException e) {
-                    e.getMessage();
+                    System.out.print(e.getMessage() + " ");
                 }
             }
             try{
@@ -351,10 +352,11 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
+                System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + "Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + "Pls insert a valid input ");
             }
         }
     }
@@ -382,12 +384,12 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 if(fromSpecial){
                     System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
                     System.out.println("Select the Square where you want to build on: ");
-                    System.out.print("(or type R to undo the builder selection) ");
+                    System.out.print("(or type R to undo the builder selection)\t");
                     return;
                 }
                 System.out.println(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET);
                 System.out.print("Select the Square where you want to build on: ");
-                if(specialPowerAvailable()) System.out.print("\nOr press S to use your GOD power ");
+                if(specialPowerAvailable()) System.out.print("\nOr press S to use your GOD power\t");
             }
             else{
                 System.out.println(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET);
@@ -403,22 +405,25 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             }
             try{
             if(fromSpecial && s.toUpperCase().equals("R")){
+                // Undo the activatio of Atlas
                 if(resetPhaseAvailable()) resetPhase();
-                expectedInput = new SpecialPower();
+                currentPhase = new SpecialPower();
                 DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-                expectedInput.message();
+                currentPhase.message();
                 return;
             }
             if(s.toUpperCase().equals("S") && specialPowerAvailable()){
+                // Use Atlas
                 DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
                 toggleSpecialPower();
-                expectedInput = new SpecialBuild();
-                expectedInput.message();
+                currentPhase = new SpecialBuild();
+                currentPhase.message();
             }
                 Coordinate selectedCoordinate = getCoordinate(s);
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
+                System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
                 System.out.print(e.getMessage() + "Pls try again ");
             } catch (IllegalActionException e) {
@@ -427,6 +432,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         }
     }
 
+    /**
+     * SPECIAL BUILD PHASE: This is where you can use the power of Atlas
+     */
     class SpecialBuild implements InputExecutor{
 
         @Override
@@ -437,7 +445,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             }
             System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
             System.out.println("You can now build a Dome anywhere instead of a block. Choose a square");
-            System.out.print("(or type R to undo the god power activation) ");
+            System.out.print("(or type R to undo the god power activation)\t");
             return;
         }
         @Override
@@ -446,18 +454,19 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             if(s.toUpperCase().equals("R")){
                 DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
                 toggleSpecialPower();
-                expectedInput = new BuildPhase();
-                expectedInput.message();
+                currentPhase = new BuildPhase();
+                currentPhase.message();
                 return;
             }
                 Coordinate selectedCoordinate = getCoordinate(s);
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
+                System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                e.printStackTrace();
+                System.out.print(e.getMessage() + "Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + "Pls try again ");
+                System.out.print(e.getMessage() + "Pls insert a valid input ");
             }
         }
     }
@@ -472,35 +481,35 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
         if((getGameState() == Game.State.PLACE_BUILDER)) {
             DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-            expectedInput.message();
+            currentPhase.message();
         }
 
         if(getTurnState() != null) {
             switch (getTurnState()) {
                 case MOVE:
                     DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-                    expectedInput = new StartingSelection();
-                    expectedInput.message();
+                    currentPhase = new StartingSelection();
+                    currentPhase.message();
                     break;
                 case ADDITIONAL_MOVE:
                     DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-                    expectedInput = new AdditionalState(false);
-                    expectedInput.message();
+                    currentPhase = new AdditionalState(false);
+                    currentPhase.message();
                     break;
                 case SPECIAL_MOVE:
                     DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-                    expectedInput = new AdditionalState(false, true);
-                    expectedInput.message();
+                    currentPhase = new AdditionalState(false, true);
+                    currentPhase.message();
                     break;
                 case BUILD:
                     DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-                    expectedInput = new BuildPhase();
-                    expectedInput.message();
+                    currentPhase = new BuildPhase();
+                    currentPhase.message();
                     break;
                 case ADDITIONAL_BUILD:
                     DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-                    expectedInput = new AdditionalState(true);
-                    expectedInput.message();
+                    currentPhase = new AdditionalState(true);
+                    currentPhase.message();
                     break;
                 default:
                     return;
@@ -509,7 +518,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
     }
 
     // Support Method. To get the coordinate from the input
-    private Coordinate getCoordinate(String s){
+    private Coordinate getCoordinate(String s) throws IllegalArgumentException{
         if(s.length() != 2) {
             throw new IllegalArgumentException();
         }

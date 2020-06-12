@@ -19,15 +19,13 @@ public class TurnControllerTest {
 
 
     private Game game = new Game(Arrays.asList("Tester1", "Tester2"), 2);
-    // private Socket socket1 = new Socket(InetAddress.getLoopbackAddress(), 12345);
-    // private Socket socket2 = new Socket(InetAddress.getLoopbackAddress(), 12345);
     private Controller controller = new Controller(game);
     private RemoteView client1 = new RemoteView(null, controller,"Tester1");
     private RemoteView client2 = new RemoteView(null, controller,"Tester2");
     private TurnController turncontroller = controller.turn();
 
 
-    public TurnControllerTest() throws IOException {
+    public TurnControllerTest() {
     }
 
     @BeforeEach
@@ -37,6 +35,11 @@ public class TurnControllerTest {
         game.getFirstPlayer().addBuilder(game.getBoard().squareAt(4,0));
         game.getLastPlayer().addBuilder(game.getBoard().squareAt(0,4));
 
+        game.getFirstPlayer().setGod(new GodFactory().getGod("Mortal"));
+        game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
+
+        game.getLastPlayer().setGod(new GodFactory().getGod("Mortal"));
+        game.getLastPlayer().getGod().setPlayer(game.getFirstPlayer());
     }
 
 
@@ -114,9 +117,9 @@ public class TurnControllerTest {
             TurnState start = game.getCurrentTurn().buildState;
 
             List<Turn.State> end = nextStatesmove(
-                    Turn.State.END_TURN,
+                    Turn.State.MOVE,
                     Turn.State.BUILD,
-                    Turn.State.END_TURN,
+                    Turn.State.MOVE,
                     Turn.State.BUILD,
                     Turn.State.BUILD,
                     Turn.State.BUILD);
@@ -149,13 +152,13 @@ public class TurnControllerTest {
         game.getCurrentTurn().setTurnState(game.getCurrentTurn().moveState);
         turncontroller.firstMove(client1, 0, null, false);
         Assert.assertEquals("The game state is not set to turn. The method should launch an exception\n",
-                game.getCurrentTurn().getStateID(), Turn.State.MOVE);
+                Turn.State.MOVE, game.getCurrentTurn().getStateID());
 
         //Check when the method is called by a player who is not in his turn
         game.setGameState(game.turnState, game.getFirstPlayer());
         turncontroller.firstMove(client2, 0, null, false);
         Assert.assertEquals("The player is calling the method not in his turn. The method should launch an exception\n",
-                game.getCurrentTurn().getStateID(), Turn.State.MOVE);
+                Turn.State.MOVE, game.getCurrentTurn().getStateID());
 
 
     }
@@ -179,7 +182,7 @@ public class TurnControllerTest {
             game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
             turncontroller.firstMove(client1, 0, correctCoordinate, true);
             Assert.assertEquals(start.getStateID()+": Wrong action when StartGodPower is up\n"  ,
-                game.getCurrentTurn().getStateID(), ending.get(0));
+                    ending.get(0), game.getCurrentTurn().getStateID());
 
         /* Resetting */ game.getCurrentTurn().setTurnState(start);
 
@@ -188,7 +191,7 @@ public class TurnControllerTest {
             game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
             turncontroller.firstMove(client1, 0, correctCoordinate, false);
             Assert.assertEquals(start.getStateID()+": Wrong action when StartGodPower is not up\n",
-                game.getCurrentTurn().getStateID(), ending.get(1));
+                    ending.get(1), game.getCurrentTurn().getStateID());
 
         /* Resetting */ game.getCurrentTurn().setTurnState(start);
 
@@ -197,22 +200,22 @@ public class TurnControllerTest {
             game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
             turncontroller.firstMove(client1, 0, correctCoordinate, true);
             Assert.assertEquals(start.getStateID()+": Wrong handle: SpecialPower method call without having it\n",
-                game.getCurrentTurn().getStateID(), ending.get(2));
+                    ending.get(2), game.getCurrentTurn().getStateID());
 
             //Calling method with a builder not owned by the current player
             turncontroller.firstMove(client1,1, correctCoordinate, false);
             Assert.assertEquals(start.getStateID()+": Wrong handle: Builder not owned by the Player\n",
-                game.getCurrentTurn().getStateID(), ending.get(3));
+                    ending.get(3), game.getCurrentTurn().getStateID());
 
             //Calling method with a coordinate not in the board
             turncontroller.firstMove(client1,0, notEvenInTheBoard, false);
             Assert.assertEquals(start.getStateID()+": Wrong handle: Coordinate not in the board\n",
-                game.getCurrentTurn().getStateID(), ending.get(4));
+                    ending.get(4), game.getCurrentTurn().getStateID());
 
              //Calling method with a coordinate that is not a neighborhood of the selected builder
             turncontroller.firstMove(client1,0, wrongCoordinate, false);
             Assert.assertEquals(start.getStateID()+": Wrong handle: Builder can't move to the that Coordinate\n",
-                game.getCurrentTurn().getStateID(), ending.get(5));
+                    ending.get(5), game.getCurrentTurn().getStateID());
     }
 
     public void selectCoordinateTest(TurnState start, List<Turn.State> ending){
@@ -231,16 +234,18 @@ public class TurnControllerTest {
             game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
             turncontroller.selectCoordinate(client1, correctCoordinate, true);
             Assert.assertEquals(start.getStateID()+": Wrong handle: AnyDome Build is not handled correctly\n",
-                    game.getCurrentTurn().getStateID(), ending.get(0));
+                    ending.get(0), game.getCurrentTurn().getStateID());
+
 
         /* Resetting */ game.getCurrentTurn().setTurnState(start);
+                        game.getCurrentTurn().endTurn();
 
             //With DoubleBuild God
             game.getFirstPlayer().setGod(new GodFactory().getGod("Demeter"));
             game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
             turncontroller.selectCoordinate(client1, correctCoordinate, false);
             Assert.assertEquals(start.getStateID()+": Wrong handle: DoubleBuildGod is not handled correctly\n",
-                game.getCurrentTurn().getStateID(), ending.get(1));
+                    ending.get(1), game.getCurrentTurn().getStateID());
 
         /* Resetting */ game.getCurrentTurn().setTurnState(start);
 
@@ -249,24 +254,24 @@ public class TurnControllerTest {
             game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
             turncontroller.selectCoordinate(client1, correctCoordinate2, false);
             Assert.assertEquals(start.getStateID()+": Wrong handle: StandardBuild is not handled correctly\n",
-                game.getCurrentTurn().getStateID(), ending.get(2));
+                    ending.get(2), game.getCurrentTurn().getStateID());
 
         /* Resetting */ game.getCurrentTurn().setTurnState(start);
 
             //Calling the method with a Coordinate not in the Board
             turncontroller.selectCoordinate(client1, notEvenInTheBoard, false);
             Assert.assertEquals(start.getStateID()+": Wrong handle: Coordinate not in the board\n",
-                game.getCurrentTurn().getStateID(), ending.get(3));
+                    ending.get(3), game.getCurrentTurn().getStateID());
 
             //Calling the SpecialPower method without having Atlas
             turncontroller.selectCoordinate(client1, correctCoordinate, true);
             Assert.assertEquals(start.getStateID()+": Wrong handle: SpecialPower method call without having it\n",
-                game.getCurrentTurn().getStateID(), ending.get(4));
+                    ending.get(4), game.getCurrentTurn().getStateID());
 
             //Calling the method with a Coordinate that is not a neighborhood of the selected Builder
             turncontroller.selectCoordinate(client1, wrongCoordinate, false);
             Assert.assertEquals(start.getStateID()+": Wrong handle: Builder can't build on that coordinate\n",
-                    game.getCurrentTurn().getStateID(), ending.get(5));
+                    ending.get(5), game.getCurrentTurn().getStateID());
 
 
 
@@ -277,7 +282,7 @@ public class TurnControllerTest {
 
             /* Setting */ game.getCurrentTurn().setTurnState(start);
             turncontroller.endPhase(client1);
-            Assert.assertEquals(game.getCurrentTurn().getStateID(), ending.getStateID());
+            Assert.assertEquals(ending.getStateID(), game.getCurrentTurn().getStateID());
     }
 
     private List<Turn.State> nextStatesmove(Turn.State withPrometheus, Turn.State withoutPrometheus, Turn.State illegalSpecialPower,

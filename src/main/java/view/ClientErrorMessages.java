@@ -11,6 +11,8 @@ public class ClientErrorMessages {
     public static final String DATA_INCOMPLETE = "Please fill all fields correctly";
     public static final String INVALID_GOD = "This god is not available";
     public static final String GOD_LIST_FULL = "All god were chosen";
+    public static final String GOD_LIST_EMPTY = "There are no gods selected";
     public static final String GOD_NOT_CHOSEN = "This god is not chosen";
+    public static final String GOD_NOT_PRESENT = "This god is not among the selected gods";
     public static final String ACTIVITY_NOT_ALLOWED = "It's not your turn";
 }

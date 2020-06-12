@@ -11,6 +11,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains all the methods responsible for the aesthetic of the game and its appearance
+ */
 public class DrawElements {
 
     public static PrintWriter out = new PrintWriter(System.out, true);
@@ -23,15 +26,13 @@ public class DrawElements {
     private static final String levelColor = Colors.BLUE_20;
     public static final String FLUSH = "\033[H\033[2J";
     public static final String ESC = (char) 27 + "[";
-    public static final String ANSI_RED = "\u001B[38;5;88m";
 
 
     public static void main(String[] args){
 
-        System.out.println(FLUSH);
-        drawBoard(Colors.GREENBG_157, Colors.WHITE_231);
-        saveCursor();
-        restoreCursor();
+        drawVictory();
+
+        drawDefeat();
 
 
 
@@ -40,7 +41,11 @@ public class DrawElements {
     }
 
 
-
+    /**
+     * This method draws the Board
+     * @param background The color of the background
+     * @param mainColor The color of the Square delimiters
+     */
     public static void drawBoard(String background, String mainColor){
 
 
@@ -81,6 +86,12 @@ public class DrawElements {
 
     }
 
+    /**
+     * This method gets the correct color of the Square, considering the board as a chess grid
+     * @param i The first coordinate of the square (line)
+     * @param j The second coordinate of the square (column)
+     * @return The string representing the color of the square
+     */
     private static String getCorrectAlternateColor(int i, int j){
         String color;
         if((i+j) % 2 == 0) color = firstBackgroundColor;
@@ -88,6 +99,12 @@ public class DrawElements {
         return color;
     }
 
+    /**
+     * A basic method that draws the builder in an assigned square
+     * @param coordinate The coordinate parameter
+     * @param backGround The color of the bakground of the cell containing the symbol of the builder
+     * @param player The number of the player owning the builder drawn (required to identify its color)
+     */
     public static void drawBuilder(Coordinate coordinate, String backGround, int player){
         String color;
         switch(player){
@@ -105,6 +122,12 @@ public class DrawElements {
 
     }
 
+    /**
+     * Given the board, this method draws exclusively the builders in the square
+     * @param builders The list of builders in the game
+     * @param players The list of players in the game
+     * @param neighborhood A boolea that specifies if the builder is on a higlighted square
+     */
     public static void refreshBuilders(List<Builder> builders, List<Player> players, boolean neighborhood){
         for(Builder builder : builders){
             // Find the correct background of the builder
@@ -131,6 +154,14 @@ public class DrawElements {
         }
     }
 
+
+    /**
+     * This method draws a square using the information from the board
+     * @param square The square parameter
+     * @param builders The list of builders in the game
+     * @param players The list of players in the game
+     * @param neighborhood A boolean that specifies if the square should be highlighted as a neighborhood or not
+     */
     public static void drawSquare(Square square, List<Builder> builders, List<Player> players, boolean neighborhood){
         int line = square.getCoordinate().getX() + 1;
         int column = square.getCoordinate().getY() + 1;
@@ -170,6 +201,15 @@ public class DrawElements {
 
     }
 
+    /**
+     * This method updates the whole board, square by square
+     * It also updates the Game Information panel
+     * @param board The current board
+     * @param builders The list of builders present at the moment
+     * @param players The list of players currently playing
+     * @param activePlayer The player who is currently holding the turn
+     * @param client The client from which this method is called
+     */
     public static void refreshBoard(Board board, List<Builder> builders, List<Player> players, String activePlayer, String client){
         out.println(FLUSH);
         drawBoard(firstBackgroundColor, borderColor);
@@ -206,7 +246,7 @@ public class DrawElements {
     }
 
     /**
-     * This Method draws the little box near the board that show the info about the players
+     * This Method draws the Game Information panel, which is the little box near the board that show the info about the players
      * @param players The list of players in the game
      * @param activeplayer The player who is holding the turn
      * @param client The player who is playing
@@ -255,6 +295,12 @@ public class DrawElements {
     }
 
 
+    /**
+     * This method extracts the correct color of the player
+     * @param players The list of players in the game
+     * @param currentplayer The player parameter
+     * @return The String representing the color of the selected player
+     */
     public static String getPlayerColor(List<Player> players, Player currentplayer){
         int i = 1;
         for(Player player : players){
@@ -272,33 +318,59 @@ public class DrawElements {
 
     }
 
+// THIS ARE ALL METHODS THAT HANDLE THE MOVEMENT OF THE CURSOR IN THE TERMINAL
 
-
+    /**
+     * This method saves the current position of the cursor
+     */
     public static void saveCursor(){
         out.println(ESC + "s");
     }
 
+    /**
+     * This method èlaces the cursor at the position previously saved
+     */
     public static void restoreCursor(){
         out.println(ESC + "u");
     }
 
-
+    /**
+     * This method moves the cursor upwards by the the number of lines selected
+     * @param lines The number of lines
+     */
     public static void moveUp(int lines){
         out.print(ESC + Integer.toString(lines) + "A");
     }
 
+    /**
+     * This method moves the cursor downwards by the number of line selected
+     * @param lines The number of lines
+     */
     public static void moveDown(int lines){
         out.print(ESC + Integer.toString(lines) + "B");
     }
 
-    public static void moveRight(int lines){
-        out.print(ESC + Integer.toString(lines) + "C");
+    /**
+     * This method moves the cursor to the right by a number of column equals to the parameter
+     * @param columns The number of columns
+     */
+    public static void moveRight(int columns){
+        out.print(ESC + Integer.toString(columns) + "C");
     }
 
-    public static void moveLeft(int lines){
-        out.print(ESC + Integer.toString(lines) + "D");
+    /**
+     * This method moves the cursor to the left by a number of column equals to the parameter
+     * @param columns
+     */
+    public static void moveLeft(int columns){
+        out.print(ESC + Integer.toString(columns) + "D");
     }
 
+    /**
+     * This method places the cursor at the beginning of the selected square in the board
+     * @param line The first coordinate of the square (line)
+     * @param column The second coordinate of the square (column)
+     */
     public static void selectCell(int line, int column){
 
         out.print(ESC + "H" + ESC + "1B");
@@ -313,7 +385,14 @@ public class DrawElements {
     }
 
 
-
+    /**
+     * This method draws the background of a square using the color given as a parameter
+     * @param line The first coordinate of the square (line)
+     * @param column The second coordinate of the square (column)
+     * @param color The color of the background
+     * @param levelColor The color of the number representing the level of the building
+     * @param level The level of of the building
+     */
     private static void printBackground(int line, int column, String color, String levelColor, int level){
         String levelToString;
         if(level == 0) levelToString = " ";
@@ -331,6 +410,15 @@ public class DrawElements {
 
     }
 
+    /**
+     * This method draws a square containing a block, or a dome
+     * @param line The first coordinate of the square (line)
+     * @param column The second coordinate of the square (column)
+     * @param background The background color of the square
+     * @param color The color of the buildinng
+     * @param levelColor The color of the number representing the level of the building
+     * @param level The  leve lof the building
+     */
     private static void printBlock(int line, int column, String background, String color, String levelColor,  int level){
         String levelToString;
         if(level == 0) levelToString = " ";
@@ -359,6 +447,11 @@ public class DrawElements {
                         Colors.BLUE_27 + "########  ###     ### ###    ####     ###     ########  ###    ### ########### ###    #### ########### " + Colors.RESET);
     }
 
+    /**
+     * It draws the TITLE of the game in the main Screen
+     * @param mainColor The main Color
+     * @param shadeColor The shade Color
+     */
     public static void drawTitle(String mainColor, String shadeColor){
         //Not proud of this code
         System.out.println(
@@ -370,6 +463,9 @@ public class DrawElements {
                         shadeColor + "╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝" + Colors.RESET);
     }
 
+    /**
+     * It draws the Starting Game Box in the Menu Screen
+     */
     public static void drawStartGameBox(){
         System.out.println(
                 "\t\t     ╔════════════════════════════════════════╗\n" +
@@ -377,6 +473,9 @@ public class DrawElements {
                 "\t\t     ╚════════════════════════════════════════╝");
     }
 
+    /**
+     * It draws the Credit Box in the Menu Screen
+     */
     public static void drawCreditsGameBox(){
         System.out.println(
                 "\t\t     ╔════════════════════════════════════════╗\n" +
@@ -384,11 +483,42 @@ public class DrawElements {
                 "\t\t     ╚════════════════════════════════════════╝");
     }
 
+    /**
+     * It draws the Quit Game Box in the Menu Screen
+     */
     public static void drawQuitGameBox(){
         System.out.println(
                 "\t\t     ╔════════════════════════════════════════╗\n" +
                 "\t\t     ║           (Q) - QUIT GAME              ║\n" +
                 "\t\t     ╚════════════════════════════════════════╝");
+    }
+
+    /**
+     * This method draws the victory message
+     */
+    public static void drawVictory(){
+        System.out.println("\n" +
+                Colors.RED_124 + " __      __ _        _                      \n" +
+                Colors.RED_124 + " \\ \\    / /(_)      | |                     \n" +
+                Colors.RED_196 + "  \\ \\  / /  _   ___ | |_  ___   _ __  _   _ \n" +
+                Colors.ORANGE_202 + "   \\ \\/ /  | | / __|| __|/ _ \\ | '__|| | | |\n" +
+                Colors.ORANGE_208 + "    \\  /   | || (__ | |_| (_) || |   | |_| |\n" +
+                Colors.ORANGE_214 + "     \\/    |_| \\___| \\__|\\___/ |_|    \\__, |\n" +
+                Colors.YELLOW_220 + "                                       __/ |\n" +
+                Colors.YELLOW_226 + "                                      |___/ \n" + Colors.RESET);
+    }
+
+    public static void drawDefeat(){
+        // Length 37
+        System.out.println("\n" +
+                Colors.BLUE_21 + "  _____          __              _   \n" +
+                Colors.BLUE_27 + " |  __ \\        / _|            | |  \n" +
+                Colors.BLUE_33 + " | |  | |  ___ | |_  ___   __ _ | |_ \n" +
+                Colors.BLUE_39 + " | |  | | / _ \\|  _|/ _ \\ / _` || __|\n" +
+                Colors.BLUE_45 + " | |__| ||  __/| | |  __/| (_| || |_ \n" +
+                Colors.BLUE_51 +" |_____/  \\___||_|  \\___| \\__,_| \\__|\n" +
+                "                                     \n" +
+                "                                     \n" + Colors.RESET);
     }
 }
 
