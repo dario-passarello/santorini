@@ -79,7 +79,9 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getWinnerScreen(List<Player> players) {
-        return null;
+        Screen winnerScreen = new CLIWinnerScreen(viewManager, players);
+        cliListener.setScreen((InputProcessor) winnerScreen);
+        return winnerScreen;
     }
 
     @Override

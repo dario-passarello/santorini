@@ -24,6 +24,7 @@ public class CLIMenuScreen extends MenuScreen implements InputProcessor {
         expectedInput.message();
 
 
+
     }
 
     @Override

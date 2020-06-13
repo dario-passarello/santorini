@@ -77,6 +77,9 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
     //      +-------------------+
 
 
+    /**
+     * This class represents the moment where the user is selecting the username
+     */
     class Username implements InputExecutor{
 
         @Override
@@ -96,6 +99,9 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
         }
     }
 
+    /**
+     * This class represents the moment where the user is selecting the ip Address of the server
+     */
     class Ip implements  InputExecutor{
         @Override
         public void message(){
@@ -115,6 +121,9 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
         }
     }
 
+    /**
+     * This class represents the moment where player is typing the tcp port to connect to the server
+     */
     class Port implements InputExecutor{
         @Override
         public void message(){
@@ -138,6 +147,9 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
         }
     }
 
+    /**
+     * This class represents the moment where the player selects the type of lobby he wants to join
+     */
     class NumberofPlayers implements InputExecutor{
         @Override
         public void message(){
@@ -171,6 +183,9 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
         }
     }
 
+    /**
+     * This class represents the moment where the game is looking for a game
+     */
     class Connecting implements InputExecutor{
 
         @Override

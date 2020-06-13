@@ -294,6 +294,39 @@ public class DrawElements {
 
     }
 
+    /**
+     * This method writes the End Game Message (Victory or Defeat)
+     * @param players The list of players in the game
+     * @param winner The player who has won the match
+     * @param client The name of the player who calls this method
+     */
+    public static void writeWinner(List<Player> players, Player winner, String client){
+
+        // Identifying the position to write the winner message
+        selectCell(1, 1);
+        moveRight(55);
+        for(Player p : players){
+            moveDown(1);
+        }
+        moveDown(2);
+        out.flush();
+
+        // Writing the winner message
+        out.print(ESC + "0K"); // Erase line to the right
+        out.print("  WINNER: " + Colors.YELLOW_227 + winner.getName() + Colors.RESET);
+
+        // Identifying the position to write the end game message
+        selectCell(1,1);
+        moveRight(55);
+        moveDown(7);
+
+        // Writing the end Game Message
+        if(winner.getName().equals(client)) drawVictory();
+        else drawDefeat();
+        out.print(DrawElements.ESC + "25H");
+        out.flush();
+    }
+
 
     /**
      * This method extracts the correct color of the player
@@ -318,7 +351,7 @@ public class DrawElements {
 
     }
 
-// THIS ARE ALL METHODS THAT HANDLE THE MOVEMENT OF THE CURSOR IN THE TERMINAL
+// THESE ARE ALL METHODS THAT HANDLE THE MOVEMENT OF THE CURSOR IN THE TERMINAL
 
     /**
      * This method saves the current position of the cursor
@@ -497,28 +530,31 @@ public class DrawElements {
      * This method draws the victory message
      */
     public static void drawVictory(){
-        System.out.println("\n" +
-                Colors.RED_124 + " __      __ _        _                      \n" +
-                Colors.RED_124 + " \\ \\    / /(_)      | |                     \n" +
-                Colors.RED_196 + "  \\ \\  / /  _   ___ | |_  ___   _ __  _   _ \n" +
-                Colors.ORANGE_202 + "   \\ \\/ /  | | / __|| __|/ _ \\ | '__|| | | |\n" +
-                Colors.ORANGE_208 + "    \\  /   | || (__ | |_| (_) || |   | |_| |\n" +
-                Colors.ORANGE_214 + "     \\/    |_| \\___| \\__|\\___/ |_|    \\__, |\n" +
-                Colors.YELLOW_220 + "                                       __/ |\n" +
-                Colors.YELLOW_226 + "                                      |___/ \n" + Colors.RESET);
+        out.print( Colors.RED_124 + " __      __ _        _                      ");            moveDown(1);    moveLeft(44);
+        out.print( Colors.RED_124 + " \\ \\    / /(_)      | |                     ");          moveDown(1);    moveLeft(44);
+        out.print( Colors.RED_196 + "  \\ \\  / /  _   ___ | |_  ___   _ __  _   _ ");          moveDown(1);    moveLeft(44);
+        out.print( Colors.ORANGE_202 + "   \\ \\/ /  | | / __|| __|/ _ \\ | '__|| | | |");      moveDown(1);    moveLeft(44);
+        out.print( Colors.ORANGE_208 + "    \\  /   | || (__ | |_| (_) || |   | |_| |");        moveDown(1);    moveLeft(44);
+        out.print( Colors.ORANGE_214 + "     \\/    |_| \\___| \\__|\\___/ |_|    \\__, |");    moveDown(1);    moveLeft(44);
+        out.print( Colors.YELLOW_220 + "                                       __/ |");         moveDown(1);    moveLeft(44);
+        out.print( Colors.YELLOW_226 + "                                      |___/ ");
+        out.print( Colors.RESET);
     }
 
+    /**
+     * This method draws the defeat message
+     */
     public static void drawDefeat(){
         // Length 37
-        System.out.println("\n" +
-                Colors.BLUE_21 + "  _____          __              _   \n" +
-                Colors.BLUE_27 + " |  __ \\        / _|            | |  \n" +
-                Colors.BLUE_33 + " | |  | |  ___ | |_  ___   __ _ | |_ \n" +
-                Colors.BLUE_39 + " | |  | | / _ \\|  _|/ _ \\ / _` || __|\n" +
-                Colors.BLUE_45 + " | |__| ||  __/| | |  __/| (_| || |_ \n" +
-                Colors.BLUE_51 +" |_____/  \\___||_|  \\___| \\__,_| \\__|\n" +
-                "                                     \n" +
-                "                                     \n" + Colors.RESET);
+        out.print( Colors.BLUE_21 + "  _____          __              _   ");       moveDown(1);    moveLeft(37);
+        out.print( Colors.BLUE_27 + " |  __ \\        / _|            | |  ");      moveDown(1);    moveLeft(37);
+        out.print( Colors.BLUE_33 + " | |  | |  ___ | |_  ___   __ _ | |_ ");      moveDown(1);    moveLeft(37);
+        out.print( Colors.BLUE_39 + " | |  | | / _ \\|  _|/ _ \\ / _` || __|");     moveDown(1);    moveLeft(37);
+        out.print( Colors.BLUE_45 + " | |__| ||  __/| | |  __/| (_| || |_ ");       moveDown(1);    moveLeft(37);
+        out.print( Colors.BLUE_51 + " |_____/  \\___||_|  \\___| \\__,_| \\__|");
+        out.print( Colors.RESET);
+
+        out.flush();
     }
 }
 

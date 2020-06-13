@@ -8,9 +8,7 @@ public interface InputExecutor {
     /**
      * The message that defines the specific phase
      */
-    default void message() {
-
-    }
+    void message();
 
     /**
      * Handles the input from stdin according to the current phase

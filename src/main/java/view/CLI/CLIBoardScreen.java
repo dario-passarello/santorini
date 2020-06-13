@@ -13,7 +13,6 @@ import java.util.List;
 public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
     private InputExecutor currentPhase;
-    private boolean additionalPhase = false;
 
     public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighlightedCoordinates) {
         super(view, activePlayer, players, preHighlightedCoordinates);
@@ -57,6 +56,8 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
     @Override
     public void onScreenClose() {
 
+        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+
     }
 
     //      +-------------------+
@@ -85,7 +86,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 //Selection message
                 System.out.println(Colors.YELLOW_227 + "BUILDER PLACEMENT" + Colors.RESET);
                 System.out.println("You can place two" + playerColor() + " builders" + Colors.RESET + " on the board");
-                System.out.print("Place the " + buildnumber + " Builder (ex. A3):\t");
+                System.out.print("Place the " + buildnumber + " Builder (ex. A3): ");
 
             }
             else{
@@ -114,12 +115,12 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 selectSquare(selectedCoordinate);
             }
             catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + ". Pls try again:\t");
+                System.out.print(e.getMessage() + ". Pls try again: ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + ". Pls try again:\t");
+                System.out.print(e.getMessage() + ". Pls try again: ");
             }
             catch(IllegalArgumentException e){
-                System.out.print("This is an invalid input. Pls try again:\t");
+                System.out.print("This is an invalid input. Pls try again: ");
             }
 
         }
@@ -136,7 +137,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             if(activeScreen){
                 System.out.println(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET);
                 System.out.print("Select the" + playerColor() + " Builder" + Colors.RESET + " you want to move (ex. A3) ");
-                if(specialPowerAvailable()) System.out.print("\nor type S to activate the special power:\t");
+                if(specialPowerAvailable()) System.out.print("\nor type S to activate the special power: ");
             }
             else{
                 System.out.println(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET);
@@ -170,9 +171,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     }
                 }
              catch (IllegalValueException e) {
-                 System.out.print(e.getMessage() + "Pls insert a valid input ");
+                 System.out.print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input ");
+                System.out.print(e.getMessage() + ". Pls insert a valid input ");
             }
             catch (IllegalArgumentException e){
                 System.out.print("This is an invalid input. Pls try again: ");
@@ -190,7 +191,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             if(activeScreen) {
                 System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
                 System.out.print("Select the square where you want to move the builder\n" +
-                        "or type R to undo the builder selection\t");
+                        "or type R to undo the builder selection ");
             }
             else{
                 System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
@@ -201,7 +202,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         @Override
         public void execute(String s) {
             if(!activeScreen){
-                System.out.print("It is not your turn. Pls wait...");
+                System.out.print("It is not your turn. Pls wait... ");
                 return;
             }
             if(s.toUpperCase().equals("R")){
@@ -225,9 +226,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             catch(IllegalArgumentException e){
                 System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input ");
+                System.out.print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input ");
+                System.out.print(e.getMessage() + ". Pls insert a valid input ");
             }
         }
     }
@@ -244,14 +245,14 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
                 System.out.print("You have activated the power of your GOD\n" +
                         "Select the " + playerColor() + "builder" + Colors.RESET + " you want to use it on\n" +
-                        "(or type R to undo the activation)\t");
+                        "(or type R to undo the activation) ");
             }
         }
 
         @Override
         public void execute(String s){
             if(!activeScreen){
-                System.out.print("It is not your turn. Pls wait...");
+                System.out.print("It is not your turn. Pls wait... ");
                 return;
             }
             try{
@@ -274,9 +275,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             catch(IllegalArgumentException e){
                 System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input ");
+                System.out.print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input ");
+                System.out.print(e.getMessage() + ". Pls insert a valid input ");
             }
         }
     }
@@ -315,12 +316,12 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 }
                 if(forced){
                     System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
-                    System.out.print("Select the square where you want to move the builder\t");
+                    System.out.print("Select the square where you want to move the builder ");
                     return;
                 }
                 System.out.println(Colors.YELLOW_227 + "ADDITIONAL " + phaseAction.toUpperCase() + Colors.RESET);
                 System.out.print("You can " + phaseAction + " an additional time. Select the Square where you want to " +
-                        phaseAction + "\nor type E to end this phase\t");
+                        phaseAction + "\nor type E to end this phase ");
             }
             else{
                 if(forced){
@@ -354,9 +355,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             catch(IllegalArgumentException e){
                 System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input ");
+                System.out.print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input ");
+                System.out.print(e.getMessage() + ". Pls insert a valid input ");
             }
         }
     }
@@ -384,12 +385,12 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 if(fromSpecial){
                     System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
                     System.out.println("Select the Square where you want to build on: ");
-                    System.out.print("(or type R to undo the builder selection)\t");
+                    System.out.print("(or type R to undo the builder selection) ");
                     return;
                 }
                 System.out.println(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET);
                 System.out.print("Select the Square where you want to build on: ");
-                if(specialPowerAvailable()) System.out.print("\nOr press S to use your GOD power\t");
+                if(specialPowerAvailable()) System.out.print("\nOr press S to use your GOD power ");
             }
             else{
                 System.out.println(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET);
@@ -425,9 +426,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             catch(IllegalArgumentException e){
                 System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + "Pls try again ");
+                System.out.print(e.getMessage() + ". Pls try again ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + "Pls try again ");
+                System.out.print(e.getMessage() + ". Pls try again ");
             }
         }
     }
@@ -445,7 +446,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             }
             System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
             System.out.println("You can now build a Dome anywhere instead of a block. Choose a square");
-            System.out.print("(or type R to undo the god power activation)\t");
+            System.out.print("(or type R to undo the god power activation) ");
             return;
         }
         @Override
@@ -464,9 +465,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             catch(IllegalArgumentException e){
                 System.out.print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input ");
+                System.out.print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + "Pls insert a valid input ");
+                System.out.print(e.getMessage() + ". Pls insert a valid input ");
             }
         }
     }
@@ -484,7 +485,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             currentPhase.message();
         }
 
-        if(getTurnState() != null) {
+        if(getTurnState() != null && getGameState()!= Game.State.END_GAME) {
             switch (getTurnState()) {
                 case MOVE:
                     DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
