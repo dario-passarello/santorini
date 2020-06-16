@@ -6,6 +6,8 @@ import model.Builder;
 import model.Player;
 import model.Square;
 import utils.Coordinate;
+import view.AssetLoader;
+import view.GodAssetsBundle;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -20,9 +22,14 @@ public class DrawElements {
     private static final String firstBackgroundColor = Colors.GREENBG_83;
     private static final String secondBackgroundColor = Colors.GREENBG_41;
     private static final String borderColor = Colors.GREY_250;
+
     public static final String player1Color = Colors.BLUE_21;
     public static final String player2Color = Colors.YELLOW_226;
     public static final String player3Color = Colors.RED_196;
+
+    public static final String player1ColorLight = Colors.BLUE_153;
+    public static final String player2ColorLight = Colors.YELLOW_228;
+    public static final String player3ColorLight = Colors.RED_210;
     private static final String levelColor = Colors.BLUE_20;
     public static final String FLUSH = "\033[H\033[2J";
     public static final String ESC = (char) 27 + "[";
@@ -100,9 +107,9 @@ public class DrawElements {
     }
 
     /**
-     * A basic method that draws the builder in an assigned square
+     * A basic method that draws the builder on an assigned square
      * @param coordinate The coordinate parameter
-     * @param backGround The color of the bakground of the cell containing the symbol of the builder
+     * @param backGround The color of the background of the cell containing the symbol of the builder
      * @param player The number of the player owning the builder drawn (required to identify its color)
      */
     public static void drawBuilder(Coordinate coordinate, String backGround, int player){
@@ -116,7 +123,7 @@ public class DrawElements {
         selectCell(coordinate.getX() + 1, coordinate.getY() + 1);
         moveDown(1);
         moveRight(4);
-        out.print(color + backGround + "X");
+        out.print(color + backGround + "♜");
         out.print(Colors.RESET);
         out.flush();
 
@@ -126,7 +133,7 @@ public class DrawElements {
      * Given the board, this method draws exclusively the builders in the square
      * @param builders The list of builders in the game
      * @param players The list of players in the game
-     * @param neighborhood A boolea that specifies if the builder is on a higlighted square
+     * @param neighborhood A boolean that specifies if the builder is on a highlighted square
      */
     public static void refreshBuilders(List<Builder> builders, List<Player> players, boolean neighborhood){
         for(Builder builder : builders){
@@ -246,7 +253,7 @@ public class DrawElements {
     }
 
     /**
-     * This Method draws the Game Information panel, which is the little box near the board that show the info about the players
+     * This Method draws the Game Information panel, which is the little box near the board that shows the info about the players
      * @param players The list of players in the game
      * @param activeplayer The player who is holding the turn
      * @param client The player who is playing
@@ -292,6 +299,64 @@ public class DrawElements {
         moveLeft(40);
         out.print("  CURRENT TURN: " + Colors.YELLOW_227 + activeplayer + Colors.RESET);
 
+    }
+
+    /**
+     * This method writes the descriptions of the gods during the game
+     * @param players The list of players in the game
+     */
+    public static void writeGodInfo(List<Player> players){
+        int maxCharacters = 40;
+        int row = 11;
+
+        out.print(ESC + Integer.toString(row) + ";60H");  // Cursor position to write to
+        out.flush();
+        for(Player player : players){
+            // Get the god name
+            String godName = player.getGod().getName();
+            String description = AssetLoader.getGodAssetsBundle(godName).getDescription();
+
+            // Divide everything into words
+            String[] split;
+            String[] words;
+            if(godName.equals("Mortal")){
+                split = new String[1];
+                split[0] = "";
+                words = description.split(" ");
+            }
+            else {
+                split = description.split("\n");
+                words = split[1].split(" ");
+            }
+            int characterWritten = 0;
+
+            // Write [GOD] - [Condition]
+            String intro = godName + " - " + split[0];
+            out.print(intro);
+            moveDown(1);
+            moveLeft(intro.length());
+            out.flush();
+
+            // Write [Description]
+            out.print(getPlayerSecondColor(players, player));
+            for(String word : words){
+                if((characterWritten + word.length() + 1) > (maxCharacters + 1)){
+                    moveDown(1);
+                    moveLeft(characterWritten);
+                    out.flush();
+                    characterWritten = 0;
+                }
+                out.print(word + " ");
+                characterWritten = characterWritten + word.length() + 1;
+                out.flush();
+            }
+            out.print(Colors.RESET);
+
+            // Repositioning
+            moveDown(3);
+            moveLeft(characterWritten);
+            out.flush();
+        }
     }
 
     /**
@@ -345,6 +410,29 @@ public class DrawElements {
             case 1: color = DrawElements.player1Color; break;
             case 2: color = DrawElements.player2Color; break;
             case 3: color = DrawElements.player3Color; break;
+            default: color = Colors.RESET;
+        }
+        return color;
+
+    }
+
+    /**
+     * This method extracts the correct light color of the player
+     * @param players The list of players in the game
+     * @param currentplayer The player parameter
+     * @return The String representing the color of the selected player
+     */
+    public static String getPlayerSecondColor(List<Player> players, Player currentplayer){
+        int i = 1;
+        for(Player player : players){
+            if(!player.getName().equals(currentplayer.getName())) i++;
+            else break;
+        }
+        String color;
+        switch(i){
+            case 1: color = DrawElements.player1ColorLight; break;
+            case 2: color = DrawElements.player2ColorLight; break;
+            case 3: color = DrawElements.player3ColorLight; break;
             default: color = Colors.RESET;
         }
         return color;

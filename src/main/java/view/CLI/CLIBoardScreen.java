@@ -20,6 +20,10 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
     @Override
     public void processInput(String input) {
+        if(input.toUpperCase().equals("INFO")){
+            godInfo();
+            return;
+        }
         currentPhase.execute(input);
     }
 
@@ -30,7 +34,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
 
         System.out.println(DrawElements.FLUSH);
-        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+        refreshBoard();
 
 
         currentPhase = new PlaceBuilder();
@@ -56,7 +60,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
     @Override
     public void onScreenClose() {
 
-        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+        refreshBoard();
 
     }
 
@@ -149,7 +153,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             try{
                 // Refreshes the board and writes the phase message
                 if(s.toUpperCase().equals("S")){
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    refreshBoard();
                     toggleSpecialPower();
                     currentPhase = new SpecialPower();
                     currentPhase.message();
@@ -159,11 +163,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                         //Check that the coordinate is really occupied by a builder
                         //and Highlight the neighborhoods
                         selectSquare(selectedCoordinate);
-                        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
-                        for(Coordinate coordinate : getHighlightedCoordinates()) {
-                            DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
-                            System.out.print(DrawElements.ESC + "25H");
-                        }
+                        refreshBoard();
                         // Change to MOVE PHASE
                         currentPhase = new MovePhase();
                         currentPhase.message();
@@ -189,6 +189,10 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         @Override
         public void message() {
             if(activeScreen) {
+                for(Coordinate coordinate : getHighlightedCoordinates()) {
+                    DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
+                    System.out.print(DrawElements.ESC + "25H");
+                }
                 System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
                 System.out.print("Select the square where you want to move the builder\n" +
                         "or type R to undo the builder selection ");
@@ -209,8 +213,8 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 try{
                     // Undo the selection and goes back to the Starting Selection
                     if(resetPhaseAvailable()) resetPhase();
+                    refreshBoard();
                     currentPhase = new StartingSelection();
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
                     currentPhase.message();
                     return;
                 }
@@ -260,14 +264,14 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     // Undo the activation and goes back to the Starting Selection
                     toggleSpecialPower();
                     currentPhase = new StartingSelection();
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    refreshBoard();
                     currentPhase.message();
                     return;
             }
                 // Gets the coordinate selected and calls the super screen method
                 Coordinate selectedCoordinate = getCoordinate(s);
                 selectSquare(selectedCoordinate);
-                DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                refreshBoard();
 
                 currentPhase = new BuildPhase(true);
                 currentPhase.message();
@@ -409,13 +413,13 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 // Undo the activatio of Atlas
                 if(resetPhaseAvailable()) resetPhase();
                 currentPhase = new SpecialPower();
-                DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                refreshBoard();
                 currentPhase.message();
                 return;
             }
             if(s.toUpperCase().equals("S") && specialPowerAvailable()){
                 // Use Atlas
-                DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                refreshBoard();
                 toggleSpecialPower();
                 currentPhase = new SpecialBuild();
                 currentPhase.message();
@@ -453,7 +457,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         public void execute(String s) {
             try{
             if(s.toUpperCase().equals("R")){
-                DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                refreshBoard();
                 toggleSpecialPower();
                 currentPhase = new BuildPhase();
                 currentPhase.message();
@@ -481,34 +485,34 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         super.receiveUpdateDone();
 
         if((getGameState() == Game.State.PLACE_BUILDER)) {
-            DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+            refreshBoard();
             currentPhase.message();
         }
 
         if(getTurnState() != null && getGameState()!= Game.State.END_GAME) {
             switch (getTurnState()) {
                 case MOVE:
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    refreshBoard();
                     currentPhase = new StartingSelection();
                     currentPhase.message();
                     break;
                 case ADDITIONAL_MOVE:
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    refreshBoard();
                     currentPhase = new AdditionalState(false);
                     currentPhase.message();
                     break;
                 case SPECIAL_MOVE:
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    refreshBoard();
                     currentPhase = new AdditionalState(false, true);
                     currentPhase.message();
                     break;
                 case BUILD:
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    refreshBoard();
                     currentPhase = new BuildPhase();
                     currentPhase.message();
                     break;
                 case ADDITIONAL_BUILD:
-                    DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+                    refreshBoard();
                     currentPhase = new AdditionalState(true);
                     currentPhase.message();
                     break;
@@ -529,6 +533,20 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
             Coordinate selectedCoordinate = new Coordinate(line, column);
             return selectedCoordinate;
         }
+    }
+
+    // Support Method. Draws the Board
+    private void refreshBoard(){
+        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+    }
+
+    // Support Method Draws the Information about the gods
+    private void godInfo(){
+        refreshBoard();
+        currentPhase.message();
+        DrawElements.saveCursor();
+        DrawElements.writeGodInfo(getPlayers());
+        DrawElements.restoreCursor();
     }
 
 
