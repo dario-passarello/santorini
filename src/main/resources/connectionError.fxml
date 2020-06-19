@@ -16,7 +16,7 @@
                   <Font name="Arial Bold Italic" size="48.0" />
                </font>
             </Label>
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#close" prefHeight="100.0" prefWidth="200.0" text="Menu">
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#closeButton" prefHeight="100.0" prefWidth="200.0" text="Menu">
                <font>
                   <Font name="System Italic" size="36.0" />
                </font>
