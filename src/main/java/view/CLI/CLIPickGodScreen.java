@@ -101,10 +101,10 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
         @Override
         public void message(){
             if(activeScreen){
-                System.out.println("You can choose one of the following gods");
+                System.out.println("You can choose one of the following gods ");
             }
             else{
-                System.out.println("One of the players is choosing his god. Pls wait...");
+                System.out.println("One of the players is choosing his god. Pls wait... ");
             }
         }
 
@@ -113,18 +113,22 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
             try{
                 // Parse the input and sends the corresponding god to the super screen
                 int selected = Integer.parseInt(s);
-                if(selected != 0 && selected <= getGodsRemaining().size()){
-                    pickGod(getGodsRemaining().get(selected-1));
+                if(selected != 0 && selected <= getAllGodToChoose().size()){
+                    if(getGodsRemaining().contains(getAllGodToChoose().get(selected - 1)))
+                        pickGod(getAllGodToChoose().get(selected-1));
+                    else{
+                        System.out.print("This god has already been selected: Please enter another number ");
+                    }
                 }
                 else{
-                    System.out.print("The number is not on the list: Please enter another number");
+                    System.out.print("This number is not in the list: Please enter another number ");
                 }
             }
             catch(NumberFormatException exception){
-                System.out.print("\nThis is not a number. Please enter a number: ");
+                System.out.print("This is not a number. Please enter a number: ");
             }
             catch(IllegalValueException exception){
-                System.out.print(exception.getMessage() + ". Pls try again");
+                System.out.print(exception.getMessage() + ". Pls try again ");
             }
         }
     }
