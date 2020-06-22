@@ -40,4 +40,9 @@ public class NoUpMove extends MoveDecorator{
     public boolean move(Builder b, Square dest) {
         return wrappedMoveBehavior.move(b, dest);
     }
+
+    @Override
+    public MoveBehavior copyBehavior() {
+        return new NoUpMove(wrappedMoveBehavior.copyBehavior());
+    }
 }

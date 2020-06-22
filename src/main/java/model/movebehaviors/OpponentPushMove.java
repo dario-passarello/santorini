@@ -50,8 +50,6 @@ public class OpponentPushMove extends MoveDecorator {
         return neighborhood;
         }
 
-
-
     /**
      * @param b    is the builder we want to move
      * @param dest is the square where our builder want to go
@@ -80,6 +78,10 @@ public class OpponentPushMove extends MoveDecorator {
         } else {
             return wrappedMoveBehavior.move(b, dest);
         }
+    }
+
+    public MoveBehavior copyBehavior(){
+        return new OpponentPushMove(wrappedMoveBehavior.copyBehavior());
     }
 
     private Optional<Coordinate> getPushDestination(Square src, Square neighbor) {

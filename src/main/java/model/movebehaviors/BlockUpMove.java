@@ -26,4 +26,9 @@ public class BlockUpMove extends MoveDecorator{
         }
         return wrappedMoveBehavior.move(b, dest);
     }
+
+    @Override
+    public MoveBehavior copyBehavior() {
+        return new BlockUpMove(wrappedMoveBehavior.copyBehavior());
+    }
 }

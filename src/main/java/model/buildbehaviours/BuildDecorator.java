@@ -4,6 +4,7 @@ import model.Square;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLongArray;
 
 //TODO
 public abstract class BuildDecorator implements BuildBehavior {

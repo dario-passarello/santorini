@@ -28,7 +28,7 @@ public class Board implements Serializable {
     }
 
     /**
-     * Board deep-copy constructor.
+     * Board deep-copyBehavior constructor.
      * Creates a new empty board with copying all squares states
      * @param b The board to be copied
      */

@@ -53,6 +53,11 @@ public class StandardMove implements MoveBehavior {
     }
 
     @Override
+    public MoveBehavior copyBehavior(){
+        return new StandardMove();
+    }
+
+    @Override
     public void reset() {
 
     }

@@ -28,12 +28,6 @@ public class DoubleSameBuild extends BuildDecorator {
         }
     }
 
-    /**
-     * The first iteration of the methods is exactly like the StandardBuild
-     * The second iteration of the method returns only the square where the player had previously built
-     * @param src the position of the builder that wants to build
-     * @return the set of squares where the builder can build
-     */
     public Set<Square> neighborhood(Square src) {
         if(previous == null){
             return(this.wrappedBuildBehavior.neighborhood(src));
@@ -44,6 +38,11 @@ public class DoubleSameBuild extends BuildDecorator {
                 buildable.add(previous);
             return buildable;
         }
+    }
+
+    @Override
+    public BuildBehavior copyBehavior(){
+        return new DoubleSameBuild(wrappedBuildBehavior.copyBehavior());
     }
 
     @Override

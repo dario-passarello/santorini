@@ -8,11 +8,10 @@ import java.util.Set;
 
 public class AnyDomeBuild extends BuildDecorator {
 
-    /**
-     * Allows the player to build either a dome or a block, no matter what the level of the square is
-     * @param dest is the square the player wants to build on
-     * @return true if the player can build an additional time
-     */
+    public AnyDomeBuild(BuildBehavior buildBehavior){
+        this.wrappedBuildBehavior = buildBehavior;
+    }
+
     public boolean build(Square dest) {
         return wrappedBuildBehavior.build(dest);
     }
@@ -21,11 +20,9 @@ public class AnyDomeBuild extends BuildDecorator {
         return wrappedBuildBehavior.neighborhood(src);
     }
 
-
-    public AnyDomeBuild(BuildBehavior buildBehavior){
-        this.wrappedBuildBehavior = buildBehavior;
+    public BuildBehavior copyBehavior(){
+        return new AnyDomeBuild(wrappedBuildBehavior.copyBehavior());
     }
-
 
 
 }

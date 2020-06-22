@@ -52,4 +52,9 @@ public class SwapWithOpponentMove extends MoveDecorator {
             return wrappedMoveBehavior.move(b, dest);
         }
     }
+
+    @Override
+    public MoveBehavior copyBehavior(){
+        return new SwapWithOpponentMove(wrappedMoveBehavior.copyBehavior());
+    }
 }

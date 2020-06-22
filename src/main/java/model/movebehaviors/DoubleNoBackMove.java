@@ -47,6 +47,10 @@ public class DoubleNoBackMove extends MoveDecorator {
         }
     }
 
+    public MoveBehavior copyBehavior(){
+        return new DoubleNoBackMove(wrappedMoveBehavior.copyBehavior());
+    }
+
     public void reset(){
         previous = null;
         wrappedMoveBehavior.reset();

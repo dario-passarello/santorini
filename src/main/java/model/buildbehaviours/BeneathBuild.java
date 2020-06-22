@@ -8,6 +8,10 @@ import java.util.Set;
 
 public class BeneathBuild extends BuildDecorator{
 
+    public BeneathBuild(BuildBehavior buildBehavior){
+        this.wrappedBuildBehavior = buildBehavior;
+    }
+
     public boolean build(Square dest) {
         return wrappedBuildBehavior.build(dest);
     }
@@ -24,8 +28,8 @@ public class BeneathBuild extends BuildDecorator{
 
     }
 
-    public BeneathBuild(BuildBehavior buildBehavior){
-        this.wrappedBuildBehavior = buildBehavior;
+    public BuildBehavior copyBehavior(){
+        return new BeneathBuild(wrappedBuildBehavior.copyBehavior());
     }
 
 }

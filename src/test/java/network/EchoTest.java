@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 public class EchoTest {
 
-    @Test
     public void networkTest() {
         Server s = new Server();
         Thread serverThread = new Thread(s);
@@ -43,6 +42,5 @@ public class EchoTest {
         client1.receiveMessage().forEach(System.out::println);
         client2.receiveMessage().forEach(System.out::println);
     }
-
 
 }
