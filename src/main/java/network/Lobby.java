@@ -2,11 +2,10 @@ package network;
 
 import controller.Controller;
 import model.Game;
-import model.Player;
 import network.messages.toclient.MatchFoundMessage;
-import view.RemoteView;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -15,6 +14,8 @@ public class Lobby implements Runnable {
 
     private static final Lobby twoPlayerMatchLobby = new Lobby(2);
     private static final Lobby threePlayerMatchLobby = new Lobby(3);
+
+    private static final AtomicInteger gameID = new AtomicInteger(0);
 
     private final Queue<ClientHandler> waitingQueue;
     public final int numberOfPlayers;
@@ -69,6 +70,7 @@ public class Lobby implements Runnable {
                     handler.getRemoteViewInstance().setPlayerName(handler.getName().orElseThrow());
                     handler.sendMessage(new MatchFoundMessage(handler.getRemoteViewInstance().getPlayerName(),usernames)); //Notify that the match was created
                 }
+                gameID.incrementAndGet();
                 game.start();
                 notifyAll();
             }
@@ -100,7 +102,7 @@ public class Lobby implements Runnable {
     }
 
     //Called in clientHandler thread context
-    public synchronized void findGame(ClientHandler client) {
+    public synchronized int findGame(ClientHandler client) {
         waitingQueue.add(client);
         notifyAll();
         try{
@@ -110,6 +112,7 @@ public class Lobby implements Runnable {
         catch (InterruptedException e){
             e.printStackTrace();
         }
+        return gameID.get();
     }
 
 

@@ -570,8 +570,8 @@ public class DrawElements {
     }
 
     /**
-     * It draws the TITLE of the game in the main Screen
-     * @param mainColor The main Color
+     * It draws the TITLE of the game in the startServer Screen
+     * @param mainColor The startServer Color
      * @param shadeColor The shade Color
      */
     public static void drawTitle(String mainColor, String shadeColor){

@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static network.Server.logger;
 
-public class ClientHandler implements Runnable, MessageTarget{
+public class ClientHandler implements Runnable, MessageTarget {
 
     private final int PING_INTERVAL_SECONDS = 10;
 
@@ -42,20 +42,19 @@ public class ClientHandler implements Runnable, MessageTarget{
     @Override
     public void run() {
         handleConnection();
-        try{
+        try {
             clientSocket.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void pingClient(){
-        while(running.get()){
+    private void pingClient() {
+        while (running.get()) {
             sendMessage(new PingToClient());
-            try{
+            try {
                 TimeUnit.SECONDS.sleep(10);
-            } catch (InterruptedException e){
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -65,47 +64,45 @@ public class ClientHandler implements Runnable, MessageTarget{
     private void handleConnection() {
         Object received;
         try {
-            do{
+            do {
                 received = inputStream.readObject();
             } while (!(received instanceof LoginDataMessage));
             ((LoginDataMessage) received).execute(this); //Set Login data (Username, Queue)
             logger.info(clientSocket.getInetAddress() + " logged as " + name);
             Lobby waitingLobby = Lobby.getLobbyInstance(playerNumber);
-            new Thread(this::pingClient,"pinger_thread/" + clientSocket.getInetAddress()).start(); //STart
-            waitingLobby.findGame(this); //wait for players
-            while(running.get()) {
+            new Thread(this::pingClient, "pinger_thread/" + clientSocket.getInetAddress()).start(); //STart
+            int gameID = waitingLobby.findGame(this); //wait for players
+            while (running.get()) {
                 received = inputStream.readObject();
-                if(received instanceof DisconnectServerMessage) {
+                if (received instanceof DisconnectServerMessage) {
                     running.set(false); //Stop the listener
                     break;
                 }
-                if(received instanceof PingToServer) continue;
+                if (received instanceof PingToServer) continue;
                 Message<RemoteView> messageReceived = (Message<RemoteView>) received;
-                logger.info("Message:" + messageReceived.getClass().getName() +
+                logger.info("Game:" + gameID + " Message:" + messageReceived.getClass().getName() +
                         "\nContents:" + messageReceived.getMessageJSON());
                 messageReceived.execute(this.remoteView); //Apply message content
             }
-        }
-        catch(ClassNotFoundException | ClassCastException | IOException e) {
+        } catch (ClassNotFoundException | ClassCastException | IOException e) {
             handleConnectionError(e);
         }
     }
 
 
     public RemoteView getRemoteViewInstance(Controller controller) {
-        if(remoteView == null) {
+        if (remoteView == null) {
             remoteView = new RemoteView(this, controller, name);
         }
         return remoteView;
     }
 
     public RemoteView getRemoteViewInstance() {
-        if(remoteView == null) {
+        if (remoteView == null) {
             throw new IllegalStateException();
         }
         return remoteView;
     }
-
 
 
     public Optional<String> getName() {
@@ -126,11 +123,10 @@ public class ClientHandler implements Runnable, MessageTarget{
 
     //Executed in the context of the caller
     public synchronized void sendMessage(Message<? extends MessageTarget> message) {
-        try{
+        try {
             outputStream.writeObject(message);
             outputStream.reset();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             handleConnectionError(e);
         }
     }
@@ -139,10 +135,10 @@ public class ClientHandler implements Runnable, MessageTarget{
         StringBuilder error = new StringBuilder();
         error.append("Connection with ").append(clientSocket.getInetAddress()).append(" dropped");
         running.set(false); //Stop running
-        if(playerNumber == 2 || playerNumber == 3){
+        if (playerNumber == 2 || playerNumber == 3) {
             Lobby.getLobbyInstance(playerNumber).removeFromQueue(this); //Remove from queue if present
         }
-        if(this.remoteView != null) {
+        if (this.remoteView != null) {
             error.append("\nPlayer info: ").append(remoteView.getPlayerName());
             new DisconnectServerMessage().execute(this.remoteView);
         }
@@ -150,7 +146,7 @@ public class ClientHandler implements Runnable, MessageTarget{
         e.printStackTrace();
     }
 
-    public synchronized void closeConnection(){
+    public synchronized void closeConnection() {
         running.set(false);
     }
 }
