@@ -144,6 +144,14 @@ public abstract class BoardScreen extends Screen {
             throw new IllegalActionException("Special power not available");
         }
         specialPowerSelected = !specialPowerSelected;
+        if(selectedBuilder != null) { //If a builder is selected update the highlighted squares
+            highlightedCoordinates.clear();
+            if(specialPowerSelected) {
+                highlightedCoordinates.addAll(specialAllowedSquares.get(selectedBuilder));
+            } else {
+                highlightedCoordinates.addAll(normalAllowedSquares.get(selectedBuilder));
+            }
+        }
     }
 
     /**
@@ -316,7 +324,6 @@ public abstract class BoardScreen extends Screen {
         oldBuilders = currBuilders;
         currBuilders = new ArrayList<>(builders);
     }
-
 
     @Override
     public synchronized void receiveUpdateDone() {
