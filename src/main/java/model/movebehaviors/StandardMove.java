@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-//TODO
+
 public class StandardMove implements MoveBehavior {
 
     public StandardMove(){}

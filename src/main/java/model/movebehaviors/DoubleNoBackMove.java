@@ -5,7 +5,7 @@ import model.Square;
 
 import java.util.Set;
 
-//TODO
+
 public class DoubleNoBackMove extends MoveDecorator {
 
     Square previous;

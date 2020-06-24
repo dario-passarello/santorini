@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-//TODO
+
 public class OpponentPushMove extends MoveDecorator {
 
     public OpponentPushMove(MoveBehavior moveBehavior) {

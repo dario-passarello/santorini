@@ -5,7 +5,10 @@ import model.Square;
 
 import java.util.Set;
 
-//TODO
+
+/**
+ * A move behavior defines how a specific god can act during his move phase;
+ */
 public interface MoveBehavior {
 
     /**

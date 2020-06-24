@@ -6,7 +6,7 @@ import model.Square;
 import java.util.HashSet;
 import java.util.Set;
 
-//TODO
+
 public class NoUpMove extends MoveDecorator{
 
     public NoUpMove(MoveBehavior moveBehavior){

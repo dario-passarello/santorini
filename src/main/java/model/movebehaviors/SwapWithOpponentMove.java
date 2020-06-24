@@ -6,7 +6,7 @@ import model.Square;
 import java.util.HashSet;
 import java.util.Set;
 
-//TODO
+
 public class SwapWithOpponentMove extends MoveDecorator {
 
     public SwapWithOpponentMove(MoveBehavior moveBehavior){
