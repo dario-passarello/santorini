@@ -79,7 +79,7 @@ public class Game implements Observable<GameObserver>, GameModel {
     }
 
     /**
-     * @return a copy of the list of the players participating at the game
+     * @return a copyBehavior of the list of the players participating at the game
      */
     public List<Player> getPlayers() {
         return new ArrayList<>(this.players);

@@ -13,11 +13,11 @@ public class Client {
     public static final Logger logger = Logger.getLogger(Client.class.getName());
 
 
-    public static void main(String[] args) {
+    public static void startClient(boolean GUI) {
         logger.setLevel(Level.INFO);
         ScreenFactory factory;
         ViewManager viewManager = new ViewManager();
-        if(args.length == 1 && args[0].equals("-cli")) {
+        if(!GUI) {
             factory = new CLIScreenFactory(viewManager);
         } else {
             factory = new GUIScreenFactory(viewManager);

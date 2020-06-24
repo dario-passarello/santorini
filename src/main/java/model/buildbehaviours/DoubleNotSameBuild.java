@@ -12,7 +12,6 @@ public class DoubleNotSameBuild extends BuildDecorator {
     // Null - if this is the first ordinary build of the turn
     private Square previous;
 
-
     public DoubleNotSameBuild(BuildBehavior buildBehavior){
         this.wrappedBuildBehavior = buildBehavior;
         this.previous = null;
@@ -30,12 +29,6 @@ public class DoubleNotSameBuild extends BuildDecorator {
         }
     }
 
-    /**
-     * The first iteration of the method is exactly like the standard build
-     * The second iteration of the methods makes sure the previously built square is not present
-     * @param src the position of the builder that wants to build
-     * @return the set of square where the builder can build
-     */
     public Set<Square> neighborhood(Square src) {
         if(previous == null){
             return this.wrappedBuildBehavior.neighborhood(src);
@@ -45,6 +38,11 @@ public class DoubleNotSameBuild extends BuildDecorator {
             if(buildable.contains(previous)) buildable.remove(previous);
             return buildable;
         }
+    }
+
+    @Override
+    public BuildBehavior copyBehavior(){
+        return new DoubleNotSameBuild(wrappedBuildBehavior.copyBehavior());
     }
 
     @Override

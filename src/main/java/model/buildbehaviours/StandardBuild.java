@@ -13,7 +13,6 @@ public class StandardBuild implements BuildBehavior {
         return false;
     }
 
-
     public Set<Square> neighborhood(Square src) {
         Set<Square> buildable = src.getNeighbors();
         Set<Square> removable = new HashSet<>();
@@ -24,6 +23,11 @@ public class StandardBuild implements BuildBehavior {
         buildable.removeAll(removable);
 
         return buildable;
+    }
+
+    @Override
+    public BuildBehavior copyBehavior(){
+        return new StandardBuild();
     }
 
     public void reset(){

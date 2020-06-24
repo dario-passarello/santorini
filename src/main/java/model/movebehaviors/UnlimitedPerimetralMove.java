@@ -26,4 +26,9 @@ public class UnlimitedPerimetralMove extends MoveDecorator {
         wrappedMoveBehavior.move(b, dest);
         return b.getSquare().isPerimetral();
     }
+
+    @Override
+    public MoveBehavior copyBehavior() {
+        return new UnlimitedPerimetralMove(wrappedMoveBehavior.copyBehavior());
+    }
 }

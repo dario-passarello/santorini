@@ -86,7 +86,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * @return get a copy of the list of the builders controlled by the players
+     * @return get a copyBehavior of the list of the builders controlled by the players
      */
     public List<Builder> getBuilders() {
         return new ArrayList<>(builders);

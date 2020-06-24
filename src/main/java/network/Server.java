@@ -6,17 +6,21 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Server implements Runnable{
+public class Server implements Runnable {
 
     public final static Logger logger = Logger.getLogger(Server.class.getName());
 
-    public final static int SERVER_SOCKET_PORT = 12345;
+    public static int DEFAULT_SERVER_SOCKET_PORT = 12345;
 
-    public static void main(String[] args) {
+    public static void startServer() {
+        startServer(DEFAULT_SERVER_SOCKET_PORT);
+    }
+
+    public static void startServer(int port) {
         logger.setLevel(Level.INFO);
         ServerSocket serverSocket;
         try {
-            serverSocket = new ServerSocket(SERVER_SOCKET_PORT);
+            serverSocket = new ServerSocket(port);
         } catch(IOException e) {
             System.out.println("Error: Can't Open Server Socket");
             System.exit(1);
@@ -41,6 +45,7 @@ public class Server implements Runnable{
 
     @Override
     public void run() {
-        main(new String[0]);
+        startServer(12345);
     }
+
 }

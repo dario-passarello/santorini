@@ -17,7 +17,6 @@ public interface MoveBehavior {
      */
     Set<Square> neighborhood(Square src);
 
-
     /**
      * @param b is the builder we want to move
      * @param dest is the square where our builder want to go
@@ -25,6 +24,8 @@ public interface MoveBehavior {
      *         (true = continue move phase, false = end move phase)
      */
     boolean move(Builder b, Square dest);
+
+    MoveBehavior copyBehavior();
 
     void reset();
 }
