@@ -6,7 +6,9 @@ import utils.Coordinate;
 import java.io.Serializable;
 import java.util.*;
 
-
+/**
+ * A single square in the game Board
+ */
 public class Square implements Serializable {
     final static int MAX_HEIGHT = 3;
 
@@ -16,6 +18,11 @@ public class Square implements Serializable {
     private int buildLevel;
     private transient Builder occupant;
 
+    /**
+     * Default constructor for the Square
+     * @param board A reference to the board in which the square is located
+     * @param coordinate The coordinate of the board in which the square is located
+     */
     public Square(Board board, Coordinate coordinate) {
         this.board = board;
         this.coordinate = coordinate;
@@ -24,6 +31,10 @@ public class Square implements Serializable {
         this.occupant = null;
     }
 
+    /**
+     * Copy constructor for the square
+     * @param square The square to copy
+     */
     public Square(Square square) {
         this.board = null;
         this.coordinate = square.coordinate;

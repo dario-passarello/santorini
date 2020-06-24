@@ -55,7 +55,7 @@ public class Player implements Serializable {
 
     public void setStatus(Outcome status) {
         this.status = status;
-        //if(!status.isAlive()){
+        //if(!status.isActive()){
             //builders.forEach(Builder::removeBuilder);
         //}
     }

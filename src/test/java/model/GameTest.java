@@ -173,7 +173,7 @@ public class GameTest {
         game.removePlayer(removedPlayer, true);
         if(num == 2){
             assertSame(game.endGameState,game.getGameState());
-            assertFalse(removedPlayer.getStatus().isAlive());
+            assertFalse(removedPlayer.getStatus().isActive());
             assertEquals(game.getWinner().orElse(null), game.getPlayers().get(1));
             //endGame checks
             assertFalse(game.submitGodList(new HashSet<>(gods)));
