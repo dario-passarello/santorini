@@ -1,5 +1,6 @@
 package view.GUI;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import view.ViewManager;
@@ -12,12 +13,19 @@ public class GUIMenu extends MenuScreen implements GUIController{
         super(view);
     }
 
+    public void initialize(){
+        GUI.getStage().setMaxWidth(1280);
+        GUI.getStage().setMinWidth(1280);
+        GUI.getStage().setMaxHeight(720);
+        GUI.getStage().setMinHeight(720);
+    }
+
     public void startGame(){
         super.goToConnectionScreen();
     }
 
     public void credits(){
-        //TODO
+        super.goToCreditsScreen();
     }
 
     public void quit(){
@@ -31,7 +39,7 @@ public class GUIMenu extends MenuScreen implements GUIController{
 
     @Override
     public void onScreenOpen() {
-
+        Platform.runLater(() -> GUI.setSceneController(this));
     }
 
     @Override

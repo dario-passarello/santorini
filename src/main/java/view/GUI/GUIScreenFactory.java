@@ -31,7 +31,7 @@ public class GUIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getCreditsScreen() {
-        return null;
+        return new GUICredits(viewManager);
     }
 
     @Override

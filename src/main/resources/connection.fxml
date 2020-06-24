@@ -65,7 +65,7 @@
             </HBox>
             <VBox fx:id="loading" alignment="CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" spacing="20.0" visible="false">
                <children>
-                  <Label text="Loading the game">
+                  <Label text="Waiting other players">
                      <font>
                         <Font name="System Bold Italic" size="36.0" />
                      </font></Label>

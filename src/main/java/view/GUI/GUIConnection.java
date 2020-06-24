@@ -81,7 +81,7 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
                     loginFields.setDisable(false);
                     loginFields.setVisible(true);
                     loading.setVisible(false);
-                    warning.setText(warning.getText() + "- Wrong IP or port, try again");
+                    warning.setText(warning.getText() + "- Could not connect to the server");
                 }
             });
             t.start();

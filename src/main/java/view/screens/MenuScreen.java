@@ -18,4 +18,8 @@ public abstract class MenuScreen extends Screen{
         view.changeActiveScreen(view.getScreenFactory().getConnectionScreen());
     }
 
+    public final void goToCreditsScreen(){
+        view.changeActiveScreen(view.getScreenFactory().getCreditsScreen());
+    }
+
 }
