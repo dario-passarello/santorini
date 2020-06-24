@@ -30,6 +30,7 @@ public class ClientHandler implements Runnable, MessageTarget {
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
     private AtomicBoolean running;
+    private int gameID = -1;
 
 
     public ClientHandler(Socket socket) throws IOException {
@@ -71,7 +72,7 @@ public class ClientHandler implements Runnable, MessageTarget {
             logger.info(clientSocket.getInetAddress() + " logged as " + name);
             Lobby waitingLobby = Lobby.getLobbyInstance(playerNumber);
             new Thread(this::pingClient, "pinger_thread/" + clientSocket.getInetAddress()).start(); //STart
-            int gameID = waitingLobby.findGame(this); //wait for players
+            gameID = waitingLobby.findGame(this); //wait for players
             while (running.get()) {
                 received = inputStream.readObject();
                 if (received instanceof DisconnectServerMessage) {
@@ -138,12 +139,16 @@ public class ClientHandler implements Runnable, MessageTarget {
         if (playerNumber == 2 || playerNumber == 3) {
             Lobby.getLobbyInstance(playerNumber).removeFromQueue(this); //Remove from queue if present
         }
+        if (gameID >= 0) {
+            error.append("\nGame ID: ").append(gameID);
+        }
         if (this.remoteView != null) {
             error.append("\nPlayer info: ").append(remoteView.getPlayerName());
             new DisconnectServerMessage().execute(this.remoteView);
         }
+        error.append("\nNetwork error type: ").append(e.getClass().getName());
         Server.logger.warning(error.toString());
-        e.printStackTrace();
+        //e.printStackTrace();
     }
 
     public synchronized void closeConnection() {

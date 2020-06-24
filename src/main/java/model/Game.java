@@ -132,7 +132,7 @@ public class Game implements Observable<GameObserver>, GameModel {
     }
 
     public List<Player> getPlayersInGame() {
-        return players.stream().filter(p -> p.getStatus().isAlive()).collect(Collectors.toList());
+        return players.stream().filter(p -> p.getStatus().isActive()).collect(Collectors.toList());
     }
 
     public List<Builder> getAllBuilders() {
@@ -198,7 +198,7 @@ public class Game implements Observable<GameObserver>, GameModel {
         if(!players.contains(player)) {
             throw new NoSuchElementException(ErrorMessage.PLAYER_NOT_FOUND);
         }
-        if(!player.getStatus().isAlive()) {
+        if(!player.getStatus().isActive()) {
             return;
             //throw new IllegalArgumentException(ErrorMessage.PLAYER_ALREADY_REMOVED);
         }
