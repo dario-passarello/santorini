@@ -2,6 +2,7 @@ package view.GUI;
 
 import controller.Controller;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -36,6 +37,12 @@ public class GUI extends Application {
         setSceneController(launchScene);
         stage.setTitle(WINDOW_TITLE);
         stage.show();
+    }
+
+    @Override
+    public void stop(){
+        Platform.exit();
+        System.exit(0);
     }
 
     public static void setSceneController(GUIController controller) {
