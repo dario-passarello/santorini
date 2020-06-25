@@ -94,7 +94,7 @@ public class ServerAdapter implements Runnable, MessageTarget {
         try {
             socketToServer.close();
         } catch (IOException e){
-            e.printStackTrace();
+            Client.logger.warning("Socket Already Closed");
         }
         Client.logger.warning("Connection Closed");
     }

@@ -17,6 +17,7 @@ public class CLIConnectionErrorScreen extends ConnectionErrorScreen implements I
 
     @Override
     public void onScreenOpen() {
+        super.onScreenOpen();
         if(fromBoard){
             DrawElements.saveCursor();
             DrawElements.writeConnectionError(errorMessage);
