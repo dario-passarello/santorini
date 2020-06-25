@@ -3,6 +3,7 @@ package view.CLI;
 import view.IllegalActionException;
 import view.IllegalValueException;
 import view.ViewManager;
+import view.screens.ConnectionErrorScreen;
 import view.screens.ConnectionScreen;
 
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.util.Scanner;
 public class CLIConnectionScreen extends ConnectionScreen implements InputProcessor {
 
     private InputExecutor expectedInput;
-    // private Thread connection; // The thread called when you start connecting to the server
     private boolean connectionFailed = false;
 
 
@@ -36,7 +36,9 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
     @Override
     public void onScreenClose() {
         System.out.print(Colors.RESET);
-       // connection.interrupt();
+        if(expectedInput instanceof Connecting){
+            if (((Connecting) expectedInput).connection != null)((Connecting) expectedInput).connection.interrupt();
+        }
     }
 
 
@@ -151,13 +153,16 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
      * This class represents the moment where the player selects the type of lobby he wants to join
      */
     class NumberofPlayers implements InputExecutor{
+
+        private Thread connection = null;
         @Override
         public void message(){
             print("Enter the type of Lobby you want to Join: \n" +
                     "      (2) - 2 Player Matches\n" +
                     "      (3) - 3 Player Matches");
-            DrawElements.moveUp(2);
+
             DrawElements.moveRight(15);
+            DrawElements.moveUp(2);
             DrawElements.out.flush();
         }
         @Override
@@ -165,11 +170,11 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
             try {
                 setNumberOfPlayers(Integer.parseInt(s));
                     DrawElements.moveDown(4);
-                    System.out.print("\n");
-                    expectedInput = new Connecting();
+                    DrawElements.out.flush();
+                    expectedInput = new Connecting(connection);
                     expectedInput.message();
 
-                Thread connection = new Thread(() ->{
+                connection =  new Thread(() ->{
                     try {
                         connect();
                     } catch (IllegalActionException exception) {
@@ -192,9 +197,14 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
      */
     class Connecting implements InputExecutor{
 
+        private Thread connection;
+        public Connecting(Thread thread){
+            this.connection = thread;
+        }
+
         @Override
         public void message() {
-            print(DrawElements.inputColor + "\n TRYING TO FIND A GAME.   PLS WAIT.... ");
+            print(DrawElements.inputColor + "TRYING TO FIND A GAME.   PLS WAIT.... ");
         }
 
         @Override
@@ -202,9 +212,12 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
             if(s.toUpperCase().equals("REDO") && connectionFailed) {        // If you type REDO restart the connection
                 System.out.println(DrawElements.FLUSH);
                 connectionFailed = false;
+                onScreenClose();
                 onScreenOpen();
             }
-            else print(" TRYING TO FIND A GAME.   PLS WAIT.... ");
+            else
+                if(connectionFailed) print(" NOT A VALID INPUT. Pls try Again ");
+                else print(" TRYING TO FIND A GAME.   PLS WAIT.... ");
         }
     }
 

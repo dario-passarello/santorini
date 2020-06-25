@@ -34,6 +34,13 @@ public class CLIConnectionErrorScreen extends ConnectionErrorScreen implements I
     }
 
 
+    //      +-------------------+
+    //      +   INNER CLASSES   +
+    //      +-------------------+
+
+    /**
+     * This class represents the moment where the player has to choose what to do next
+     */
     public class Next implements InputExecutor{
 
         @Override

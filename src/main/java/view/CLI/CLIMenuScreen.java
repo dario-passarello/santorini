@@ -41,6 +41,12 @@ public class CLIMenuScreen extends MenuScreen implements InputProcessor {
         expectedInput.execute(input);
     }
 
+
+
+    //      +-------------------+
+    //      +   INNER CLASSES   +
+    //      +-------------------+
+
     /**
      * This class represents the beginning state of the game, with the Title and the choice boxes
      */

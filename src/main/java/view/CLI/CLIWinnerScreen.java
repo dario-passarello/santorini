@@ -19,7 +19,7 @@ public class CLIWinnerScreen extends WinnerScreen implements InputProcessor {
     @Override
     public void onScreenOpen(){
 
-
+        super.onScreenOpen();
         DrawElements.writeWinner(players, getWinner(players), getThisPlayerName());
 
 
@@ -37,6 +37,10 @@ public class CLIWinnerScreen extends WinnerScreen implements InputProcessor {
     private void print(String s){
         System.out.print(Colors.RESET + " " + s + DrawElements.inputColor);
     }
+
+    //      +-------------------+
+    //      +   INNER CLASSES   +
+    //      +-------------------+
 
     /**
      * This class represents the moment where the player chooses what to do after the end of the game
