@@ -6,7 +6,7 @@ import view.ViewManager;
 
 import java.util.List;
 
-public class WinnerScreen extends Screen{
+public abstract class WinnerScreen extends Screen{
 
     public WinnerScreen(ViewManager view) {
         super(view);
@@ -22,7 +22,7 @@ public class WinnerScreen extends Screen{
 
     @Override
     public void onScreenOpen() {
-
+        view.closeConnection();
     }
 
     @Override

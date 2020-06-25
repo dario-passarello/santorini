@@ -137,6 +137,10 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
     }
 
 
+    private void print(String s){
+        System.out.print(Colors.RESET + " " + s + DrawElements.inputColor);
+    }
+
 
 
     //      +-------------------+
@@ -150,13 +154,13 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
 
         @Override
         public void message(){
-            if(activeScreen) System.out.print(
-                    "  Select the God Powers you want to be present in this match \n" +
-                    "  Select the God by typing the corresponding Number \n" +
-                    "  Once selected, press Enter to confirm the Selection: ");
+            if(activeScreen) print(
+                    "Select the God Powers you want to be present in this match \n" +
+                    " Select the God by typing the corresponding Number \n" +
+                    " Once selected, press Enter to confirm the Selection: ");
             else{
-                System.out.print("  Waiting for the designated player to select the gods for this match... \n" +
-                        "  You can check the information about the gods by simply entering their number: ");
+                print("Waiting for the designated player to select the gods for this match... \n" +
+                        " You can check the information about the gods by simply entering their number: ");
             }
         }
 
@@ -191,10 +195,10 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
 
             }
             catch(NumberFormatException exception){
-                System.out.println("This is not a valid Input. Please Try again: ");
+                print("This is not a valid Input. Please Try again: ");
             }
             catch(IllegalArgumentException exception){
-                System.out.println(exception.getMessage() + ". Please Try again: ");
+                print(exception.getMessage() + ". Please Try again: ");
             }
         }
     }
@@ -206,9 +210,8 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
 
         @Override
         public void message(){
-            System.out.println(
-                    "\nPress Enter to confirm the selection or " +
-                    "select another God:\t");
+            print( "\n Press Enter to confirm the selection or " +
+                    "select another God: ");
         }
 
         @Override
@@ -217,19 +220,19 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
                 if (s.equals("") && selectedGod != null) {  // If the use pressed Enter
                     // Check that the selected god is not a Mortal with a non-empty list of gods selected
                     if(selectedGod.equals("Mortal") && getChosenGodList().size() > 0){
-                        throw new IllegalActionException("You can select the mortal only when there are no gods selected");
+                        throw new IllegalActionException("You can select the mortal only when there are no gods selected ");
                     }
                     addGod(selectedGod);
                     int id = AssetLoader.getGodAssetsBundle(selectedGod).getId();
-                    System.out.println("\n " + Colors.BLUE_153 + selectedGod + Colors.RESET + " Has been Selected");
+                    System.out.println("\n " + Colors.BLUE_153 + selectedGod + Colors.RESET + " Has been Selected ");
                     selectedGod = null;
                     // If the Confirm adds the last god
                     if(readyToSubmit()){
                         List<String> selected = getChosenGodList();
                         refreshMainScreen();
-                        System.out.println("\nThese are the gods selected:");
+                        System.out.println("\n These are the gods selected:");
                         for(String god : selected){
-                            System.out.println("(" + AssetLoader.getGodAssetsBundle(god).getId() + ") - " + Colors.YELLOW_227 +
+                            System.out.println(" (" + AssetLoader.getGodAssetsBundle(god).getId() + ") - " + Colors.YELLOW_227 +
                                     god + Colors.RESET);
                         }
                         expectedInput = new SubmitList();
@@ -238,14 +241,14 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
                     }
                     refreshMainScreen();
                     expectedInput = new GodSelection();
-                    System.out.println("\nYou can select another god:  ");
+                    print("\n You can select another god:  ");
                 }
                 else {
                     new GodSelection().execute(s);
                 }
             }
             catch(IllegalActionException exception){
-                System.out.print(exception.getMessage() + ". Pls try again");
+                print(exception.getMessage() + ". Pls try again");
             }
             catch(IllegalValueException exception){
 
@@ -261,8 +264,8 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
 
         @Override
         public void message(){
-            System.out.print( "\nThis GOD Has already been selected. Press D to deselect it or" +
-                    "select another god:\t");
+            print( "\n This GOD Has already been selected. Press D to deselect it or" +
+                    "select another god: ");
         }
         @Override
         public void execute(String s) {
@@ -279,10 +282,10 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
                 }
             }
             catch(IllegalActionException exception){
-                System.out.print(exception.getMessage() + ". Pls try again  ");
+                print(exception.getMessage() + ". Pls try again  ");
             }
             catch(IllegalValueException exception){
-                System.out.print(exception.getMessage() + ". Pls try again  ");
+                print(exception.getMessage() + ". Pls try again  ");
             }
         }
     }
@@ -295,8 +298,8 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
 
         @Override
         public void message(){
-            System.out.println("\nPress Enter to confirm the selection or type a number to delete\n" +
-                    "a god from the list:\t");
+            print("\n Press Enter to confirm the selection or type a number to delete\n" +
+                    " a god from the list:  ");
         }
         @Override
         public void execute(String s) {
@@ -313,21 +316,21 @@ public class CLIGodSelectionScreen extends GodSelectionScreen implements InputPr
                         if(getChosenGodList().contains(AssetLoader.getGodNameFromID(number))){
                             removeGod(AssetLoader.getGodNameFromID(number));
                             refreshMainScreen();
-                            System.out.print("The god has been deselected. Pls choose a god: ");
+                            print("The god has been deselected. Pls choose a god:  ");
                             expectedInput = new GodSelection();
                         }
                         else{           // If it was neither of the two, the player will be notified accordingly
-                            System.out.println("\nThe number is not in the list. Pls select another number:\t");
+                            print("The number is not in the list. Pls select another number:  ");
                         }
                     }
                     catch(NumberFormatException exception){
-                        System.out.println("\nThis is not a number. Pls Enter a valid input:\t");
+                        print("This is not a number. Pls Enter a valid input:  ");
                     }
                     catch(IllegalValueException exception){
-                        System.out.print(exception.getMessage() + ". Pls try again  ");
+                        print(exception.getMessage() + ". Pls try again  ");
                     }
                     catch(IllegalActionException exception){
-                        System.out.print(exception.getMessage() + ". Pls try again  ");
+                        print(exception.getMessage() + ". Pls try again  ");
                     }
                 }
 

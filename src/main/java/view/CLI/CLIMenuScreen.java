@@ -32,6 +32,10 @@ public class CLIMenuScreen extends MenuScreen implements InputProcessor {
         System.out.println(DrawElements.FLUSH);
     }
 
+    private void print(String s){
+        System.out.print(Colors.RESET + " " + s + DrawElements.inputColor);
+    }
+
     @Override
     public void processInput(String input) {
         expectedInput.execute(input);
@@ -43,18 +47,45 @@ public class CLIMenuScreen extends MenuScreen implements InputProcessor {
     public class Start implements InputExecutor{
 
         @Override
-        public void message() {
-            System.out.print("\nSelect one of the options: ");
+        public void message() { print("\n Select one of the options: ");
         }
 
         @Override
         public void execute(String s) {
-            if(s.toUpperCase().equals("S")){
-                goToConnectionScreen();
-            }
-            else{
-                System.out.print("The command is invalid or not implemented yet ");
+
+            switch(s.toUpperCase()){
+                case "S":
+                    goToConnectionScreen();
+                    break;
+                case "C":
+                    expectedInput = new Credits();
+                    expectedInput.message();
+                    break;
+                case "Q":
+                    System.out.print(Colors.RESET + " QUITTING THE GAME.... \n");
+                    System.exit(0);
+                    break;
+                default:
+                    print("The command is invalid or not implemented yet ");
             }
         }
     }
+
+    public class Credits implements InputExecutor{
+
+        @Override
+        public void message() {
+            System.out.print(DrawElements.FLUSH);
+            print("Credits Screen: \n");
+            print("There is nothing yet. Tybe B to go back: ");
+        }
+
+        @Override
+        public void execute(String s) {
+            if(s.toUpperCase().equals("B")) onScreenOpen();
+            else print("This is not a valid input. Pls try again ");
+        }
+    }
+
+
 }

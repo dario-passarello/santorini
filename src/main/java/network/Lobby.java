@@ -9,7 +9,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-
+/**
+ * The matchmaking system for the server
+ * Singleton pattern is used to ensure that only two instance of this class are created
+ * (one for 2 players matches and one for 3 players matches)
+ * When a Client Handler listener thread reaches out this class, it will wait enough players to
+ * start a match. Match are created with a FIFO logic.
+ */
 public class Lobby implements Runnable {
 
     private static final Lobby twoPlayerMatchLobby = new Lobby(2);
@@ -25,7 +31,11 @@ public class Lobby implements Runnable {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-
+    /**
+     * This method is the only way to get the lobby instances.
+     * @param numberOfPlayers An integer, must be 2 or 3
+     * @return Returns the lobby instance respectively for 2 and 3 player
+     */
     public static Lobby getLobbyInstance(int numberOfPlayers) {
         if(numberOfPlayers == 2){
             return twoPlayerMatchLobby;
@@ -36,12 +46,16 @@ public class Lobby implements Runnable {
         throw new IllegalArgumentException("Matches could be only with 2 or 3 players!");
     }
 
-    //TODO Initialize on Server
     @Override
     public void run() {
         handleLobby();
     }
 
+    /**
+     * Remove a client handler previously waiting in a match queue. IF the handler is not
+     * waiting in the queue nothing happens
+     * @param handler The handler to remove from the queue
+     */
     public synchronized void removeFromQueue(ClientHandler handler){
         waitingQueue.remove(handler);
     }
@@ -80,6 +94,11 @@ public class Lobby implements Runnable {
         }
     }
 
+    /**
+     * Helper method, checks if there are two duplicate names, in that case, the ClientHandler names
+     * will be changed
+     * @param clientHandlers A list of the clients in the match
+     */
     private void sanitizeNames(List<ClientHandler> clientHandlers){
         Predicate<List<ClientHandler>> noDuplicates = (list) -> {
             List<String> names = list.stream()
@@ -101,7 +120,13 @@ public class Lobby implements Runnable {
         }
     }
 
-    //Called in clientHandler thread context
+    /**
+     * Add to the lobby queue the client handler. Wait until there are enough players for
+     * a game. When a game is found the Game ID will be returned
+     * NOTE: Usually called in the Client Handler listener thread context
+     * @param client A reference of a client handler that wants to find a game
+     * @return The id of the game
+     */
     public synchronized int findGame(ClientHandler client) {
         waitingQueue.add(client);
         notifyAll();
@@ -114,9 +139,5 @@ public class Lobby implements Runnable {
         }
         return gameID.get();
     }
-
-
-
-
 
 }

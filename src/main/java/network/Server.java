@@ -6,16 +6,32 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * A Static class for initializing and launching the Server side of the Application
+ */
 public class Server implements Runnable {
 
+    /**
+     * Server Side Logger Instance
+     */
     public final static Logger logger = Logger.getLogger(Server.class.getName());
 
+    /**
+     * The default port value ({@value DEFAULT_SERVER_SOCKET_PORT})
+     */
     public static int DEFAULT_SERVER_SOCKET_PORT = 12345;
 
+    /**
+     * Starts a Santorini Server listening on the default port ({@value DEFAULT_SERVER_SOCKET_PORT})
+     */
     public static void startServer() {
         startServer(DEFAULT_SERVER_SOCKET_PORT);
     }
 
+    /**
+     * Starts a Santorini Server listening on the specified port
+     * @param port The desired server port. Should be a number between 1 and 65535
+     */
     public static void startServer(int port) {
         logger.setLevel(Level.INFO);
         ServerSocket serverSocket;

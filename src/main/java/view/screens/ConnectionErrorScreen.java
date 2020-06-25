@@ -17,7 +17,7 @@ public abstract class ConnectionErrorScreen extends Screen implements  GUIContro
 
     @Override
     public void onScreenOpen() {
-        Platform.runLater(() -> GUI.setSceneController(this));
+
     }
 
     @Override
