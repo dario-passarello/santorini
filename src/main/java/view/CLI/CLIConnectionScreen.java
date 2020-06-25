@@ -23,8 +23,6 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
     @Override
     public void onScreenOpen() {
-
-
         DrawElements.drawTitle(Colors.WHITE_231, Colors.BLUE_27);
         System.out.println("\n\n");
 

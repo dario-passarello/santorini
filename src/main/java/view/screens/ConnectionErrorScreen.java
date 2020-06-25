@@ -11,12 +11,20 @@ public abstract class ConnectionErrorScreen extends Screen implements  GUIContro
         super(view);
     }
 
+    /**
+     * Close this screen and return to {@link MenuScreen}
+     */
     protected final void close(){
         view.changeActiveScreen(view.getScreenFactory().getMenuScreen());
     }
 
     @Override
     public void onScreenOpen() {
+        try{
+            view.closeConnection();
+        } catch (IllegalStateException e){
+            //Do nothing, the connection was already closed
+        }
 
     }
 
