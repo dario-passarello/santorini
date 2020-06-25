@@ -51,6 +51,7 @@ public class GUIWinner extends WinnerScreen implements GUIController {
 
     @Override
     public void onScreenOpen() {
+        super.onScreenOpen();
         Platform.runLater(() -> GUI.setSceneController(this));
     }
 

@@ -205,26 +205,29 @@ public class Game implements Observable<GameObserver>, GameModel {
         if(player.getStatus() == Outcome.IN_GAME){
             player.getBuilders().forEach(Builder::removeBuilder);
         }
-        player.setStatus(disconnected ? Outcome.DISCONNECTED : Outcome.LOSER);
-        if(currentGameState != turnState){
-            setGameState(endGameState, player);
-        } else {
-            if(getPlayersInGame().size() == 1) { //If Only two players remain
-                setWinner(getPlayersInGame().get(0));
+        if(currentGameState != endGameState) { //If the game is ended don't do anything
+            player.setStatus(disconnected ? Outcome.DISCONNECTED : Outcome.LOSER);
+            if(currentGameState != turnState){
                 setGameState(endGameState, player);
-            }
-            else {
-                Turn turnToRemove = turnRotation.stream()
-                        .filter(t -> t.getCurrentPlayer().equals(player))
-                        .findFirst()
-                        .orElseThrow(UnknownError::new);
-                if (turnToRemove == currentTurn) {//If the player removed is playing in the current turn, advance to next turn
-                    nextTurn(false);
+            } else {
+                if(getPlayersInGame().size() == 1) { //If Only two players remain
+                    setWinner(getPlayersInGame().get(0));
+                    setGameState(endGameState, player);
                 }
-                turnRotation.remove(turnToRemove); //Remove player from turn rotation
+                else {
+                    Turn turnToRemove = turnRotation.stream()
+                            .filter(t -> t.getCurrentPlayer().equals(player))
+                            .findFirst()
+                            .orElseThrow(UnknownError::new);
+                    if (turnToRemove == currentTurn) {//If the player removed is playing in the current turn, advance to next turn
+                        nextTurn(false);
+                    }
+                    turnRotation.remove(turnToRemove); //Remove player from turn rotation
+                }
             }
+            notifyObservers(GameObserver::receiveUpdateDone);
         }
-        notifyObservers(GameObserver::receiveUpdateDone);
+
     }
 
     //STATE MACHINE METHODS

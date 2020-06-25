@@ -1,8 +1,9 @@
 package network;
 
-import network.Client;
-import network.Server;
-
+/**
+ * Main class for the Santorini application
+ * Parses command arguments and launches the Application with the desired settins
+ */
 public class App {
 
     public static void main(String[] args) {

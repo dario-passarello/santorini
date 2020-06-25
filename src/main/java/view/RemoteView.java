@@ -16,6 +16,7 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     private String playerName;
     private final Controller controller;
     private final ClientHandler client;
+    private Game.State lastGameState;
 
     public RemoteView(ClientHandler client, Controller controller, String playerName) {
         this.controller = controller;
@@ -43,6 +44,7 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
 
     @Override
     public void receiveGameState(Game.State state, Player activePlayerName) {
+        lastGameState = state;
         client.sendMessage(new GameStateMessage(state,activePlayerName));
     }
 
@@ -89,10 +91,15 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     @Override
     public void receiveUpdateDone() {
         client.sendMessage(new UpdateDoneMessage());
+        /*if(lastGameState == Game.State.END_GAME) {
+            controller.game().disconnectPlayer(this);
+            client.closeConnection();
+        }*/
     }
 
     @Override
     public void receiveDisconnect() {
+        controller.game().disconnectPlayer(this);
         client.closeConnection();
     }
 }
