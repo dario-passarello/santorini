@@ -39,6 +39,7 @@ public class CLIScreenFactory implements ScreenFactory {
     @Override
     public Screen getMenuScreen() {
         Screen menuScreen = new CLIMenuScreen(viewManager);
+        if(cliListener != null) cliListener.setScreen((InputProcessor) menuScreen);
         return menuScreen;
     }
 
@@ -86,7 +87,12 @@ public class CLIScreenFactory implements ScreenFactory {
 
     @Override
     public Screen getConnectionErrorScreen() {
-        return null;
+        Screen connectionErrorScreen;
+        if(cliListener.getScreen() instanceof CLIBoardScreen)
+             connectionErrorScreen = new CLIConnectionErrorScreen(viewManager, true);
+        else connectionErrorScreen = new CLIConnectionErrorScreen(viewManager, false);
+        cliListener.setScreen((InputProcessor) connectionErrorScreen);
+        return connectionErrorScreen;
     }
 
 

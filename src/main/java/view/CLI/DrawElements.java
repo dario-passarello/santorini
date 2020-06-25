@@ -19,28 +19,29 @@ import java.util.List;
 public class DrawElements {
 
     public static PrintWriter out = new PrintWriter(System.out, true);
+
+    protected static final String inputColor = Colors.GREEN_47;
     private static final String firstBackgroundColor = Colors.GREENBG_83;
     private static final String secondBackgroundColor = Colors.GREENBG_41;
     private static final String borderColor = Colors.GREY_250;
 
-    public static final String player1Color = Colors.BLUE_21;
-    public static final String player2Color = Colors.YELLOW_226;
-    public static final String player3Color = Colors.RED_196;
+    protected static final String player1Color = Colors.BLUE_21;
+    protected static final String player2Color = Colors.YELLOW_226;
+    protected static final String player3Color = Colors.RED_196;
 
-    public static final String player1ColorLight = Colors.BLUE_153;
-    public static final String player2ColorLight = Colors.YELLOW_228;
-    public static final String player3ColorLight = Colors.RED_210;
-    private static final String levelColor = Colors.BLUE_20;
-    public static final String FLUSH = "\033[H\033[2J";
-    public static final String ESC = (char) 27 + "[";
+    protected static final String player1ColorLight = Colors.BLUE_153;
+    protected static final String player2ColorLight = Colors.YELLOW_228;
+    protected static final String player3ColorLight = Colors.RED_210;
+
+    protected static final String errorMessageColor = Colors.RED_196;
+    protected static final String levelColor = Colors.BLUE_20;
+    protected static final String FLUSH = "\033[H\033[2J";
+    protected static final String ESC = (char) 27 + "[";
 
 
     public static void main(String[] args){
 
-        drawVictory();
-
-        drawDefeat();
-
+        drawTitle(Colors.WHITE_231, Colors.BLUE_27);
 
 
 
@@ -55,30 +56,30 @@ public class DrawElements {
      * @param mainColor The color of the Square delimiters
      */
     public static void drawBoard(String background, String mainColor){
+        System.out.print(Colors.RESET);
 
-
-        out.println("        a         b         c         d         e     ");
-        out.println("   " + background + mainColor + "╔═════════╦═════════╦═════════╦═════════╦═════════╗" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println(" 1 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println(" 2 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println(" 3 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println(" 4 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println(" 5 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
-        out.println("   " + background + mainColor + "╚═════════╩═════════╩═════════╩═════════╩═════════╝" + Colors.RESET);
+        System.out.println("        a         b         c         d         e     ");
+        System.out.println("   " + background + mainColor + "╔═════════╦═════════╦═════════╦═════════╦═════════╗" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println(" 1 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println(" 2 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println(" 3 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println(" 4 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "╠═════════╬═════════╬═════════╬═════════╬═════════╣" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println(" 5 " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "║         ║         ║         ║         ║         ║" + Colors.RESET);
+        System.out.println("   " + background + mainColor + "╚═════════╩═════════╩═════════╩═════════╩═════════╝" + Colors.RESET);
 
 
         for(int i = 1; i <= 5; i++) {
@@ -260,12 +261,13 @@ public class DrawElements {
      * @param client The player who is playing
      */
     public static void drawGameInfo(List<Player> players, String activeplayer, String client){
+        System.out.print(Colors.RESET);
 
         selectCell(1,1);
         moveUp(1);
         moveRight(55);
         out.flush();
-        out.print("╔══════════════════════════════════════╗");
+        System.out.print("╔══════════════════════════════════════╗");
         out.flush();
         moveDown(1);
         moveLeft(40);
@@ -290,12 +292,12 @@ public class DrawElements {
 
             String towrite = "║ " + getPlayerColor(players, player) + "██ " + Colors.RESET + color + player.getName() +
                     Colors.RESET + playerSpaces + " - " + player.getGod().getName() + godSpaces + "║";
-            out.print(towrite);
+            System.out.print(towrite);
             moveDown(1);
             moveLeft(40);
             out.flush();
         }
-        out.print("╚══════════════════════════════════════╝");
+        System.out.print("╚══════════════════════════════════════╝");
         moveDown(2);
         moveLeft(40);
         out.print("  CURRENT TURN: " + Colors.YELLOW_227 + activeplayer + Colors.RESET);
@@ -309,6 +311,7 @@ public class DrawElements {
     public static void writeGodInfo(List<Player> players){
         int maxCharacters = 40;
         int row = 11;
+        System.out.print(Colors.RESET);
 
         out.print(ESC + Integer.toString(row) + ";60H");  // Cursor position to write to
         out.flush();
@@ -367,6 +370,7 @@ public class DrawElements {
      * @param client The name of the player who calls this method
      */
     public static void writeWinner(List<Player> players, Player winner, String client){
+        System.out.print(Colors.RESET);
 
         // Identifying the position to write the winner message
         selectCell(1, 1);
@@ -439,6 +443,32 @@ public class DrawElements {
         return color;
 
     }
+
+    /**
+     * This method writes the Disconnection message if you are in the boardScreen
+     * @param s The string the game outputs for the error message
+     */
+     protected static void writeConnectionError(String s){
+         int maxCharacters = 40; // The maximum amount of characters per row
+         String words[] = s.split(" ");
+
+         out.print(ESC + "12;60H");  // Cursor position to write to
+         out.print(errorMessageColor);
+
+         int characterWritten = 0;
+         for(String word : words){
+             if((characterWritten + word.length() + 1) > (maxCharacters + 1)){
+                 moveDown(1);
+                 moveLeft(characterWritten);
+                 out.flush();
+                 characterWritten = 0;
+             }
+             out.print(word + " ");
+             characterWritten = characterWritten + word.length() + 1;
+             out.flush();
+         }
+         out.print(Colors.RESET);
+     }
 
 // THESE ARE ALL METHODS THAT HANDLE THE MOVEMENT OF THE CURSOR IN THE TERMINAL
 

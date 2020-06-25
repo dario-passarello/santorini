@@ -8,10 +8,11 @@ import view.ViewManager;
 import view.screens.BoardScreen;
 import java.util.List;
 
-//TODO Handle all the catches
+
 
 public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
+    private String inputColor = Colors.GREEN_47;        // The color of the things written in the input
     private InputExecutor currentPhase;
 
     public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighlightedCoordinates) {
@@ -88,13 +89,13 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 else buildnumber = "second";
 
                 //Selection message
-                System.out.println(Colors.YELLOW_227 + "BUILDER PLACEMENT" + Colors.RESET);
-                System.out.println("You can place two" + playerColor() + " builders" + Colors.RESET + " on the board");
-                System.out.print("Place the " + buildnumber + " Builder (ex. A3): ");
+                print(Colors.YELLOW_227 + "BUILDER PLACEMENT" + Colors.RESET + "\n");
+                print("You can place two" + playerColor() + " builders" + Colors.RESET + " on the board\n");
+                print("Place the " + buildnumber + " Builder (ex. A3): ");
 
             }
             else{
-                System.out.print("Waiting for other players to perform their action....  \n");
+                print("Waiting for other players to perform their action.... ");
             }
 
         }
@@ -109,8 +110,8 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     if(builder.getOwner().getName().equals(getThisPlayerName())) i++;
                 }
 
-                if(i == 0) System.out.print("It is not your turn to place the builders. Pls wait for you turn ");
-                else System.out.print("You have already placed your builders. Pls wait for the other players' placement ");
+                if(i == 0) print("It is not your turn to place the builders. Pls wait for you turn ");
+                else print("You have already placed your builders. Pls wait for the other players' placement ");
                 return;
             }
             try{
@@ -119,12 +120,12 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 selectSquare(selectedCoordinate);
             }
             catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + ". Pls try again: ");
+                print(e.getMessage() + ". Pls try again: ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + ". Pls try again: ");
+                print(e.getMessage() + ". Pls try again: ");
             }
             catch(IllegalArgumentException e){
-                System.out.print("This is an invalid input. Pls try again: ");
+                print("This is an invalid input. Pls try again: ");
             }
 
         }
@@ -139,13 +140,13 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         @Override
         public void message() {
             if(activeScreen){
-                System.out.println(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET);
-                System.out.print("Select the" + playerColor() + " Builder" + Colors.RESET + " you want to move (ex. A3) ");
-                if(specialPowerAvailable()) System.out.print("\nor type S to activate the special power: ");
+                print(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET + "\n");
+                print("Select the" + playerColor() + " Builder" + Colors.RESET + " you want to move (ex. A3) ");
+                if(specialPowerAvailable()) print("\n or type S to activate the special power: ");
             }
             else{
-                System.out.println(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET);
-                System.out.print("Pls wait for the other players to make their move ");
+                print(Colors.YELLOW_227 + "STARTING TURN" + Colors.RESET + "\n");
+                print("Pls wait for the other players to make their move ");
             }
         }
         @Override
@@ -171,12 +172,12 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     }
                 }
              catch (IllegalValueException e) {
-                 System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                 print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                print(e.getMessage() + ". Pls insert a valid input ");
             }
             catch (IllegalArgumentException e){
-                System.out.print("This is an invalid input. Pls try again: ");
+                print("This is an invalid input. Pls try again: ");
             }
         }
     }
@@ -193,20 +194,20 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
                     System.out.print(DrawElements.ESC + "25H");
                 }
-                System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
-                System.out.print("Select the square where you want to move the builder\n" +
-                        "or type R to undo the builder selection ");
+                print(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET + "\n");
+                print("Select the square where you want to move the builder\n" +
+                        " or type R to undo the builder selection ");
             }
             else{
-                System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
-                System.out.print("Pls wait for the other players to make their move ");
+                print(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET + "\n");
+                print("Pls wait for the other players to make their move ");
             }
         }
 
         @Override
         public void execute(String s) {
             if(!activeScreen){
-                System.out.print("It is not your turn. Pls wait... ");
+                print("It is not your turn. Pls wait... ");
                 return;
             }
             if(s.toUpperCase().equals("R")){
@@ -219,7 +220,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     return;
                 }
                 catch (IllegalActionException e) {
-                    System.out.print(e.getMessage() + " ");
+                    print(e.getMessage() + " ");
                 }
             }
             try{
@@ -228,11 +229,11 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
-                System.out.print("This is an invalid input. Pls try again: ");
+                print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                print(e.getMessage() + ". Pls insert a valid input ");
             }
         }
     }
@@ -246,17 +247,17 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         @Override
         public void message() {
             if(activeScreen) {
-                System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
-                System.out.print("You have activated the power of your GOD\n" +
-                        "Select the " + playerColor() + "builder" + Colors.RESET + " you want to use it on\n" +
-                        "(or type R to undo the activation) ");
+                print(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET + "\n");
+                print("You have activated the power of your GOD\n" +
+                        " Select the " + playerColor() + "builder" + Colors.RESET + " you want to use it on\n" +
+                        " (or type R to undo the activation) ");
             }
         }
 
         @Override
         public void execute(String s){
             if(!activeScreen){
-                System.out.print("It is not your turn. Pls wait... ");
+                print("It is not your turn. Pls wait... ");
                 return;
             }
             try{
@@ -277,11 +278,11 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 currentPhase.message();
             }
             catch(IllegalArgumentException e){
-                System.out.print("This is an invalid input. Pls try again: ");
+                print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                print(e.getMessage() + ". Pls insert a valid input ");
             }
         }
     }
@@ -319,29 +320,29 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     System.out.print(DrawElements.ESC + "25H");
                 }
                 if(forced){
-                    System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
-                    System.out.print("Select the square where you want to move the builder ");
+                    print(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET + "\n");
+                    print("Select the square where you want to move the builder ");
                     return;
                 }
-                System.out.println(Colors.YELLOW_227 + "ADDITIONAL " + phaseAction.toUpperCase() + Colors.RESET);
-                System.out.print("You can " + phaseAction + " an additional time. Select the Square where you want to " +
-                        phaseAction + "\nor type E to end this phase ");
+                print(Colors.YELLOW_227 + "ADDITIONAL " + phaseAction.toUpperCase() + Colors.RESET + "\n");
+                print("You can " + phaseAction + " an additional time. Select the Square where you want to " +
+                        phaseAction + "\n or type E to end this phase ");
             }
             else{
                 if(forced){
-                    System.out.println(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET);
-                    System.out.print("Pls wait for the other players to make their move ");
+                    print(Colors.YELLOW_227 + "MOVE PHASE" + Colors.RESET + "\n");
+                    print("Pls wait for the other players to make their move ");
                     return;
                 }
-                System.out.println(Colors.YELLOW_227 + "ADDITIONAL " + phaseAction.toUpperCase() + Colors.RESET);
-                System.out.print("Pls wait for the other players to make their move ");
+                print(Colors.YELLOW_227 + "ADDITIONAL " + phaseAction.toUpperCase() + Colors.RESET + "\n");
+                print("Pls wait for the other players to make their move ");
             }
         }
 
         @Override
         public void execute(String s) {
             if(!activeScreen){
-                System.out.print("It is not your turn. Pls wait... ");
+                print("It is not your turn. Pls wait... ");
                 return;
             }
             if(s.toUpperCase().equals("E")){
@@ -349,7 +350,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     if(endPhaseAvailable()) endPhase();
                 }
                 catch (IllegalActionException e) {
-                    System.out.print(e.getMessage() + " ");
+                    print(e.getMessage() + " ");
                 }
             }
             try{
@@ -357,11 +358,11 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
-                System.out.print("This is an invalid input. Pls try again: ");
+                print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                print(e.getMessage() + ". Pls insert a valid input ");
             }
         }
     }
@@ -387,25 +388,25 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                     System.out.print(DrawElements.ESC + "25H");
                 }
                 if(fromSpecial){
-                    System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
-                    System.out.println("Select the Square where you want to build on: ");
-                    System.out.print("(or type R to undo the builder selection) ");
+                    print(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET + "\n");
+                    print("Select the Square where you want to build on: ");
+                    print("\n (or type R to undo the builder selection) ");
                     return;
                 }
-                System.out.println(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET);
-                System.out.print("Select the Square where you want to build on: ");
-                if(specialPowerAvailable()) System.out.print("\nOr press S to use your GOD power ");
+                print(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET + "\n");
+                print("Select the Square where you want to build on: ");
+                if(specialPowerAvailable()) print("\n Or press S to use your GOD power ");
             }
             else{
-                System.out.println(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET);
-                System.out.print("Pls wait for the other players to make their move ");
+                print(Colors.YELLOW_227 + "BUILD PHASE" + Colors.RESET + "\n");
+                print("Pls wait for the other players to make their move ");
             }
         }
 
         @Override
         public void execute(String s) {
             if(!activeScreen){
-                System.out.print("It is not your turn. Pls wait... ");
+                print("It is not your turn. Pls wait... ");
                 return;
             }
             try{
@@ -428,11 +429,11 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
-                System.out.print("This is an invalid input. Pls try again: ");
+                print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + ". Pls try again ");
+                print(e.getMessage() + ". Pls try again ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + ". Pls try again ");
+                print(e.getMessage() + ". Pls try again ");
             }
         }
     }
@@ -448,9 +449,9 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 DrawElements.drawSquare(getBoard().squareAt(coordinate), getCurrBuilders(), getPlayers(), true);
                 System.out.print(DrawElements.ESC + "25H");
             }
-            System.out.println(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET);
-            System.out.println("You can now build a Dome anywhere instead of a block. Choose a square");
-            System.out.print("(or type R to undo the god power activation) ");
+            print(Colors.YELLOW_227 + "GOD POWER ACTIVATED" + Colors.RESET + "\n");
+            print("You can now build a Dome anywhere instead of a block. Choose a square\n");
+            print("(or type R to undo the god power activation) ");
             return;
         }
         @Override
@@ -467,11 +468,11 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
                 selectSquare(selectedCoordinate);
             }
             catch(IllegalArgumentException e){
-                System.out.print("This is an invalid input. Pls try again: ");
+                print("This is an invalid input. Pls try again: ");
             } catch (IllegalValueException e) {
-                System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                print(e.getMessage() + ". Pls insert a valid input ");
             } catch (IllegalActionException e) {
-                System.out.print(e.getMessage() + ". Pls insert a valid input ");
+                print(e.getMessage() + ". Pls insert a valid input ");
             }
         }
     }
@@ -547,6 +548,11 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         DrawElements.saveCursor();
         DrawElements.writeGodInfo(getPlayers());
         DrawElements.restoreCursor();
+        System.out.print(" "); // Literally the space before the boundary
+    }
+
+    private void print(String s){
+        System.out.print(Colors.RESET + " " + s + Colors.GREEN_47);
     }
 
 

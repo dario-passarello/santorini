@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
-//TODO Block input responses while waiting for a match to be found (easy)
-
-
 public class CLIConnectionScreen extends ConnectionScreen implements InputProcessor {
 
     private InputExecutor expectedInput;
+    // private Thread connection; // The thread called when you start connecting to the server
+    private boolean connectionFailed = false;
+
 
     public CLIConnectionScreen(ViewManager view){
         super(view);
@@ -23,6 +23,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
     @Override
     public void onScreenOpen() {
+
 
         DrawElements.drawTitle(Colors.WHITE_231, Colors.BLUE_27);
         System.out.println("\n\n");
@@ -35,12 +36,11 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
     @Override
     public void onScreenClose() {
         System.out.print(Colors.RESET);
+       // connection.interrupt();
     }
 
 
-    private void print(String s){
-        System.out.print(s);
-    }
+
 
     @Override
     public void processInput(String input) {
@@ -84,7 +84,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
         @Override
         public void message(){
-            System.out.print(Colors.RESET + "Enter a username: " + Colors.GREEN_47);
+            print("Enter a username: ");
         }
         @Override
         public void execute(String s) {
@@ -94,7 +94,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
                 expectedInput.message();
             }
             catch(IllegalValueException exception){
-                System.out.print(Colors.RESET + exception.getMessage() + ": Please Enter a new one:   " + Colors.GREEN_47);
+                print(exception.getMessage() + ": Please Enter a new one:   ");
             }
         }
     }
@@ -105,7 +105,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
     class Ip implements  InputExecutor{
         @Override
         public void message(){
-            System.out.print(Colors.RESET + "Enter an IP Address: " + Colors.GREEN_47);
+            print("Enter an IP Address: ");
         }
 
         @Override
@@ -116,7 +116,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
                 expectedInput.message();
             }
             catch(IllegalValueException exception){
-                System.out.print(Colors.RESET + exception.getMessage() + ": Please Enter an IP Address:  " + Colors.GREEN_47);
+                print(exception.getMessage() + ": Please Enter an IP Address:  ");
             }
         }
     }
@@ -127,7 +127,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
     class Port implements InputExecutor{
         @Override
         public void message(){
-            System.out.print(Colors.RESET + "Enter a port number: " + Colors.GREEN_47);
+            print("Enter a port number: ");
         }
         @Override
         public void execute(String s) {
@@ -138,10 +138,10 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
             }
             catch(IllegalValueException exception){
-                System.out.print(Colors.RESET + exception.getMessage() + ": Please enter a valid input:  " + Colors.GREEN_47);
+                print(exception.getMessage() + ": Please enter a valid input:  ");
             }
             catch(NumberFormatException exception){
-                System.out.print(Colors.RESET + "The input is not as not a number. Pls enter a valid input:  " + Colors.GREEN_47);
+                print("The input is not as not a number. Pls enter a valid input:  ");
             }
 
         }
@@ -153,11 +153,11 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
     class NumberofPlayers implements InputExecutor{
         @Override
         public void message(){
-            System.out.print(Colors.RESET + "Enter the type of Lobby you want to Join: \n" +
+            print("Enter the type of Lobby you want to Join: \n" +
                     "      (2) - 2 Player Matches\n" +
-                    "      (3) - 3 Player Matches" + Colors.GREEN_47);
+                    "      (3) - 3 Player Matches");
             DrawElements.moveUp(2);
-            DrawElements.moveRight(14);
+            DrawElements.moveRight(15);
             DrawElements.out.flush();
         }
         @Override
@@ -169,16 +169,20 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
                     expectedInput = new Connecting();
                     expectedInput.message();
 
-                    connect();
-            }
-            catch(IllegalActionException exception){
-                System.out.print(exception.getMessage() + " ");
-            }
-            catch(IOException exception){
-                System.out.print("Connection Error. Pls try again or type REDO to start again:  ");
+                Thread connection = new Thread(() ->{
+                    try {
+                        connect();
+                    } catch (IllegalActionException exception) {
+                        print(exception.getMessage() + " ");
+                    } catch (IOException exception) {
+                        print("\n Connection Error. Type REDO to start again:  ");
+                        connectionFailed = true;
+                    }
+                });
+                connection.start();
             }
             catch(NumberFormatException exception){
-                System.out.print(Colors.RESET + "The input is not as not a number. Pls enter a valid input:  " + Colors.GREEN_47);
+                print("The input is not a number. Pls enter a valid input:  ");
             }
         }
     }
@@ -190,12 +194,24 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
 
         @Override
         public void message() {
-            System.out.print("\n TRYING TO FIND A GAME.   PLS WAIT....");
+            print(DrawElements.inputColor + "\n TRYING TO FIND A GAME.   PLS WAIT.... ");
         }
 
         @Override
         public void execute(String s) {
-
+            if(s.toUpperCase().equals("REDO") && connectionFailed) {        // If you type REDO restart the connection
+                System.out.println(DrawElements.FLUSH);
+                connectionFailed = false;
+                onScreenOpen();
+            }
+            else print(" TRYING TO FIND A GAME.   PLS WAIT.... ");
         }
     }
+
+
+
+    private void print(String s){
+        System.out.print(Colors.RESET + " " + s + DrawElements.inputColor);
+    }
+
 }

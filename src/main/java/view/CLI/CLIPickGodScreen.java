@@ -10,8 +10,6 @@ import java.util.List;
 
 public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
 
-    //TODO Find a way to know who selected the gods
-
     private InputExecutor expectedInput;
 
     private final String player1Color = Colors.BLUE_21;
@@ -85,6 +83,9 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
         }
     }
 
+    private void print(String s){
+        System.out.print(Colors.RESET + " " + s + DrawElements.inputColor);
+    }
 
     //      +-------------------+
     //      +   INNER CLASSES   +
@@ -101,10 +102,10 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
         @Override
         public void message(){
             if(activeScreen){
-                System.out.println("You can choose one of the following gods ");
+                print("You can choose one of the following gods ");
             }
             else{
-                System.out.println("One of the players is choosing his god. Pls wait... ");
+                print("One of the players is choosing his god. Pls wait... ");
             }
         }
 
@@ -117,18 +118,18 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
                     if(getGodsRemaining().contains(getAllGodToChoose().get(selected - 1)))
                         pickGod(getAllGodToChoose().get(selected-1));
                     else{
-                        System.out.print("This god has already been selected: Please enter another number ");
+                        print("This god has already been selected: Please enter another number ");
                     }
                 }
                 else{
-                    System.out.print("This number is not in the list: Please enter another number ");
+                    print("This number is not in the list: Please enter another number ");
                 }
             }
             catch(NumberFormatException exception){
-                System.out.print("This is not a number. Please enter a number: ");
+                print("This is not a number. Please enter a number: ");
             }
             catch(IllegalValueException exception){
-                System.out.print(exception.getMessage() + ". Pls try again ");
+                print(exception.getMessage() + ". Pls try again ");
             }
         }
     }

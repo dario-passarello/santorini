@@ -29,4 +29,13 @@ public class InputListener implements Runnable {
     public void setScreen(InputProcessor screen){
         this.currentScreen = screen;
     }
-}
+
+    /**
+     *
+     * @return
+     */
+    protected InputProcessor getScreen(){
+        return this.currentScreen;
+    }
+
+    }
