@@ -31,7 +31,9 @@ public class GameControllerTest {
     }
 
 
-
+    /**
+     * GOD SELECTION STATE
+     */
     @Nested
     class GodSelectionState{
 
@@ -77,18 +79,23 @@ public class GameControllerTest {
         }
 
         @Test
-        public void quitGameTest(){
+        public void disconnectPlayerTest(){
             GameState start = game.godSelectionState;
 
             List<Game.State> end = Arrays.asList(
-                    Game.State.END_GAME,
+                    Game.State.GOD_SELECTION,
                     Game.State.END_GAME
             );
 
-            GameControllerTest.this.quitGameTest(start, end);
+            GameControllerTest.this.disconnectPlayerTest(start, end);
         }
+
+
     }
 
+    /**
+     * GODPICK STATE
+     */
     @Nested
     class GodPickState{
 
@@ -136,19 +143,21 @@ public class GameControllerTest {
         }
 
         @Test
-        public void quitGameTest(){
+        public void disconnectPlayerTest(){
             GameState start = game.godPickState;
 
             List<Game.State> end = Arrays.asList(
-                    Game.State.END_GAME,
+                    Game.State.GOD_PICK,
                     Game.State.END_GAME
             );
 
-            GameControllerTest.this.quitGameTest(start, end);
+            GameControllerTest.this.disconnectPlayerTest(start, end);
         }
-
     }
 
+    /**
+     * PLACEBUILDER STATE
+     */
     @Nested
     class PlaceBuilderState{
 
@@ -194,19 +203,21 @@ public class GameControllerTest {
         }
 
         @Test
-        public void quitGameTest(){
+        public void disconnectPlayerTest(){
             GameState start = game.placeBuilderState;
 
             List<Game.State> end = Arrays.asList(
-                    Game.State.END_GAME,
+                    Game.State.PLACE_BUILDER,
                     Game.State.END_GAME
             );
 
-            GameControllerTest.this.quitGameTest(start, end);
+            GameControllerTest.this.disconnectPlayerTest(start, end);
         }
-
     }
 
+    /**
+     * TURNSTATE
+     */
     @Nested
     class TurnState{
 
@@ -252,19 +263,21 @@ public class GameControllerTest {
         }
 
         @Test
-        public void quitGameTest(){
+        public void disconnectPlayerTest(){
             GameState start = game.turnState;
 
             List<Game.State> end = Arrays.asList(
-                    Game.State.END_GAME,
-                    Game.State.TURN
+                    Game.State.TURN,
+                    Game.State.END_GAME
             );
 
-            GameControllerTest.this.quitGameTest(start, end);
+            GameControllerTest.this.disconnectPlayerTest(start, end);
         }
-
     }
 
+    /**
+     * EndGameState
+     */
     @Nested
     class EndGameState{
 
@@ -308,21 +321,14 @@ public class GameControllerTest {
 
             GameControllerTest.this.placeBuilderTest(start, end);
         }
-
-        @Test
-        public void quitGameTest(){
-            GameState start = game.endGameState;
-
-            List<Game.State> end = Arrays.asList(
-                    Game.State.END_GAME,
-                    Game.State.END_GAME
-            );
-
-            GameControllerTest.this.quitGameTest(start, end);
-        }
-
     }
 
+
+    /**
+     * This method tests when a list of god can be submitted
+     * @param start the starting state
+     * @param ending the list of possible transitions from start
+     */
     public void submitGodListTest(GameState start, List<Game.State> ending){
 
         //Create variables
@@ -357,11 +363,13 @@ public class GameControllerTest {
             //Check Wrong username caller
             gamecontroller.submitGodList(client2, correct);
             Assert.assertEquals(ending.get(3), game.getGameState().getStateIdentifier());
-
-
-
     }
 
+    /**
+     * This method tests when the player can pick his gods
+     * @param start the starting state
+     * @param ending the list of possible correct transitions fromstart
+     */
     public void pickGodTest(GameState start, List<Game.State> ending){
 
         //Create Variables
@@ -395,6 +403,11 @@ public class GameControllerTest {
                     ending.get(2), game.getGameState().getStateIdentifier());
     }
 
+    /**
+     * This method tests when the player can start placing his builders
+     * @param start The starting state
+     * @param ending The list of possible correct transitions from start
+     */
     public void placeBuilderTest(GameState start, List<Game.State> ending){
 
         //Create Variables
@@ -443,29 +456,22 @@ public class GameControllerTest {
                     ending.get(3), game.getGameState().getStateIdentifier());
     }
 
-    public void quitGameTest(GameState start, List<Game.State> ending){
-        String falseplayer = "Fake_Tester";
+    public void disconnectPlayerTest(GameState start, List<Game.State> ending){
+        String fakeplayer = "FakeTester";
+        RemoteView fakeClient = new RemoteView(null, controller, fakeplayer);
 
-        /* Setting */ game.setGameState(start, game.getFirstPlayer());
+        /* Setting */   game.setGameState(start, game.getFirstPlayer());
 
-        //Check when the method is called with a name name that is not in the game
-        gamecontroller.quitGame(new RemoteView(null, controller, falseplayer));
-        Assert.assertEquals(game.getStateIdentifier()+": Wrong handle: the illegal username is not handled correctly\n",
+            //Check calling the method from a player that should not exist
+            gamecontroller.disconnectPlayer(fakeClient);
+            Assert.assertEquals(game.getStateIdentifier() + ": Wrong handle: Problem when callig the method from a client that should not exists\n",
+                    ending.get(0), game.getGameState().getStateIdentifier());
+
+            gamecontroller.disconnectPlayer(client2);
+            Assert.assertEquals(game.getStateIdentifier() + ": Wrong handle: Problem when callig the method from a client that really exists\n",
                 ending.get(1), game.getGameState().getStateIdentifier());
 
-        /* Resetting */ game.setGameState(start, game.getFirstPlayer());
-
-            //Check when the method is called with a client that is in the game
-            gamecontroller.quitGame(client1);
-            Assert.assertEquals(game.getStateIdentifier()+": Calling the method with a client in game caused an error\n",
-                    ending.get(0), game.getGameState().getStateIdentifier());
-            if(start == game.turnState) { // Resetting the game after checking the method was called correctly
-                game = new Game(Arrays.asList("Tester1", "Tester2"), 2);
-                game.setGameState(game.turnState, game.getFirstPlayer());
-            }
-
-
-
+        /*Resetting */ game = new Game(Arrays.asList("Tester1", "Tester2"), 2);
     }
 
 

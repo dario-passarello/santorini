@@ -23,7 +23,7 @@ public class TurnController extends StateMachineController{
                     handleStateError(caller);
                 }
             }
-            catch(IllegalArgumentException exception){
+            catch(IllegalArgumentException | IndexOutOfBoundsException exception){
                 handleExceptionError(caller, exception);
             }
         }

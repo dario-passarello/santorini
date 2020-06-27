@@ -2,6 +2,7 @@ package model.buildbehaviors;
 
 import model.*;
 import model.buildbehaviours.BeneathBuild;
+import model.buildbehaviours.BuildBehavior;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
@@ -101,6 +102,12 @@ public class BeneathBuildTest {
 
 
 
+    }
+
+    @Test
+    public void copyTest(){
+        BuildBehavior copy = behavior.copyBehavior();
+        Assert.assertTrue(copy instanceof BeneathBuild);
     }
 
 

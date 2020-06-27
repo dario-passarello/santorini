@@ -1,6 +1,7 @@
 package model.buildbehaviors;
 
 import model.*;
+import model.buildbehaviours.BuildBehavior;
 import model.buildbehaviours.DoubleNotSameBuild;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
@@ -152,6 +153,12 @@ public class DoubleNotSameBuildTest {
         Assert.assertFalse(build2.isDomed());
         Assert.assertFalse(build3.isDomed());
 
+    }
+
+    @Test
+    public void copyTest(){
+        BuildBehavior copy = behavior1.copyBehavior();
+        Assert.assertTrue(copy instanceof DoubleNotSameBuild);
     }
 
     private static void setting(){

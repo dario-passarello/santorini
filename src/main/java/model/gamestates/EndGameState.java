@@ -25,7 +25,7 @@ public class EndGameState implements GameState {
     }
 
     public boolean quitGame(String playerName) {
-        return true;
+        return false;
     }
 
     public Game.State getStateIdentifier() {

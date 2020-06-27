@@ -125,6 +125,7 @@ public class DrawElements {
         selectCell(coordinate.getX() + 1, coordinate.getY() + 1);
         moveDown(1);
         moveRight(4);
+        out.flush();
         System.out.print(color + backGround + "♜");
         out.print(Colors.RESET);
         out.flush();

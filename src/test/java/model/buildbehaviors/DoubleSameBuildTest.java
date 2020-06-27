@@ -1,6 +1,7 @@
 package model.buildbehaviors;
 
 import model.*;
+import model.buildbehaviours.BuildBehavior;
 import model.buildbehaviours.DoubleSameBuild;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
@@ -32,6 +33,7 @@ public class DoubleSameBuildTest {
     private static Player player = new Player(game, "Tester");
     private static DoubleSameBuild behavior1 = new DoubleSameBuild(new StandardBuild());
     private static DoubleSameBuild behavior2 = new DoubleSameBuild(new StandardBuild());
+    private static DoubleSameBuild behavior3 = new DoubleSameBuild(new StandardBuild());
 
 
     @BeforeAll
@@ -88,37 +90,42 @@ public class DoubleSameBuildTest {
 
             int Expected1 = build1.getBuildLevel();
             int Expected2 = build2.getBuildLevel() + 1;
+            int Expected3 = build3.getBuildLevel() + 1;
 
             behavior1.build(build1);                                  // Call Build on a Lv3 square
             behavior2.build(build2);                                  // Call Build on a Lv2 square
+            behavior3.build(build3);
 
             int Actual1 = build1.getBuildLevel();
             int Actual2 = build2.getBuildLevel();
+            int Actual3 = build3.getBuildLevel();
 
             Assert.assertEquals(Expected1, Actual1);
             Assert.assertEquals(Expected2, Actual2);
+            Assert.assertEquals(Expected3, Actual3);
 
             Assert.assertTrue(build1.isDomed());
             Assert.assertFalse(build2.isDomed());
+            Assert.assertFalse(build3.isDomed());
         }
-
-
-
-
 
 
         @Order(3)
         @Test
         public void SecondNeighborhoodTest(){
 
-            Set<Square> Expected1 = new HashSet<>();
-            Set<Square> Expected2 = new HashSet<>(Arrays.asList(    board.squareAt(3, 0)));
+            Set<Square> Expected1 = new HashSet<>();                // Boundary case, square is domed
+            Set<Square> Expected2 = new HashSet<>();                // Boundary case, previous is a lv3 (can't build a dome on the second build)
+            Set<Square> Expected3 = new HashSet<>(Arrays.asList(
+                    board.squareAt(2, 2)));
 
             Set<Square> Actual1 = behavior1.neighborhood(test1.getSquare());
             Set<Square> Actual2 = behavior2.neighborhood(test3.getSquare());
+            Set<Square> Actual3 = behavior3.neighborhood(test3.getSquare());
 
             Assert.assertEquals("1", Expected1, Actual1);
             Assert.assertEquals("2", Expected2, Actual2);
+            Assert.assertEquals("3", Expected3, Actual3);
         }
 
         @Order(4)
@@ -135,6 +142,22 @@ public class DoubleSameBuildTest {
             Assert.assertTrue(build2.isDomed());
 
         }
+
+        @Order(5)
+        @Test
+        public void resetTest(){
+            behavior1.reset();
+            //TODO
+        }
+
+
+    @Test
+    public void copyTest(){
+        BuildBehavior copy = behavior1.copyBehavior();
+
+        Assert.assertTrue(copy instanceof DoubleSameBuild);
+    }
+
 
 
 
