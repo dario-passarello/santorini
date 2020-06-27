@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * It's a Build Behavior decorator that adds the possibility to build twice (the second build can't be on the same square)
+ */
 public class DoubleNotSameBuild extends BuildDecorator {
 
     // Contains the Square the player has built on the first time

@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * It's a Build Behavior decorator that adds the possibility to build twice (the second build must be on the same square)
+ */
 public class DoubleSameBuild extends BuildDecorator {
 
     // Keeps track of the order of the builds

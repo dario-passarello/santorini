@@ -5,6 +5,11 @@ import model.Square;
 
 import java.util.Set;
 
+/**
+ * It's a Move Behavior decorator that adds the following effect:
+ * if the builder move up, opponent builders would not be able to move up
+ * on their next turn (their move behaviors would be decorated with {@link NoUpMove}
+ */
 public class BlockUpMove extends MoveDecorator{
 
     public BlockUpMove(MoveBehavior moveBehavior){

@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * It's a Move Behavior decorator that adds the possibility to move into an opponent builder’s
+ * square by forcing their builder to the space yours just vacated.
+ */
 public class SwapWithOpponentMove extends MoveDecorator {
 
     public SwapWithOpponentMove(MoveBehavior moveBehavior){

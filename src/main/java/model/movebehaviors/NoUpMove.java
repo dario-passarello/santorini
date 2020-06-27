@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * It's a Move Behavior decorator that limits the neighborhood, impeding to move up
+ */
 public class NoUpMove extends MoveDecorator{
 
     public NoUpMove(MoveBehavior moveBehavior){

@@ -7,7 +7,12 @@ import model.Square;
 
 import java.util.Optional;
 
-//TODO
+
+/**
+ *  Contains the strategies for finding the winning conditions.
+ *  Created using the decorator pattern. {@link StandardWinCondition} is the standard win condition,
+ *  custom win conditions could decorate the Win Condition
+ */
 public interface WinCondition {
     /**
      * @param start is the initial position of the current builder (before move)

@@ -7,6 +7,9 @@ import model.Square;
 
 import java.util.Optional;
 
+/**
+ * It's a Win Condition decorator that not allows to win with a builder on a perimeter square
+ */
 public class NoPerimeterWinCondition extends WinConditionDecorator {
 
     public NoPerimeterWinCondition(WinCondition winCondition){
