@@ -6,6 +6,10 @@ import model.Square;
 import java.util.Set;
 
 
+/**
+ * It's a Move Behavior decorator that adds the possibility to move twice
+ * (the second move can't be to the initial square)
+ */
 public class DoubleNoBackMove extends MoveDecorator {
 
     Square previous;

@@ -6,8 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLongArray;
 
-//TODO
+/**
+ * It's the abstract Build Behavior decorator (all the concrete build decorator must extend this class)
+ */
 public abstract class BuildDecorator implements BuildBehavior {
+
     protected BuildBehavior wrappedBuildBehavior;
 
     public abstract Set<Square> neighborhood(Square src);

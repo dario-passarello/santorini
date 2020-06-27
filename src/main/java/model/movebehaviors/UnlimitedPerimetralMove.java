@@ -5,6 +5,10 @@ import model.Square;
 
 import java.util.Set;
 
+/**
+ * It's a Move Behavior decorator that, each time your builder moves into a perimeter square,
+ * adds the possibility to immediately move again
+ */
 public class UnlimitedPerimetralMove extends MoveDecorator {
 
     public UnlimitedPerimetralMove(MoveBehavior moveBehavior){

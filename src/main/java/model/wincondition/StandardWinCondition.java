@@ -7,7 +7,10 @@ import model.Square;
 
 import java.util.Optional;
 
-//TODO
+/**
+ * It's a Win Condition main component that allows a standard win condition
+ * (if one of your builder move up, reaching a building at level 3)
+ */
 public class StandardWinCondition implements WinCondition {
 
     public StandardWinCondition() {

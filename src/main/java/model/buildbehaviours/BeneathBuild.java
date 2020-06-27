@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * It's a Build Behavior decorator that adds to the neighborhood the square the builder is currently positioned on
+ */
 public class BeneathBuild extends BuildDecorator{
 
     public BeneathBuild(BuildBehavior buildBehavior){

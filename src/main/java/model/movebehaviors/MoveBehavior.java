@@ -2,12 +2,14 @@ package model.movebehaviors;
 
 import model.Builder;
 import model.Square;
+import model.buildbehaviours.StandardBuild;
 
 import java.util.Set;
 
-
 /**
- * A move behavior defines how a specific god can act during his move phase;
+ *  Contains the strategies for finding the reachable squares and for moving the builder.
+ *  Created using the decorator pattern. {@link StandardMove} is the standard move behavior,
+ *  custom move behaviors could decorate the Move Behavior
  */
 public interface MoveBehavior {
 
@@ -25,7 +27,13 @@ public interface MoveBehavior {
      */
     boolean move(Builder b, Square dest);
 
+    /**
+     *  Clones the entire wrapped behavior chain
+     */
     MoveBehavior copyBehavior();
 
+    /**
+     *  Resets all behavior chain internal states
+     */
     void reset();
 }

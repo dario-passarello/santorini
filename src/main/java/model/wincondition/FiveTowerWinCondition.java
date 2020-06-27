@@ -8,7 +8,9 @@ import model.gods.God;
 
 import java.util.Optional;
 
-//TODO
+/**
+ * It's a Win Condition decorator that allows to win when there are five complete towers (3 build level + dome) on the board
+ */
 public class FiveTowerWinCondition extends WinConditionDecorator {
 
     private God chronus;

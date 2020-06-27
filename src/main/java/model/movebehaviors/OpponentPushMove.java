@@ -11,6 +11,10 @@ import java.util.Optional;
 import java.util.Set;
 
 
+/**
+ * It's a Move Behavior decorator that adds the possibility to move into an opponent builder square
+ * (if the opponent builder can be forced one square straight backwards to an unoccupied square at any level)
+ */
 public class OpponentPushMove extends MoveDecorator {
 
     public OpponentPushMove(MoveBehavior moveBehavior) {

@@ -6,6 +6,9 @@ import model.Square;
 import java.util.Set;
 
 
+/**
+ *  It's the abstract Move Behavior decorator (all the concrete move decorator must extend this class)
+ */
 public abstract class MoveDecorator implements MoveBehavior {
 
     protected MoveBehavior wrappedMoveBehavior;

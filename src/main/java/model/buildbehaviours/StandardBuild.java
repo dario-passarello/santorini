@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * It's a Build Behavior main component that allows a standard build
+ */
 public class StandardBuild implements BuildBehavior {
 
     public boolean build(Square dest) {

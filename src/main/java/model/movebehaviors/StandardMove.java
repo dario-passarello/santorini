@@ -7,7 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-
+/**
+ * It's a Movec Behavior main component that allows a standard move
+ */
 public class StandardMove implements MoveBehavior {
 
     public StandardMove(){}
