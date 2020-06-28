@@ -6,6 +6,7 @@ import network.messages.toclient.StateErrorMessage;
 import utils.Coordinate;
 import view.RemoteView;
 
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public class GameController extends StateMachineController{
@@ -57,23 +58,17 @@ public class GameController extends StateMachineController{
     }
 
     public synchronized void disconnectPlayer(RemoteView caller){
-        game.unregisterAllTurnObservers(caller);
-        game.unregisterObserver(caller);
-        game.removePlayer(caller.getPlayerName(),true);
-    }
-
-    @Deprecated
-    public synchronized void quitGame(RemoteView caller) {
-        try {
-            boolean stateAllowed = game.quitGame(caller.getPlayerName());
-            if(!stateAllowed) {
-                handleStateError(caller);
-            }
+        try{
+            game.unregisterAllTurnObservers(caller);
+            game.unregisterObserver(caller);
+            game.removePlayer(caller.getPlayerName(),true);
         }
-        catch (IllegalArgumentException exception) {
+        catch (IllegalArgumentException | NoSuchElementException exception) {
             handleExceptionError(caller, exception);
         }
     }
+
+
 
     @Override
     protected void handleStateError(RemoteView remoteview){

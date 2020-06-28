@@ -53,8 +53,7 @@ public abstract class ConnectionScreen extends Screen {
             numberOfPlayers = parsed.get("numberOfPlayers").getAsInt();
             Client.logger.info("configuration.json loaded!");
         } catch (Exception e){
-            Client.logger.warning("Could not load configuration.json\n" + e.getClass().getName());
-            e.printStackTrace();
+            Client.logger.warning("Could not load configuration.json\n A new one will be generated" + e.getClass().getName());
         }
     }
 

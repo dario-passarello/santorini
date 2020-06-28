@@ -50,6 +50,7 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
      * This method draws the box that contains the gods, along with their description
      */
     private void MainScreen(){
+        System.out.print(Colors.RESET);
         String taken;
 
         // Print the list of gods to choose

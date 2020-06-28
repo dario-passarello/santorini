@@ -241,7 +241,7 @@ public class Game implements Observable<GameObserver>, GameModel {
     public void removePlayer(String playerName, boolean disconnected) {
         removePlayer(players.stream()
                 .filter(p -> p.getName().equals(playerName))
-                .findAny().orElseThrow(IllegalArgumentException::new),disconnected);
+                .findAny().orElseThrow(IllegalArgumentException::new), disconnected);
     }
 
     /**
@@ -266,7 +266,6 @@ public class Game implements Observable<GameObserver>, GameModel {
             } else {
                 if(getPlayersInGame().size() == 1) { //If Only two players remain
                     setWinner(getPlayersInGame().get(0));
-                    setGameState(endGameState, player);
                 }
                 else {
                     Turn turnToRemove = turnRotation.stream()

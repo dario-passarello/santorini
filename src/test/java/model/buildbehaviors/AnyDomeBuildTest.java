@@ -1,6 +1,7 @@
 package model.buildbehaviors;
 
 import model.*;
+import model.buildbehaviours.AnyDomeBuild;
 import model.buildbehaviours.BuildBehavior;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
@@ -11,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class StandardBuildTest {
+public class AnyDomeBuildTest {
 
     private static Game game;
 
@@ -32,7 +33,7 @@ public class StandardBuildTest {
     private static Square build3;
     private static Player player = new Player(game, "Tester1");
     private static Player player2 = new Player(game, "Tester2");
-    private static StandardBuild behavior = new StandardBuild();
+    private static AnyDomeBuild behavior = new AnyDomeBuild(new StandardBuild());
 
 
     @BeforeAll
@@ -103,7 +104,7 @@ public class StandardBuildTest {
     @Test
     public void copyTest(){
         BuildBehavior copy = behavior.copyBehavior();
-        Assert.assertTrue(copy instanceof StandardBuild);
+        Assert.assertTrue(copy instanceof AnyDomeBuild);
     }
 
 

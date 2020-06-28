@@ -17,9 +17,9 @@ public class Server implements Runnable {
     public final static Logger logger = Logger.getLogger(Server.class.getName());
 
     /**
-     * The default port value ({@value DEFAULT_SERVER_SOCKET_PORT})
+     * The default port value
      */
-    public static int DEFAULT_SERVER_SOCKET_PORT = 12345;
+    public static final int DEFAULT_SERVER_SOCKET_PORT = 12345;
 
     /**
      * Starts a Santorini Server listening on the default port ({@value DEFAULT_SERVER_SOCKET_PORT})

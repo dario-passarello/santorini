@@ -152,7 +152,7 @@ public class CLIConnectionScreen extends ConnectionScreen implements InputProces
      */
     class NumberofPlayers implements InputExecutor{
 
-        private Thread connection = null;
+        public transient Thread connection = null;
         @Override
         public void message(){
             print("Enter the type of Lobby you want to Join: \n" +

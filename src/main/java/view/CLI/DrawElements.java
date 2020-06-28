@@ -125,6 +125,7 @@ public class DrawElements {
         selectCell(coordinate.getX() + 1, coordinate.getY() + 1);
         moveDown(1);
         moveRight(4);
+        out.flush();
         System.out.print(color + backGround + "♜");
         out.print(Colors.RESET);
         out.flush();
@@ -578,8 +579,9 @@ public class DrawElements {
         selectCell(line, column);
         out.print(background);
         out.print(color);
-        System.out.print(" " + levelColor + levelToString + color + "▗▄▄▄▖  ");    moveDown(1); moveLeft(9);
-        System.out.print("  ▐███▌  ");    moveDown(1); moveLeft(9);
+        out.flush();
+        System.out.print(" " + levelColor + levelToString + color + "▗▄▄▄▖  ");    moveDown(1); moveLeft(9); out.flush();
+        System.out.print("  ▐███▌  ");    moveDown(1); moveLeft(9); out.flush();
         System.out.print("  ▝▀▀▀▘  ");
         out.print(Colors.RESET);
 

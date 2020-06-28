@@ -21,7 +21,6 @@ public abstract class StateMachineController {
         //controller.sendMessage(remoteview, new ExceptionMessage(exception));
         Server.logger.warning(exception.getClass().getName() + "IN STATE MACHINE\n" +
                 "PLAYER :" + remoteview.getPlayerName() + "\n" + exception.getMessage());
-        exception.printStackTrace();
 
     }
 }

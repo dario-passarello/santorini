@@ -1,6 +1,7 @@
 package model.buildbehaviors;
 
 import model.*;
+import model.buildbehaviours.BuildBehavior;
 import model.buildbehaviours.DoubleNoPerimeterBuild;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
@@ -143,6 +144,20 @@ public class DoubleNotPerimetralBuildTest {
         Assert.assertFalse(build3.isDomed());
 
     }
+
+    @Order(5)
+    @Test
+    public void resetTest(){
+        behavior1.reset();
+        //TODO
+    }
+
+    @Test
+    public void copyTest(){
+        BuildBehavior copy = behavior1.copyBehavior();
+        Assert.assertTrue(copy instanceof DoubleNoPerimeterBuild);
+    }
+
 
     private static void setting(){
 

@@ -7,6 +7,9 @@ import view.screens.Screen;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class AvailableGodsMessage implements Message<Screen> {
     private final List<God> availableGods;
 

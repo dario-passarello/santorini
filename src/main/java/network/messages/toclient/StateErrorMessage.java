@@ -4,16 +4,16 @@ import model.StateIdentifier;
 import network.messages.Message;
 import view.screens.Screen;
 
+/**
+ * A message sent to the client when a controller call is legit, but made in the wrong model state
+ * @param <T> The state identfier
+ */
 public class StateErrorMessage<T extends StateIdentifier> implements Message<Screen> {
 
-    private final T currentState;
-
     public StateErrorMessage(T currentState) {
-        this.currentState = currentState;
     }
 
     @Override
     public void execute(Screen target) {
-        //TODO
     }
 }
