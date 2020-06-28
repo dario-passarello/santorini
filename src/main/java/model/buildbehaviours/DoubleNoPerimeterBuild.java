@@ -15,6 +15,10 @@ public class DoubleNoPerimeterBuild extends BuildDecorator {
     // Keeps track of the order of the builds
     private boolean second;
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param buildBehavior The Build Behavior target
+     */
     public DoubleNoPerimeterBuild(BuildBehavior buildBehavior) {
         this.wrappedBuildBehavior = buildBehavior;
         this.second = false;

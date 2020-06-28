@@ -11,7 +11,7 @@ import java.util.Set;
 public interface GameState {
 
     /**
-     * This methods creates the instanced of all the gods selected and sends the update to all the clients
+     * This methods creates the instances of all the gods selected and sends the update to all the clients
      * @param godNamesList The names of the gods selected by the player
      * @return True if this method is called from the correct state. False otherwise
      * @throws IllegalArgumentException when the list does not have the correct structure

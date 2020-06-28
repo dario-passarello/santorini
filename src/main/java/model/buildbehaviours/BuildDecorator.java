@@ -11,6 +11,9 @@ import java.util.concurrent.atomic.AtomicLongArray;
  */
 public abstract class BuildDecorator implements BuildBehavior {
 
+    /**
+     * The wrapped Build Behavior
+     */
     protected BuildBehavior wrappedBuildBehavior;
 
     public abstract Set<Square> neighborhood(Square src);

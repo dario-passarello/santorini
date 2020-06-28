@@ -11,6 +11,10 @@ import java.util.Set;
  */
 public class AnyDomeBuild extends BuildDecorator {
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param buildBehavior The Build Behavior target
+     */
     public AnyDomeBuild(BuildBehavior buildBehavior){
         this.wrappedBuildBehavior = buildBehavior;
     }

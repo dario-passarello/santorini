@@ -28,6 +28,7 @@ public interface BuildBehavior {
 
     /**
      *  Clones the entire wrapped behavior chain
+     * @return A copy of @this
      */
     BuildBehavior copyBehavior();
 

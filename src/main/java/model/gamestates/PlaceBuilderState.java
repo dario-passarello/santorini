@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * This class represents the moment where the players can place their builder on the board
+ * This class represents the moment where the players can place their builders on the board
  */
 public class PlaceBuilderState implements GameState {
     private final Game game;

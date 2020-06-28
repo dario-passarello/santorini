@@ -15,6 +15,10 @@ public class DoubleSameBuild extends BuildDecorator {
     // Keeps track of the order of the builds
     private Square previous;
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param buildBehavior The Build Behavior target
+     */
     public DoubleSameBuild(BuildBehavior buildBehavior){
         this.wrappedBuildBehavior = buildBehavior;
         previous = null;

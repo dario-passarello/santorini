@@ -15,6 +15,10 @@ public class DoubleNotSameBuild extends BuildDecorator {
     // Null - if this is the first ordinary build of the turn
     private Square previous;
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param buildBehavior The Build Behavior target
+     */
     public DoubleNotSameBuild(BuildBehavior buildBehavior){
         this.wrappedBuildBehavior = buildBehavior;
         this.previous = null;

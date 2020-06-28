@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * It's a Build Behavior main component that allows a standard build
+ * It's the Build Behavior main component that allows a standard build
  */
 public class StandardBuild implements BuildBehavior {
 

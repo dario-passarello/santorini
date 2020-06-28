@@ -11,6 +11,10 @@ import java.util.Set;
  */
 public class BeneathBuild extends BuildDecorator{
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param buildBehavior The Build Behavior target
+     */
     public BeneathBuild(BuildBehavior buildBehavior){
         this.wrappedBuildBehavior = buildBehavior;
     }

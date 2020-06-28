@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class DrawElements {
 
-    public static PrintWriter out = new PrintWriter(System.out, true);
+    protected static PrintWriter out = new PrintWriter(System.out, true);
 
     protected static final String inputColor = Colors.GREEN_47;
     private static final String firstBackgroundColor = Colors.GREENBG_83;
@@ -502,7 +502,7 @@ public class DrawElements {
 
     /**
      * This method moves the cursor to the left by a number of column equals to the parameter
-     * @param columns
+     * @param columns The number of columns
      */
     public static void moveLeft(int columns){
         out.print(ESC + Integer.toString(columns) + "D");
