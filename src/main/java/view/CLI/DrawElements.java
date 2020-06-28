@@ -579,8 +579,9 @@ public class DrawElements {
         selectCell(line, column);
         out.print(background);
         out.print(color);
-        System.out.print(" " + levelColor + levelToString + color + "▗▄▄▄▖  ");    moveDown(1); moveLeft(9);
-        System.out.print("  ▐███▌  ");    moveDown(1); moveLeft(9);
+        out.flush();
+        System.out.print(" " + levelColor + levelToString + color + "▗▄▄▄▖  ");    moveDown(1); moveLeft(9); out.flush();
+        System.out.print("  ▐███▌  ");    moveDown(1); moveLeft(9); out.flush();
         System.out.print("  ▝▀▀▀▘  ");
         out.print(Colors.RESET);
 

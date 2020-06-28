@@ -212,7 +212,6 @@ public class Game implements Observable<GameObserver>, GameModel {
             } else {
                 if(getPlayersInGame().size() == 1) { //If Only two players remain
                     setWinner(getPlayersInGame().get(0));
-                    setGameState(endGameState, player);
                 }
                 else {
                     Turn turnToRemove = turnRotation.stream()
