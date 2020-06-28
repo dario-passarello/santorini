@@ -10,8 +10,14 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 
+/**
+ * A match at the game "Santorini" between two or three {@link Player}
+ */
 public class Game implements Observable<GameObserver>, GameModel {
 
+    /**
+     * an identifier for the game phase
+     */
     public enum State implements StateIdentifier{
         GOD_SELECTION,
         GOD_PICK,
@@ -33,13 +39,38 @@ public class Game implements Observable<GameObserver>, GameModel {
 
     private final List<GameObserver> observers;
 
+    /**
+     * god selection state reference of the Game FSM
+     */
     public final GameState godSelectionState = new GodSelectionState(this);
+
+    /**
+     * god pick state reference of the Game FSM
+     */
     public final GameState godPickState = new GodPickState(this);
+
+    /**
+     * place builder state reference of the Game FSM
+     */
     public final GameState placeBuilderState = new PlaceBuilderState(this);
+
+    /**
+     * turn state reference of the Game FSM
+     */
     public final GameState turnState = new TurnState(this);
+
+    /**
+     * end game state reference of the Game FSM
+     */
     public final GameState endGameState = new EndGameState(this);
 
+    /**
+     * minimun number of player per Game
+     */
     public static final int MIN_PLAYERS = 2;
+    /**
+     * maximum number of player per Game
+     */
     public static final int MAX_PLAYERS = 3;
 
     /**
@@ -65,6 +96,9 @@ public class Game implements Observable<GameObserver>, GameModel {
 
     }
 
+    /**
+     * start a Game
+     */
     public void start(){
         this.setGameState(this.godSelectionState, getFirstPlayer());
     }
@@ -131,16 +165,25 @@ public class Game implements Observable<GameObserver>, GameModel {
         return currentTurn;
     }
 
+    /**
+     * @return the list of players that are still playing
+     */
     public List<Player> getPlayersInGame() {
         return players.stream().filter(p -> p.getStatus().isActive()).collect(Collectors.toList());
     }
 
+    /**
+     * @return the list of builders currently on the Board
+     */
     public List<Builder> getAllBuilders() {
         List<Builder> builderList = new ArrayList<>();
         getPlayersInGame().forEach(p -> builderList.addAll(p.getBuilders()));
         return builderList;
     }
 
+    /**
+     * @return the list of player shifted by one
+     */
     public List<Player> getPlayersTurnOrder() {
         ArrayList<Player> p = new ArrayList<>();
         turnRotation.forEach(t -> p.add(t.getCurrentPlayer()));
@@ -167,6 +210,9 @@ public class Game implements Observable<GameObserver>, GameModel {
         notifyObservers(g -> g.receiveGameState(currentGameState.getStateIdentifier(), new Player(activePlayer)));
     }
 
+    /**
+     * @param winner the player that have won the Game
+     */
     public void setWinner(Player winner) {
         this.winner = winner;
         winner.setStatus(Outcome.WINNER);
@@ -188,12 +234,20 @@ public class Game implements Observable<GameObserver>, GameModel {
         currentTurn.newTurn(); //initializes the new turn
     }
 
+    /**
+     * @param playerName the name of a player in the Game
+     * @param disconnected indicates if playerName is disconnected
+     */
     public void removePlayer(String playerName, boolean disconnected) {
         removePlayer(players.stream()
                 .filter(p -> p.getName().equals(playerName))
                 .findAny().orElseThrow(IllegalArgumentException::new),disconnected);
     }
 
+    /**
+     * @param player a player in the Game
+     * @param disconnected indicates if player is disconnected
+     */
     public void removePlayer(Player player, boolean disconnected) {
         if(!players.contains(player)) {
             throw new NoSuchElementException(ErrorMessage.PLAYER_NOT_FOUND);

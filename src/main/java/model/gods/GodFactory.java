@@ -4,11 +4,18 @@ import model.ErrorMessage;
 
 import java.util.Optional;
 
+/**
+ * a factory for {@link God} (factory pattern)
+ */
 public class GodFactory {
     public GodFactory() {
 
     }
 
+    /**
+     * @param name the name of a God
+     * @return an instance of the God with that name
+     */
     public God getGod(String name) {
         switch (name){
             case "Apollo":

@@ -1,6 +1,9 @@
 
 package model;
 
+/**
+ * contains specific error messages that can be thrown
+ */
 public class ErrorMessage {
     public static final String COORDINATE_NOT_VALID = "Coordinate outside of the board";
     public static final String WRONG_BUILD_OWNER = "Current players does not control the builder";

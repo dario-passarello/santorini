@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * a 5x5 board where most of the {@link Game} takes place
+ */
 public class Board implements Serializable {
     /**
      * Number of Squares per side of the board
@@ -16,11 +19,15 @@ public class Board implements Serializable {
     private transient Game game;
     private Square[][] matrix;
 
+    /**
+     * Board constructor (without a Game attribute)
+     */
     public Board() {
         buildBoard();
     }
+
     /**
-     *  Initializes an empty 5x5 board creating all Squares
+     *  Board constructor (with a Game attribute)
      */
     public Board(Game game) {
         this.game = game;
@@ -41,6 +48,9 @@ public class Board implements Serializable {
         }
     }
 
+    /**
+     * Initializes an empty 5x5 board creating all Squares
+     */
     private void buildBoard() {
         this.matrix = new Square[BOARD_SIZE][BOARD_SIZE];
         for(int x = 0; x < BOARD_SIZE; x++) {
@@ -58,6 +68,7 @@ public class Board implements Serializable {
     public Square squareAt(int row, int col) {
         return matrix[row][col];
     }
+
     /**
      * @param coord The coordinate object representing the coordinates of
      *              the requested Square object
@@ -66,7 +77,6 @@ public class Board implements Serializable {
     public Square squareAt(Coordinate coord) {
         return matrix[coord.getX()][coord.getY()];
     }
-
 
     /**
      * @return squares in the board that aren't occupied by a builder
@@ -78,6 +88,9 @@ public class Board implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @return the list of Coordinates without an occupant
+     */
     public List<Coordinate> getFreeCoordinates() {
         return IntStream.range(0,BOARD_SIZE*BOARD_SIZE)
                 .mapToObj(i -> matrix[i / BOARD_SIZE][i % BOARD_SIZE])

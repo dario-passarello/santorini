@@ -8,12 +8,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * a pawn of a {@link Player}
+ */
 public class Builder implements Serializable {
 
     private Square square;
     private final Player owner;
     private int id;
 
+    /**
+     * Builder constructor
+     */
     public Builder(Square square, Player owner, int id) {
         this.square = square;
         square.setOccupant(this);
@@ -21,6 +27,9 @@ public class Builder implements Serializable {
         this.id = id;
     }
 
+    /**
+     * @param builder the Build that would be copied
+     */
     public Builder(Builder builder) {
         this(new Square(builder.square), builder.getOwner(), builder.id);
     }
@@ -32,6 +41,9 @@ public class Builder implements Serializable {
         return square; //TODO
     }
 
+    /**
+     * @param square the Square that the Builder occupy
+     */
     public void setSquare(Square square) {
         this.square = square;
     }
@@ -44,6 +56,9 @@ public class Builder implements Serializable {
         return owner;
     }
 
+    /**
+     * @return id attribute
+     */
     public int getId() {
         return id;
     }
@@ -61,6 +76,11 @@ public class Builder implements Serializable {
         return playerGod.getWalkableNeighborhood(square);
     }
 
+    /**
+     * @return a list containing the references to the coordinates where
+     *      the builder from his position could be move according to the game rules
+     *      and the controlling player's God powers
+     */
     public List<Coordinate> getWalkableCoordinates() {
         return getWalkableNeighborhood().stream()
                 .map(Square::getCoordinate)
@@ -80,6 +100,11 @@ public class Builder implements Serializable {
         return playerGod.getBuildableNeighborhood(square);
     }
 
+    /**
+     * @return a list containing the references to the coordinates where
+     *      the builder could build from his position according to the game rules
+     *      and the controlling player's God powers
+     */
     public List<Coordinate> getBuildableCoordinates() {
         return getBuildableNeighborhood().stream()
                 .map(Square::getCoordinate)
@@ -117,11 +142,16 @@ public class Builder implements Serializable {
         return playerGod.build(this,sq);
     }
 
-    public boolean buildDome(Square sq) {
+    /**
+     * @param sq the Square where the Builder want to build a dome
+     */
+    public void buildDome(Square sq) {
         sq.addDome();
-        return false;
     }
 
+    /**
+     * removes the Builder from the Board
+     */
     public void removeBuilder() {
         this.square.setEmptySquare();
         this.square = null;

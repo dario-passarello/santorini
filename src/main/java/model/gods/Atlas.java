@@ -4,14 +4,18 @@ import model.Player;
 import model.buildbehaviours.AnyDomeBuild;
 import model.buildbehaviours.StandardBuild;
 import model.movebehaviors.StandardMove;
+import model.movebehaviors.SwapWithOpponentMove;
 import model.wincondition.StandardWinCondition;
 
 /**
- * Allows the player to build a dome at any level
+ * A {@link God} that has a {@link AnyDomeBuild} behavior
  */
 public class Atlas extends God {
 
 
+    /**
+     * Creates an Atlas' instance
+     */
     public Atlas(){
         super("Atlas",
                 new StandardWinCondition(),
@@ -20,7 +24,6 @@ public class Atlas extends God {
                 false,
                 true);
     }
-
 
     @Override
     public boolean hasSpecialBuildPower() {

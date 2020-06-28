@@ -28,6 +28,9 @@ public class God implements Serializable {
     protected final boolean specialStartPower;
     protected final boolean specialBuildPower;
 
+    /**
+     * God constructor
+     */
     public God(String name, WinCondition winCondition, MoveBehavior moveBehavior, BuildBehavior buildBehavior, boolean specialStartPower, boolean specialBuildPower) {
         this.name = name;
         setWinCondition(winCondition);
@@ -37,6 +40,9 @@ public class God implements Serializable {
         this.specialStartPower = specialStartPower;
     }
 
+    /**
+     * @param god is a God we want to copy
+     */
     public God(God god) {
         this.name = god.name;
         this.specialBuildPower = god.specialBuildPower;
@@ -87,18 +93,30 @@ public class God implements Serializable {
         resetMoveBehavior = moveBehavior.copyBehavior();
     }
 
+    /**
+     * @return player attribute
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * @return name attribute
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return winCondition attribute
+     */
     public WinCondition getWinCondition() {
         return winCondition;
     }
 
+    /**
+     * @return moveBehavior attribute
+     */
     public MoveBehavior getMoveBehavior() {
         return moveBehavior;
     }
@@ -107,10 +125,16 @@ public class God implements Serializable {
         return buildBehavior;
     }
 
+    /**
+     * @return true if this God has a special start power
+     */
     public boolean hasSpecialStartPower() {
         return specialStartPower;
     }
 
+    /**
+     * @return true if this God has a special build power
+     */
     public boolean hasSpecialBuildPower() {
         return specialBuildPower;
     }
@@ -159,10 +183,15 @@ public class God implements Serializable {
         return buildBehavior.build(location);
     }
 
+    /**
+     * @param targets a list of gods whose move behaviors have to be changed
+     */
     public void setAllMoveBehaviors(List<God> targets) {
-
     }
 
+    /**
+     * @param targets a list of gods whose win conditions have to be changed
+     */
     public void configureAllOtherWinConditions(List<God> targets) {
         //Standard method does nothing
     }
@@ -178,6 +207,10 @@ public class God implements Serializable {
         buildBehavior.reset();
     }
 
+    /**
+     * @param o is an object
+     * @return true if o is equal to this instance of God
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

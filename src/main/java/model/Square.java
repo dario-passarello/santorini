@@ -108,13 +108,16 @@ public class Square implements Serializable {
         return buildLevel;
     }
 
+    /**
+     * @param b the Board where would be copied the square
+     * @return the copied square
+     */
     public Square copySquareStatus(Board b){
         Square sq = new Square(b, this.coordinate);
         sq.buildLevel = this.buildLevel;
         sq.domed = this.domed;
         return sq;
     }
-
 
     /**
      * @return true if a dome is built in the Square
@@ -135,6 +138,9 @@ public class Square implements Serializable {
         return !domed && buildLevel <= MAX_HEIGHT;
     }
 
+    /**
+     * @return true if the square is perimetral on the Board
+     */
     public boolean isPerimetral() {
         int x = coordinate.getX();
         int y = coordinate.getY();
@@ -142,6 +148,11 @@ public class Square implements Serializable {
     }
 
 
+    /**
+     * Two squares are equals if and only if their coordinates are equal,
+     * @param o The other object to compare
+     * @return true if two squares are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

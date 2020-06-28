@@ -8,8 +8,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * participant in a {@link Game}
+ */
 public class Player implements Serializable {
 
+    /**
+     * Number of builders per player
+     */
     public static final int BUILDERS_PER_PLAYER = 2;
 
     private transient final Game game;
@@ -18,6 +24,11 @@ public class Player implements Serializable {
     private transient final List<Builder> builders;
     private Outcome status;
 
+    /**
+     * Player constructor
+     * @param game the game that the new player instance will play
+     * @param name the player name
+     */
     public Player(Game game, String name) {
         this.game = game;
         this.name = name;
@@ -25,6 +36,11 @@ public class Player implements Serializable {
         this.builders = new ArrayList<>();
     }
 
+    /**
+     * Player constructor
+     * @param player a player from which the new player instance would copy
+     *        the name, builder, god and status attributes
+     */
     public Player(Player player) {
         this.game = null;
         this.builders = player.builders.stream().map(Builder::new).collect(Collectors.toList());
@@ -53,6 +69,9 @@ public class Player implements Serializable {
         return b;
     }
 
+    /**
+     * @param status the outcome of the player
+     */
     public void setStatus(Outcome status) {
         this.status = status;
         //if(!status.isActive()){
@@ -66,21 +85,38 @@ public class Player implements Serializable {
     public God getGod(){
         return god;
     }
+
+    /**
+     * @return game attribute
+     */
     public Game getGame() {
         return game;
     }
+
+    /**
+     * @return name attribute
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return true if the player can't move during his move phase
+     */
     public boolean checkMovingLoseCondition() {
         return builders.stream().allMatch(builder -> builder.getWalkableNeighborhood().isEmpty());
     }
 
+    /**
+     * @return true if the player can't build during his build phase
+     */
     public boolean checkBuildingLoseCondition() {
         return builders.stream().allMatch(builder -> builder.getBuildableNeighborhood().isEmpty());
     }
 
+    /**
+     * @return status attribute
+     */
     public Outcome getStatus() {
         return status;
     }

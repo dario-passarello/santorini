@@ -3,14 +3,21 @@ package model.gods;
 import model.Player;
 import model.buildbehaviours.StandardBuild;
 import model.movebehaviors.StandardMove;
+import model.movebehaviors.SwapWithOpponentMove;
 import model.wincondition.NoPerimeterWinCondition;
 import model.wincondition.StandardWinCondition;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A {@link God} that impose a {@link NoPerimeterWinCondition} behavior to other gods
+ */
 public class Hera extends God {
 
+    /**
+     * Creates a Hera's instance
+     */
     public Hera(){
         super("Hera",
                 new StandardWinCondition(),
