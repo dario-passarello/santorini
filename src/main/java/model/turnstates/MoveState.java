@@ -71,6 +71,9 @@ public class MoveState implements TurnState {
                 turn.notifyObservers(obs -> {
                     obs.receiveBuildersPositions(game.getAllBuilders());
                     obs.receiveAllowedSquares(builder, builder.getBuildableCoordinates(), false);
+                    if(playerGod.hasSpecialBuildPower()) {
+                        obs.receiveAllowedSquares(builder, builder.getBuildableCoordinates(), true);
+                    }
                     obs.receiveUpdateDone();
                 });
             }
