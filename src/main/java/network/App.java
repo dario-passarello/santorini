@@ -6,6 +6,10 @@ package network;
  */
 public class App {
 
+    /**
+     * Main method for the app
+     * @param args Command line arguments array
+     */
     public static void main(String[] args) {
         if(args.length == 0) {
             Client.startClient(true);

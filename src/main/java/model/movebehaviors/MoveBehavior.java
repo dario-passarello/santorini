@@ -28,7 +28,8 @@ public interface MoveBehavior {
     boolean move(Builder b, Square dest);
 
     /**
-     *  Clones the entire wrapped behavior chain
+     * Clones the entire wrapped behavior chain
+     * @return A cloned MoveBehavior object, identical to this
      */
     MoveBehavior copyBehavior();
 

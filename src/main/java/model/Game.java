@@ -191,7 +191,7 @@ public class Game implements Observable<GameObserver>, GameModel {
     public void removePlayer(String playerName, boolean disconnected) {
         removePlayer(players.stream()
                 .filter(p -> p.getName().equals(playerName))
-                .findAny().orElseThrow(IllegalArgumentException::new),disconnected);
+                .findAny().orElseThrow(IllegalArgumentException::new), disconnected);
     }
 
     public void removePlayer(Player player, boolean disconnected) {

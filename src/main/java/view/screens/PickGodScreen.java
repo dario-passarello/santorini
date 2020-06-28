@@ -70,7 +70,7 @@ public abstract class PickGodScreen extends Screen{
      * identifier of the picked God
      * @param godName the identifier of the god picked from the player
      * @throws ActivityNotAllowedException If it's up to this player to pick the god in this turn
-     * @throws IllegalValueException If the  {@param godName} is not an identifier of a god available for being picked
+     * @throws IllegalValueException If the  godName is not an identifier of a god available for being picked
      *          from the player*/
     protected synchronized void pickGod(String godName) throws IllegalValueException {
         if(!activeScreen){
