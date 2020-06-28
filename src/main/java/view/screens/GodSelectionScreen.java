@@ -10,6 +10,11 @@ import view.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This screen should display all the choosable gods of the game
+ * The first player can select two or three gods (according to the number of players)
+ * then he can submit the choices and move the game to the {@link PickGodScreen}
+ */
 public abstract class GodSelectionScreen extends Screen {
 
     private final Set<String> chosenGods;

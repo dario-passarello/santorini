@@ -5,6 +5,11 @@ import view.GUI.GUI;
 import view.GUI.GUIController;
 import view.ViewManager;
 
+/**
+ * In this screen is displayed a connection error message
+ * <p>From this screen it's possible to:</p>
+ * <p>- Return to {@link MenuScreen}</p>
+ */
 public abstract class ConnectionErrorScreen extends Screen implements  GUIController {
 
     public ConnectionErrorScreen(ViewManager view) {

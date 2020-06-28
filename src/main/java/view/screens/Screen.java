@@ -9,28 +9,50 @@ import view.ViewManager;
 
 import java.util.List;
 
+/**
+ * a generic screen of the view (every screen of the view must extend this class)
+ */
 public abstract class Screen implements View, MessageTarget {
 
     protected transient final ViewManager view;
     protected transient boolean activeScreen;
 
+    /**
+     * Screen constructor
+     * @param view the view manager used
+     */
     public Screen(ViewManager view){
         this.view = view;
         this.activeScreen = true;
     }
 
+    /**
+     * @return view attribute
+     */
     public ViewManager getView() {
         return view;
     }
 
+    /**
+     * this method will be called at the opening of a screen
+     */
     public abstract void onScreenOpen();
 
+    /**
+     * this method will be called at the end of a screen
+     */
     public abstract void onScreenClose();
 
+    /**
+     * @return the name associated to the view attribute
+     */
     public final String getThisPlayerName() {
         return view.getThisPlayerName();
     }
 
+    /**
+     * @return the number of player associated to the view attribute
+     */
     public final int getNumberOfPlayers() {
         return view.getNumberOfPlayers();
     }
@@ -39,6 +61,9 @@ public abstract class Screen implements View, MessageTarget {
         return view.getPlayersNames();
     }
 
+    /**
+     * @return true if this is the "active screen" (the screen that can actively change on the game)
+     */
     public final boolean isActiveScreen(){
         return activeScreen;
     }

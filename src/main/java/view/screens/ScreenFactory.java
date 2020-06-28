@@ -1,14 +1,18 @@
 package view.screens;
 
 import model.Player;
+import model.gods.God;
 import utils.Coordinate;
 
 import java.util.List;
 
+/**
+ * a factory for {@link Screen} (factory pattern)
+ */
 public interface ScreenFactory {
     /**
      *  This method is always called when the run() method of the ViewManager is called
-     * @param firstScreen
+     * @param firstScreen is the first screen that has to be shown
      */
     void initialize(Screen firstScreen);
 

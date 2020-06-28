@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * In this screen all god chosen in the GodSelectionPhase should be displayed.
  * Every player, in the inverse rotation, will pick the god. Once a god is picked from one
  * player, the other players could not pick that god. The last player should not pick a god
- * because he will get the last god remaining.
+ * because he will get the last god remaining
  */
 public abstract class PickGodScreen extends Screen{
 
@@ -25,6 +25,12 @@ public abstract class PickGodScreen extends Screen{
 
     private Game.State nextState;
 
+    /**
+     * PickGodScreen constructor
+     * @param view the view manager used
+     * @param firstActivePlayer the first player of the game
+     * @param availableGods a list with the name of available gods
+     */
     public PickGodScreen(ViewManager view, String firstActivePlayer, List<String> availableGods) {
         super(view);
         godsToChoose = new ArrayList<>(availableGods);
@@ -37,8 +43,7 @@ public abstract class PickGodScreen extends Screen{
     //Getters
 
     /**
-     *
-     * @return
+     * @return nextState attribute
      */
     protected synchronized final Game.State getNextState() {
         return this.nextState;

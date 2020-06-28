@@ -16,6 +16,9 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * manages the logic behind the board screen in the view
+ */
 public abstract class BoardScreen extends Screen {
 
     private String activePlayer;

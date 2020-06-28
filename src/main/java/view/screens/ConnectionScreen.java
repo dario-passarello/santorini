@@ -14,9 +14,20 @@ import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This screen asks to the user to insert an IP, a port, a nickname and the number of players.
+ * If inputs are valid, the active screen will be changed to {@link GodSelectionScreen}
+ */
 public abstract class ConnectionScreen extends Screen {
 
+    /**
+     * Maximum length for the username
+     */
     public static final int MAX_USERNAME_LENGTH = 30;
+
+    /**
+     * Minimum length for the username
+     */
     public static final int MIN_USERNAME_LENGTH = 3;
     private static final String CONF_ADDRESS = "configuration.json";
 
@@ -33,6 +44,10 @@ public abstract class ConnectionScreen extends Screen {
         super(null);
     }
 
+    /**
+     * ConnectionScreen constructor
+     * @param view the view manager used
+     */
     public ConnectionScreen(ViewManager view) {
         super(view);
         ip = "";
@@ -69,23 +84,38 @@ public abstract class ConnectionScreen extends Screen {
         }
     }
 
+    /**
+     * @return true if the user has entered valid inputs
+     */
     //Getter
     public final boolean readyToConnect(){
         return port > 0 && port < 65535 && username != null && (numberOfPlayers == 2 || numberOfPlayers == 3);
     }
 
+    /**
+     * @return ip attribute
+     */
     protected final String getFieldIp() {
         return ip;
     }
 
+    /**
+     * @return username attribute
+     */
     protected String getFieldUsername() {
         return username;
     }
 
+    /**
+     * @return port attribute
+     */
     protected int getFieldPort() {
         return port;
     }
 
+    /**
+     * @return numberOfPlayers attribute
+     */
     protected int getFieldNumberOfPlayers() {
         return numberOfPlayers;
     }
