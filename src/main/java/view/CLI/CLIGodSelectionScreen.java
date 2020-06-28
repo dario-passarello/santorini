@@ -6,11 +6,20 @@ import view.screens.GodSelectionScreen;
 import java.util.List;
 
 
+/**
+ * This class represents the screen that is shown when the game is at the GodSelection Phase
+ * It prints the list of gods and allows the player to either choose which god to select or just read at their description
+ */
 public class CLIGodSelectionScreen extends GodSelectionScreen implements InputProcessor {
 
     private String selectedGod;
     private InputExecutor expectedInput;
 
+    /**
+     * Standard constructor
+     * @param viewManager The client caller
+     * @param activePlayer The name of the player who is responsible for the choice of the gods
+     */
     public CLIGodSelectionScreen(ViewManager viewManager, String activePlayer){
         super(viewManager, activePlayer);
         this.selectedGod = null;

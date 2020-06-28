@@ -6,11 +6,20 @@ import view.screens.WinnerScreen;
 
 import java.util.List;
 
+/**
+ * This class represents the screen that is shown when a player wins the game
+ * It is responsible for writing the Winning Message and it allows the player to choose what to oo next
+ */
 public class CLIWinnerScreen extends WinnerScreen implements InputProcessor {
 
     private List<Player> players;
     InputExecutor inputHandler;
 
+    /**
+     * The constructor of the class
+     * @param view The client caller
+     * @param players The list of remaining players
+     */
     public CLIWinnerScreen(ViewManager view, List<Player> players) {
         super(view);
         this.players = players;

@@ -9,12 +9,21 @@ import view.screens.BoardScreen;
 import java.util.List;
 
 
-
+/**
+ * This class represents the Screen that is shown during form the moment the game starts to the moment of its end
+ */
 public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
     private String inputColor = Colors.GREEN_47;        // The color of the things written in the input
     private InputExecutor currentPhase;
 
+    /**
+     * The constructor of the screen
+     * @param view The respective client
+     * @param activePlayer The player who starts the BuilderPlacemet
+     * @param players The list of players in the game
+     * @param preHighlightedCoordinates The list of coordinates preHighlighted
+     */
     public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighlightedCoordinates) {
         super(view, activePlayer, players, preHighlightedCoordinates);
     }

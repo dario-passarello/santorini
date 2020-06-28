@@ -12,14 +12,22 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/**
+ * This State represents the moment where the player can selects the list of gods he wants to be available in the game
+ */
 public class GodSelectionState implements GameState {
     Game game;
 
+    /**
+     * The constructor of the class
+     * @param game A reference to the current game
+     */
     public GodSelectionState(Game game){
         this.game = game;
     }
 
-    public boolean submitGodList(Set<String> godNamesList) {
+    @Override
+    public boolean submitGodList(Set<String> godNamesList) throws IllegalArgumentException {
         List<God> godObjectsList = new ArrayList<>();
         Consumer<GameObserver> updateAction;
         GodFactory factory = new GodFactory();
@@ -65,20 +73,24 @@ public class GodSelectionState implements GameState {
         return true;
     }
 
-    public boolean pickGod(String player, String godName) {
+    @Override
+    public boolean pickGod(String playerName, String godName) {
         return false;
     }
 
+    @Override
     public boolean selectCoordinate(String playerName, Coordinate coordinate) {
         return false;
     }
 
+    @Override
     public boolean quitGame(String playerName) {
         game.setGameState(game.endGameState, game.getFirstPlayer());
         game.notifyObservers(GameObserver::receiveUpdateDone);
         return true;
     }
 
+    @Override
     public Game.State getStateIdentifier() {
         return Game.State.GOD_SELECTION;
     }

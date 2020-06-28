@@ -5,6 +5,7 @@ import utils.Coordinate;
 
 public interface TurnState {
 
+
     boolean firstSelection(int builderID, Coordinate c, boolean specialPower) throws IllegalArgumentException;
 
     boolean selectCoordinate(Coordinate c, boolean specialPower) throws IllegalArgumentException;

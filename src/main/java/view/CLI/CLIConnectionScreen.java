@@ -10,12 +10,19 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
+/**
+ * This class represents the screen that is shown when the player chooses to start the game
+ */
 public class CLIConnectionScreen extends ConnectionScreen implements InputProcessor {
 
     private InputExecutor expectedInput;
     private boolean connectionFailed = false;
 
 
+    /**
+     * Standard constructor
+     * @param view The client caller
+     */
     public CLIConnectionScreen(ViewManager view){
         super(view);
     }

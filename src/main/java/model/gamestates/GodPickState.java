@@ -10,18 +10,27 @@ import utils.Coordinate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This state represents the moment where the player can choose which god to use from the list of god previously created
+ */
 public class GodPickState implements GameState {
     Game game;
 
+    /**
+     * The constructor of the class
+     * @param game A reference to the current game
+     */
     public GodPickState(Game game) {
         this.game = game;
     }
 
-    public boolean submitGodList(Set<String> godList) {
+    @Override
+    public boolean submitGodList(Set<String> godNamesList) {
         return false;
     }
 
-    public boolean pickGod(String playerName, String godName) {
+    @Override
+    public boolean pickGod(String playerName, String godName) throws IllegalArgumentException {
         /*
          *  God should be picked in the reversed order in respect of "log-in" order
          *  withoutGod contains all players without a god
@@ -72,6 +81,7 @@ public class GodPickState implements GameState {
         return true;
     }
 
+    @Override
     public boolean selectCoordinate(String playerName, Coordinate coordinate) {
         return false;
     }
@@ -82,6 +92,7 @@ public class GodPickState implements GameState {
         return true;
     }
 
+    @Override
     public Game.State getStateIdentifier() {
         return Game.State.GOD_PICK;
     }

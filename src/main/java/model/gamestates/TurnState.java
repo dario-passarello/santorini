@@ -6,25 +6,36 @@ import utils.Coordinate;
 
 import java.util.Set;
 
+/**
+ * This class represents the Turn State. When this state is reached, the game starts
+ */
 public class TurnState implements GameState {
     Game game;
 
+    /**
+     * The constructor of the class
+     * @param game A reference to the current game
+     */
     public TurnState(Game game){
         this.game = game;
     }
 
-    public boolean submitGodList(Set<String> godList) {
+    @Override
+    public boolean submitGodList(Set<String> godNamesList) {
         return false;
     }
 
+    @Override
     public boolean pickGod(String playerName, String godName) {
         return false;
     }
 
+    @Override
     public boolean selectCoordinate(String playerName, Coordinate coordinate) {
         return false;
     }
 
+    @Override
     public boolean quitGame(String playerName) {
         game.removePlayer(game.getPlayers().stream()
                 .filter(p -> p.getName().equals(playerName))
@@ -33,6 +44,7 @@ public class TurnState implements GameState {
         return true;
     }
 
+    @Override
     public Game.State getStateIdentifier() {
         return Game.State.TURN;
     }

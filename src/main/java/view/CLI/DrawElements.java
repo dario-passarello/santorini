@@ -39,17 +39,6 @@ public class DrawElements {
     protected static final String ESC = (char) 27 + "[";
 
 
-    public static void main(String[] args){
-
-        drawTitle(Colors.WHITE_231, Colors.BLUE_27);
-
-
-
-
-
-    }
-
-
     /**
      * This method draws the Board
      * @param background The color of the background

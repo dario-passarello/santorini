@@ -8,21 +8,31 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents the moment where the players can place their builder on the board
+ */
 public class PlaceBuilderState implements GameState {
     private final Game game;
 
+    /**
+     * The constructor of the class
+     * @param game A reference to the current game
+     */
     public PlaceBuilderState(Game game){
         this.game = game;
     }
 
-    public boolean submitGodList(Set<String> godList) {
+    @Override
+    public boolean submitGodList(Set<String> godNamesList) {
         return false;
     }
 
+    @Override
     public boolean pickGod(String playerName, String godName) {
         return false;
     }
 
+    @Override
     public boolean selectCoordinate(String playerName, Coordinate coordinate) {
         Supplier<Player> nextPlayerCalculator = () -> game.getPlayersTurnOrder().stream()
                 .filter(p -> p.getBuilders().size() < Player.BUILDERS_PER_PLAYER)
@@ -70,12 +80,14 @@ public class PlaceBuilderState implements GameState {
         return true;
     }
 
+    @Override
     public boolean quitGame(String playerName) {
         game.setGameState(game.endGameState, game.getFirstPlayer());
         game.notifyObservers(GameObserver::receiveUpdateDone);
         return true;
     }
 
+    @Override
     public Game.State getStateIdentifier() {
         return Game.State.PLACE_BUILDER;
     }

@@ -3,10 +3,17 @@ package view.CLI;
 import view.ViewManager;
 import view.screens.MenuScreen;
 
+/**
+ * The screen that shows up at the start of the application
+ */
 public class CLIMenuScreen extends MenuScreen implements InputProcessor {
 
     InputExecutor expectedInput;
 
+    /**
+     * Standard constructor
+     * @param view The client caller
+     */
     public CLIMenuScreen(ViewManager view) {
         super(view);
     }
@@ -50,7 +57,7 @@ public class CLIMenuScreen extends MenuScreen implements InputProcessor {
     /**
      * This class represents the beginning state of the game, with the Title and the choice boxes
      */
-    public class Start implements InputExecutor{
+    class Start implements InputExecutor{
 
         @Override
         public void message() { print("\n Select one of the options: ");
@@ -77,7 +84,10 @@ public class CLIMenuScreen extends MenuScreen implements InputProcessor {
         }
     }
 
-    public class Credits implements InputExecutor{
+    /**
+     * This class represents the credits screen
+     */
+    class Credits implements InputExecutor{
 
         @Override
         public void message() {

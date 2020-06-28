@@ -10,11 +10,18 @@ import view.ViewManager;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * This is the ScreenFactory of the CLI. This class is responsible for creating the instances of all the other screens
+ */
 public class CLIScreenFactory implements ScreenFactory {
 
     private final ViewManager viewManager;
     private InputListener cliListener;
 
+    /**
+     * The class constructor
+     * @param viewManager The client caller
+     */
     public CLIScreenFactory(ViewManager viewManager){
         this.viewManager = viewManager;
     }

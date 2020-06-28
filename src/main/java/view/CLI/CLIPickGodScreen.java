@@ -8,6 +8,10 @@ import view.screens.PickGodScreen;
 
 import java.util.List;
 
+/**
+ * This class represents the screen that is shown when the game is at the GodPicking phase
+ * Here the players can, one by one, pick the gods from a pool previously selected
+ */
 public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
 
     private InputExecutor expectedInput;
@@ -16,6 +20,12 @@ public class CLIPickGodScreen extends PickGodScreen implements InputProcessor {
     private final String player2Color = Colors.YELLOW_226;
     private final String player3Color = Colors.RED_196;
 
+    /**
+     * The constructor of this class
+     * @param view The client caller
+     * @param firstActivePlayer The name of the first player to pick his god
+     * @param availableGods The list of all gods available
+     */
     public CLIPickGodScreen(ViewManager view, String firstActivePlayer, List<String> availableGods) {
         super(view, firstActivePlayer, availableGods);
     }

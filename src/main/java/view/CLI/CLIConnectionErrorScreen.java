@@ -4,12 +4,20 @@ package view.CLI;
 import view.ViewManager;
 import view.screens.ConnectionErrorScreen;
 
+/**
+ * This class represents the screen that is shown when a connection error eccurs
+ */
 public class CLIConnectionErrorScreen extends ConnectionErrorScreen implements InputProcessor {
 
     private boolean fromBoard;
     private InputExecutor nextScreen;
     private String errorMessage = "SOMETHING WENT WRONG... CONNECTION TO THE SERVER TIMED OUT...";
 
+    /**
+     * Standard Constructor
+     * @param view The client calling this method
+     * @param fromBoard The parameter that specifies if this construction comes from the BoardScreen or not. This paramter specifies where in the screen the message is shown
+     */
     public CLIConnectionErrorScreen(ViewManager view, boolean fromBoard) {
         super(view);
         this.fromBoard = fromBoard;
