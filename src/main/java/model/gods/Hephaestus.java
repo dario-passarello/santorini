@@ -4,13 +4,17 @@ import model.Player;
 import model.buildbehaviours.DoubleSameBuild;
 import model.buildbehaviours.StandardBuild;
 import model.movebehaviors.StandardMove;
+import model.movebehaviors.SwapWithOpponentMove;
 import model.wincondition.StandardWinCondition;
 
 /**
- * Allows the player to build one additional block (not a dome) on top of the first block
+ * A {@link God} that has a {@link DoubleSameBuild} behavior
  */
 public class Hephaestus extends God {
 
+    /**
+     * Creates a Hephaestus' instance
+     */
     public Hephaestus(){
         super("Hephaestus",
                 new StandardWinCondition(),

@@ -5,8 +5,10 @@ import view.screens.Screen;
 
 import java.util.logging.Level;
 
+/**
+ * A ping message to check if the client connection is still alive
+ */
 public class PingToClient implements Message<Screen> {
-
 
     @Override
     public void execute(Screen target) {

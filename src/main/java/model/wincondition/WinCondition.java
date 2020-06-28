@@ -22,6 +22,7 @@ public interface WinCondition {
     Optional<Player> checkWinCondition(Square start, Builder builder);
 
     /**
+     * @param board The board of the game
      * @return true if a win condition occurred after the build phase, otherwise false
      */
     Optional<Player> checkSpecialWinCondition(Board board);

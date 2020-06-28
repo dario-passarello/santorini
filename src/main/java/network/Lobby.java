@@ -24,6 +24,9 @@ public class Lobby implements Runnable {
     private static final AtomicInteger gameID = new AtomicInteger(0);
 
     private final Queue<ClientHandler> waitingQueue;
+    /**
+     * The number of player of the lobby object
+     */
     public final int numberOfPlayers;
 
     private Lobby(int numberOfPlayers) {

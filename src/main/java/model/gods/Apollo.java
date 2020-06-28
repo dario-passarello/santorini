@@ -7,8 +7,14 @@ import model.movebehaviors.SwapWithOpponentMove;
 import model.wincondition.StandardWinCondition;
 
 
+/**
+ * A {@link God} that has a {@link SwapWithOpponentMove} behavior
+ */
 public class Apollo extends God {
-    
+
+    /**
+     * Creates an Apollo's instance
+     */
     public Apollo() {
         super("Apollo",
                 new StandardWinCondition(),

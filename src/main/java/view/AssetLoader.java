@@ -22,7 +22,7 @@ public class AssetLoader {
      * Fetches the Godresourcebundle of a god
      * @param god The string identifier of the god
      * @return The bundle of gods resources
-     * @throws IllegalArgumentException The {@param god} is not valid
+     * @throws IllegalArgumentException The god is not valid
      */
     public static GodAssetsBundle getGodAssetsBundle(String god) {
         if(!isAGod(god)) {

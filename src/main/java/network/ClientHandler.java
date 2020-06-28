@@ -19,6 +19,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static network.Server.logger;
 
+/**
+ * Handler for communications from/to each client. Is a layer under the {@link RemoteView}
+ */
 public class ClientHandler implements Runnable, MessageTarget {
 
     private final int PING_INTERVAL_SECONDS = 10;
@@ -32,13 +35,18 @@ public class ClientHandler implements Runnable, MessageTarget {
     private AtomicBoolean running;
     private int gameID = -1;
 
-
+    /**
+     * Creates a ClientHandler linked to a TCP Socket connection to a client
+     * @param socket The socket that will be used to communicate with the client
+     * @throws IOException Object streams could not be created from the socket
+     */
     public ClientHandler(Socket socket) throws IOException {
         running = new AtomicBoolean(true);
         clientSocket = socket;
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         inputStream = new ObjectInputStream(socket.getInputStream());
     }
+
 
     @Override
     public void run() {
@@ -90,7 +98,12 @@ public class ClientHandler implements Runnable, MessageTarget {
         }
     }
 
-
+    /**
+     * Get the {@link RemoteView} instance for this ClientHandler.
+     * If it a remoteView is not present new one will be created.
+     * @param controller The controller used from the RemoteView
+     * @return The instance of the remote view generated from this ClientHandler
+     */
     public RemoteView getRemoteViewInstance(Controller controller) {
         if (remoteView == null) {
             remoteView = new RemoteView(this, controller, name);
@@ -98,6 +111,11 @@ public class ClientHandler implements Runnable, MessageTarget {
         return remoteView;
     }
 
+    /**
+     * Get the {@link RemoteView} instance for this ClientHandler.
+     * @return The instance of the remote view generated from this ClientHandler
+     * @throws IllegalStateException if the reference to the RemoteView is not present
+     */
     public RemoteView getRemoteViewInstance() {
         if (remoteView == null) {
             throw new IllegalStateException();
@@ -105,24 +123,45 @@ public class ClientHandler implements Runnable, MessageTarget {
         return remoteView;
     }
 
-
+    /**
+     * Getter for the client's username. If the client has not already sent the {@link LoginDataMessage}, then the
+     * optional would be empty
+     * @return An optional containing the username of the client
+     */
     public Optional<String> getName() {
         return Optional.ofNullable(name);
     }
 
+    /**
+     * Setter for the client's username
+     * @param name A string containing the new client
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Getter for the progressive number of the player
+     * @return The progressive number of the player
+     */
     public int getPlayerNumber() {
         return playerNumber;
     }
 
+    /**
+     * Setter for the progressive number of the player
+     * @param playerNumber The new progressive number of the player
+     */
     public void setPlayerNumber(int playerNumber) {
         this.playerNumber = playerNumber;
     }
 
     //Executed in the context of the caller
+    /**
+     * Sends a {@link Message} object to the client. If the message could not be delivered to the player
+     * due to a disconnection the disconnection of the player will be handled
+     * @param message The Message object to send to the player with a proper target
+     */
     public synchronized void sendMessage(Message<? extends MessageTarget> message) {
         try {
             outputStream.writeObject(message);
@@ -151,6 +190,9 @@ public class ClientHandler implements Runnable, MessageTarget {
         //e.printStackTrace();
     }
 
+    /**
+     * Closes the connection to the client handling the disconnection
+     */
     public synchronized void closeConnection() {
         running.set(false);
     }
