@@ -31,11 +31,11 @@ public class InputListener implements Runnable {
     }
 
     /**
-     *
-     * @return
+     * A standard getter for the Screen Attribute
+     * @return The reference to the current Screen
      */
     protected InputProcessor getScreen(){
         return this.currentScreen;
     }
 
-    }
+}

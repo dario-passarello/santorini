@@ -12,9 +12,6 @@ import java.util.Set;
  */
 public class StandardMove implements MoveBehavior {
 
-    public StandardMove(){}
-
-
     /**
      * @param src is the starting point of a builder
      * @return the set of square of a standard neighborhood

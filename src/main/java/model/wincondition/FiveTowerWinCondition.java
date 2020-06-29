@@ -15,21 +15,23 @@ public class FiveTowerWinCondition extends WinConditionDecorator {
 
     private God chronus;
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param winCondition The Win Condition target
+     * @param chronus The player who owns Chronus as a god
+     */
     public FiveTowerWinCondition(WinCondition winCondition, God chronus){
         wrappedWinCondition = winCondition;
         this.chronus = chronus;
     }
 
-    /**
-     * @param start   is the initial position of the current builder (before move)
-     * @param builder is the current builder
-     * @return true if a win condition occurred after the move phase, otherwise false
-     */
+
     @Override
     public Optional<Player> checkWinCondition(Square start, Builder builder) {
         return wrappedWinCondition.checkWinCondition(start, builder);
     }
 
+    @Override
     public Optional<Player> checkSpecialWinCondition(Board board) {
         int counter = 0;
         for(int i = 0; i <= Board.BOARD_SIZE-1; i++){

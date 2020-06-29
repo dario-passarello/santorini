@@ -7,7 +7,7 @@ import java.util.Objects;
  * This class is the representation of a standard two-dimensional coordinate. It is often used to locate objects in the board
  */
 public class Coordinate implements Serializable {
-    //IMMUTABILE
+    //IMMUTABLE
     private final Integer x;
     private final Integer y;
 

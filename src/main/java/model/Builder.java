@@ -18,7 +18,10 @@ public class Builder implements Serializable {
     private int id;
 
     /**
-     * Builder constructor
+     * The constructor of the class
+     * @param square The square where the builder will be placed
+     * @param owner The Player who owns the builder
+     * @param id The unique ID number of the created object
      */
     public Builder(Square square, Player owner, int id) {
         this.square = square;

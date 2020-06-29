@@ -11,6 +11,10 @@ import utils.Coordinate;
 
 import java.util.List;
 
+/**
+ * This class represents the abstraction of the Client, observed from the point of view of the Server
+ * It is the communication Link between the Client and the Server
+ */
 public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
 
     private String playerName;
@@ -18,26 +22,48 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     private final ClientHandler client;
     private Game.State lastGameState;
 
+    /**
+     * The constructor method
+     * @param client The clientHandler of the player
+     * @param controller The controller class of the Game
+     * @param playerName The name of the Player
+     */
     public RemoteView(ClientHandler client, Controller controller, String playerName) {
         this.controller = controller;
         this.playerName = playerName;
         this.client = client;
     }
 
+    /**
+     * This method sends a message to the real client
+     * @param message The message to send
+     */
     public void sendMessage(Message<? extends MessageTarget>message) {
         if(client != null) {
             client.sendMessage(message);
         }
     }
 
+    /**
+     * Standard getter
+     * @return The reference to the controller attribute
+     */
     public Controller getController() {
         return controller;
     }
 
+    /**
+     * Standard getter
+     * @return The name of the player
+     */
     public String getPlayerName() {
         return playerName;
     }
 
+    /**
+     * Standard Setter
+     * @param playerName The name of the player to set
+     */
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }

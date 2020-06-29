@@ -11,6 +11,10 @@ import java.util.Set;
  */
 public class UnlimitedPerimetralMove extends MoveDecorator {
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param moveBehavior The Move Behavior target
+     */
     public UnlimitedPerimetralMove(MoveBehavior moveBehavior){
         wrappedMoveBehavior = moveBehavior;
     }

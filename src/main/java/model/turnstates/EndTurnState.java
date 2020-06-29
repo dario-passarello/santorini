@@ -4,11 +4,18 @@ import model.Game;
 import model.Turn;
 import utils.Coordinate;
 
-@Deprecated
+/**
+ * This class represents the moment where a Turn has ended
+ */
 public class EndTurnState implements TurnState {
     private final Turn turn;
     private final Game game;
 
+    /**
+     * The constructor of the class
+     * @param turn A reference to the current turn
+     * @param game A reference to the current game
+     */
     public EndTurnState(Turn turn, Game game){
         this.turn = turn;
         this.game = game;

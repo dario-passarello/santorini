@@ -12,6 +12,10 @@ import java.util.Set;
  */
 public class BlockUpMove extends MoveDecorator{
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param moveBehavior The Move Behavior target
+     */
     public BlockUpMove(MoveBehavior moveBehavior){
         wrappedMoveBehavior = moveBehavior;
     }

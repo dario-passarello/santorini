@@ -108,26 +108,50 @@ public class ViewManager implements Runnable{
         return screenFactory;
     }
 
+    /**
+     * Standard getter
+     * @return The name of the player
+     */
     public String getThisPlayerName() {
         return thisPlayerName;
     }
 
+    /**
+     * Standard setter
+     * @param thisPlayerName The name of the player to set
+     */
     public void setThisPlayerName(String thisPlayerName) {
         this.thisPlayerName = thisPlayerName;
     }
 
+    /**
+     * Standard getter
+     * @return A list containing the names of the players
+     */
     public List<String> getPlayersNames() {
         return new ArrayList<>(playersNames);
     }
 
+    /**
+     * Standard setter
+     * @param playersNames The list of player with the names of the players
+     */
     public void setPlayersNames(List<String> playersNames) {
         this.playersNames = new ArrayList<>(playersNames);
     }
 
+    /**
+     * Standard getter
+     * @return The number of players in the game
+     */
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
+    /**
+     * Standars setter
+     * @param numberOfPlayers The number of players to set
+     */
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }

@@ -12,10 +12,15 @@ import java.util.Optional;
  */
 public class NoPerimeterWinCondition extends WinConditionDecorator {
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param winCondition The Win Condition target
+     */
     public NoPerimeterWinCondition(WinCondition winCondition){
         wrappedWinCondition = winCondition;
     }
 
+    @Override
     public Optional<Player> checkWinCondition(Square start, Builder builder){
         if(builder.getSquare().isPerimetral()){
             return Optional.empty();
@@ -24,6 +29,7 @@ public class NoPerimeterWinCondition extends WinConditionDecorator {
         }
     }
 
+    @Override
     public Optional<Player> checkSpecialWinCondition(Board board) {
         return wrappedWinCondition.checkSpecialWinCondition(board);
     }

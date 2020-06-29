@@ -8,9 +8,6 @@ import java.util.Optional;
  * a factory for {@link God} (factory pattern)
  */
 public class GodFactory {
-    public GodFactory() {
-
-    }
 
     /**
      * @param name the name of a God

@@ -8,7 +8,7 @@ public interface InputProcessor {
 
     /**
      * This method is the adapter between the InputListener and the Input Handler of the screen
-     * @param input
+     * @param input The input read by the InputListener
      */
     void processInput(String input);
 

@@ -49,11 +49,13 @@ public interface GameObserver extends Observer {
     void receiveBoard(Board board);
 
     /**
-     * Notifies all observer that the update is done, and they could safely display the content
+     * Notifies all observers that the update is done, and they could safely display the content
      */
     void receiveUpdateDone();
 
-
+    /**
+     * Notifies all observers that a client has disconnected
+     */
     void receiveDisconnect();
 
 }

@@ -9,14 +9,39 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/**
+ * This class represents a Turn of the game. It contains all the references to the Turn State Machines as well as all the
+ * methods required to handle it
+ */
 public class Turn implements Observable<TurnObserver> {
 
+    /**
+     * The list of names of the different States in the Turn State Machine
+     */
     public enum State implements StateIdentifier {
+        /**
+         * The Move State
+         */
         MOVE,
+        /**
+         * The Special Move State
+         */
         SPECIAL_MOVE,
+        /**
+         * The Additional Move State
+         */
         ADDITIONAL_MOVE,
+        /**
+         * The Build State
+         */
         BUILD,
+        /**
+         * The Additional Build State
+         */
         ADDITIONAL_BUILD,
+        /**
+         * The End Turn State
+         */
         END_TURN;
     }
 
@@ -33,6 +58,11 @@ public class Turn implements Observable<TurnObserver> {
 
     private List<TurnObserver> observers;
 
+    /**
+     * The constructor method. It cretes a turn for a designated Player
+     * @param game The reference to the current game
+     * @param currentPlayer The player to which the turn is created for
+     */
     public Turn(Game game, Player currentPlayer) {
         this.currentPlayer = currentPlayer;
         this.game = game;
@@ -46,6 +76,10 @@ public class Turn implements Observable<TurnObserver> {
     }
 
 
+    /**
+     * Standard getter of the attribute game
+     * @return A reference to the instance of the current game
+     */
     public Game getGame() {
         return game;
     }
@@ -74,18 +108,42 @@ public class Turn implements Observable<TurnObserver> {
         notifyObservers((TurnObserver obs) -> obs.receiveTurnState(currentState.getStateID(), new Player(currentPlayer)));
     }
 
+    /**
+     * Standard getter
+     * @return A reference to the current active builder
+     */
     public Builder getActiveBuilder() {
         return activeBuilder;
     }
 
+    /**
+     * Standard setter for the active builder
+     * @param activeBuilder The active builder
+     */
     public void setActiveBuilder(Builder activeBuilder) {
         this.activeBuilder = activeBuilder;
     }
 
+    /**
+     * This method calls first Selection method of the current Turn State
+     * @param builderID The ID of the Builder selected
+     * @param c The coordinate target
+     * @param specialPower A parameter that specifies if the first action is a special one or not
+     * @return True if the method is called from a legit state. False otherwise
+     * @throws IllegalArgumentException when the Current State throws it
+     */
     public boolean firstSelection(int builderID, Coordinate c, boolean specialPower) throws IllegalArgumentException {
         return currentState.firstSelection(builderID,c,specialPower);
     }
 
+    /**
+     * This method calls first Selection method of the current Turn State, but with a specialPower parameter automatically
+     * set to false
+     * @param builderID The ID of the Builder selected
+     * @param c The coordinate target
+     * @return True if the method is called from a legit state. False otherwise
+     * @throws IllegalArgumentException when the Current State throws it
+     */
     public boolean firstSelection(int builderID, Coordinate c) throws IllegalArgumentException {
         return firstSelection(builderID, c, false);
     }
@@ -93,6 +151,9 @@ public class Turn implements Observable<TurnObserver> {
     /**
      * Input a coordinate of the board
      * @param c A coordinate object representing the coordinate of a board
+     * @param specialPower The parameter representing if the player decided to use a special power
+     * @return True if the method is called from a legit state. False otherwise
+     * @throws IllegalArgumentException when the Current State throws it
      */
     public boolean selectCoordinate(Coordinate c, boolean specialPower) throws IllegalArgumentException {
         return currentState.selectCoordinate(c,specialPower);
@@ -101,6 +162,8 @@ public class Turn implements Observable<TurnObserver> {
     /**
      * Input a coordinate of the board
      * @param c A coordinate object representing the coordinate of a board
+     * @return True if the method is called from a legit State. False otherwise
+     * @throws IllegalArgumentException when the Current State throws it
      */
     public boolean selectCoordinate(Coordinate c) throws IllegalArgumentException {
         return currentState.selectCoordinate(c, false);
@@ -108,20 +171,32 @@ public class Turn implements Observable<TurnObserver> {
 
     /**
      *  End the current additional turn phase and go to the next one
+     * @return True if the method is called from a legit State. False otherwise
+     * @throws IllegalStateException when the Current State throws it
      */
     public boolean endPhase() throws IllegalStateException {
         return currentState.endPhase();
     }
 
+    /**
+     * This method returns the ID of the current Turn State
+     * @return The enum representing the ID of the current Turn State
+     */
     public Turn.State getStateID(){
         return currentState.getStateID();
     }
 
+    /**
+     * This method is called whenever a turn ends
+     */
     public void endTurn(){
         getCurrentPlayer().getGod().resetBehaviors();
         game.nextTurn(false);
     }
 
+    /**
+     * This method is called whenever a new Turn has to be created
+     */
     public void newTurn() {
         if(currentPlayer.checkMovingLoseCondition()) {
             game.removePlayer(currentPlayer, false);

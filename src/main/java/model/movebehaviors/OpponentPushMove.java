@@ -17,6 +17,10 @@ import java.util.Set;
  */
 public class OpponentPushMove extends MoveDecorator {
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param moveBehavior The Move Behavior target
+     */
     public OpponentPushMove(MoveBehavior moveBehavior) {
         wrappedMoveBehavior = moveBehavior;
     }

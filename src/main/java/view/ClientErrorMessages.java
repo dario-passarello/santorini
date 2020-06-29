@@ -1,5 +1,8 @@
 package view;
 
+/**
+ * This class contains a set of messages that are used to signal specific errors during the game
+ */
 public class ClientErrorMessages {
     public static final String CONNECTION_CLOSED = "Connection not open";
     public static final String CONNECTION_ALREADY_OPEN = "Connection already open";

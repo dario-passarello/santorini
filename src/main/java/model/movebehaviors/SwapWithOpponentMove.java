@@ -13,6 +13,10 @@ import java.util.Set;
  */
 public class SwapWithOpponentMove extends MoveDecorator {
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param moveBehavior The Move Behavior target
+     */
     public SwapWithOpponentMove(MoveBehavior moveBehavior){
         wrappedMoveBehavior = moveBehavior;
     }

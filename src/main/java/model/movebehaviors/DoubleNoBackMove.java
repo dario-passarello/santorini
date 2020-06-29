@@ -14,6 +14,10 @@ public class DoubleNoBackMove extends MoveDecorator {
 
     Square previous;
 
+    /**
+     * The constructor method. It decorates the parameter with this class
+     * @param moveBehavior The Move Behavior target
+     */
     public DoubleNoBackMove(MoveBehavior moveBehavior){
         wrappedMoveBehavior = moveBehavior;
         previous = null;

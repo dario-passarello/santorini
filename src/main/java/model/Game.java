@@ -19,10 +19,25 @@ public class Game implements Observable<GameObserver>, GameModel {
      * an identifier for the game phase
      */
     public enum State implements StateIdentifier{
+        /**
+         * The God Selection State
+         */
         GOD_SELECTION,
+        /**
+         * The God Pick State
+         */
         GOD_PICK,
+        /**
+         * The Place Builder State
+         */
         PLACE_BUILDER,
+        /**
+         * The Turn state
+         */
         TURN,
+        /**
+         * The End Game State
+         */
         END_GAME
     }
 
@@ -75,6 +90,9 @@ public class Game implements Observable<GameObserver>, GameModel {
 
     /**
      * Initializes a game, building the board and setting up all the things
+     * @param names The list of the names of the players
+     * @param maxPlayers The number of players playing this game
+     * @throws DuplicateNameException When two players have the same name
      */
     public Game(List<String> names, int maxPlayers) throws DuplicateNameException {
         if(maxPlayers < MIN_PLAYERS || maxPlayers > MAX_PLAYERS || names.size() != maxPlayers) {
@@ -154,6 +172,9 @@ public class Game implements Observable<GameObserver>, GameModel {
         return currentGameState;
     }
 
+    /**
+     * @return A copy of the list of Gods that are used in the game
+     */
     public List<God> getGodList() {
         return new ArrayList<>(godList);
     }
@@ -225,6 +246,7 @@ public class Game implements Observable<GameObserver>, GameModel {
 
     /**
      * Ends the current turn and advances to the next turn
+     * @param firstTurn The parameter that specifies if the method is called for the first time or not
      */
     public void nextTurn(boolean firstTurn) {
         if(!firstTurn) {
@@ -317,10 +339,18 @@ public class Game implements Observable<GameObserver>, GameModel {
         observers.add(m);
     }
 
+    /**
+     * Registers an observer of the Turn to the list of the observers of every player
+     * @param obs The Turn Observer target
+     */
     public void registerAllTurnObserver(TurnObserver obs) {
         turnRotation.forEach(turn -> turn.registerObserver(obs));
     }
 
+    /**
+     * Unregisters an observer of the Turn from the list of observers of every player
+     * @param obs The Turn Observer target
+     */
     public void unregisterAllTurnObservers(TurnObserver obs) {
         turnRotation.forEach(turn -> turn.unregisterObserver(obs));
     }

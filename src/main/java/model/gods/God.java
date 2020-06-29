@@ -29,7 +29,13 @@ public class God implements Serializable {
     protected final boolean specialBuildPower;
 
     /**
-     * God constructor
+     * The Constructor of the class. It creates a God Object with specific characteristics
+     * @param name The name of the God
+     * @param winCondition The effect it has on the Winning Condition of the game
+     * @param moveBehavior The MoveBehavior parameter. It could either be a Standard one or a Decorator one
+     * @param buildBehavior The BuildBehavior parameter. It could either be a Standard one or a Decorator one
+     * @param specialStartPower The parameter that specifies if it has a Starting Special Power
+     * @param specialBuildPower The parameter that specifies if it has a Special Build Power
      */
     public God(String name, WinCondition winCondition, MoveBehavior moveBehavior, BuildBehavior buildBehavior, boolean specialStartPower, boolean specialBuildPower) {
         this.name = name;
@@ -121,6 +127,9 @@ public class God implements Serializable {
         return moveBehavior;
     }
 
+    /**
+     * @return buildBehavior attribute
+     */
     public BuildBehavior getBuildBehavior() {
         return buildBehavior;
     }
@@ -149,6 +158,7 @@ public class God implements Serializable {
     }
 
     /**
+     * @param builder The reference to the builder executing the action
      * @param location the initial position of the builder that is going to move
      * @return true if the player could move again, false if his move phase terminates here
      */
@@ -157,12 +167,17 @@ public class God implements Serializable {
     }
 
     /**
-     * @return Optionally a reference to the player that won the player
+     * @param start The square from which the builder started to move
+     * @param builder A reference to the builder who has moved
+     * @return Optionally a reference to the player that won the game
      */
     public Optional<Player> checkWinCondition(Square start, Builder builder) {
         return winCondition.checkWinCondition(start, builder);
     }
 
+    /**
+     * @return Optionally a reference to the player that won the game
+     */
     public Optional<Player> checkSpecialWinCondition() {
         Board board = this.getPlayer().getGame().getBoard();
         return winCondition.checkSpecialWinCondition(board);
@@ -177,7 +192,9 @@ public class God implements Serializable {
     }
 
     /**
-     * @param location the position of the builder that is going to build
+     * @param builder The builder that is currently selected
+     * @param location the position where the builder that is going to build
+     * @return True if the player can build again
      */
     public boolean build(Builder builder, Square location) {
         return buildBehavior.build(location);

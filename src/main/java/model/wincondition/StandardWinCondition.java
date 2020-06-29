@@ -13,21 +13,20 @@ import java.util.Optional;
  */
 public class StandardWinCondition implements WinCondition {
 
-    public StandardWinCondition() {
-    }
 
     /**
      * @param start   is the initial position of the current builder (before move)
      * @param builder is the current builder
      * @return true if the builder moved up, reaching a building at level 3
      */
+    @Override
     public Optional<Player> checkWinCondition(Square start, Builder builder) {
         if (builder.getSquare().getBuildLevel() == 3 && start.getBuildLevel() == 2) {
             return Optional.of(builder.getOwner());
         }
         return Optional.empty();
     }
-
+    @Override
     public Optional<Player> checkSpecialWinCondition(Board board) {
         return Optional.empty();
     }

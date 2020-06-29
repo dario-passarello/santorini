@@ -28,6 +28,7 @@ public class Board implements Serializable {
 
     /**
      *  Board constructor (with a Game attribute)
+     * @param game A reference to the current game
      */
     public Board(Game game) {
         this.game = game;
@@ -99,6 +100,9 @@ public class Board implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Sets all the squares in the board as empty
+     */
     public void freeAllSquares() {
         IntStream.range(0,BOARD_SIZE*BOARD_SIZE)
                 .mapToObj(i -> matrix[i / BOARD_SIZE][i % BOARD_SIZE])
