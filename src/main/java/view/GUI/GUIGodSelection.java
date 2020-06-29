@@ -98,7 +98,7 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
                     });
                 } else {
                     buttonGraphic.setOpacity(0);
-                    wait.setStyle("-fx-text-fill: darkred;-fx-font: bold; -fx-font-family: 'Arial Black' ;-fx-font-size: 15");
+                    //wait.setStyle("-fx-text-fill: darkred;-fx-font: bold; -fx-font-family: 'Arial Black' ;-fx-font-size: 15");
                     wait.setText("Another player is choosing the gods!");
                 }
                 numGod++;
