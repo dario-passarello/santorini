@@ -17,11 +17,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * manages the logic behind the board screen in the view
+ * Logic view of the Board. Contains all data structures useful to board display
+ * This class should be extended from all concrete view board screens
  */
 public abstract class BoardScreen extends Screen {
 
-    private String activePlayer;
+    private String activePlayer;    //Player refer
     private Player activePlayerReference;
     private List<Player> players;
     private Board board;
@@ -36,6 +37,13 @@ public abstract class BoardScreen extends Screen {
     private boolean specialPowerSelected;
     private final WinnerScreenBuilder winnerSB;
 
+    /**
+     * Create the Board Screen
+     * @param view A reference to the view manger
+     * @param activePlayer The username of the first player that should make a "move"
+     * @param players List of all players in game
+     * @param preHighCoords List of all coordinates to highlight when the screen is built
+     */
     public BoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighCoords) {
         super(view);
         this.activePlayer = activePlayer;
@@ -83,7 +91,7 @@ public abstract class BoardScreen extends Screen {
         }
     }
 
-    protected void processBuilderPlacement(Coordinate square) throws IllegalActionException{
+    private void processBuilderPlacement(Coordinate square) throws IllegalActionException{
         if(!highlightedCoordinates.contains(square)){
             throw new IllegalActionException("Square already occupied");
         }
@@ -172,6 +180,7 @@ public abstract class BoardScreen extends Screen {
     }
 
     /**
+     * Checks if the special power option could be selected
      * @return true if the special power could be activated from the player
      */
     protected synchronized final boolean specialPowerAvailable() {
@@ -180,22 +189,36 @@ public abstract class BoardScreen extends Screen {
                  (turnState == Turn.State.BUILD && activePlayerReference.getGod().hasSpecialBuildPower()));
     }
 
+    /**
+     * Checks if the special power action could be selected
+     * @return true if the reset phase action could be activated from the player
+     */
     protected synchronized final boolean resetPhaseAvailable(){
         return isActiveScreen() && currentGameState == Game.State.TURN && turnState == Turn.State.MOVE;
     }
 
     /**
+     * Checks if the special power is selected
      * @return true if the special power has been activated
      */
     protected synchronized final boolean specialPowerEnabled() {
         return specialPowerSelected;
     }
 
+    /**
+     * Checks if the end phase action (skip optional moves) could be selected
+     * @return true if the end phase action is available
+     */
     protected synchronized final boolean endPhaseAvailable() {
         return isActiveScreen() &&
                 (turnState == Turn.State.ADDITIONAL_MOVE || turnState == Turn.State.ADDITIONAL_BUILD);
     }
 
+    /**
+     * Changes the current active player
+     * Updates the screen accordingly to the new active player
+     * @param activePlayer A reference to a player object containing the new active player
+     */
     private void setActivePlayer(Player activePlayer){
         this.activePlayerReference = activePlayer;
         this.activePlayer = activePlayer.getName();
@@ -209,22 +232,46 @@ public abstract class BoardScreen extends Screen {
         return currBuilders.stream().filter(b -> b.getSquare().getCoordinate().equals(coordinate)).findAny();
     }
 
+    /**
+     * Getter method for the player list
+     * @return A copy of the player lust
+     */
     protected final List<Player> getPlayers(){
         return new ArrayList<>(players);
     }
 
+    /**
+     * Getter method for the active player username
+     * @return A string containing the username of the active player
+     */
     protected final String getActivePlayer(){
         return activePlayer;
     }
 
+    /**
+     * Getter method for the board object
+     * @return A board object representing the current state of the board
+     */
     protected final Board getBoard(){
         return board;
     }
 
+    /**
+     * Getter method for the list of all builders in the board
+     * @return A copy of the list of all builders in the board
+     */
     protected final List<Builder> getCurrBuilders(){
         return new ArrayList<>(currBuilders);
     }
 
+    /**
+     * Get a specific builder object in the board
+     * @param playerName The player controlling the builder
+     * @param id Tbe id of the builder
+     * @param old Selector of the list of builder (old builders or new builder)
+     * @return If old is true the builder of the past board status will be returned, if old is false
+     *  the current state of the builder will be returned
+     */
     protected final Builder getBuilder(String playerName, int id, boolean old){
         Function<List<Builder>,Builder> findBuilder =
                 list -> list.stream()
@@ -238,18 +285,34 @@ public abstract class BoardScreen extends Screen {
         }
     }
 
+    /**
+     * Getter for the builder that is actually selected from the player. Could be null if no player is selected
+     * @return Currently selected builder
+     */
     protected final Builder getSelectedBuilder(){
         return selectedBuilder;
     }
 
+    /**
+     * Getter for the coordinates to highlight in the view
+     * @return A list of all coordinates to higlight in the view
+     */
     protected final List<Coordinate> getHighlightedCoordinates(){
         return new ArrayList<>(highlightedCoordinates);
     }
 
+    /**
+     * Getter for the current game state identifier
+     * @return The current game state identifier
+     */
     protected final Game.State getGameState(){
         return this.currentGameState;
     }
 
+    /**
+     * Getter for the current turn state identifier
+     * @return The current turn state identifier
+     */
     protected final Turn.State getTurnState(){
         return this.turnState;
     }

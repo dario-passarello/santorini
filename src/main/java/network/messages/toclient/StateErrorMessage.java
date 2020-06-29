@@ -10,6 +10,10 @@ import view.screens.Screen;
  */
 public class StateErrorMessage<T extends StateIdentifier> implements Message<Screen> {
 
+    /**
+     * Creates a StateErrorMessage
+     * @param currentState State where the error has occourred
+     */
     public StateErrorMessage(T currentState) {
     }
 

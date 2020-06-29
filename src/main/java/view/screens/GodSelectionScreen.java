@@ -23,8 +23,11 @@ public abstract class GodSelectionScreen extends Screen {
     private final BoardScreenBuilder boardSB;
     private Game.State nextState;
 
-
-
+    /**
+     * Creates a new instance of GodSelectionScreen
+     * @param view The view manager of the screen
+     * @param activePlayer The username of the active player
+     */
     public GodSelectionScreen(ViewManager view, String activePlayer) {
         super(view);
         pickGodSB = new PickGodScreenBuilder(view.getScreenFactory());
@@ -63,6 +66,10 @@ public abstract class GodSelectionScreen extends Screen {
         return chosenGods.contains(god);
     }
 
+    /**
+     * Checks if the number of god chosen from the user is correct, so the player could submit the choice to the server
+     * @return True if the number of god chosen from the user is correct
+     */
     protected final boolean readyToSubmit() {
         return chosenGods.stream().mapToInt(this::godWeight).sum() == getNumberOfPlayers();
     }
@@ -113,6 +120,12 @@ public abstract class GodSelectionScreen extends Screen {
     }
 
     //Logic commands
+
+    /**
+     * Submits chosen god list to the server, sending a message trough the network
+     * @throws IllegalActionException The list of god is not already suitable for submitting it to the server
+     * @throws ActivityNotAllowedException The screen is not active
+     */
     protected final void submitGodList() throws IllegalActionException {
         if(!isActiveScreen()){
             throw new ActivityNotAllowedException(ClientErrorMessages.ACTIVITY_NOT_ALLOWED);

@@ -14,6 +14,12 @@ import java.util.List;
 public class MatchFoundMessage implements Message<Screen> {
     private final String assignedUsername;
     private final List<String> players;
+
+    /**
+     * Creates a MatchFoundMessage
+     * @param assignedUsername The new username for the player (could be equal to the old in case of no duplicates)
+     * @param players The list of all player objects in game
+     */
     public MatchFoundMessage(String assignedUsername, List<String> players){
         this.assignedUsername = assignedUsername;
         this.players = players;

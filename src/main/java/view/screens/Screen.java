@@ -10,11 +10,19 @@ import view.ViewManager;
 import java.util.List;
 
 /**
- * a generic screen of the view (every screen of the view must extend this class)
+ * A generic screen of the view (every screen of the view must extend this class)
+ * The screen is a View and gets messages from the server through the server listeners
  */
 public abstract class Screen implements View, MessageTarget {
 
+    /**
+     * The view manager that handles the flow of the screens and their transitions
+     */
     protected transient final ViewManager view;
+    /**
+     * If the screen is active a player could interact with such screen, making actions that will send messages
+     * to the server
+     */
     protected transient boolean activeScreen;
 
     /**
@@ -57,6 +65,10 @@ public abstract class Screen implements View, MessageTarget {
         return view.getNumberOfPlayers();
     }
 
+    /**
+     * Getter for the list of players names
+     * @return A copy of the list of player names
+     */
     public final List<String> getPlayersNames(){
         return view.getPlayersNames();
     }
