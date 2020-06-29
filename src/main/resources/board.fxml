@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
@@ -164,7 +166,24 @@
                   <VBox alignment="CENTER" prefHeight="720.0" prefWidth="336.0" spacing="30.0" BorderPane.alignment="CENTER">
                      <children>
                         <Button fx:id="endPhase" disable="true" mnemonicParsing="false" onAction="#endPhaseListener" opacity="0.0" prefHeight="100.0" prefWidth="300.0" text="End Phase" />
-                        <Button fx:id="toggleSpecialPower" disable="true" mnemonicParsing="false" onAction="#toggleSpecialPowerListener" opacity="0.0" prefHeight="100.0" prefWidth="300.0" text="Use Special Power" />
+                        <StackPane>
+                           <children>
+                              <Button fx:id="toggleSpecialPower" disable="true" mnemonicParsing="false" onAction="#toggleSpecialPowerListener" opacity="0.0" prefHeight="100.0" prefWidth="300.0" text="Use Special Power" />
+                              <Rectangle fx:id="underlineSP" arcHeight="5.0" arcWidth="5.0" height="9.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="211.0" StackPane.alignment="CENTER">
+                                 <fill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="#f8ff1fde" />
+                                          <Stop color="WHITE" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill>
+                                 <StackPane.margin>
+                                    <Insets right="70.0" top="50.0" />
+                                 </StackPane.margin>
+                              </Rectangle>
+                           </children>
+                        </StackPane>
                         <Button fx:id="resetPhase" disable="true" mnemonicParsing="false" onAction="#resetPhaseListener" opacity="0.0" prefHeight="100.0" prefWidth="300.0" text="Reset Selection" />
                      </children>
                      <BorderPane.margin>

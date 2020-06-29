@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import model.Board;
 import model.Builder;
 import model.Player;
@@ -40,6 +41,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
     @FXML Button endPhase;
     @FXML Button toggleSpecialPower;
     @FXML Button resetPhase;
+    @FXML Rectangle underlineSP;
     @FXML ImageView endPhaseGraphic;
     @FXML ImageView toggleSpecialPowerGraphic;
     @FXML ImageView resetPhaseGraphic;
@@ -237,6 +239,11 @@ public class GUIBoard extends BoardScreen implements GUIController {
             super.toggleSpecialPower();
             updateButtons();
             highlight(getHighlightedCoordinates());
+            if(underlineSP.getOpacity() == 0){
+                underlineSP.setOpacity(1);
+            } else {
+                underlineSP.setOpacity(0);
+            }
         } catch (IllegalActionException ignored){}
     }
 
@@ -252,6 +259,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
         } else {
             toggleSpecialPower.setDisable(true);
             toggleSpecialPowerGraphic.setOpacity(0.5);
+            underlineSP.setOpacity(0);
         }
 
         //Update end phase button
