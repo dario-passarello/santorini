@@ -330,7 +330,7 @@ public class GUIBoard extends BoardScreen implements GUIController {
 
         for(Builder b : getCurrBuilders()){
             Coordinate newC = b.getSquare().getCoordinate();
-            URL url = getClass().getResource("/assets/"+ color.get(getPlayers().indexOf(b.getOwner())) + "_pawn.png");
+            URL url = getClass().getResource("/assets/"+ color.get(view.getPlayersNames().indexOf(b.getOwner().getName())) + "_pawn.png");
             Image img = new Image(String.valueOf(url));
             ((ImageView) GUI.getNodeFromGridPane(this.builders, newC.getY(), newC.getX())).setImage(img);
         }

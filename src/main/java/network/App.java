@@ -14,7 +14,7 @@ public class App {
         if(args.length == 0) {
             Client.startClient(true);
         } else {
-            System.out.print(args[0]);
+            //System.out.print(args[0]);
             switch (args[0]) {
                 case "-cli":
                     Client.startClient(false);
