@@ -40,6 +40,10 @@ public abstract class ConnectionScreen extends Screen {
     private transient List<String> players;
     private transient String activePlayerName;
 
+    /**
+     * Creates a new Instance of Connection Screen
+     */
+    @Deprecated
     public ConnectionScreen(){
         super(null);
     }
@@ -124,7 +128,7 @@ public abstract class ConnectionScreen extends Screen {
     /**
      * Sets the screen ip address
      * @param ip An ip address
-     * @throws IllegalArgumentException if the ip string is empty
+     * @throws IllegalValueException if the ip string is empty
      */
     protected final void setIP(String ip) throws IllegalValueException{
         if(ip.isEmpty()) {
@@ -166,6 +170,7 @@ public abstract class ConnectionScreen extends Screen {
      *  Sets the screen username
      *  @param username The name, should be at least {@value MIN_USERNAME_LENGTH}
      *                  and less than {@value MAX_USERNAME_LENGTH} chars long
+     * @throws IllegalValueException if the username is too short or too long
      */
     protected final void setUsername(String username) throws IllegalValueException {
         if(username.length() < MIN_USERNAME_LENGTH) {
@@ -180,8 +185,11 @@ public abstract class ConnectionScreen extends Screen {
     //Logic buttons
 
     /**
-     *   Try to connect to the server with the ip and port.
+     *   Tries to connect to the server with the ip and port.
      *   This function waits until the match is found. Loading screen should be shown before calling this function
+     * @throws IllegalActionException If all the necessary data (IP, PORT, USERNAME, N. PLAYERS)
+     * to connect to the sever was not filled from the user
+     * @throws IOException If the connection fails
      */
     protected final void connect() throws IllegalActionException, IOException {
         if(!readyToConnect()) {
@@ -198,7 +206,6 @@ public abstract class ConnectionScreen extends Screen {
     }
 
     @Override
-    @ServerListener
     public void receiveMatchFound(String playerName, List<String> players) {
         username = playerName; //Set server assigned username
         this.players = players;
@@ -208,7 +215,6 @@ public abstract class ConnectionScreen extends Screen {
     }
 
     @Override
-    @ServerListener
     public void receiveGameState(Game.State state, Player activePlayerName) {
         if(state != Game.State.GOD_SELECTION) {
             throw new ProtocolViolationException();

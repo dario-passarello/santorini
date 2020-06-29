@@ -12,6 +12,10 @@ import view.ViewManager;
  */
 public abstract class ConnectionErrorScreen extends Screen implements  GUIController {
 
+    /**
+     * Creates a new ConnectionErrorScreen
+     * @param view The view manager
+     */
     public ConnectionErrorScreen(ViewManager view) {
         super(view);
     }

@@ -8,11 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * A message to the client containing the Available Gods Message
  */
 public class AvailableGodsMessage implements Message<Screen> {
     private final List<God> availableGods;
 
+    /**
+     * Creates an AvailableGodsMessage
+     * @param availableGods A list of available gods
+     */
     public AvailableGodsMessage(List<God> availableGods) {
         this.availableGods = availableGods;
     }

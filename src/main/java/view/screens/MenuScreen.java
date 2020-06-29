@@ -10,10 +10,17 @@ import view.ViewManager;
  * <p>- Quit</p>
  */
 public abstract class MenuScreen extends Screen{
+    /**
+     * Initializes the MenuScreen
+     * @param view The reference to the view Manager
+     */
     public MenuScreen(ViewManager view) {
         super(view);
     }
 
+    /**
+     * Exits the application
+     */
     public final void quitGame(){
         System.exit(0);
     }
