@@ -19,6 +19,9 @@ import java.net.URL;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class represents the GUI controller during the pick god phase
+ */
 public class GUIPickGod extends PickGodScreen implements GUIController {
 
     @FXML HBox godGraphics;
@@ -31,10 +34,19 @@ public class GUIPickGod extends PickGodScreen implements GUIController {
     private Button button;
     private Image img;
 
+    /**
+     * GUIPickGod constructor
+     * @param view the view manager used
+     * @param firstActivePlayer the name of the first active player
+     * @param availableGods the list of the available gods
+     */
     public GUIPickGod(ViewManager view, String firstActivePlayer, List<String> availableGods) {
         super(view, firstActivePlayer, availableGods);
     }
 
+    /**
+     * initializes the GUIPickGod
+     */
     public void initialize(){
         GUI.getStage().setMaxWidth(1280);
         GUI.getStage().setMinWidth(1280);

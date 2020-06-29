@@ -2,7 +2,7 @@ package network;
 
 /**
  * Main class for the Santorini application
- * Parses command arguments and launches the Application with the desired settins
+ * Parses command arguments and launches the Application with the desired settings
  */
 public class App {
 

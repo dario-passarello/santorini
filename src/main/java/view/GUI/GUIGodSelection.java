@@ -20,6 +20,9 @@ import view.screens.GodSelectionScreen;
 
 import java.net.URL;
 
+/**
+ * This class represents the GUI controller during the god selection phase
+ */
 public class GUIGodSelection extends GodSelectionScreen implements GUIController {
     @FXML StackPane rootPane;
     @FXML GridPane keyboard;
@@ -32,11 +35,19 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
     @FXML Label wait;
 
 
+    /**
+     * GUIGodSelection constructor
+     * @param view the view manager used
+     * @param activePlayer the active player name
+     */
     public GUIGodSelection(ViewManager view, String activePlayer)  {
         super(view, activePlayer);
     }
 
 
+    /**
+     * Initializes the GUIGodSelection
+     */
     public void initialize(){
         GUI.getStage().setMaxWidth(1280);
         GUI.getStage().setMinWidth(1280);
@@ -95,26 +106,44 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
         }
     }
 
+    /**
+     * Shows a bigger picture and the description of the hovered god
+     * @param img the image of the hovered god
+     * @param numGod the ID of the hovered god
+     */
     public void showGod(Image img, int numGod) {
         displayHoveredGod(img);
         showDescription(numGod);
     }
 
+    /**
+     * Shows a default picture and label
+     */
     public void displayDefault(){
         URL url = getClass().getResource("/assets/placeholder.png");
         bigCover.setImage(new Image(url.toExternalForm()));
         description.setText("Select a god");
     }
 
+    /**
+     * @param img the image of the hovered god
+     */
     public void displayHoveredGod(Image img){
         bigCover.setImage(img);
     }
 
+    /**
+     * @param godID the ID of the hovered god
+     */
     public void showDescription(int godID) {
         this.description.setText(AssetLoader.getGodAssetsBundle(godID).getDescription());
     }
 
-    
+
+    /**
+     * Selects the clicked god
+     * @param numGod the ID of the clicked god
+     */
     public void takeClickedGod(int numGod){
         ImageView selectedGod = (ImageView) GUI.getNodeFromGridPane(selected, numGod%5, numGod/5);
         assert selectedGod != null;
@@ -137,11 +166,17 @@ public class GUIGodSelection extends GodSelectionScreen implements GUIController
         }
     }
 
+    /**
+     * Disables the submit button
+     */
     public void disableSubmit(){
         submit.setDisable(true);
         buttonGraphic.setOpacity(0.5);
     }
 
+    /**
+     * Enables the submit button
+     */
     public void enableSubmit(){
         submit.setDisable(false);
         buttonGraphic.setOpacity(1);

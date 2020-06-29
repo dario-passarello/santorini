@@ -2,6 +2,7 @@ package view.GUI;
 
 import javafx.application.Application;
 import model.Player;
+import model.gods.God;
 import utils.Coordinate;
 import view.screens.Screen;
 import view.screens.ScreenFactory;
@@ -9,10 +10,17 @@ import view.ViewManager;
 
 import java.util.List;
 
+/**
+ * A factory for GUIScreen (factory pattern)
+ */
 public class GUIScreenFactory implements ScreenFactory {
 
     private final ViewManager viewManager;
 
+    /**
+     * GUIScreenFactory constructor
+     * @param viewManager the view manager used
+     */
     public GUIScreenFactory(ViewManager viewManager){
         this.viewManager = viewManager;
     }

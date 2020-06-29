@@ -25,6 +25,9 @@ import view.screens.BoardScreen;
 import java.net.URL;
 import java.util.List;
 
+/**
+ * This class represents the GUI controller during the real game (after the pick god phase)
+ */
 public class GUIBoard extends BoardScreen implements GUIController {
 
     @FXML GridPane keyboard;
@@ -46,10 +49,20 @@ public class GUIBoard extends BoardScreen implements GUIController {
     public List<String> color = List.of("green", "red", "blue");
 
 
+    /**
+     * GUIBoard constructor
+     * @param view the viewmanager used
+     * @param activePlayer the active player name
+     * @param players the list of players
+     * @param preHighCoords the coordinates of highlighted squares
+     */
     public GUIBoard(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighCoords) {
         super(view, activePlayer, players, preHighCoords);
     }
 
+    /**
+     * initializes the GUIBoard
+     */
     public void initialize(){
         GUI.getStage().setMaxWidth(1280);
         GUI.getStage().setMinWidth(1280);
@@ -164,7 +177,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
     }
 
 
-
+    /**
+     * updates the label that indicates the active player of this turn
+     */
     public void updateTurnLabel(){
         if(getThisPlayerName().equals(getActivePlayer())){
             turnLabel.setText("IT'S YOUR TURN!");
@@ -174,6 +189,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
     }
 
 
+    /**
+     * @param allowedTiles the list of coordinates to highlight
+     */
     public void highlight(List<Coordinate> allowedTiles){
         //Clear previous highlight
         for(int i = 0; i < Board.BOARD_SIZE; i++){
@@ -189,8 +207,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
     }
 
 
-
-
+    /**
+     * brings the turn to the end phase
+     */
     public void endPhaseListener() {
         try {
             super.endPhase();
@@ -199,6 +218,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
         } catch (IllegalActionException ignored){}
     }
 
+    /**
+     * allows the player to rechoose the builder at the beginning of his turn
+     */
     public void resetPhaseListener(){
         try {
             super.resetPhase();
@@ -207,6 +229,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
         } catch (IllegalActionException ignored){}
     }
 
+    /**
+     * allows the player to use the special power of his god
+     */
     public void toggleSpecialPowerListener(){
         try {
             super.toggleSpecialPower();
@@ -216,6 +241,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
     }
 
 
+    /**
+     * updates the buttons (making them clickable only in certain moments)
+     */
     public void updateButtons(){
         //Update special power button
         if(specialPowerAvailable()){
@@ -281,7 +309,9 @@ public class GUIBoard extends BoardScreen implements GUIController {
     }
 
 
-
+    /**
+     * updates the builders position on the board
+     */
     public void updateBuilders(){
         //Clear board
         for(int i = 0; i < Board.BOARD_SIZE; i++){

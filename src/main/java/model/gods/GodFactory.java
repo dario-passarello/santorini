@@ -5,7 +5,7 @@ import model.ErrorMessage;
 import java.util.Optional;
 
 /**
- * a factory for {@link God} (factory pattern)
+ * A factory for {@link God} (factory pattern)
  */
 public class GodFactory {
 

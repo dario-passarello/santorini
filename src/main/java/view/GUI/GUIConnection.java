@@ -20,6 +20,9 @@ import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * This class represents the GUI controller during the connection phase
+ */
 public class GUIConnection extends ConnectionScreen implements GUIController{
 
     //ObservableList numbers = FXCollections.observableArrayList();
@@ -31,10 +34,17 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
     @FXML private transient HBox loginFields;
     @FXML private transient VBox loading;
 
+    /**
+     * GUIConnection constructor
+     * @param view the view manager used
+     */
     public GUIConnection(ViewManager view) {
         super(view);
     }
 
+    /**
+     * initializes the GUIConnection
+     */
     public void initialize(){
         GUI.getStage().setMaxWidth(1280);
         GUI.getStage().setMinWidth(1280);
@@ -50,6 +60,9 @@ public class GUIConnection extends ConnectionScreen implements GUIController{
         warning.setFill(Color.RED);
     }
 
+    /**
+     * if the player have used valid inputs, it shows a waiting screen and then, when other players are available, brings the game to the GUIGodSelection screen
+     */
     public void startButtonPushed(){
         warning.setText("");                            //clear warnings
         boolean flag = true;

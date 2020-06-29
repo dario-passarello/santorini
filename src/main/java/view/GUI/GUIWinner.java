@@ -13,6 +13,9 @@ import view.screens.WinnerScreen;
 
 import java.util.List;
 
+/**
+ * This class represents the GUI controller at the end of a game
+ */
 public class GUIWinner extends WinnerScreen implements GUIController {
 
     @FXML Label winnerLabel;
@@ -21,12 +24,20 @@ public class GUIWinner extends WinnerScreen implements GUIController {
 
     List<Player> players;
 
+    /**
+     * GUIWinner constructor
+     * @param view the view manager used
+     * @param players the list of player in the game
+     */
     public GUIWinner(ViewManager view, List<Player> players) {
         super(view);
         this.players = players;
     }
 
 
+    /**
+     * initializes the GUIWinner
+     */
     public void initialize(){
         GUI.getStage().setMaxWidth(1280);
         GUI.getStage().setMinWidth(1280);
@@ -45,6 +56,9 @@ public class GUIWinner extends WinnerScreen implements GUIController {
         winnerGod.setFitHeight(400);
     }
 
+    /**
+     * brings the game to the GUIMenu screen
+     */
     public void goToMenuScreenListener(){
         super.goToMenuScreen();
     }

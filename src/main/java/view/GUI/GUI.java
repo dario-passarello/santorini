@@ -14,6 +14,9 @@ import view.screens.MenuScreen;
 
 import java.io.IOException;
 
+/**
+ * manages the GUI start and the change of the current GUI screen
+ */
 public class GUI extends Application {
 
     private static String WINDOW_TITLE = "SANTORINI";
@@ -45,6 +48,9 @@ public class GUI extends Application {
         System.exit(0);
     }
 
+    /**
+     * @param controller the controller of the current GUI screen
+     */
     public static void setSceneController(GUIController controller) {
         FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/"+ controller.getSceneName() + ".fxml"));
         fxmlLoader.setController(controller);
@@ -57,18 +63,33 @@ public class GUI extends Application {
         }
     }
 
+    /**
+     * @return currentScene attribute
+     */
     public static Scene getCurrentScene(){
         return currentScene;
     }
+
+    /**
+     * @return stage attribute
+     */
     public static Stage getStage() {
         return stage;
     }
 
+    /**
+     * @param fxml the name of a .fxml file
+     * @return the .fxml loaded
+     * @throws IOException if there isn't the desired .fxml file in the path
+     */
     private Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/"+ fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
+    /**
+     * @param controller the controller of the current GUI scene
+     */
     public static void setLaunchController(GUIController controller){
         launchScene = controller;
     }
