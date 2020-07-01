@@ -9,6 +9,7 @@ import network.messages.toserver.DisconnectServerMessage;
 import network.messages.toserver.PingToServer;
 import view.RemoteView;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -185,7 +186,11 @@ public class ClientHandler implements Runnable, MessageTarget {
             error.append("\nPlayer info: ").append(remoteView.getPlayerName());
             new DisconnectServerMessage().execute(this.remoteView);
         }
-        error.append("\nNetwork error type: ").append(e.getClass().getName());
+        if(e instanceof EOFException) {
+            error.append("\nConnection Closed");
+        } else {
+            error.append("\nNetwork error type: ").append(e.getClass().getName());
+        }
         Server.logger.warning(error.toString());
         //e.printStackTrace();
     }
