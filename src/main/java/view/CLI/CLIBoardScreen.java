@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
+    private List<String> originalPlayersNames;
     private String inputColor = Colors.GREEN_47;        // The color of the things written in the input
     private InputExecutor currentPhase;
 
@@ -26,6 +27,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
      */
     public CLIBoardScreen(ViewManager view, String activePlayer, List<Player> players, List<Coordinate> preHighlightedCoordinates) {
         super(view, activePlayer, players, preHighlightedCoordinates);
+        this.originalPlayersNames = getView().getPlayersNames();
     }
 
     @Override
@@ -53,8 +55,8 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
     private String playerColor(){
         int i = 1;
-        for(Player player : getPlayers()){
-            if(!player.getName().equals(getActivePlayer())) i++;
+        for(String player : originalPlayersNames){
+            if(!player.equals(getActivePlayer())) i++;
             else break;
         }
         String color;
@@ -547,7 +549,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
 
     // Support Method. Draws the Board
     private void refreshBoard(){
-        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), getActivePlayer(), getThisPlayerName());
+        DrawElements.refreshBoard(getBoard(), getCurrBuilders(), getPlayers(), originalPlayersNames, getActivePlayer(), getThisPlayerName());
     }
 
     // Support Method Draws the Information about the gods
@@ -555,7 +557,7 @@ public class CLIBoardScreen extends BoardScreen implements InputProcessor {
         refreshBoard();
         currentPhase.message();
         DrawElements.saveCursor();
-        DrawElements.writeGodInfo(getPlayers());
+        DrawElements.writeGodInfo(getPlayers(), originalPlayersNames);
         DrawElements.restoreCursor();
         System.out.print(" "); // Literally the space before the boundary
     }
