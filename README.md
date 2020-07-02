@@ -8,6 +8,8 @@ Software Engineering Project 2020: GC24 - Passarello, Parisi, Rahel
 - Normal ruleset
 - Advanced Feature: Advanced Gods (Chronus,Hestia,Hera,Triton,Zeus)
 - Advanced Feature: Multiple simultaneous games supported
+## Coverage Data
+The model package has 90% of his line covered by unit tests 
 ## Installation (build from Maven)
 If you use the ready to use jar in the /deliverables folder you can skip to the step 3.   
 ### 0. Requirements
