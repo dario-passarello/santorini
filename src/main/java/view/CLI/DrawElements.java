@@ -38,6 +38,13 @@ public class DrawElements {
     protected static final String FLUSH = "\033[H\033[2J";
     protected static final String ESC = (char) 27 + "[";
 
+    public static void main(String[] args){
+
+        DrawMassimoCredit();
+        DrawDarioCredit();
+        DrawAnisCredit();
+    }
+
 
     /**
      * This method draws the Board
@@ -666,6 +673,57 @@ public class DrawElements {
         out.print( Colors.BLUE_51 + " |_____/  \\___||_|  \\___| \\__,_| \\__|");
         out.print( Colors.RESET);
 
+        out.flush();
+    }
+
+    /**
+     * Print's Massimo's name on the screen
+     */
+    public static void DrawMassimoCredit(){
+
+        out.print(player1ColorLight);
+        out.print("\n" +
+                "  __  __               _                    ____            _     _ \n" +
+                " |  \\/  | __ _ ___ ___(_)_ __ ___   ___    |  _ \\ __ _ _ __(_)___(_)\n" +
+                " | |\\/| |/ _` / __/ __| | '_ ` _ \\ / _ \\   | |_) / _` | '__| / __| |\n" +
+                " | |  | | (_| \\__ \\__ \\ | | | | | | (_) |  |  __/ (_| | |  | \\__ \\ |\n" +
+                " |_|  |_|\\__,_|___/___/_|_| |_| |_|\\___/   |_|   \\__,_|_|  |_|___/_|\n" +
+                "                                                                    \n");
+        out.print(Colors.RESET);
+        out.flush();
+    }
+
+
+    /**
+     * Prints Dario's name on the screen
+     */
+    public static void DrawDarioCredit(){
+
+        out.print(player2ColorLight);
+        out.print("\n" +
+                "                 ____             _          ____                              _ _       \n" +
+                "                |  _ \\  __ _ _ __(_) ___    |  _ \\ __ _ ___ ___  __ _ _ __ ___| | | ___  \n" +
+                "                | | | |/ _` | '__| |/ _ \\   | |_) / _` / __/ __|/ _` | '__/ _ \\ | |/ _ \\ \n" +
+                "                | |_| | (_| | |  | | (_) |  |  __/ (_| \\__ \\__ \\ (_| | | |  __/ | | (_) |\n" +
+                "                |____/ \\__,_|_|  |_|\\___/   |_|   \\__,_|___/___/\\__,_|_|  \\___|_|_|\\___/ \n" +
+                "                                                                                         \n");
+        out.print(Colors.RESET);
+        out.flush();
+    }
+
+    /**
+     * Prints Anis' name on the screen
+     */
+    public static void DrawAnisCredit(){
+        out.print(player3ColorLight);
+        out.print("\n" +
+                "                                   _          _        ____       _          _ \n" +
+                "                                  / \\   _ __ (_)___   |  _ \\ __ _| |__   ___| |\n" +
+                "                                 / _ \\ | '_ \\| / __|  | |_) / _` | '_ \\ / _ \\ |\n" +
+                "                                / ___ \\| | | | \\__ \\  |  _ < (_| | | | |  __/ |\n" +
+                "                               /_/   \\_\\_| |_|_|___/  |_| \\_\\__,_|_| |_|\\___|_|\n" +
+                "                                                                              \n");
+        out.print(Colors.RESET);
         out.flush();
     }
 }

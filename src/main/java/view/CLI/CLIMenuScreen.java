@@ -88,12 +88,15 @@ public class CLIMenuScreen extends MenuScreen implements InputProcessor {
      * This class represents the credits screen
      */
     class Credits implements InputExecutor{
-
         @Override
         public void message() {
             System.out.print(DrawElements.FLUSH);
-            print("Credits Screen: \n");
-            print("There is nothing yet. Tybe B to go back: ");
+            DrawElements.DrawMassimoCredit();
+            DrawElements.DrawDarioCredit();
+            DrawElements.DrawAnisCredit();
+
+            print(Colors.GREEN_47 + "THANK YOU FOR PLAYING!\n");
+            print("Tybe B to go back: ");
         }
 
         @Override
