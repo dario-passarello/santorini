@@ -8,7 +8,7 @@ Software Engineering Project 2020: GC24 - Passarello, Parisi, Rahel
 - Normal ruleset
 - Advanced Feature: Advanced Gods (Chronus,Hestia,Hera,Triton,Zeus)
 - Advanced Feature: Multiple simultaneous games supported
-## Coverage Data
+## Unit Test Coverage Data
 Line Coverage:
 - package Controller: 100%
 - package Model: 97%
