@@ -1,10 +1,8 @@
 package model.movebehaviors;
 
 import model.*;
-import model.gods.Atlas;
-import model.gods.God;
-import model.gods.Minotaur;
-import model.gods.Mortal;
+import model.buildbehaviours.BuildBehavior;
+import model.gods.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +32,7 @@ class OpponentPushMoveTest {
         s = BoardTest.boardToMatrix(board);
         p1 = g.getPlayers().get(0);
         p2 = g.getPlayers().get(1);
-        g1 = new Minotaur();
+        g1 = new GodFactory().getGod("Minotaur");
         g2 = new Mortal();
         p1.setGod(g1);
         p2.setGod(g2);
@@ -134,5 +132,14 @@ class OpponentPushMoveTest {
             }
         }
         Assert.assertEquals(s[2][3].getOccupant().orElse(null), b22);
+    }
+
+    @Test
+    public void copyTest(){
+        MoveBehavior copy = g1.getMoveBehavior().copyBehavior();
+        g1.getBuildBehavior();
+        g1.setAllMoveBehaviors(Arrays.asList(g1, g2));
+        Assert.assertTrue(copy instanceof OpponentPushMove);
+
     }
 }

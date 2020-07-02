@@ -6,6 +6,8 @@ import model.gamestates.GameState;
 import model.gods.God;
 import model.gods.GodFactory;
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import utils.Coordinate;
@@ -25,9 +27,15 @@ public class GameControllerTest {
     private Controller controller = new Controller(game);
     private RemoteView client1 = new RemoteView(null, controller,"Tester1");
     private RemoteView client2 = new RemoteView(null, controller,"Tester2");
+    private RemoteView client3 = new RemoteView(null, controller,"Tester2");
     private GameController gamecontroller = controller.game();
 
     public GameControllerTest() throws IOException {
+    }
+
+    @BeforeEach
+    public void observers(){
+        game.registerObserver(client1);
     }
 
 
@@ -125,6 +133,7 @@ public class GameControllerTest {
             );
 
             GameControllerTest.this.pickGodTest(start, end);
+            GameControllerTest.this.threePlayerPickGod(start, start);
         }
 
         @Test
@@ -401,6 +410,38 @@ public class GameControllerTest {
             gamecontroller.pickGod(client2, "Athena");
             Assert.assertEquals(game.getStateIdentifier()+": Wrong Handle: The illegal god is not handled correctly",
                     ending.get(2), game.getGameState().getStateIdentifier());
+    }
+
+    public void threePlayerPickGod(GameState start, GameState end){
+        Game thisGame = new Game(Arrays.asList("Tester1", "Tester2", "Tester3"), 3);
+        Controller thisController = new Controller(thisGame);
+        GameController thisGameController = thisController.game();
+
+        RemoteView client11 = new RemoteView(null, thisController,"Tester1");
+        RemoteView client22 = new RemoteView(null, thisController,"Tester2");
+        RemoteView client33 = new RemoteView(null, thisController,"Tester3");
+
+        thisGame.registerObserver(client11);
+        thisGame.registerObserver(client22);
+        thisGame.registerObserver(client33);
+
+
+        //Create Variables
+        Set<String> chosenlist = new HashSet<String>();    chosenlist.add("Atlas");   chosenlist.add("Demeter");    chosenlist.add("Hera");
+        GodFactory factory = new GodFactory();
+        List<God> godlist = chosenlist.stream().map(factory::getGod).collect(Collectors.toList());
+        thisGame.setGodList(godlist);
+
+        /* Setting */   thisGame.setGameState(start, thisGame.getFirstPlayer());
+        for(Player player : thisGame.getPlayers()) player.setGod(null);
+
+        //Check Regular Call
+        thisGameController.pickGod(client33, "Atlas");
+        Assert.assertEquals(thisGame.getStateIdentifier()+": Problem with the call of the method with correct inputs\n",
+               end.getStateIdentifier(), thisGame.getGameState().getStateIdentifier());
+
+        /* Resetting */ thisGame.setGameState(start, thisGame.getFirstPlayer());
+            for(Player player : thisGame.getPlayers()) player.setGod(null);
     }
 
     /**

@@ -1,34 +1,45 @@
 package controller;
 
+import model.ErrorMessage;
 import model.Game;
 import model.Turn;
 import model.gods.GodFactory;
+import model.turnstates.EndTurnState;
 import model.turnstates.TurnState;
+import network.ClientHandler;
+import network.Server;
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import utils.Coordinate;
 import view.RemoteView;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
 
 public class TurnControllerTest {
 
 
+    private static ServerSocket server;
     private Game game = new Game(Arrays.asList("Tester1", "Tester2"), 2);
     private Controller controller = new Controller(game);
     private RemoteView client1 = new RemoteView(null, controller,"Tester1");
     private RemoteView client2 = new RemoteView(null, controller,"Tester2");
     private TurnController turncontroller = controller.turn();
+    private ErrorMessage errorMessage = new ErrorMessage();
 
 
-    public TurnControllerTest() {
+    public TurnControllerTest() throws IOException {
     }
 
+    @BeforeAll
+    public static void startServer() throws IOException {
+
+
+    }
     @BeforeEach
     public void init(){
         //Associate a builder per Player
@@ -42,6 +53,10 @@ public class TurnControllerTest {
         game.getLastPlayer().setGod(new GodFactory().getGod("Mortal"));
         game.getLastPlayer().getGod().setPlayer(game.getFirstPlayer());
         game.getLastPlayer().getGod().captureResetBehaviors();
+
+        game.registerAllTurnObserver(client1);
+        game.registerAllTurnObserver(client2);
+
     }
 
 
@@ -57,6 +72,7 @@ public class TurnControllerTest {
             List<Turn.State> end = nextStatesmove(
                     Turn.State.SPECIAL_MOVE,
                     Turn.State.BUILD,
+                    Turn.State.MOVE,
                     Turn.State.MOVE,
                     Turn.State.MOVE,
                     Turn.State.MOVE,
@@ -108,6 +124,7 @@ public class TurnControllerTest {
                     Turn.State.BUILD,
                     Turn.State.BUILD,
                     Turn.State.BUILD,
+                    Turn.State.BUILD,
                     Turn.State.BUILD);
 
             TurnControllerTest.this.firstSelectionTest(start, end);
@@ -118,7 +135,7 @@ public class TurnControllerTest {
 
             TurnState start = game.getCurrentTurn().buildState;
 
-            List<Turn.State> end = nextStatesmove(
+            List<Turn.State> end = Arrays.asList(
                     Turn.State.MOVE,
                     Turn.State.ADDITIONAL_BUILD,
                     Turn.State.MOVE,
@@ -130,20 +147,67 @@ public class TurnControllerTest {
 
         }
 
-        /*@Test
+
+    }
+
+    @Nested
+    class EndTurnState{
+
+        @Test
+        public void firstSelectionState(){
+
+            TurnState start = new model.turnstates.EndTurnState(game.getCurrentTurn(), game);
+
+            List<Turn.State> end = nextStatesmove(
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN);
+
+            TurnControllerTest.this.firstSelectionTest(start, end);
+
+        }
+
+        @Test
+        public void selectCoordinateTest(){
+
+            TurnState start = new model.turnstates.EndTurnState(game.getCurrentTurn(), game);
+
+            List<Turn.State> end = nextStatesmove(
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN,
+                    Turn.State.END_TURN);
+
+            TurnControllerTest.this.selectCoordinateTest(start, end);
+
+        }
+
+        @Test
         public void endPhaseTest(){
-
-            TurnState start1 = game.getCurrentTurn().additionalBuildState;
-            TurnState start2 = game.getCurrentTurn().buildState;
-
-            TurnState end1 = game.getCurrentTurn().endTurnState;
-            TurnState end2 = game.getCurrentTurn().buildState;
-
-            TurnControllerTest.this.endPhaseTest(start1, end1);
-            TurnControllerTest.this.endPhaseTest(start2, end2);
+            TurnState start = new model.turnstates.EndTurnState(game.getCurrentTurn(), game);
+            TurnState end = new model.turnstates.EndTurnState(game.getCurrentTurn(), game);
 
 
-        }*/
+
+            game.getFirstPlayer().setGod(new GodFactory().getGod("Hestia"));
+            game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
+            game.getFirstPlayer().getGod().captureResetBehaviors();
+
+            game.getLastPlayer().setGod(new GodFactory().getGod("Prometheus"));
+            game.getLastPlayer().getGod().setPlayer(game.getFirstPlayer());
+            game.getLastPlayer().getGod().captureResetBehaviors();
+
+            TurnControllerTest.this.endPhaseTest(start, game.getCurrentTurn().moveState);
+
+
+        }
     }
 
     @Test
@@ -191,13 +255,20 @@ public class TurnControllerTest {
         /* Resetting */ game.getCurrentTurn().setTurnState(start);
 
             //Without Prometheus
-            game.getFirstPlayer().setGod(new GodFactory().getGod("Mortal"));
+            game.getFirstPlayer().setGod(new GodFactory().getGod("Hephaestus"));
             game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
             turncontroller.firstMove(client1, 0, correctCoordinate, false);
             Assert.assertEquals(start.getStateID()+": Wrong action when StartGodPower is not up\n",
                     ending.get(1), game.getCurrentTurn().getStateID());
 
         /* Resetting */ game.getCurrentTurn().setTurnState(start);
+
+            //With Double Move
+            game.getFirstPlayer().setGod(new GodFactory().getGod("Artemis"));
+            game.getFirstPlayer().getGod().setPlayer(game.getFirstPlayer());
+            turncontroller.firstMove(client1, 0, correctCoordinate, false);
+            Assert.assertEquals(start.getStateID()+": Wrong action when StartGodPower is not up\n",
+                ending.get(6), game.getCurrentTurn().getStateID());
 
             //Trying Special Power Without Prometheus
             game.getFirstPlayer().setGod(new GodFactory().getGod("Mortal"));
@@ -304,9 +375,9 @@ public class TurnControllerTest {
     }
 
     private List<Turn.State> nextStatesmove(Turn.State withPrometheus, Turn.State withoutPrometheus, Turn.State illegalSpecialPower,
-                                            Turn.State illegalBuilderOwner, Turn.State illegalCoordinate, Turn.State illegalBuilderMove){
+                                            Turn.State illegalBuilderOwner, Turn.State illegalCoordinate, Turn.State illegalBuilderMove, Turn.State withArtemis){
 
-        return Arrays.asList(withPrometheus, withoutPrometheus, illegalSpecialPower, illegalBuilderOwner, illegalCoordinate, illegalBuilderMove);
+        return Arrays.asList(withPrometheus, withoutPrometheus, illegalSpecialPower, illegalBuilderOwner, illegalCoordinate, illegalBuilderMove, withArtemis);
 
 
     }

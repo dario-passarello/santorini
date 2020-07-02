@@ -89,6 +89,8 @@ public class SquareTest {
 
     }
 
+
+
     public static void setSquareBuildLevel(Square sq, int level){
         for(int i = 0; i < level; i++){
             sq.build();

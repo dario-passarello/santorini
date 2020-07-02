@@ -1,6 +1,7 @@
 package model;
 
 import model.gods.God;
+import model.gods.GodFactory;
 import model.gods.Mortal;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,6 +10,7 @@ import utils.Coordinate;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,5 +73,15 @@ public class PlayerTest {
         assertEquals(player.getStatus(), Outcome.LOSER);
         assertFalse(board.squareAt(0,0).getOccupant().isPresent());
         assertFalse(board.squareAt(4,4).getOccupant().isPresent());
+
+        int hash = player.hashCode();
+        assertEquals(Objects.hash(player.getName()), hash);
+
+        God god1 = new GodFactory().getGod("Prometheus");
+        God god2 = new GodFactory().getGod("Prometheus");
+        god1.setPlayer(new Player(game, "Tester"));
+        god2.setPlayer(new Player(game, "Tester"));
+        boolean equals = god1.equals(god2);
+        assertTrue(equals);
     }
 }

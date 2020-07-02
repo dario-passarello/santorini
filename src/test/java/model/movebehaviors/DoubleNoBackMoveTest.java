@@ -1,6 +1,8 @@
 package model.movebehaviors;
 
 import model.*;
+import model.buildbehaviours.BuildBehavior;
+import model.buildbehaviours.DoubleSameBuild;
 import model.gods.Artemis;
 import model.gods.Atlas;
 import model.gods.God;
@@ -62,6 +64,14 @@ class DoubleNoBackMoveTest {
         Assert.assertTrue(expected.equals(actual));
 
         Assert.assertFalse(b22.move(s[1][3]));
+    }
+
+    @Test
+    public void copyTest(){
+        MoveBehavior copy = g1.getMoveBehavior().copyBehavior();
+        Assert.assertTrue(copy instanceof DoubleNoBackMove);
+        g1.getMoveBehavior().reset();
+
     }
 
 }

@@ -71,52 +71,72 @@ public class RemoteView implements GameObserver, TurnObserver, MessageTarget {
     @Override
     public void receiveGameState(Game.State state, Player activePlayerName) {
         lastGameState = state;
-        client.sendMessage(new GameStateMessage(state,activePlayerName));
+        if(client != null) {
+            client.sendMessage(new GameStateMessage(state, activePlayerName));
+        }
     }
 
     @Override
     public void receivePlayerList(List<Player> playerList) {
-        client.sendMessage(new PlayerListMessage(playerList));
+        if(client != null) {
+            client.sendMessage(new PlayerListMessage(playerList));
+        }
     }
 
     @Override
     public void receiveAllowedSquares(List<Coordinate> allowedTiles) {
-        client.sendMessage(new AllowedSquaresMessage(allowedTiles));
+        if(client != null) {
+            client.sendMessage(new AllowedSquaresMessage(allowedTiles));
+        }
     }
 
     @Override
     public void receiveAvailableGodList(List<God> gods) {
-        client.sendMessage(new AvailableGodsMessage(gods));
+        if(client != null) {
+            client.sendMessage(new AvailableGodsMessage(gods));
+        }
     }
 
     @Override
     public void receiveTurnState(Turn.State state, Player player) {
-        client.sendMessage(new TurnStateMessage(state, player));
+        if(client != null) {
+            client.sendMessage(new TurnStateMessage(state, player));
+        }
     }
 
     @Override
     public void receiveActivePlayer(Player player) {
-        client.sendMessage(new ActivePlayerMessage(player));
+        if(client != null) {
+            client.sendMessage(new ActivePlayerMessage(player));
+        }
     }
 
     @Override
     public void receiveAllowedSquares(Builder builder, List<Coordinate> allowedTiles, boolean specialPower) {
-        client.sendMessage(new AllowedSquaresMessage(builder, allowedTiles, specialPower));
+        if(client != null) {
+            client.sendMessage(new AllowedSquaresMessage(builder, allowedTiles, specialPower));
+        }
     }
 
     @Override
     public void receiveBoard(Board board) {
-        client.sendMessage(new BoardMessage(board));
+        if(client != null) {
+            client.sendMessage(new BoardMessage(board));
+        }
     }
 
     @Override
     public void receiveBuildersPositions(List<Builder> builders) {
-        client.sendMessage(new BuilderPositionMessage(builders));
+        if(client != null) {
+            client.sendMessage(new BuilderPositionMessage(builders));
+        }
     }
 
     @Override
     public void receiveUpdateDone() {
-        client.sendMessage(new UpdateDoneMessage());
+        if(client != null) {
+            client.sendMessage(new UpdateDoneMessage());
+        }
         /*if(lastGameState == Game.State.END_GAME) {
             controller.game().disconnectPlayer(this);
             client.closeConnection();

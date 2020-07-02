@@ -4,10 +4,12 @@ import model.*;
 import model.buildbehaviours.BuildBehavior;
 import model.buildbehaviours.StandardBuild;
 import org.junit.Assert;
-import org.junit.jupiter.api.*;;
+import org.junit.jupiter.api.*;
+import utils.Coordinate;;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -122,6 +124,9 @@ public class StandardBuildTest {
         for (int i = 0; i < 3; i++) build1.build();                       // Create Buildings in the board
         for (int i = 0; i < 2; i++) build2.build();
         for (int i = 0; i < 1; i++) build3.build();
+
+
+        List<Coordinate> coordinate = board.getFreeCoordinates();
 
     }
 

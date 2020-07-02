@@ -1,19 +1,17 @@
 package model.movebehaviors;
 
 import model.*;
-import model.gods.Athena;
-import model.gods.Atlas;
-import model.gods.God;
-import model.gods.Mortal;
+import model.buildbehaviours.BuildBehavior;
+import model.buildbehaviours.DoubleSameBuild;
+import model.gods.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BlockUpMoveTest {
 
@@ -35,7 +33,7 @@ class BlockUpMoveTest {
         s = BoardTest.boardToMatrix(board);
         p1 = g.getPlayers().get(0);
         p2 = g.getPlayers().get(1);
-        g1 = new Athena();
+        g1 = new GodFactory().getGod("Athena");
         g2 = new Mortal();
         p1.setGod(g1);
         p2.setGod(g2);
@@ -79,5 +77,17 @@ class BlockUpMoveTest {
         Set<Square> actual = new HashSet<>(b01.getWalkableNeighborhood());
 
         Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void copyTest(){
+        MoveBehavior copy = g1.getMoveBehavior().copyBehavior();
+        Assert.assertTrue(copy instanceof BlockUpMove);
+        int hash = g1.hashCode();
+        assertEquals(Objects.hash(g1.getPlayer(), g1.getName()), hash);
+        copy = new NoUpMove(new StandardMove());
+        copy.copyBehavior();
+        Assert.assertTrue(copy instanceof NoUpMove);
+
     }
 }

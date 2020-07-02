@@ -100,14 +100,6 @@ public class Board implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Sets all the squares in the board as empty
-     */
-    public void freeAllSquares() {
-        IntStream.range(0,BOARD_SIZE*BOARD_SIZE)
-                .mapToObj(i -> matrix[i / BOARD_SIZE][i % BOARD_SIZE])
-                .forEach(Square::setEmptySquare);
-    }
 
     /**
      * Check if a coordinate has components between 0 and BOARD_SIZE

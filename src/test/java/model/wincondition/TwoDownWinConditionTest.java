@@ -1,10 +1,7 @@
 package model.wincondition;
 
 import model.*;
-import model.gods.Atlas;
-import model.gods.God;
-import model.gods.Mortal;
-import model.gods.Pan;
+import model.gods.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +32,7 @@ class TwoDownWinConditionTest {
         s = BoardTest.boardToMatrix(board);
         p1 = g.getPlayers().get(0);
         p2 = g.getPlayers().get(1);
-        g1 = new Pan();                     //Pan have this win condition
+        g1 = new GodFactory().getGod("Pan");                     //Pan have this win condition
         g2 = new Mortal();
         p1.setGod(g1);
         p2.setGod(g2);

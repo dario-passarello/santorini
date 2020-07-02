@@ -203,8 +203,7 @@ public class God implements Serializable {
     /**
      * @param targets a list of gods whose move behaviors have to be changed
      */
-    public void setAllMoveBehaviors(List<God> targets) {
-    }
+    public void setAllMoveBehaviors(List<God> targets) { }
 
     /**
      * @param targets a list of gods whose win conditions have to be changed

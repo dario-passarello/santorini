@@ -147,7 +147,6 @@ public class DoubleSameBuildTest {
         @Test
         public void resetTest(){
             behavior1.reset();
-            //TODO
         }
 
 
