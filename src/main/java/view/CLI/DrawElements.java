@@ -206,10 +206,11 @@ public class DrawElements {
      * @param board The current board
      * @param builders The list of builders present at the moment
      * @param players The list of players currently playing
+     * @param names The names of the players at the beginning of the game
      * @param activePlayer The player who is currently holding the turn
      * @param client The client from which this method is called
      */
-    public static void refreshBoard(Board board, List<Builder> builders, List<Player> players, String activePlayer, String client){
+    public static void refreshBoard(Board board, List<Builder> builders, List<Player> players, List<String> names, String activePlayer, String client){
         out.println(FLUSH);
         drawBoard(firstBackgroundColor, borderColor);
         for(int i = 0; i < 5; i++){
@@ -238,7 +239,7 @@ public class DrawElements {
             drawBuilder(builder.getSquare().getCoordinate(), background, i);
         }
 
-        drawGameInfo(players, activePlayer, client);
+        drawGameInfo(players, names, activePlayer, client);
 
         out.print(DrawElements.ESC + "25H");
         out.flush();
@@ -247,10 +248,11 @@ public class DrawElements {
     /**
      * This Method draws the Game Information panel, which is the little box near the board that shows the info about the players
      * @param players The list of players in the game
+     * @param names The list of names of all the player who are listed in the match
      * @param activeplayer The player who is holding the turn
      * @param client The player who is playing
      */
-    public static void drawGameInfo(List<Player> players, String activeplayer, String client){
+    public static void drawGameInfo(List<Player> players, List<String> names, String activeplayer, String client){
         System.out.print(Colors.RESET);
 
         selectCell(1,1);
@@ -280,7 +282,7 @@ public class DrawElements {
             if(player.getName().equals(client)) color = Colors.GREEN_47;
             else color = Colors.RESET;
 
-            String towrite = "║ " + getPlayerColor(players, player) + "██ " + Colors.RESET + color + player.getName() +
+            String towrite = "║ " + getPlayerColor(names, player) + "██ " + Colors.RESET + color + player.getName() +
                     Colors.RESET + playerSpaces + " - " + player.getGod().getName() + godSpaces + "║";
             System.out.print(towrite);
             moveDown(1);
@@ -298,7 +300,7 @@ public class DrawElements {
      * This method writes the descriptions of the gods during the game
      * @param players The list of players in the game
      */
-    public static void writeGodInfo(List<Player> players){
+    public static void writeGodInfo(List<Player> players, List<String> names){
         int maxCharacters = 40;
         int row = 11;
         System.out.print(Colors.RESET);
@@ -332,7 +334,7 @@ public class DrawElements {
             out.flush();
 
             // Write [Description]
-            out.print(getPlayerSecondColor(players, player));
+            out.print(getPlayerSecondColor(names, player));
             for(String word : words){
                 if((characterWritten + word.length() + 1) > (maxCharacters + 1)){
                     moveDown(1);
@@ -394,10 +396,10 @@ public class DrawElements {
      * @param currentplayer The player parameter
      * @return The String representing the color of the selected player
      */
-    public static String getPlayerColor(List<Player> players, Player currentplayer){
+    public static String getPlayerColor(List<String> players, Player currentplayer){
         int i = 1;
-        for(Player player : players){
-            if(!player.getName().equals(currentplayer.getName())) i++;
+        for(String player : players){
+            if(!player.equals(currentplayer.getName())) i++;
             else break;
         }
         String color;
@@ -417,10 +419,10 @@ public class DrawElements {
      * @param currentplayer The player parameter
      * @return The String representing the color of the selected player
      */
-    public static String getPlayerSecondColor(List<Player> players, Player currentplayer){
+    public static String getPlayerSecondColor(List<String> players, Player currentplayer){
         int i = 1;
-        for(Player player : players){
-            if(!player.getName().equals(currentplayer.getName())) i++;
+        for(String player : players){
+            if(!player.equals(currentplayer.getName())) i++;
             else break;
         }
         String color;
