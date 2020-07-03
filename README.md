@@ -1,11 +1,12 @@
-# Santorini
+# Santorini - GC24
 ## Software engineering final project
 Software Engineering Project 2020: GC24 - Passarello, Parisi, Rahel
-##Implemented Features
+
+## Implemented Features
 - CLI
 - GUI (java FX)
-- Multiplayer Server-Client communicating via a TCP socket
-- Normal ruleset
+- Multiplayer Server-Client architecture communicating via a TCP socket
+- Complete ruleset
 - Advanced Feature: Advanced Gods (Chronus,Hestia,Hera,Triton,Zeus)
 - Advanced Feature: Multiple simultaneous games supported
 ## Unit Test Coverage Data
@@ -33,7 +34,7 @@ After downloading the dependencies, executing tests and shading the .jar the new
 located in the /target subfolder
 
 NOTE: Even if shading task throws some warnings, the jar  
-### 3. Testing if all works
+### 3. Testing if the jar works
 When you are in the jar folder execute the command
 ```
 java -jar <name_of_the_jar>.jar
@@ -41,11 +42,12 @@ java -jar <name_of_the_jar>.jar
 The name of the jar usually is "GC24-1.0.jar"
 
 If all worked properly the gui should start, and the main menu will be displayed
-###4. Running the program
+### 4. Running the game
 The program takes some arguments, these options are also listed after running the command
 ```
 java -jar <name_of_the_jar>.jar -help (or -h)
 ```
+
 #### Running the GUI
 The GUI will start using no additional argument, or using -gui argument.
 ```
